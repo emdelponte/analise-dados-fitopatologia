@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Como estudamos relações entre variáveis? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter9.html" rel="next">
+<link href="./chapter7.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter8.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">8.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-estudar-relações" id="toc-por-que-estudar-relações" class="nav-link" data-scroll-target="#por-que-estudar-relações"><span class="header-section-number">8.2</span> Por que estudar relações?</a></li>
+  <li><a href="#da-questão-biológica-à-relação" id="toc-da-questão-biológica-à-relação" class="nav-link" data-scroll-target="#da-questão-biológica-à-relação"><span class="header-section-number">8.3</span> Da questão biológica à relação</a>
+  <ul class="collapse">
+  <li><a href="#qual-é-o-estimando" id="toc-qual-é-o-estimando" class="nav-link" data-scroll-target="#qual-é-o-estimando"><span class="header-section-number">8.3.1</span> Qual é o estimando?</a></li>
+  <li><a href="#qual-variável-é-a-resposta" id="toc-qual-variável-é-a-resposta" class="nav-link" data-scroll-target="#qual-variável-é-a-resposta"><span class="header-section-number">8.3.2</span> Qual variável é a resposta?</a></li>
+  </ul></li>
+  <li><a href="#olhando-os-dados-antes-de-ajustar-uma-reta" id="toc-olhando-os-dados-antes-de-ajustar-uma-reta" class="nav-link" data-scroll-target="#olhando-os-dados-antes-de-ajustar-uma-reta"><span class="header-section-number">8.4</span> Olhando os dados antes de ajustar uma reta</a>
+  <ul class="collapse">
+  <li><a href="#o-gráfico-de-dispersão" id="toc-o-gráfico-de-dispersão" class="nav-link" data-scroll-target="#o-gráfico-de-dispersão"><span class="header-section-number">8.4.1</span> O gráfico de dispersão</a></li>
+  <li><a href="#por-que-os-resumos-sozinhos-são-insuficientes" id="toc-por-que-os-resumos-sozinhos-são-insuficientes" class="nav-link" data-scroll-target="#por-que-os-resumos-sozinhos-são-insuficientes"><span class="header-section-number">8.4.2</span> Por que os resumos sozinhos são insuficientes</a></li>
+  <li><a href="#mostre-a-estrutura-dos-dados" id="toc-mostre-a-estrutura-dos-dados" class="nav-link" data-scroll-target="#mostre-a-estrutura-dos-dados"><span class="header-section-number">8.4.3</span> Mostre a estrutura dos dados</a></li>
+  </ul></li>
+  <li><a href="#correlação" id="toc-correlação" class="nav-link" data-scroll-target="#correlação"><span class="header-section-number">8.5</span> Correlação</a>
+  <ul class="collapse">
+  <li><a href="#o-que-um-coeficiente-de-correlação-mede" id="toc-o-que-um-coeficiente-de-correlação-mede" class="nav-link" data-scroll-target="#o-que-um-coeficiente-de-correlação-mede"><span class="header-section-number">8.5.1</span> O que um coeficiente de correlação mede?</a></li>
+  <li><a href="#correlação-por-postos" id="toc-correlação-por-postos" class="nav-link" data-scroll-target="#correlação-por-postos"><span class="header-section-number">8.5.2</span> Correlação por postos</a></li>
+  <li><a href="#o-que-a-correlação-não-nos-diz" id="toc-o-que-a-correlação-não-nos-diz" class="nav-link" data-scroll-target="#o-que-a-correlação-não-nos-diz"><span class="header-section-number">8.5.3</span> O que a correlação não nos diz</a></li>
+  <li><a href="#correlação-e-causalidade" id="toc-correlação-e-causalidade" class="nav-link" data-scroll-target="#correlação-e-causalidade"><span class="header-section-number">8.5.4</span> Correlação e causalidade</a></li>
+  <li><a href="#correlação-versus-concordância" id="toc-correlação-versus-concordância" class="nav-link" data-scroll-target="#correlação-versus-concordância"><span class="header-section-number">8.5.5</span> Correlação versus concordância</a></li>
+  </ul></li>
+  <li><a href="#regressão-linear-simples" id="toc-regressão-linear-simples" class="nav-link" data-scroll-target="#regressão-linear-simples"><span class="header-section-number">8.6</span> Regressão linear simples</a>
+  <ul class="collapse">
+  <li><a href="#o-modelo" id="toc-o-modelo" class="nav-link" data-scroll-target="#o-modelo"><span class="header-section-number">8.6.1</span> O modelo</a></li>
+  <li><a href="#ajustando-uma-reta-mínimos-quadrados" id="toc-ajustando-uma-reta-mínimos-quadrados" class="nav-link" data-scroll-target="#ajustando-uma-reta-mínimos-quadrados"><span class="header-section-number">8.6.2</span> Ajustando uma reta: mínimos quadrados</a></li>
+  <li><a href="#um-exemplo-simples" id="toc-um-exemplo-simples" class="nav-link" data-scroll-target="#um-exemplo-simples"><span class="header-section-number">8.6.3</span> Um exemplo simples</a></li>
+  <li><a href="#interpretando-o-intercepto" id="toc-interpretando-o-intercepto" class="nav-link" data-scroll-target="#interpretando-o-intercepto"><span class="header-section-number">8.6.4</span> Interpretando o intercepto</a></li>
+  <li><a href="#interpretando-a-inclinação" id="toc-interpretando-a-inclinação" class="nav-link" data-scroll-target="#interpretando-a-inclinação"><span class="header-section-number">8.6.5</span> Interpretando a inclinação</a></li>
+  </ul></li>
+  <li><a href="#incerteza-nas-estimativas-da-regressão" id="toc-incerteza-nas-estimativas-da-regressão" class="nav-link" data-scroll-target="#incerteza-nas-estimativas-da-regressão"><span class="header-section-number">8.7</span> Incerteza nas estimativas da regressão</a>
+  <ul class="collapse">
+  <li><a href="#erros-padrão-e-intervalos-de-confiança" id="toc-erros-padrão-e-intervalos-de-confiança" class="nav-link" data-scroll-target="#erros-padrão-e-intervalos-de-confiança"><span class="header-section-number">8.7.1</span> Erros padrão e intervalos de confiança</a></li>
+  <li><a href="#testando-a-inclinação" id="toc-testando-a-inclinação" class="nav-link" data-scroll-target="#testando-a-inclinação"><span class="header-section-number">8.7.2</span> Testando a inclinação</a></li>
+  <li><a href="#intervalos-de-confiança-versus-intervalos-de-predição" id="toc-intervalos-de-confiança-versus-intervalos-de-predição" class="nav-link" data-scroll-target="#intervalos-de-confiança-versus-intervalos-de-predição"><span class="header-section-number">8.7.3</span> Intervalos de confiança versus intervalos de predição</a></li>
+  </ul></li>
+  <li><a href="#quanto-da-variação-é-explicado" id="toc-quanto-da-variação-é-explicado" class="nav-link" data-scroll-target="#quanto-da-variação-é-explicado"><span class="header-section-number">8.8</span> Quanto da variação é explicado?</a>
+  <ul class="collapse">
+  <li><a href="#o-coeficiente-de-determinação" id="toc-o-coeficiente-de-determinação" class="nav-link" data-scroll-target="#o-coeficiente-de-determinação"><span class="header-section-number">8.8.1</span> O coeficiente de determinação</a></li>
+  <li><a href="#o-que-o-r²-diz-e-o-que-não-diz" id="toc-o-que-o-r²-diz-e-o-que-não-diz" class="nav-link" data-scroll-target="#o-que-o-r²-diz-e-o-que-não-diz"><span class="header-section-number">8.8.2</span> O que o R² diz e o que não diz</a></li>
+  </ul></li>
+  <li><a href="#pressupostos-e-diagnóstico-do-modelo" id="toc-pressupostos-e-diagnóstico-do-modelo" class="nav-link" data-scroll-target="#pressupostos-e-diagnóstico-do-modelo"><span class="header-section-number">8.9</span> Pressupostos e diagnóstico do modelo</a>
+  <ul class="collapse">
+  <li><a href="#linearidade" id="toc-linearidade" class="nav-link" data-scroll-target="#linearidade"><span class="header-section-number">8.9.1</span> Linearidade</a></li>
+  <li><a href="#independência" id="toc-independência" class="nav-link" data-scroll-target="#independência"><span class="header-section-number">8.9.2</span> Independência</a></li>
+  <li><a href="#variância-constante" id="toc-variância-constante" class="nav-link" data-scroll-target="#variância-constante"><span class="header-section-number">8.9.3</span> Variância constante</a></li>
+  <li><a href="#distribuição-dos-resíduos" id="toc-distribuição-dos-resíduos" class="nav-link" data-scroll-target="#distribuição-dos-resíduos"><span class="header-section-number">8.9.4</span> Distribuição dos resíduos</a></li>
+  <li><a href="#diagnosticando-o-modelo" id="toc-diagnosticando-o-modelo" class="nav-link" data-scroll-target="#diagnosticando-o-modelo"><span class="header-section-number">8.9.5</span> Diagnosticando o modelo</a></li>
+  <li><a href="#alavancagem-e-influência" id="toc-alavancagem-e-influência" class="nav-link" data-scroll-target="#alavancagem-e-influência"><span class="header-section-number">8.9.6</span> Alavancagem e influência</a></li>
+  </ul></li>
+  <li><a href="#quando-a-relação-não-é-linear" id="toc-quando-a-relação-não-é-linear" class="nav-link" data-scroll-target="#quando-a-relação-não-é-linear"><span class="header-section-number">8.10</span> Quando a relação não é linear</a>
+  <ul class="collapse">
+  <li><a href="#transformando-variáveis" id="toc-transformando-variáveis" class="nav-link" data-scroll-target="#transformando-variáveis"><span class="header-section-number">8.10.1</span> Transformando variáveis</a></li>
+  <li><a href="#termos-polinomiais" id="toc-termos-polinomiais" class="nav-link" data-scroll-target="#termos-polinomiais"><span class="header-section-number">8.10.2</span> Termos polinomiais</a></li>
+  <li><a href="#modelos-não-lineares-com-significado-biológico" id="toc-modelos-não-lineares-com-significado-biológico" class="nav-link" data-scroll-target="#modelos-não-lineares-com-significado-biológico"><span class="header-section-number">8.10.3</span> Modelos não lineares com significado biológico</a></li>
+  </ul></li>
+  <li><a href="#extrapolação" id="toc-extrapolação" class="nav-link" data-scroll-target="#extrapolação"><span class="header-section-number">8.11</span> Extrapolação</a></li>
+  <li><a href="#comparando-relações-entre-grupos" id="toc-comparando-relações-entre-grupos" class="nav-link" data-scroll-target="#comparando-relações-entre-grupos"><span class="header-section-number">8.12</span> Comparando relações entre grupos</a>
+  <ul class="collapse">
+  <li><a href="#combinando-preditores-quantitativos-e-categóricos" id="toc-combinando-preditores-quantitativos-e-categóricos" class="nav-link" data-scroll-target="#combinando-preditores-quantitativos-e-categóricos"><span class="header-section-number">8.12.1</span> Combinando preditores quantitativos e categóricos</a></li>
+  <li><a href="#inclinações-diferentes-são-uma-interação" id="toc-inclinações-diferentes-são-uma-interação" class="nav-link" data-scroll-target="#inclinações-diferentes-são-uma-interação"><span class="header-section-number">8.12.2</span> Inclinações diferentes são uma interação</a></li>
+  <li><a href="#estimando-e-comparando-inclinações" id="toc-estimando-e-comparando-inclinações" class="nav-link" data-scroll-target="#estimando-e-comparando-inclinações"><span class="header-section-number">8.12.3</span> Estimando e comparando inclinações</a></li>
+  </ul></li>
+  <li><a href="#regressão-linear-múltipla" id="toc-regressão-linear-múltipla" class="nav-link" data-scroll-target="#regressão-linear-múltipla"><span class="header-section-number">8.13</span> Regressão linear múltipla</a>
+  <ul class="collapse">
+  <li><a href="#mais-de-uma-variável-explicativa" id="toc-mais-de-uma-variável-explicativa" class="nav-link" data-scroll-target="#mais-de-uma-variável-explicativa"><span class="header-section-number">8.13.1</span> Mais de uma variável explicativa</a></li>
+  <li><a href="#efeitos-parciais" id="toc-efeitos-parciais" class="nav-link" data-scroll-target="#efeitos-parciais"><span class="header-section-number">8.13.2</span> Efeitos parciais</a></li>
+  <li><a href="#interações-entre-variáveis-quantitativas" id="toc-interações-entre-variáveis-quantitativas" class="nav-link" data-scroll-target="#interações-entre-variáveis-quantitativas"><span class="header-section-number">8.13.3</span> Interações entre variáveis quantitativas</a></li>
+  <li><a href="#colinearidade" id="toc-colinearidade" class="nav-link" data-scroll-target="#colinearidade"><span class="header-section-number">8.13.4</span> Colinearidade</a></li>
+  <li><a href="#escolhendo-as-variáveis-explicativas" id="toc-escolhendo-as-variáveis-explicativas" class="nav-link" data-scroll-target="#escolhendo-as-variáveis-explicativas"><span class="header-section-number">8.13.5</span> Escolhendo as variáveis explicativas</a></li>
+  </ul></li>
+  <li><a href="#dados-de-vários-experimentos-ou-locais" id="toc-dados-de-vários-experimentos-ou-locais" class="nav-link" data-scroll-target="#dados-de-vários-experimentos-ou-locais"><span class="header-section-number">8.14</span> Dados de vários experimentos ou locais</a></li>
+  <li><a href="#regressão-ou-correlação" id="toc-regressão-ou-correlação" class="nav-link" data-scroll-target="#regressão-ou-correlação"><span class="header-section-number">8.15</span> Regressão ou correlação?</a></li>
+  <li><a href="#pesquisa-na-prática-estimando-a-perda-de-produtividade-causada-pela-doença" id="toc-pesquisa-na-prática-estimando-a-perda-de-produtividade-causada-pela-doença" class="nav-link" data-scroll-target="#pesquisa-na-prática-estimando-a-perda-de-produtividade-causada-pela-doença"><span class="header-section-number">8.16</span> Pesquisa na prática: estimando a perda de produtividade causada pela doença</a></li>
+  <li><a href="#um-fluxo-de-trabalho-prático-para-estudar-relações" id="toc-um-fluxo-de-trabalho-prático-para-estudar-relações" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-prático-para-estudar-relações"><span class="header-section-number">8.17</span> Um fluxo de trabalho prático para estudar relações</a></li>
+  <li><a href="#relatando-relações" id="toc-relatando-relações" class="nav-link" data-scroll-target="#relatando-relações"><span class="header-section-number">8.18</span> Relatando relações</a>
+  <ul class="collapse">
+  <li><a href="#que-relação-foi-estudada" id="toc-que-relação-foi-estudada" class="nav-link" data-scroll-target="#que-relação-foi-estudada"><span class="header-section-number">8.18.1</span> Que relação foi estudada?</a></li>
+  <li><a href="#direção-e-magnitude" id="toc-direção-e-magnitude" class="nav-link" data-scroll-target="#direção-e-magnitude"><span class="header-section-number">8.18.2</span> Direção e magnitude</a></li>
+  <li><a href="#incerteza" id="toc-incerteza" class="nav-link" data-scroll-target="#incerteza"><span class="header-section-number">8.18.3</span> Incerteza</a></li>
+  <li><a href="#amplitude-dos-dados" id="toc-amplitude-dos-dados" class="nav-link" data-scroll-target="#amplitude-dos-dados"><span class="header-section-number">8.18.4</span> Amplitude dos dados</a></li>
+  <li><a href="#ajuste-e-adequação" id="toc-ajuste-e-adequação" class="nav-link" data-scroll-target="#ajuste-e-adequação"><span class="header-section-number">8.18.5</span> Ajuste e adequação</a></li>
+  <li><a href="#interpretação-biológica" id="toc-interpretação-biológica" class="nav-link" data-scroll-target="#interpretação-biológica"><span class="header-section-number">8.18.6</span> Interpretação biológica</a></li>
+  </ul></li>
+  <li><a href="#erros-comuns" id="toc-erros-comuns" class="nav-link" data-scroll-target="#erros-comuns"><span class="header-section-number">8.19</span> Erros comuns</a>
+  <ul class="collapse">
+  <li><a href="#ajustar-uma-reta-sem-olhar-o-gráfico-de-dispersão" id="toc-ajustar-uma-reta-sem-olhar-o-gráfico-de-dispersão" class="nav-link" data-scroll-target="#ajustar-uma-reta-sem-olhar-o-gráfico-de-dispersão"><span class="header-section-number">8.19.1</span> Ajustar uma reta sem olhar o gráfico de dispersão</a></li>
+  <li><a href="#relatar-apenas-r-ou-r²" id="toc-relatar-apenas-r-ou-r²" class="nav-link" data-scroll-target="#relatar-apenas-r-ou-r²"><span class="header-section-number">8.19.2</span> Relatar apenas r ou R²</a></li>
+  <li><a href="#interpretar-correlação-como-causalidade" id="toc-interpretar-correlação-como-causalidade" class="nav-link" data-scroll-target="#interpretar-correlação-como-causalidade"><span class="header-section-number">8.19.3</span> Interpretar correlação como causalidade</a></li>
+  <li><a href="#usar-a-correlação-para-avaliar-a-concordância-entre-métodos" id="toc-usar-a-correlação-para-avaliar-a-concordância-entre-métodos" class="nav-link" data-scroll-target="#usar-a-correlação-para-avaliar-a-concordância-entre-métodos"><span class="header-section-number">8.19.4</span> Usar a correlação para avaliar a concordância entre métodos</a></li>
+  <li><a href="#relatar-inclinações-sem-unidades" id="toc-relatar-inclinações-sem-unidades" class="nav-link" data-scroll-target="#relatar-inclinações-sem-unidades"><span class="header-section-number">8.19.5</span> Relatar inclinações sem unidades</a></li>
+  <li><a href="#interpretar-um-intercepto-muito-fora-dos-dados" id="toc-interpretar-um-intercepto-muito-fora-dos-dados" class="nav-link" data-scroll-target="#interpretar-um-intercepto-muito-fora-dos-dados"><span class="header-section-number">8.19.6</span> Interpretar um intercepto muito fora dos dados</a></li>
+  <li><a href="#confundir-intervalos-de-confiança-e-de-predição" id="toc-confundir-intervalos-de-confiança-e-de-predição" class="nav-link" data-scroll-target="#confundir-intervalos-de-confiança-e-de-predição"><span class="header-section-number">8.19.7</span> Confundir intervalos de confiança e de predição</a></li>
+  <li><a href="#extrapolar-além-dos-dados-observados" id="toc-extrapolar-além-dos-dados-observados" class="nav-link" data-scroll-target="#extrapolar-além-dos-dados-observados"><span class="header-section-number">8.19.8</span> Extrapolar além dos dados observados</a></li>
+  <li><a href="#ignorar-observações-influentes" id="toc-ignorar-observações-influentes" class="nav-link" data-scroll-target="#ignorar-observações-influentes"><span class="header-section-number">8.19.9</span> Ignorar observações influentes</a></li>
+  <li><a href="#reunir-dados-de-vários-experimentos-como-observações-independentes" id="toc-reunir-dados-de-vários-experimentos-como-observações-independentes" class="nav-link" data-scroll-target="#reunir-dados-de-vários-experimentos-como-observações-independentes"><span class="header-section-number">8.19.10</span> Reunir dados de vários experimentos como observações independentes</a></li>
+  <li><a href="#interpretar-coeficientes-de-regressão-múltipla-como-efeitos-simples" id="toc-interpretar-coeficientes-de-regressão-múltipla-como-efeitos-simples" class="nav-link" data-scroll-target="#interpretar-coeficientes-de-regressão-múltipla-como-efeitos-simples"><span class="header-section-number">8.19.11</span> Interpretar coeficientes de regressão múltipla como efeitos simples</a></li>
+  <li><a href="#selecionar-variáveis-automaticamente" id="toc-selecionar-variáveis-automaticamente" class="nav-link" data-scroll-target="#selecionar-variáveis-automaticamente"><span class="header-section-number">8.19.12</span> Selecionar variáveis automaticamente</a></li>
+  <li><a href="#forçar-uma-reta-sobre-uma-relação-curva" id="toc-forçar-uma-reta-sobre-uma-relação-curva" class="nav-link" data-scroll-target="#forçar-uma-reta-sobre-uma-relação-curva"><span class="header-section-number">8.19.13</span> Forçar uma reta sobre uma relação curva</a></li>
+  </ul></li>
+  <li><a href="#lista-de-verificação-para-a-análise-de-relações" id="toc-lista-de-verificação-para-a-análise-de-relações" class="nav-link" data-scroll-target="#lista-de-verificação-para-a-análise-de-relações"><span class="header-section-number">8.20</span> Lista de verificação para a análise de relações</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">8.21</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">8.22</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">8.23</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-qual-é-a-relação" id="toc-exercício-1.-qual-é-a-relação" class="nav-link" data-scroll-target="#exercício-1.-qual-é-a-relação"><span class="header-section-number">8.23.1</span> Exercício 1. Qual é a relação?</a></li>
+  <li><a href="#exercício-2.-olhe-antes-de-ajustar" id="toc-exercício-2.-olhe-antes-de-ajustar" class="nav-link" data-scroll-target="#exercício-2.-olhe-antes-de-ajustar"><span class="header-section-number">8.23.2</span> Exercício 2. Olhe antes de ajustar</a></li>
+  <li><a href="#exercício-3.-perda-de-produtividade" id="toc-exercício-3.-perda-de-produtividade" class="nav-link" data-scroll-target="#exercício-3.-perda-de-produtividade"><span class="header-section-number">8.23.3</span> Exercício 3. Perda de produtividade</a></li>
+  <li><a href="#exercício-4.-confiança-ou-predição" id="toc-exercício-4.-confiança-ou-predição" class="nav-link" data-scroll-target="#exercício-4.-confiança-ou-predição"><span class="header-section-number">8.23.4</span> Exercício 4. Confiança ou predição?</a></li>
+  <li><a href="#exercício-5.-concordância-entre-métodos" id="toc-exercício-5.-concordância-entre-métodos" class="nav-link" data-scroll-target="#exercício-5.-concordância-entre-métodos"><span class="header-section-number">8.23.5</span> Exercício 5. Concordância entre métodos</a></li>
+  <li><a href="#exercício-6.-inclinações-diferentes" id="toc-exercício-6.-inclinações-diferentes" class="nav-link" data-scroll-target="#exercício-6.-inclinações-diferentes"><span class="header-section-number">8.23.6</span> Exercício 6. Inclinações diferentes</a></li>
+  <li><a href="#exercício-7.-avaliação-de-um-artigo-publicado" id="toc-exercício-7.-avaliação-de-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">8.23.7</span> Exercício 7. Avaliação de um artigo publicado</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">8.24</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">8.25</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Como estudamos relações entre variáveis?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">8.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>identificar questões de pesquisa que envolvem relações entre variáveis quantitativas;</li>
+<li>explorar relações graficamente antes de ajustar um modelo;</li>
+<li>distinguir associação de causalidade;</li>
+<li>estimar e interpretar coeficientes de correlação e reconhecer suas limitações;</li>
+<li>distinguir correlação de concordância entre dois métodos de medida;</li>
+<li>formular um modelo de regressão linear simples e interpretar seu intercepto e sua inclinação em unidades biológicas;</li>
+<li>quantificar a incerteza das estimativas da regressão e distinguir intervalos de confiança de intervalos de predição;</li>
+<li>interpretar o coeficiente de determinação sem superestimá-lo;</li>
+<li>diagnosticar modelos de regressão, incluindo observações influentes;</li>
+<li>comparar relações entre grupos combinando preditores quantitativos e categóricos;</li>
+<li>ajustar e interpretar modelos de regressão linear múltipla;</li>
+<li>reconhecer colinearidade, extrapolação e outras ameaças à interpretação;</li>
+<li>comunicar resultados de regressão usando estimativas, incerteza e gráficos adequados.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-estudar-relações" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="por-que-estudar-relações"><span class="header-section-number">8.2</span> Por que estudar relações?</h2>
+<p>O Capítulo 7 tratou de questões em que a variável explicativa define grupos: tratado versus não tratado, resistente versus suscetível, inoculado versus não inoculado. Muitas questões em Fitopatologia, porém, envolvem variáveis explicativas que são, elas próprias, quantitativas.</p>
+<p>Questões típicas incluem:</p>
+<ul>
+<li>Quanto de produtividade se perde para cada unidade de aumento na severidade da doença?</li>
+<li>O tamanho da lesão aumenta com a temperatura?</li>
+<li>Como o número de esporos capturados se relaciona com a incidência posterior da doença?</li>
+<li>A infecção aumenta com a duração do molhamento foliar?</li>
+<li>As estimativas de severidade obtidas por análise de imagens correspondem às estimativas visuais?</li>
+<li>A biomassa do patógeno no tecido está associada à severidade dos sintomas?</li>
+</ul>
+<p>Essas questões compartilham uma estrutura comum: queremos descrever <strong>como uma resposta muda à medida que outra variável quantitativa muda</strong>, e com que confiança podemos descrever essa mudança.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A grandeza central na maioria dos estudos de relações não é um valor-P nem um coeficiente de correlação, mas a <strong>taxa de variação</strong> da resposta em relação à variável explicativa, expressa em unidades biológicas e acompanhada de sua incerteza.</p>
+</div>
+</div>
+</section>
+<section id="da-questão-biológica-à-relação" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="da-questão-biológica-à-relação"><span class="header-section-number">8.3</span> Da questão biológica à relação</h2>
+<p>Considere um estudo de campo que relaciona a severidade da doença em um estádio-chave da cultura à produtividade final.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter8-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter8-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-5086484f0cf89c9d8c9a" style="width:100%;height:522px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5086484f0cf89c9d8c9a">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">Quanto de produtividade se perde<br/>à medida que a doença aumenta?<\/font><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Resposta<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">Produtividade (kg/ha)<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Variável explicativa<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">Severidade da doença (%)<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Estimando<\/b><br/><font point-size=\"12\" color=\"#6c4f9e\">Variação da produtividade média por<br/>ponto percentual de severidade (inclinação)<\/font><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Estimativa + incerteza<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Interpretação biológica<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter8-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.1: Da questão biológica à estimação de uma taxa de variação (inclinação).
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="qual-é-o-estimando" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="qual-é-o-estimando"><span class="header-section-number">8.3.1</span> Qual é o estimando?</h3>
+<p>Se a produtividade média varia linearmente com a severidade, podemos escrever a produtividade esperada na severidade <span class="math inline">\(x\)</span> como:</p>
+<p><span class="math display">\[
+E(Y \mid x) = \beta_0 + \beta_1 x
+\]</span></p>
+<p>O estimando de interesse principal geralmente é a inclinação:</p>
+<p><span class="math display">\[
+\beta_1 = \text{variação da produtividade média por unidade de aumento na severidade}
+\]</span></p>
+<p>A estimativa correspondente obtida dos dados é <span class="math inline">\(\hat{\beta}_1\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma inclinação sempre tem unidades: unidades da resposta por unidade da variável explicativa. “A inclinação foi −42” é incompleto; “a produtividade diminuiu 42 kg/ha para cada ponto percentual de severidade” é interpretável.</p>
+</div>
+</div>
+</section>
+<section id="qual-variável-é-a-resposta" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="qual-variável-é-a-resposta"><span class="header-section-number">8.3.2</span> Qual variável é a resposta?</h3>
+<p>Em um modelo de regressão, a escolha da resposta e da variável explicativa não é arbitrária. Ela decorre da questão biológica:</p>
+<ul>
+<li>a <strong>resposta</strong> é a variável cujo comportamento queremos explicar ou prever;</li>
+<li>a <strong>variável explicativa</strong> é a variável que usamos para explicá-la ou prevê-la.</li>
+</ul>
+<p>A produtividade é modelada em função da doença, e não o contrário, porque a questão é sobre a consequência da doença para a produtividade. Fazer a regressão de <span class="math inline">\(y\)</span> em <span class="math inline">\(x\)</span> e a de <span class="math inline">\(x\)</span> em <span class="math inline">\(y\)</span> geralmente produz retas diferentes e responde a perguntas diferentes.</p>
+</section>
+</section>
+<section id="olhando-os-dados-antes-de-ajustar-uma-reta" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="olhando-os-dados-antes-de-ajustar-uma-reta"><span class="header-section-number">8.4</span> Olhando os dados antes de ajustar uma reta</h2>
+<p>Como nos capítulos anteriores, a análise começa pelas observações, e não pelo modelo (ver Capítulos 4 e 5).</p>
+<section id="o-gráfico-de-dispersão" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="o-gráfico-de-dispersão"><span class="header-section-number">8.4.1</span> O gráfico de dispersão</h3>
+<p>O gráfico de dispersão é o gráfico básico para a relação entre duas variáveis quantitativas. Antes de ajustar qualquer modelo, examine nele:</p>
+<ul>
+<li>a <strong>direção</strong> da relação (crescente, decrescente, nenhuma);</li>
+<li>a <strong>forma</strong> da relação (linear, curva, um platô, um limiar);</li>
+<li>a <strong>intensidade</strong> da relação (quão próximos os pontos estão de uma tendência);</li>
+<li>a <strong>variabilidade</strong> que muda ao longo da variável explicativa;</li>
+<li><strong>observações incomuns</strong> e possíveis erros de digitação;</li>
+<li><strong>grupos ou agrupamentos</strong> que podem corresponder a locais, anos, cultivares ou experimentos.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> severity, <span class="at">y =</span> yield)) <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Severidade da doença (%)"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Produtividade (kg/ha)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="por-que-os-resumos-sozinhos-são-insuficientes" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="por-que-os-resumos-sozinhos-são-insuficientes"><span class="header-section-number">8.4.2</span> Por que os resumos sozinhos são insuficientes</h3>
+<p>Relações muito diferentes podem produzir as mesmas médias, desvios padrão, coeficiente de correlação e reta de regressão ajustada. A ilustração clássica é o quarteto de Anscombe: quatro conjuntos de dados com estatísticas-resumo praticamente idênticas, dos quais apenas um é bem descrito por uma reta.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># O quarteto de Anscombe está disponível no R base</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(i) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> anscombe[[<span class="fu">paste0</span>(<span class="st">"x"</span>, i)]]; y <span class="ot">&lt;-</span> anscombe[[<span class="fu">paste0</span>(<span class="st">"y"</span>, i)]]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">media_y =</span> <span class="fu">mean</span>(y), <span class="at">dp_y =</span> <span class="fu">sd</span>(y), <span class="at">r =</span> <span class="fu">cor</span>(x, y),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">inclinacao =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>])), <span class="dv">2</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1] [,2] [,3] [,4]
+media_y    7.50 7.50 7.50 7.50
+dp_y       2.03 2.03 2.03 2.03
+r          0.82 0.82 0.82 0.82
+inclinacao 0.50 0.50 0.50 0.50</code></pre>
+</div>
+</div>
+<p>Os quatro conjuntos têm praticamente as mesmas médias, desvios padrão, correlações e inclinações, mas o gráfico mostra relações completamente diferentes:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>quarteto <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conjunto =</span> <span class="fu">rep</span>(<span class="fu">paste</span>(<span class="st">"Conjunto"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">each =</span> <span class="dv">11</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">unlist</span>(anscombe[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]), <span class="at">y =</span> <span class="fu">unlist</span>(anscombe[, <span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(quarteto, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour =</span> <span class="st">"grey60"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> conjunto) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nunca ajuste nem relate uma correlação ou regressão sem olhar o gráfico de dispersão. Um número-resumo não revela curvaturas, valores discrepantes ou agrupamentos.</p>
+</div>
+</div>
+</section>
+<section id="mostre-a-estrutura-dos-dados" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="mostre-a-estrutura-dos-dados"><span class="header-section-number">8.4.3</span> Mostre a estrutura dos dados</h3>
+<p>Os pontos de um gráfico de dispersão frequentemente não são independentes. As observações podem vir de várias lavouras, anos, cultivares ou de medidas repetidas nas mesmas plantas. Colorir ou separar em painéis os pontos segundo essas fontes frequentemente revela que uma relação aparente no conjunto é determinada por diferenças entre grupos, e não por uma relação dentro deles.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> severity, <span class="at">y =</span> yield, <span class="at">color =</span> site)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="correlação" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="correlação"><span class="header-section-number">8.5</span> Correlação</h2>
+<section id="o-que-um-coeficiente-de-correlação-mede" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="o-que-um-coeficiente-de-correlação-mede"><span class="header-section-number">8.5.1</span> O que um coeficiente de correlação mede?</h3>
+<p>O coeficiente de correlação de Pearson, <span class="math inline">\(r\)</span>, mede a intensidade e a direção de uma associação <strong>linear</strong> entre duas variáveis quantitativas. Ele varia de −1 a 1:</p>
+<ul>
+<li><span class="math inline">\(r\)</span> próximo de 1: os pontos se agrupam em torno de uma reta crescente;</li>
+<li><span class="math inline">\(r\)</span> próximo de −1: os pontos se agrupam em torno de uma reta decrescente;</li>
+<li><span class="math inline">\(r\)</span> próximo de 0: ausência de associação linear (mas possivelmente uma forte associação não linear).</li>
+</ul>
+<p>A correlação é simétrica: a correlação entre <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> é igual à correlação entre <span class="math inline">\(y\)</span> e <span class="math inline">\(x\)</span>. Ela não tem unidades e não distingue resposta de variável explicativa.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>severity, data<span class="sc">$</span>yield)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  data$severity and data$yield
+t = -9.9782, df = 43, p-value = 9.224e-13
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.9067872 -0.7183787
+sample estimates:
+       cor 
+-0.8356916 </code></pre>
+</div>
+</div>
+</section>
+<section id="correlação-por-postos" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="correlação-por-postos"><span class="header-section-number">8.5.2</span> Correlação por postos</h3>
+<p>Quando a relação é monotônica, mas não linear, ou quando alguns valores extremos dominam, a correlação por postos de Spearman descreve a associação entre as posições (postos) das observações, e não entre seus valores.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>severity, data<span class="sc">$</span>yield, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  data$severity and data$yield
+S = 28162, p-value &lt; 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+       rho 
+-0.8552042 </code></pre>
+</div>
+</div>
+</section>
+<section id="o-que-a-correlação-não-nos-diz" class="level3" data-number="8.5.3">
+<h3 data-number="8.5.3" class="anchored" data-anchor-id="o-que-a-correlação-não-nos-diz"><span class="header-section-number">8.5.3</span> O que a correlação não nos diz</h3>
+<p>Um coeficiente de correlação não nos diz:</p>
+<ul>
+<li><strong>quanto</strong> a resposta muda por unidade da variável explicativa;</li>
+<li>se a relação é <strong>causal</strong>;</li>
+<li>se a relação é <strong>linear</strong> (uma relação curva forte pode ter <span class="math inline">\(r\)</span> próximo de 0);</li>
+<li>se um método de medida <strong>concorda</strong> com outro.</li>
+</ul>
+<p>O valor de <span class="math inline">\(r\)</span> também depende da amplitude da variável explicativa estudada. Amostrar apenas uma faixa estreita de severidade (por exemplo, um único local com pouca doença) produzirá uma correlação mais fraca do que amostrar uma faixa ampla, mesmo que a relação subjacente seja idêntica.</p>
+</section>
+<section id="correlação-e-causalidade" class="level3" data-number="8.5.4">
+<h3 data-number="8.5.4" class="anchored" data-anchor-id="correlação-e-causalidade"><span class="header-section-number">8.5.4</span> Correlação e causalidade</h3>
+<p>Estudos observacionais (Capítulo 2) frequentemente revelam associações: lavouras com mais inóculo têm mais doença, plantas com mais lesões produzem menos, regiões com mais chuva têm mais epidemias. Essas associações podem refletir relações causais, mas também podem surgir de <strong>variáveis de confundimento</strong> que afetam ambas as grandezas, como data de semeadura, cultivar, manejo ou solo.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma regressão ou correlação estimada a partir de dados observacionais descreve uma associação. A interpretação causal exige um delineamento experimental, ou uma argumentação cuidadosa de que as variáveis de confundimento foram medidas e consideradas.</p>
+</div>
+</div>
+</section>
+<section id="correlação-versus-concordância" class="level3" data-number="8.5.5">
+<h3 data-number="8.5.5" class="anchored" data-anchor-id="correlação-versus-concordância"><span class="header-section-number">8.5.5</span> Correlação versus concordância</h3>
+<p>Um uso comum da correlação em Fitopatologia é comparar dois métodos de medir a mesma grandeza, como estimativas visuais de severidade e estimativas por análise de imagens, ou estimativas de dois avaliadores.</p>
+<p>Uma correlação alta não significa que os métodos concordam. Se um avaliador estima sistematicamente o dobro da severidade estimada pelo outro, suas estimativas são perfeitamente correlacionadas, mas sistematicamente diferentes.</p>
+<p>A concordância exige que as observações caiam sobre a <strong>linha de igualdade</strong> (<span class="math inline">\(y = x\)</span>), e não simplesmente sobre alguma reta. Medidas como o coeficiente de correlação de concordância de Lin e ferramentas gráficas como os gráficos de Bland–Altman avaliam diretamente a concordância.</p>
+<!--
+Ligar com a avaliação de severidade e escalas diagramáticas, se discutidas no Capítulo 3 ou 4.
+Pode se tornar um quadro de Pesquisa na prática.
+-->
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(aval, <span class="fu">aes</span>(<span class="at">x =</span> visual, <span class="at">y =</span> image)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não use o coeficiente de correlação como evidência de que dois métodos de avaliação são intercambiáveis. Avalie o viés e a concordância em relação à linha de igualdade.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="regressão-linear-simples" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="regressão-linear-simples"><span class="header-section-number">8.6</span> Regressão linear simples</h2>
+<section id="o-modelo" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="o-modelo"><span class="header-section-number">8.6.1</span> O modelo</h3>
+<p>Um modelo de regressão linear simples descreve cada observação como:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_i + \varepsilon_i
+\]</span></p>
+<p>em que:</p>
+<ul>
+<li><span class="math inline">\(y_i\)</span> é a resposta da observação <span class="math inline">\(i\)</span>;</li>
+<li><span class="math inline">\(x_i\)</span> é o valor da variável explicativa;</li>
+<li><span class="math inline">\(\beta_0\)</span> é o intercepto, a resposta esperada quando <span class="math inline">\(x = 0\)</span>;</li>
+<li><span class="math inline">\(\beta_1\)</span> é a inclinação, a variação esperada da resposta para um aumento de uma unidade em <span class="math inline">\(x\)</span>;</li>
+<li><span class="math inline">\(\varepsilon_i\)</span> é a variação residual não explicada pela reta.</li>
+</ul>
+<p>É o mesmo arcabouço de modelo linear usado no Capítulo 7. A única diferença é que a variável explicativa agora é quantitativa, e não um conjunto de grupos.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Comparar grupos e estudar relações não são mundos estatísticos separados. Ambos são modelos lineares; diferem apenas em se as variáveis explicativas são categóricas, quantitativas ou ambas.</p>
+</div>
+</div>
+</section>
+<section id="ajustando-uma-reta-mínimos-quadrados" class="level3" data-number="8.6.2">
+<h3 data-number="8.6.2" class="anchored" data-anchor-id="ajustando-uma-reta-mínimos-quadrados"><span class="header-section-number">8.6.2</span> Ajustando uma reta: mínimos quadrados</h3>
+<p>A reta ajustada é aquela que minimiza a soma dos quadrados das distâncias verticais entre as observações e a reta:</p>
+<p><span class="math display">\[
+\sum_i (y_i - \hat{y}_i)^2
+\]</span></p>
+<p>Essas distâncias verticais são os <strong>resíduos</strong>. Como as distâncias são medidas verticalmente, os mínimos quadrados tratam <span class="math inline">\(x\)</span> como conhecido e atribuem toda a variação não explicada à resposta.</p>
+<!--
+Ideia de figura (Ch8_fig3): gráfico de dispersão com a reta ajustada e
+segmentos verticais representando os resíduos.
+-->
+</section>
+<section id="um-exemplo-simples" class="level3" data-number="8.6.3">
+<h3 data-number="8.6.3" class="anchored" data-anchor-id="um-exemplo-simples"><span class="header-section-number">8.6.3</span> Um exemplo simples</h3>
+<p>O código a seguir simula um conjunto de dados de produtividade e severidade que o leitor pode reproduzir. Na prática, os dados viriam de um estudo de campo.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">606</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">severity =</span> <span class="fu">runif</span>(<span class="dv">40</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">60</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>yield <span class="ot">&lt;-</span> <span class="dv">4200</span> <span class="sc">-</span> <span class="dv">35</span> <span class="sc">*</span> data<span class="sc">$</span>severity <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="at">sd =</span> <span class="dv">250</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield <span class="sc">~</span> severity, <span class="at">data =</span> data)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = yield ~ severity, data = data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-486.3 -190.1  -41.8  136.2  653.1 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  4183.98      87.82   47.64   &lt;2e-16 ***
+severity      -36.22       2.46  -14.72   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 275.8 on 38 degrees of freedom
+Multiple R-squared:  0.8509,    Adjusted R-squared:  0.8469 
+F-statistic: 216.8 on 1 and 38 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                2.5 %     97.5 %
+(Intercept) 4006.1948 4361.77245
+severity     -41.2022  -31.24159</code></pre>
+</div>
+</div>
+</section>
+<section id="interpretando-o-intercepto" class="level3" data-number="8.6.4">
+<h3 data-number="8.6.4" class="anchored" data-anchor-id="interpretando-o-intercepto"><span class="header-section-number">8.6.4</span> Interpretando o intercepto</h3>
+<p>O intercepto é a produtividade esperada quando a severidade é zero. Em um estudo de perda de produtividade, ele tem um significado claro: a <strong>produtividade atingível</strong> na ausência da doença, nas condições do estudo.</p>
+<p>Em muitos outros casos, <span class="math inline">\(x = 0\)</span> está muito fora dos dados observados (uma temperatura de 0 °C em um estudo conduzido entre 15 e 30 °C, por exemplo), e o intercepto não tem significado biológico direto. Centralizar a variável explicativa torna o intercepto interpretável:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>temp_data<span class="sc">$</span>temp_c <span class="ot">&lt;-</span> temp_data<span class="sc">$</span>temperature <span class="sc">-</span> <span class="dv">20</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(lesion_size <span class="sc">~</span> temp_c, <span class="at">data =</span> temp_data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = lesion_size ~ temp_c, data = temp_data)
+
+Coefficients:
+(Intercept)       temp_c  
+      8.423        0.232  </code></pre>
+</div>
+</div>
+<p>O intercepto agora representa o tamanho de lesão esperado a 20 °C; a inclinação não muda.</p>
+</section>
+<section id="interpretando-a-inclinação" class="level3" data-number="8.6.5">
+<h3 data-number="8.6.5" class="anchored" data-anchor-id="interpretando-a-inclinação"><span class="header-section-number">8.6.5</span> Interpretando a inclinação</h3>
+<p>No exemplo da produtividade, a inclinação estima quantos quilogramas por hectare de produtividade se perdem para cada ponto percentual adicional de severidade. Essa grandeza tem significado agronômico direto e pode ser usada para avaliar se o controle da doença se justifica economicamente.</p>
+<p>Dividir a inclinação pelo intercepto expressa a perda em termos relativos:</p>
+<p><span class="math display">\[
+\frac{\hat{\beta}_1}{\hat{\beta}_0} \times 100
+\]</span></p>
+<p>a porcentagem da produtividade atingível perdida por ponto percentual de severidade. Inclinações relativas são úteis para comparar estudos conduzidos em diferentes níveis de produtividade.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Relate as inclinações em unidades que o leitor possa usar e escolha a unidade da variável explicativa de forma sensata. Uma inclinação por 1 °C, por 10 esporos ou por 10 pontos percentuais de severidade pode ser mais informativa do que uma inclinação por unidade.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="incerteza-nas-estimativas-da-regressão" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="incerteza-nas-estimativas-da-regressão"><span class="header-section-number">8.7</span> Incerteza nas estimativas da regressão</h2>
+<section id="erros-padrão-e-intervalos-de-confiança" class="level3" data-number="8.7.1">
+<h3 data-number="8.7.1" class="anchored" data-anchor-id="erros-padrão-e-intervalos-de-confiança"><span class="header-section-number">8.7.1</span> Erros padrão e intervalos de confiança</h3>
+<p>Como qualquer estimativa (Capítulo 6), a inclinação estimada seria diferente se o estudo fosse repetido. Seu erro padrão descreve essa variabilidade amostral, e seu intervalo de confiança descreve a faixa de inclinações compatíveis com os dados.</p>
+<p>Um intervalo de confiança para a inclinação que exclui o zero indica evidência de associação linear. Mais importante, a <strong>largura</strong> do intervalo mostra com que precisão a taxa de variação foi estimada, e seus <strong>limites</strong> mostram se os valores plausíveis são todos biologicamente importantes, todos desprezíveis ou uma mistura.</p>
+</section>
+<section id="testando-a-inclinação" class="level3" data-number="8.7.2">
+<h3 data-number="8.7.2" class="anchored" data-anchor-id="testando-a-inclinação"><span class="header-section-number">8.7.2</span> Testando a inclinação</h3>
+<p>O teste relatado por <code>summary()</code> avalia:</p>
+<p><span class="math display">\[
+H_0: \beta_1 = 0
+\]</span></p>
+<p>Essa hipótese nula raramente tem interesse científico por si só. Poucos fitopatologistas duvidam de que a produtividade diminui à medida que a doença severa aumenta; a pergunta é <strong>com que rapidez</strong>.</p>
+</section>
+<section id="intervalos-de-confiança-versus-intervalos-de-predição" class="level3" data-number="8.7.3">
+<h3 data-number="8.7.3" class="anchored" data-anchor-id="intervalos-de-confiança-versus-intervalos-de-predição"><span class="header-section-number">8.7.3</span> Intervalos de confiança versus intervalos de predição</h3>
+<p>Dois tipos de intervalo são comumente desenhados em torno de uma reta de regressão, e eles respondem a perguntas diferentes:</p>
+<ul>
+<li>um <strong>intervalo de confiança</strong> para a resposta média descreve a incerteza sobre a resposta <em>média</em> em determinado valor de <span class="math inline">\(x\)</span>;</li>
+<li>um <strong>intervalo de predição</strong> descreve a faixa em que se espera que uma <em>nova observação individual</em> caia.</li>
+</ul>
+<p>Os intervalos de predição são sempre mais largos, porque incluem tanto a incerteza da reta quanto a variabilidade das observações individuais em torno dela.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">severity =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">50</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model, <span class="at">newdata =</span> new, <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 3821.765 3684.953 3958.577
+2 3097.327 3008.914 3185.739
+3 2372.889 2243.433 2502.345</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model, <span class="at">newdata =</span> new, <span class="at">interval =</span> <span class="st">"prediction"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 3821.765 3246.940 4396.589
+2 3097.327 2532.063 3662.590
+3 2372.889 1799.770 2946.007</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> severity, <span class="at">y =</span> yield)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)   <span class="co"># faixa sombreada: intervalo de confiança da média</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se o objetivo é prever a produtividade de uma lavoura específica, use um intervalo de predição. A estreita faixa de confiança em torno de uma reta de regressão subestima muito a incerteza para lavouras individuais.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="quanto-da-variação-é-explicado" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="quanto-da-variação-é-explicado"><span class="header-section-number">8.8</span> Quanto da variação é explicado?</h2>
+<section id="o-coeficiente-de-determinação" class="level3" data-number="8.8.1">
+<h3 data-number="8.8.1" class="anchored" data-anchor-id="o-coeficiente-de-determinação"><span class="header-section-number">8.8.1</span> O coeficiente de determinação</h3>
+<p>O coeficiente de determinação, <span class="math inline">\(R^2\)</span>, é a proporção da variação na resposta explicada pela reta ajustada. Na regressão linear simples, ele é igual ao quadrado da correlação de Pearson.</p>
+</section>
+<section id="o-que-o-r²-diz-e-o-que-não-diz" class="level3" data-number="8.8.2">
+<h3 data-number="8.8.2" class="anchored" data-anchor-id="o-que-o-r²-diz-e-o-que-não-diz"><span class="header-section-number">8.8.2</span> O que o R² diz e o que não diz</h3>
+<p>O <span class="math inline">\(R^2\)</span> é frequentemente superinterpretado. Ele não nos diz:</p>
+<ul>
+<li>se a relação é linear;</li>
+<li>se a inclinação é grande ou biologicamente importante;</li>
+<li>se o modelo vai prever bem em outros ambientes;</li>
+<li>se o modelo está correto.</li>
+</ul>
+<p>Uma inclinação acentuada e biologicamente importante pode coexistir com um <span class="math inline">\(R^2\)</span> modesto quando as observações individuais são variáveis, como é comum em dados de campo. Por outro lado, um <span class="math inline">\(R^2\)</span> alto pode surgir de uma relação curva forçada em uma reta, ou de alguns pontos extremos.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Interprete primeiro a inclinação e sua incerteza. O <span class="math inline">\(R^2\)</span> é uma descrição secundária da dispersão em torno da reta, e não uma medida do valor científico de uma relação.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="pressupostos-e-diagnóstico-do-modelo" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="pressupostos-e-diagnóstico-do-modelo"><span class="header-section-number">8.9</span> Pressupostos e diagnóstico do modelo</h2>
+<p>Os pressupostos do modelo linear foram apresentados no Capítulo 7. Na regressão, um deles ganha destaque.</p>
+<section id="linearidade" class="level3" data-number="8.9.1">
+<h3 data-number="8.9.1" class="anchored" data-anchor-id="linearidade"><span class="header-section-number">8.9.1</span> Linearidade</h3>
+<p>O modelo pressupõe que a resposta média varia linearmente com <span class="math inline">\(x\)</span>. Nas comparações entre grupos, esse pressuposto é essencialmente satisfeito por construção; na regressão, é uma afirmação biológica substantiva. Muitas respostas biológicas se curvam, saturam ou têm limiares, e forçar uma reta sobre elas produz inclinações enganosas.</p>
+</section>
+<section id="independência" class="level3" data-number="8.9.2">
+<h3 data-number="8.9.2" class="anchored" data-anchor-id="independência"><span class="header-section-number">8.9.2</span> Independência</h3>
+<p>As observações devem ser independentes, dada a variável explicativa. Medidas repetidas nas mesmas plantas, várias parcelas da mesma lavoura ou observações de datas consecutivas na mesma lavoura não são independentes, e tratá-las como tal superestima a precisão da inclinação.</p>
+</section>
+<section id="variância-constante" class="level3" data-number="8.9.3">
+<h3 data-number="8.9.3" class="anchored" data-anchor-id="variância-constante"><span class="header-section-number">8.9.3</span> Variância constante</h3>
+<p>Em dados de Fitopatologia, a variabilidade frequentemente aumenta com a média, por exemplo quando as contagens de lesões ou de esporos aumentam. Um gráfico de resíduos em forma de funil indica variância não constante.</p>
+</section>
+<section id="distribuição-dos-resíduos" class="level3" data-number="8.9.4">
+<h3 data-number="8.9.4" class="anchored" data-anchor-id="distribuição-dos-resíduos"><span class="header-section-number">8.9.4</span> Distribuição dos resíduos</h3>
+<p>Como no Capítulo 7, o pressuposto distribucional diz respeito aos resíduos, e não à resposta bruta nem à variável explicativa. A variável explicativa não precisa ter distribuição normal.</p>
+</section>
+<section id="diagnosticando-o-modelo" class="level3" data-number="8.9.5">
+<h3 data-number="8.9.5" class="anchored" data-anchor-id="diagnosticando-o-modelo"><span class="header-section-number">8.9.5</span> Diagnosticando o modelo</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="720"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O gráfico de resíduos versus valores ajustados é o diagnóstico mais informativo na regressão: um padrão curvo indica que uma reta não descreve a relação.</p>
+</section>
+<section id="alavancagem-e-influência" class="level3" data-number="8.9.6">
+<h3 data-number="8.9.6" class="anchored" data-anchor-id="alavancagem-e-influência"><span class="header-section-number">8.9.6</span> Alavancagem e influência</h3>
+<p>Observações com valores incomuns de <span class="math inline">\(x\)</span> têm alta <strong>alavancagem</strong>: têm o potencial de puxar a reta de regressão em sua direção. Uma observação é <strong>influente</strong> quando removê-la mudaria substancialmente a inclinação estimada.</p>
+<p>Em estudos de perda de produtividade, uma única lavoura com severidade extremamente alta pode determinar a maior parte da inclinação estimada. Essas observações não devem ser removidas automaticamente, mas sua influência deve ser examinada e relatada.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cooks.distance</span>(model), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    1     2     3     4     5     6     7     8     9    10    11    12    13 
+0.000 0.036 0.184 0.011 0.005 0.004 0.045 0.001 0.006 0.004 0.059 0.062 0.002 
+   14    15    16    17    18    19    20    21    22    23    24    25    26 
+0.040 0.016 0.059 0.007 0.004 0.056 0.034 0.008 0.042 0.016 0.055 0.000 0.006 
+   27    28    29    30    31    32    33    34    35    36    37    38    39 
+0.016 0.008 0.077 0.010 0.053 0.001 0.079 0.015 0.003 0.000 0.000 0.001 0.002 
+   40 
+0.000 </code></pre>
+</div>
+</div>
+<p>O exemplo abaixo acrescenta aos dados uma única lavoura com severidade muito alta e produtividade maior do que o esperado. Essa observação, de alta alavancagem, muda visivelmente a inclinação:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>com_extremo <span class="ot">&lt;-</span> <span class="fu">rbind</span>(data[, <span class="fu">c</span>(<span class="st">"severity"</span>, <span class="st">"yield"</span>)],</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">data.frame</span>(<span class="at">severity =</span> <span class="dv">95</span>, <span class="at">yield =</span> <span class="dv">3600</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(yield <span class="sc">~</span> severity, <span class="at">data =</span> data))[<span class="dv">2</span>]          <span class="co"># sem a lavoura extrema</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>severity 
+-36.2219 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(yield <span class="sc">~</span> severity, <span class="at">data =</span> com_extremo))[<span class="dv">2</span>]   <span class="co"># com a lavoura extrema</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>severity 
+-25.4502 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(com_extremo, <span class="fu">aes</span>(severity, yield)) <span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">severity =</span> <span class="dv">95</span>, <span class="at">yield =</span> <span class="dv">3600</span>),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"#D55E00"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> data, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">"#0072B2"</span>) <span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">"#D55E00"</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Severidade da doença (%)"</span>, <span class="at">y =</span> <span class="st">"Produtividade (kg/ha)"</span>) <span class="sc">+</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A linha contínua azul é a reta sem a lavoura extrema; a tracejada laranja, com ela.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não apague observações porque são inconvenientes. Verifique se são erros; se não forem, relate como as conclusões mudam com e sem elas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="quando-a-relação-não-é-linear" class="level2" data-number="8.10">
+<h2 data-number="8.10" class="anchored" data-anchor-id="quando-a-relação-não-é-linear"><span class="header-section-number">8.10</span> Quando a relação não é linear</h2>
+<section id="transformando-variáveis" class="level3" data-number="8.10.1">
+<h3 data-number="8.10.1" class="anchored" data-anchor-id="transformando-variáveis"><span class="header-section-number">8.10.1</span> Transformando variáveis</h3>
+<p>Algumas relações curvas tornam-se aproximadamente lineares em uma escala transformada. Transformações logarítmicas são comuns para contagens de esporos, concentrações do patógeno e doses. Uma transformação muda a interpretação da inclinação: com uma variável explicativa transformada em log, a inclinação descreve a variação da resposta por mudança multiplicativa (por exemplo, de dez vezes) em <span class="math inline">\(x\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(severity <span class="sc">~</span> <span class="fu">log10</span>(spores), <span class="at">data =</span> esporos)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = severity ~ log10(spores), data = esporos)
+
+Coefficients:
+  (Intercept)  log10(spores)  
+      -0.9353         6.2078  </code></pre>
+</div>
+</div>
+</section>
+<section id="termos-polinomiais" class="level3" data-number="8.10.2">
+<h3 data-number="8.10.2" class="anchored" data-anchor-id="termos-polinomiais"><span class="header-section-number">8.10.2</span> Termos polinomiais</h3>
+<p>Acrescentar um termo quadrático permite uma curvatura simples:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(lesion_size <span class="sc">~</span> temperature <span class="sc">+</span> <span class="fu">I</span>(temperature<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> temp_data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = lesion_size ~ temperature + I(temperature^2), data = temp_data)
+
+Coefficients:
+     (Intercept)       temperature  I(temperature^2)  
+       -23.64829           2.99182          -0.06272  </code></pre>
+</div>
+</div>
+<p>Polinômios podem descrever uma temperatura ótima dentro da faixa observada, mas seus parâmetros raramente têm significado biológico direto e eles se comportam mal fora dos dados.</p>
+</section>
+<section id="modelos-não-lineares-com-significado-biológico" class="level3" data-number="8.10.3">
+<h3 data-number="8.10.3" class="anchored" data-anchor-id="modelos-não-lineares-com-significado-biológico"><span class="header-section-number">8.10.3</span> Modelos não lineares com significado biológico</h3>
+<p>Quando a própria forma da resposta é o objeto de estudo, como uma curva de dose–resposta, uma curva de crescimento ou uma resposta à temperatura com um ótimo, são preferíveis modelos cujos parâmetros tenham significado biológico. Esses modelos são o tema do Capítulo 9.</p>
+</section>
+</section>
+<section id="extrapolação" class="level2" data-number="8.11">
+<h2 data-number="8.11" class="anchored" data-anchor-id="extrapolação"><span class="header-section-number">8.11</span> Extrapolação</h2>
+<p>Uma reta de regressão descreve a relação dentro da faixa dos dados observados. Fora dessa faixa, não há evidência sobre se a relação continua.</p>
+<p>Uma inclinação de perda de produtividade estimada em lavouras com severidade entre 0 e 20% nada diz sobre a produtividade com 60% de severidade. Da mesma forma, uma relação entre temperatura e lesão estimada entre 15 e 25 °C não pode ser estendida a 35 °C, temperatura em que o patógeno pode simplesmente parar de crescer.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não use um modelo de regressão para prever fora da faixa das variáveis explicativas usadas para ajustá-lo, e não desenhe retas ajustadas além dos dados observados.</p>
+</div>
+</div>
+</section>
+<section id="comparando-relações-entre-grupos" class="level2" data-number="8.12">
+<h2 data-number="8.12" class="anchored" data-anchor-id="comparando-relações-entre-grupos"><span class="header-section-number">8.12</span> Comparando relações entre grupos</h2>
+<p>Muitas vezes, a questão biológica é se uma relação difere entre grupos: a produtividade diminui mais rapidamente com a doença em uma cultivar do que em outra? O tamanho da lesão responde de forma diferente à temperatura em dois isolados?</p>
+<section id="combinando-preditores-quantitativos-e-categóricos" class="level3" data-number="8.12.1">
+<h3 data-number="8.12.1" class="anchored" data-anchor-id="combinando-preditores-quantitativos-e-categóricos"><span class="header-section-number">8.12.1</span> Combinando preditores quantitativos e categóricos</h3>
+<p>Um modelo com uma variável quantitativa e um fator permite que o intercepto difira entre grupos, mantendo uma inclinação comum:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(yield <span class="sc">~</span> severity <span class="sc">+</span> cultivar, <span class="at">data =</span> cv_data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = yield ~ severity + cultivar, data = cv_data)
+
+Coefficients:
+      (Intercept)           severity  cultivarTolerante  
+          3863.15             -29.54             611.85  </code></pre>
+</div>
+</div>
+<p>Acrescentar a interação permite que cada grupo tenha sua própria inclinação:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>model_int <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield <span class="sc">~</span> severity <span class="sc">*</span> cultivar, <span class="at">data =</span> cv_data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="inclinações-diferentes-são-uma-interação" class="level3" data-number="8.12.2">
+<h3 data-number="8.12.2" class="anchored" data-anchor-id="inclinações-diferentes-são-uma-interação"><span class="header-section-number">8.12.2</span> Inclinações diferentes são uma interação</h3>
+<p>A interação entre uma variável quantitativa e um fator tem o mesmo significado das interações apresentadas no Capítulo 7: o efeito da severidade sobre a produtividade <strong>depende</strong> da cultivar.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cv_data, <span class="fu">aes</span>(<span class="at">x =</span> severity, <span class="at">y =</span> yield, <span class="at">color =</span> cultivar)) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter8_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="estimando-e-comparando-inclinações" class="level3" data-number="8.12.3">
+<h3 data-number="8.12.3" class="anchored" data-anchor-id="estimando-e-comparando-inclinações"><span class="header-section-number">8.12.3</span> Estimando e comparando inclinações</h3>
+<p>As inclinações estimadas para cada grupo, e as diferenças entre elas, podem ser obtidas diretamente:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to emmeans.
+Caution: You lose important information if you filter this package's results.
+See '? untidy'</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">emtrends</span>(model_int, <span class="sc">~</span> cultivar, <span class="at">var =</span> <span class="st">"severity"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>slopes</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> cultivar   severity.trend   SE df lower.CL upper.CL
+ Suscetível          -40.9 3.32 36    -47.6   -34.18
+ Tolerante           -15.9 3.64 36    -23.2    -8.49
+
+Confidence level used: 0.95 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(slopes)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast               estimate   SE df t.ratio p.value
+ Suscetível - Tolerante      -25 4.92 36  -5.086 &lt;0.0001</code></pre>
+</div>
+</div>
+<p>É o mesmo fluxo de trabalho baseado em estimação usado para as médias de grupos no Capítulo 7, agora aplicado a taxas de variação.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando os grupos diferem em suas inclinações, comparar os grupos em um único valor de <span class="math inline">\(x\)</span> depende de qual valor é escolhido. Compare as próprias inclinações, ou compare os grupos em valores de <span class="math inline">\(x\)</span> biologicamente relevantes.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="regressão-linear-múltipla" class="level2" data-number="8.13">
+<h2 data-number="8.13" class="anchored" data-anchor-id="regressão-linear-múltipla"><span class="header-section-number">8.13</span> Regressão linear múltipla</h2>
+<section id="mais-de-uma-variável-explicativa" class="level3" data-number="8.13.1">
+<h3 data-number="8.13.1" class="anchored" data-anchor-id="mais-de-uma-variável-explicativa"><span class="header-section-number">8.13.1</span> Mais de uma variável explicativa</h3>
+<p>Muitas respostas biológicas dependem de várias variáveis quantitativas simultaneamente. A infecção, por exemplo, frequentemente depende tanto da temperatura quanto da duração do molhamento foliar <span class="citation" data-cites="carisse2020">(<a href="references.html#ref-carisse2020" role="doc-biblioref">Carisse et al. 2020</a>)</span>.</p>
+<p>Um modelo de regressão linear múltipla com duas variáveis explicativas pode ser escrito como:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \varepsilon_i
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>model_clima <span class="ot">&lt;-</span> <span class="fu">lm</span>(infection <span class="sc">~</span> temperature <span class="sc">+</span> wetness, <span class="at">data =</span> clima)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_clima)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = infection ~ temperature + wetness, data = clima)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.0148 -1.9462 -0.2487  1.8679  7.9381 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -10.41522    1.70318  -6.115 9.31e-08 ***
+temperature   0.87322    0.08826   9.893 5.57e-14 ***
+wetness       1.11869    0.11945   9.365 3.93e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.78 on 57 degrees of freedom
+Multiple R-squared:  0.8505,    Adjusted R-squared:  0.8452 
+F-statistic: 162.1 on 2 and 57 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="efeitos-parciais" class="level3" data-number="8.13.2">
+<h3 data-number="8.13.2" class="anchored" data-anchor-id="efeitos-parciais"><span class="header-section-number">8.13.2</span> Efeitos parciais</h3>
+<p>Em um modelo de regressão múltipla, cada coeficiente descreve a variação esperada da resposta para uma mudança de uma unidade naquela variável <strong>mantendo constantes as demais variáveis do modelo</strong>.</p>
+<p>É por isso que um coeficiente pode mudar, às vezes substancialmente, quando outra variável é acrescentada ao modelo ou removida dele. O coeficiente da temperatura em um modelo que contém o molhamento responde a uma pergunta diferente do coeficiente da temperatura sozinha.</p>
+</section>
+<section id="interações-entre-variáveis-quantitativas" class="level3" data-number="8.13.3">
+<h3 data-number="8.13.3" class="anchored" data-anchor-id="interações-entre-variáveis-quantitativas"><span class="header-section-number">8.13.3</span> Interações entre variáveis quantitativas</h3>
+<p>O efeito de uma variável quantitativa pode depender do valor de outra. Por exemplo, o aumento da infecção por hora adicional de molhamento pode ser maior em temperaturas favoráveis:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(infection <span class="sc">~</span> temperature <span class="sc">*</span> wetness, <span class="at">data =</span> clima)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = infection ~ temperature * wetness, data = clima)
+
+Coefficients:
+        (Intercept)          temperature              wetness  
+          -9.265518             0.818670             0.997346  
+temperature:wetness  
+           0.005603  </code></pre>
+</div>
+</div>
+<p>Com uma interação, o coeficiente do molhamento descreve seu efeito apenas quando a temperatura é igual a zero. Centralizar as variáveis explicativas torna os coeficientes dos efeitos principais interpretáveis em valores típicos.</p>
+</section>
+<section id="colinearidade" class="level3" data-number="8.13.4">
+<h3 data-number="8.13.4" class="anchored" data-anchor-id="colinearidade"><span class="header-section-number">8.13.4</span> Colinearidade</h3>
+<p>Quando as variáveis explicativas estão fortemente correlacionadas entre si, o modelo não consegue separar suas contribuições individuais. Os coeficientes tornam-se imprecisos e instáveis, e seus sinais podem até parecer biologicamente implausíveis.</p>
+<p>A colinearidade é comum com variáveis meteorológicas: temperatura, umidade relativa, déficit de pressão de vapor e molhamento foliar frequentemente variam juntos.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(clima[, <span class="fu">c</span>(<span class="st">"temperature"</span>, <span class="st">"humidity"</span>, <span class="st">"wetness"</span>)])</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            temperature  humidity   wetness
+temperature   1.0000000 0.3085412 0.4277422
+humidity      0.3085412 1.0000000 0.7570720
+wetness       0.4277422 0.7570720 1.0000000</code></pre>
+</div>
+</div>
+<p>A colinearidade é principalmente uma propriedade dos dados e do delineamento do estudo, e não algo que um teste estatístico possa corrigir. Experimentos que variam os fatores de forma independente a evitam; estudos observacionais precisam reconhecê-la.</p>
+</section>
+<section id="escolhendo-as-variáveis-explicativas" class="level3" data-number="8.13.5">
+<h3 data-number="8.13.5" class="anchored" data-anchor-id="escolhendo-as-variáveis-explicativas"><span class="header-section-number">8.13.5</span> Escolhendo as variáveis explicativas</h3>
+<p>As variáveis incluídas em um modelo devem decorrer da questão biológica e do conhecimento do sistema, especificadas antes da análise sempre que possível.</p>
+<p>Procedimentos automáticos que acrescentam e removem variáveis com base em valores-P (seleção <em>stepwise</em>) tendem a produzir modelos que se ajustam bem ao conjunto de dados atual, mas generalizam mal, com precisão superestimada. São especialmente problemáticos quando há muitas variáveis meteorológicas candidatas e poucas observações.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Modelos construídos para <strong>explicar</strong> um processo biológico e modelos construídos para <strong>prever</strong> um desfecho têm objetivos diferentes. Para explicar, escolha as variáveis com base no raciocínio biológico; para prever, avalie o desempenho em dados que não foram usados para ajustar o modelo.</p>
+</div>
+</div>
+<!--
+Predição e validação podem ser tratadas brevemente aqui
+e expandidas em um capítulo posterior ou apêndice (por exemplo, previsão de doenças).
+-->
+</section>
+</section>
+<section id="dados-de-vários-experimentos-ou-locais" class="level2" data-number="8.14">
+<h2 data-number="8.14" class="anchored" data-anchor-id="dados-de-vários-experimentos-ou-locais"><span class="header-section-number">8.14</span> Dados de vários experimentos ou locais</h2>
+<p>As relações são frequentemente estimadas combinando dados de várias lavouras, anos ou experimentos repetidos, cada um contribuindo com várias observações. Observações do mesmo experimento compartilham condições e não são independentes.</p>
+<p>Reunir todas as observações em uma única regressão ignora essa estrutura. Isso pode superestimar a precisão e confundir a relação <strong>dentro</strong> dos experimentos com as diferenças <strong>entre</strong> experimentos.</p>
+<p>Um primeiro passo útil é ajustar e representar graficamente a relação separadamente para cada experimento. Modelos que estimam uma relação geral levando em conta a variação entre experimentos, como os modelos mistos com interceptos e inclinações aleatórios, são o arcabouço adequado para esses dados.</p>
+<!--
+Decidir até onde ir com modelos mistos neste livro.
+No mínimo: mostrar lmer(yield ~ severity + (severity | site)) conceitualmente.
+-->
+</section>
+<section id="regressão-ou-correlação" class="level2" data-number="8.15">
+<h2 data-number="8.15" class="anchored" data-anchor-id="regressão-ou-correlação"><span class="header-section-number">8.15</span> Regressão ou correlação?</h2>
+<div id="tbl-ch8-regression-correlation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch8-regression-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;8.1: Escolhendo entre correlação e regressão.
+</figcaption>
+<div aria-describedby="tbl-ch8-regression-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Questão</th>
+<th>Ferramenta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Quão fortemente duas variáveis estão linearmente associadas?</td>
+<td>Correlação</td>
+</tr>
+<tr class="even">
+<td>Quanto a resposta muda por unidade da variável explicativa?</td>
+<td>Inclinação da regressão</td>
+</tr>
+<tr class="odd">
+<td>Que resposta se espera em determinado valor de <span class="math inline">\(x\)</span>?</td>
+<td>Predição pela regressão</td>
+</tr>
+<tr class="even">
+<td>Dois métodos de medida concordam?</td>
+<td>Análise de concordância (não correlação)</td>
+</tr>
+<tr class="odd">
+<td>A relação difere entre grupos?</td>
+<td>Regressão com interação</td>
+</tr>
+<tr class="even">
+<td>Quais são as contribuições separadas de várias variáveis?</td>
+<td>Regressão múltipla</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Na maioria dos estudos em Fitopatologia, a questão envolve uma taxa de variação, o que torna a regressão a ferramenta mais informativa.</p>
+</section>
+<section id="pesquisa-na-prática-estimando-a-perda-de-produtividade-causada-pela-doença" class="level2" data-number="8.16">
+<h2 data-number="8.16" class="anchored" data-anchor-id="pesquisa-na-prática-estimando-a-perda-de-produtividade-causada-pela-doença"><span class="header-section-number">8.16</span> Pesquisa na prática: estimando a perda de produtividade causada pela doença</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Quanto de produtividade a doença retira?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Quanto de produtividade a doença retira?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere um conjunto de ensaios de campo em que a severidade da doença foi medida em um estádio-chave da cultura e a produtividade foi medida na colheita, com a severidade variando entre parcelas por causa de diferentes programas de fungicida.</p>
+<p>A questão científica não é simplesmente:</p>
+<blockquote class="blockquote">
+<p>A produtividade está correlacionada com a severidade da doença?</p>
+</blockquote>
+<p>Em vez disso, pergunte:</p>
+<ol type="1">
+<li>Quantos quilogramas por hectare se perdem por ponto percentual de severidade?</li>
+<li>Qual é a produtividade atingível na ausência da doença?</li>
+<li>Qual é a perda relativa, expressa como porcentagem da produtividade atingível?</li>
+<li>Quão incertas são essas estimativas?</li>
+<li>A relação é linear ao longo da faixa de severidade observada?</li>
+<li>A inclinação difere entre cultivares, locais ou anos?</li>
+<li>Em que faixa de severidade a relação pode ser aplicada?</li>
+</ol>
+<p>As respostas a essas perguntas são o que permite que uma relação de perda de produtividade oriente decisões econômicas sobre o manejo da doença.</p>
+</div>
+</div>
+<!--
+Escolher um conjunto de dados real (por exemplo, ferrugem da soja, brusone do trigo ou
+giberela) de produtividade e severidade e substituir o exemplo simulado.
+-->
+</section>
+<section id="um-fluxo-de-trabalho-prático-para-estudar-relações" class="level2" data-number="8.17">
+<h2 data-number="8.17" class="anchored" data-anchor-id="um-fluxo-de-trabalho-prático-para-estudar-relações"><span class="header-section-number">8.17</span> Um fluxo de trabalho prático para estudar relações</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter8-5" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter8-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-6eb122636fe35f42dbf8" style="width:100%;height:832px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6eb122636fe35f42dbf8">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 5, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Identificar a resposta e as<br/>variáveis explicativas<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Identificar o delineamento<br/>(experimental ou observacional)<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Definir o estimando<br/>(geralmente uma inclinação)<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Visualizar as observações e<br/>a estrutura dos dados<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Ajustar o modelo<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Avaliar a linearidade e os<br/>demais pressupostos<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n8 [label = <<font color=\"#24301f\"><b>Examinar as observações influentes<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n9 [label = <<font color=\"#24301f\"><b>Estimar as inclinações e<br/>quantificar a incerteza<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n10 [label = <<font color=\"#24301f\"><b>Interpretar dentro da faixa observada<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n11 [label = <<font color=\"#24301f\"><b>Interpretar a importância biológica<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7 -> n8 -> n9 -> n10 -> n11\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter8-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8.2: Fluxo de trabalho para estudar relações entre variáveis.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="relatando-relações" class="level2" data-number="8.18">
+<h2 data-number="8.18" class="anchored" data-anchor-id="relatando-relações"><span class="header-section-number">8.18</span> Relatando relações</h2>
+<p>Um bom enunciado de resultados geralmente inclui:</p>
+<section id="que-relação-foi-estudada" class="level3" data-number="8.18.1">
+<h3 data-number="8.18.1" class="anchored" data-anchor-id="que-relação-foi-estudada"><span class="header-section-number">8.18.1</span> Que relação foi estudada?</h3>
+<p>Nomeie a resposta, a variável explicativa e suas unidades.</p>
+</section>
+<section id="direção-e-magnitude" class="level3" data-number="8.18.2">
+<h3 data-number="8.18.2" class="anchored" data-anchor-id="direção-e-magnitude"><span class="header-section-number">8.18.2</span> Direção e magnitude</h3>
+<p>Relate a inclinação estimada em unidades biológicas.</p>
+</section>
+<section id="incerteza" class="level3" data-number="8.18.3">
+<h3 data-number="8.18.3" class="anchored" data-anchor-id="incerteza"><span class="header-section-number">8.18.3</span> Incerteza</h3>
+<p>Relate um intervalo de confiança para a inclinação.</p>
+</section>
+<section id="amplitude-dos-dados" class="level3" data-number="8.18.4">
+<h3 data-number="8.18.4" class="anchored" data-anchor-id="amplitude-dos-dados"><span class="header-section-number">8.18.4</span> Amplitude dos dados</h3>
+<p>Informe a faixa da variável explicativa em que a relação foi estimada.</p>
+</section>
+<section id="ajuste-e-adequação" class="level3" data-number="8.18.5">
+<h3 data-number="8.18.5" class="anchored" data-anchor-id="ajuste-e-adequação"><span class="header-section-number">8.18.5</span> Ajuste e adequação</h3>
+<p>Relate o <span class="math inline">\(R^2\)</span> ou a variabilidade residual como descrição da dispersão, junto com uma afirmação sobre a adequação do modelo linear.</p>
+</section>
+<section id="interpretação-biológica" class="level3" data-number="8.18.6">
+<h3 data-number="8.18.6" class="anchored" data-anchor-id="interpretação-biológica"><span class="header-section-number">8.18.6</span> Interpretação biológica</h3>
+<p>Explique o que a taxa de variação estimada significa para o sistema.</p>
+<p>Em vez de:</p>
+<blockquote class="blockquote">
+<p>A produtividade foi significativamente correlacionada com a severidade (r = −0,92, P &lt; 0,001).</p>
+</blockquote>
+<p>prefira algo como:</p>
+<blockquote class="blockquote">
+<p>A produtividade diminuiu 36,2 kg/ha (IC 95%: 31,2 a 41,2 kg/ha) para cada ponto percentual de severidade entre 0 e 60%, a partir de uma produtividade atingível estimada de 4.184 kg/ha, o que corresponde a uma perda de 0,87% da produtividade atingível por ponto percentual de severidade.</p>
+</blockquote>
+<p>Esses números vêm do exemplo simulado da seção “Um exemplo simples” (saídas de <code>summary(model)</code> e <code>confint(model)</code>).</p>
+</section>
+</section>
+<section id="erros-comuns" class="level2" data-number="8.19">
+<h2 data-number="8.19" class="anchored" data-anchor-id="erros-comuns"><span class="header-section-number">8.19</span> Erros comuns</h2>
+<section id="ajustar-uma-reta-sem-olhar-o-gráfico-de-dispersão" class="level3" data-number="8.19.1">
+<h3 data-number="8.19.1" class="anchored" data-anchor-id="ajustar-uma-reta-sem-olhar-o-gráfico-de-dispersão"><span class="header-section-number">8.19.1</span> Ajustar uma reta sem olhar o gráfico de dispersão</h3>
+<p>Curvaturas, valores discrepantes e agrupamentos são invisíveis nas estatísticas-resumo.</p>
+</section>
+<section id="relatar-apenas-r-ou-r²" class="level3" data-number="8.19.2">
+<h3 data-number="8.19.2" class="anchored" data-anchor-id="relatar-apenas-r-ou-r²"><span class="header-section-number">8.19.2</span> Relatar apenas r ou R²</h3>
+<p>Nenhuma dessas grandezas diz ao leitor quanto a resposta muda.</p>
+</section>
+<section id="interpretar-correlação-como-causalidade" class="level3" data-number="8.19.3">
+<h3 data-number="8.19.3" class="anchored" data-anchor-id="interpretar-correlação-como-causalidade"><span class="header-section-number">8.19.3</span> Interpretar correlação como causalidade</h3>
+<p>Associações observacionais podem refletir variáveis de confundimento.</p>
+</section>
+<section id="usar-a-correlação-para-avaliar-a-concordância-entre-métodos" class="level3" data-number="8.19.4">
+<h3 data-number="8.19.4" class="anchored" data-anchor-id="usar-a-correlação-para-avaliar-a-concordância-entre-métodos"><span class="header-section-number">8.19.4</span> Usar a correlação para avaliar a concordância entre métodos</h3>
+<p>Métodos perfeitamente correlacionados podem discordar sistematicamente.</p>
+</section>
+<section id="relatar-inclinações-sem-unidades" class="level3" data-number="8.19.5">
+<h3 data-number="8.19.5" class="anchored" data-anchor-id="relatar-inclinações-sem-unidades"><span class="header-section-number">8.19.5</span> Relatar inclinações sem unidades</h3>
+<p>Uma inclinação só tem significado com as unidades das duas variáveis.</p>
+</section>
+<section id="interpretar-um-intercepto-muito-fora-dos-dados" class="level3" data-number="8.19.6">
+<h3 data-number="8.19.6" class="anchored" data-anchor-id="interpretar-um-intercepto-muito-fora-dos-dados"><span class="header-section-number">8.19.6</span> Interpretar um intercepto muito fora dos dados</h3>
+<p>O intercepto pode corresponder a condições impossíveis.</p>
+</section>
+<section id="confundir-intervalos-de-confiança-e-de-predição" class="level3" data-number="8.19.7">
+<h3 data-number="8.19.7" class="anchored" data-anchor-id="confundir-intervalos-de-confiança-e-de-predição"><span class="header-section-number">8.19.7</span> Confundir intervalos de confiança e de predição</h3>
+<p>A faixa de confiança da média é muito mais estreita do que a incerteza para observações individuais.</p>
+</section>
+<section id="extrapolar-além-dos-dados-observados" class="level3" data-number="8.19.8">
+<h3 data-number="8.19.8" class="anchored" data-anchor-id="extrapolar-além-dos-dados-observados"><span class="header-section-number">8.19.8</span> Extrapolar além dos dados observados</h3>
+<p>A relação fora da faixa observada é desconhecida.</p>
+</section>
+<section id="ignorar-observações-influentes" class="level3" data-number="8.19.9">
+<h3 data-number="8.19.9" class="anchored" data-anchor-id="ignorar-observações-influentes"><span class="header-section-number">8.19.9</span> Ignorar observações influentes</h3>
+<p>Um único ponto extremo pode determinar a inclinação.</p>
+</section>
+<section id="reunir-dados-de-vários-experimentos-como-observações-independentes" class="level3" data-number="8.19.10">
+<h3 data-number="8.19.10" class="anchored" data-anchor-id="reunir-dados-de-vários-experimentos-como-observações-independentes"><span class="header-section-number">8.19.10</span> Reunir dados de vários experimentos como observações independentes</h3>
+<p>Isso superestima a precisão e pode misturar relações dentro e entre experimentos.</p>
+</section>
+<section id="interpretar-coeficientes-de-regressão-múltipla-como-efeitos-simples" class="level3" data-number="8.19.11">
+<h3 data-number="8.19.11" class="anchored" data-anchor-id="interpretar-coeficientes-de-regressão-múltipla-como-efeitos-simples"><span class="header-section-number">8.19.11</span> Interpretar coeficientes de regressão múltipla como efeitos simples</h3>
+<p>Cada coeficiente é condicional às demais variáveis do modelo.</p>
+</section>
+<section id="selecionar-variáveis-automaticamente" class="level3" data-number="8.19.12">
+<h3 data-number="8.19.12" class="anchored" data-anchor-id="selecionar-variáveis-automaticamente"><span class="header-section-number">8.19.12</span> Selecionar variáveis automaticamente</h3>
+<p>Procedimentos <em>stepwise</em> produzem modelos otimistas e instáveis.</p>
+</section>
+<section id="forçar-uma-reta-sobre-uma-relação-curva" class="level3" data-number="8.19.13">
+<h3 data-number="8.19.13" class="anchored" data-anchor-id="forçar-uma-reta-sobre-uma-relação-curva"><span class="header-section-number">8.19.13</span> Forçar uma reta sobre uma relação curva</h3>
+<p>Muitas respostas biológicas são não lineares (Capítulo 9).</p>
+</section>
+</section>
+<section id="lista-de-verificação-para-a-análise-de-relações" class="level2" data-number="8.20">
+<h2 data-number="8.20" class="anchored" data-anchor-id="lista-de-verificação-para-a-análise-de-relações"><span class="header-section-number">8.20</span> Lista de verificação para a análise de relações</h2>
+<p>Antes de interpretar uma relação entre variáveis, pergunte:</p>
+<ol type="1">
+<li>Que questão biológica está sendo abordada?</li>
+<li>Qual variável é a resposta e qual é a explicativa?</li>
+<li>A variável explicativa foi controlada experimentalmente ou observada?</li>
+<li>Quais são as unidades das duas variáveis?</li>
+<li>O que o gráfico de dispersão mostra?</li>
+<li>A relação é aproximadamente linear na faixa observada?</li>
+<li>As observações são independentes, ou vêm de grupos, locais ou medidas repetidas?</li>
+<li>Há observações influentes?</li>
+<li>Qual é a inclinação estimada e o que ela significa biologicamente?</li>
+<li>Quão incerta é a inclinação?</li>
+<li>O intercepto tem significado?</li>
+<li>O objetivo é estimar uma resposta média ou prever novas observações?</li>
+<li>A relação difere entre grupos?</li>
+<li>As variáveis explicativas estão correlacionadas entre si?</li>
+<li>A conclusão permanece dentro da faixa e do escopo dos dados?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="8.21">
+<h2 data-number="8.21" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">8.21</span> Resumo do capítulo</h2>
+<p>Muitas questões em Fitopatologia dizem respeito a como uma variável quantitativa muda com outra: como a produtividade diminui com a doença, como as lesões crescem com a temperatura ou como a infecção aumenta com o molhamento foliar. A correlação descreve a intensidade de uma associação linear, mas não quantifica a taxa de variação, não estabelece causalidade nem demonstra concordância entre métodos de medida.</p>
+<p>A regressão linear estende o arcabouço do modelo linear do Capítulo 7 a variáveis explicativas quantitativas. Sua estimativa central, a inclinação, expressa a variação esperada da resposta por unidade da variável explicativa e deve ser relatada em unidades biológicas, com sua incerteza. Uma interpretação confiável exige examinar os dados, verificar a linearidade e as observações influentes, distinguir intervalos de confiança de intervalos de predição, respeitar a faixa dos dados e levar em conta a estrutura das observações. Combinar preditores quantitativos e categóricos permite comparar relações entre grupos, e a regressão múltipla permite considerar várias variáveis explicativas simultaneamente, desde que os coeficientes sejam interpretados como efeitos parciais e as variáveis sejam escolhidas com base no raciocínio biológico.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="8.22">
+<h2 data-number="8.22" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">8.22</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>variável resposta;</li>
+<li>variável explicativa;</li>
+<li>gráfico de dispersão;</li>
+<li>associação;</li>
+<li>confundimento;</li>
+<li>correlação de Pearson;</li>
+<li>correlação de Spearman;</li>
+<li>concordância;</li>
+<li>linha de igualdade;</li>
+<li>regressão linear simples;</li>
+<li>intercepto;</li>
+<li>inclinação;</li>
+<li>mínimos quadrados;</li>
+<li>resíduo;</li>
+<li>centralização;</li>
+<li>intervalo de confiança da resposta média;</li>
+<li>intervalo de predição;</li>
+<li>coeficiente de determinação;</li>
+<li>linearidade;</li>
+<li>alavancagem;</li>
+<li>observação influente;</li>
+<li>extrapolação;</li>
+<li>interação entre uma variável quantitativa e uma categórica;</li>
+<li>regressão linear múltipla;</li>
+<li>efeito parcial;</li>
+<li>colinearidade.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="8.23">
+<h2 data-number="8.23" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">8.23</span> Exercícios</h2>
+<section id="exercício-1.-qual-é-a-relação" class="level3" data-number="8.23.1">
+<h3 data-number="8.23.1" class="anchored" data-anchor-id="exercício-1.-qual-é-a-relação"><span class="header-section-number">8.23.1</span> Exercício 1. Qual é a relação?</h3>
+<p>Para cada questão biológica, identifique:</p>
+<ol type="1">
+<li>a variável resposta e suas unidades;</li>
+<li>a variável explicativa e suas unidades;</li>
+<li>se a variável explicativa é controlada ou observada;</li>
+<li>o estimando de interesse;</li>
+<li>a faixa da variável explicativa em que as conclusões se aplicam.</li>
+</ol>
+<p>Use questões como:</p>
+<ul>
+<li>Quanto a produtividade diminui à medida que a severidade da doença aumenta?</li>
+<li>O tamanho da lesão aumenta com a temperatura?</li>
+<li>A densidade de esporos no ar está associada à incidência posterior da doença?</li>
+</ul>
+</section>
+<section id="exercício-2.-olhe-antes-de-ajustar" class="level3" data-number="8.23.2">
+<h3 data-number="8.23.2" class="anchored" data-anchor-id="exercício-2.-olhe-antes-de-ajustar"><span class="header-section-number">8.23.2</span> Exercício 2. Olhe antes de ajustar</h3>
+<p>Usando o quarteto de Anscombe (<code>anscombe</code> no R):</p>
+<ol type="1">
+<li>calcule a média, o desvio padrão e a correlação de cada conjunto de dados;</li>
+<li>ajuste uma regressão linear a cada conjunto;</li>
+<li>represente cada conjunto com sua reta ajustada;</li>
+<li>explique quais conjuntos são adequadamente descritos por uma reta.</li>
+</ol>
+</section>
+<section id="exercício-3.-perda-de-produtividade" class="level3" data-number="8.23.3">
+<h3 data-number="8.23.3" class="anchored" data-anchor-id="exercício-3.-perda-de-produtividade"><span class="header-section-number">8.23.3</span> Exercício 3. Perda de produtividade</h3>
+<p>Usando um conjunto de dados de produtividade e severidade fornecido pelo professor:</p>
+<ol type="1">
+<li>represente os dados graficamente;</li>
+<li>ajuste uma regressão linear simples;</li>
+<li>interprete o intercepto e a inclinação em unidades biológicas;</li>
+<li>calcule a perda relativa de produtividade por ponto percentual de severidade;</li>
+<li>calcule intervalos de confiança para a inclinação;</li>
+<li>examine os gráficos de diagnóstico e identifique observações influentes.</li>
+</ol>
+</section>
+<section id="exercício-4.-confiança-ou-predição" class="level3" data-number="8.23.4">
+<h3 data-number="8.23.4" class="anchored" data-anchor-id="exercício-4.-confiança-ou-predição"><span class="header-section-number">8.23.4</span> Exercício 4. Confiança ou predição?</h3>
+<p>Usando o modelo do Exercício 3, calcule um intervalo de confiança e um intervalo de predição para a produtividade com 10% e com 40% de severidade. Explique qual intervalo um produtor deveria usar para antecipar a produtividade de uma lavoura específica, e por quê.</p>
+</section>
+<section id="exercício-5.-concordância-entre-métodos" class="level3" data-number="8.23.5">
+<h3 data-number="8.23.5" class="anchored" data-anchor-id="exercício-5.-concordância-entre-métodos"><span class="header-section-number">8.23.5</span> Exercício 5. Concordância entre métodos</h3>
+<p>Dois avaliadores estimaram a severidade da doença no mesmo conjunto de folhas.</p>
+<ol type="1">
+<li>calcule a correlação entre os avaliadores;</li>
+<li>represente suas estimativas junto com a linha de igualdade;</li>
+<li>determine se um avaliador superestima ou subestima sistematicamente em relação ao outro;</li>
+<li>explique por que uma correlação alta não é evidência suficiente de concordância.</li>
+</ol>
+</section>
+<section id="exercício-6.-inclinações-diferentes" class="level3" data-number="8.23.6">
+<h3 data-number="8.23.6" class="anchored" data-anchor-id="exercício-6.-inclinações-diferentes"><span class="header-section-number">8.23.6</span> Exercício 6. Inclinações diferentes</h3>
+<p>A produtividade e a severidade foram medidas em duas cultivares.</p>
+<ol type="1">
+<li>represente os dados por cultivar;</li>
+<li>ajuste um modelo que permita inclinações diferentes;</li>
+<li>estime a inclinação de cada cultivar e a diferença entre elas;</li>
+<li>interprete o resultado biologicamente. Uma cultivar é mais tolerante à doença?</li>
+</ol>
+</section>
+<section id="exercício-7.-avaliação-de-um-artigo-publicado" class="level3" data-number="8.23.7">
+<h3 data-number="8.23.7" class="anchored" data-anchor-id="exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">8.23.7</span> Exercício 7. Avaliação de um artigo publicado</h3>
+<p>Escolha um artigo recente de Fitopatologia que relate uma correlação ou regressão.</p>
+<p>Identifique:</p>
+<ol type="1">
+<li>a resposta e as variáveis explicativas;</li>
+<li>se o estudo foi experimental ou observacional;</li>
+<li>se os dados foram mostrados em um gráfico de dispersão;</li>
+<li>se foi relatada uma inclinação com unidades;</li>
+<li>se foi relatada a incerteza da inclinação;</li>
+<li>se os autores se basearam principalmente em r, R² ou valores-P;</li>
+<li>se a relação foi aplicada além da faixa dos dados;</li>
+<li>se a linguagem causal era justificada pelo delineamento.</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="8.24">
+<h2 data-number="8.24" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">8.24</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Uma correlação nos diz que duas variáveis se movem juntas. Uma inclinação nos diz em quanto.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="8.25">
+<h2 data-number="8.25" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">8.25</span> Próximos passos</h2>
+<p>Retas são aproximações úteis, mas muitas respostas biológicas não são lineares. O crescimento de um fungo pode atingir o máximo em uma temperatura ótima, a inibição de um patógeno pode aumentar com a dose do fungicida segundo uma curva em forma de S, e a doença pode aumentar rapidamente antes de atingir um platô. O Capítulo 9 apresenta modelos não lineares cujos parâmetros, como a concentração efetiva que inibe o crescimento em 50% (CE<sub>50</sub>), têm significado biológico direto.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-carisse2020" class="csl-entry" role="listitem">
+Carisse, O., Levasseur, A., e Provost, C. 2020. Influence of Leaf Wetness Duration and Temperature on Infection of Grape Leaves by <span>Elsinoë ampelina</span> under Controlled and Vineyard Conditions. Plant Disease 104:2817–2822. <a href="https://doi.org/10.1094/PDIS-02-20-0262-RE">https://doi.org/10.1094/PDIS-02-20-0262-RE</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter7.html" class="pagination-link" aria-label="Comparação de grupos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter9.html" class="pagination-link" aria-label="Respostas não lineares">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

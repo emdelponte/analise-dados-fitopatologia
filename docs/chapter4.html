@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; O que os dados revelam? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter5.html" rel="next">
+<link href="./chapter3.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter4.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">4.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-explorar-os-dados" id="toc-por-que-explorar-os-dados" class="nav-link" data-scroll-target="#por-que-explorar-os-dados"><span class="header-section-number">4.2</span> Por que explorar os dados?</a></li>
+  <li><a href="#análise-exploratória-versus-confirmatória" id="toc-análise-exploratória-versus-confirmatória" class="nav-link" data-scroll-target="#análise-exploratória-versus-confirmatória"><span class="header-section-number">4.3</span> Análise exploratória versus confirmatória</a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-análise-exploratória-de-dados" id="toc-o-que-é-análise-exploratória-de-dados" class="nav-link" data-scroll-target="#o-que-é-análise-exploratória-de-dados"><span class="header-section-number">4.3.1</span> O que é análise exploratória de dados?</a></li>
+  <li><a href="#o-que-é-análise-confirmatória" id="toc-o-que-é-análise-confirmatória" class="nav-link" data-scroll-target="#o-que-é-análise-confirmatória"><span class="header-section-number">4.3.2</span> O que é análise confirmatória?</a></li>
+  <li><a href="#por-que-ambas-são-necessárias" id="toc-por-que-ambas-são-necessárias" class="nav-link" data-scroll-target="#por-que-ambas-são-necessárias"><span class="header-section-number">4.3.3</span> Por que ambas são necessárias</a></li>
+  </ul></li>
+  <li><a href="#conhecendo-o-seu-conjunto-de-dados" id="toc-conhecendo-o-seu-conjunto-de-dados" class="nav-link" data-scroll-target="#conhecendo-o-seu-conjunto-de-dados"><span class="header-section-number">4.4</span> Conhecendo o seu conjunto de dados</a>
+  <ul class="collapse">
+  <li><a href="#dimensões-do-conjunto-de-dados" id="toc-dimensões-do-conjunto-de-dados" class="nav-link" data-scroll-target="#dimensões-do-conjunto-de-dados"><span class="header-section-number">4.4.1</span> Dimensões do conjunto de dados</a></li>
+  <li><a href="#nomes-das-variáveis" id="toc-nomes-das-variáveis" class="nav-link" data-scroll-target="#nomes-das-variáveis"><span class="header-section-number">4.4.2</span> Nomes das variáveis</a></li>
+  <li><a href="#classes-das-variáveis" id="toc-classes-das-variáveis" class="nav-link" data-scroll-target="#classes-das-variáveis"><span class="header-section-number">4.4.3</span> Classes das variáveis</a></li>
+  <li><a href="#valores-perdidos" id="toc-valores-perdidos" class="nav-link" data-scroll-target="#valores-perdidos"><span class="header-section-number">4.4.4</span> Valores perdidos</a></li>
+  <li><a href="#primeiros-resumos" id="toc-primeiros-resumos" class="nav-link" data-scroll-target="#primeiros-resumos"><span class="header-section-number">4.4.5</span> Primeiros resumos</a></li>
+  </ul></li>
+  <li><a href="#explorando-uma-variável" id="toc-explorando-uma-variável" class="nav-link" data-scroll-target="#explorando-uma-variável"><span class="header-section-number">4.5</span> Explorando uma variável</a>
+  <ul class="collapse">
+  <li><a href="#resumos-numéricos" id="toc-resumos-numéricos" class="nav-link" data-scroll-target="#resumos-numéricos"><span class="header-section-number">4.5.1</span> Resumos numéricos</a></li>
+  <li><a href="#distribuição" id="toc-distribuição" class="nav-link" data-scroll-target="#distribuição"><span class="header-section-number">4.5.2</span> Distribuição</a></li>
+  <li><a href="#valores-discrepantes" id="toc-valores-discrepantes" class="nav-link" data-scroll-target="#valores-discrepantes"><span class="header-section-number">4.5.3</span> Valores discrepantes</a></li>
+  <li><a href="#valores-perdidos-1" id="toc-valores-perdidos-1" class="nav-link" data-scroll-target="#valores-perdidos-1"><span class="header-section-number">4.5.4</span> Valores perdidos</a></li>
+  </ul></li>
+  <li><a href="#explorando-relações" id="toc-explorando-relações" class="nav-link" data-scroll-target="#explorando-relações"><span class="header-section-number">4.6</span> Explorando relações</a>
+  <ul class="collapse">
+  <li><a href="#contínua-versus-contínua" id="toc-contínua-versus-contínua" class="nav-link" data-scroll-target="#contínua-versus-contínua"><span class="header-section-number">4.6.1</span> Contínua versus contínua</a></li>
+  <li><a href="#contínua-versus-categórica" id="toc-contínua-versus-categórica" class="nav-link" data-scroll-target="#contínua-versus-categórica"><span class="header-section-number">4.6.2</span> Contínua versus categórica</a></li>
+  <li><a href="#categórica-versus-categórica" id="toc-categórica-versus-categórica" class="nav-link" data-scroll-target="#categórica-versus-categórica"><span class="header-section-number">4.6.3</span> Categórica versus categórica</a></li>
+  <li><a href="#o-tempo-como-variável" id="toc-o-tempo-como-variável" class="nav-link" data-scroll-target="#o-tempo-como-variável"><span class="header-section-number">4.6.4</span> O tempo como variável</a></li>
+  </ul></li>
+  <li><a href="#padrões-que-merecem-investigação" id="toc-padrões-que-merecem-investigação" class="nav-link" data-scroll-target="#padrões-que-merecem-investigação"><span class="header-section-number">4.7</span> Padrões que merecem investigação</a>
+  <ul class="collapse">
+  <li><a href="#tendências" id="toc-tendências" class="nav-link" data-scroll-target="#tendências"><span class="header-section-number">4.7.1</span> Tendências</a></li>
+  <li><a href="#agrupamentos" id="toc-agrupamentos" class="nav-link" data-scroll-target="#agrupamentos"><span class="header-section-number">4.7.2</span> Agrupamentos</a></li>
+  <li><a href="#gradientes" id="toc-gradientes" class="nav-link" data-scroll-target="#gradientes"><span class="header-section-number">4.7.3</span> Gradientes</a></li>
+  <li><a href="#interações" id="toc-interações" class="nav-link" data-scroll-target="#interações"><span class="header-section-number">4.7.4</span> Interações</a></li>
+  <li><a href="#valores-discrepantes-1" id="toc-valores-discrepantes-1" class="nav-link" data-scroll-target="#valores-discrepantes-1"><span class="header-section-number">4.7.5</span> Valores discrepantes</a></li>
+  <li><a href="#erros-de-digitação" id="toc-erros-de-digitação" class="nav-link" data-scroll-target="#erros-de-digitação"><span class="header-section-number">4.7.6</span> Erros de digitação</a></li>
+  <li><a href="#observações-inesperadas" id="toc-observações-inesperadas" class="nav-link" data-scroll-target="#observações-inesperadas"><span class="header-section-number">4.7.7</span> Observações inesperadas</a></li>
+  </ul></li>
+  <li><a href="#interpretação-biológica" id="toc-interpretação-biológica" class="nav-link" data-scroll-target="#interpretação-biológica"><span class="header-section-number">4.8</span> Interpretação biológica</a>
+  <ul class="collapse">
+  <li><a href="#padrões-estatísticos-versus-significado-biológico" id="toc-padrões-estatísticos-versus-significado-biológico" class="nav-link" data-scroll-target="#padrões-estatísticos-versus-significado-biológico"><span class="header-section-number">4.8.1</span> Padrões estatísticos versus significado biológico</a></li>
+  <li><a href="#fazendo-novas-perguntas" id="toc-fazendo-novas-perguntas" class="nav-link" data-scroll-target="#fazendo-novas-perguntas"><span class="header-section-number">4.8.2</span> Fazendo novas perguntas</a></li>
+  <li><a href="#gerando-hipóteses" id="toc-gerando-hipóteses" class="nav-link" data-scroll-target="#gerando-hipóteses"><span class="header-section-number">4.8.3</span> Gerando hipóteses</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática" id="toc-pesquisa-na-prática" class="nav-link" data-scroll-target="#pesquisa-na-prática"><span class="header-section-number">4.9</span> Pesquisa na prática</a></li>
+  <li><a href="#erros-comuns" id="toc-erros-comuns" class="nav-link" data-scroll-target="#erros-comuns"><span class="header-section-number">4.10</span> Erros comuns</a>
+  <ul class="collapse">
+  <li><a href="#ignorar-os-valores-perdidos" id="toc-ignorar-os-valores-perdidos" class="nav-link" data-scroll-target="#ignorar-os-valores-perdidos"><span class="header-section-number">4.10.1</span> Ignorar os valores perdidos</a></li>
+  <li><a href="#ignorar-os-valores-discrepantes" id="toc-ignorar-os-valores-discrepantes" class="nav-link" data-scroll-target="#ignorar-os-valores-discrepantes"><span class="header-section-number">4.10.2</span> Ignorar os valores discrepantes</a></li>
+  <li><a href="#tratar-erros-como-biologia" id="toc-tratar-erros-como-biologia" class="nav-link" data-scroll-target="#tratar-erros-como-biologia"><span class="header-section-number">4.10.3</span> Tratar erros como biologia</a></li>
+  <li><a href="#ir-direto-aos-testes-de-hipóteses" id="toc-ir-direto-aos-testes-de-hipóteses" class="nav-link" data-scroll-target="#ir-direto-aos-testes-de-hipóteses"><span class="header-section-number">4.10.4</span> Ir direto aos testes de hipóteses</a></li>
+  <li><a href="#olhar-apenas-os-valores-p" id="toc-olhar-apenas-os-valores-p" class="nav-link" data-scroll-target="#olhar-apenas-os-valores-p"><span class="header-section-number">4.10.5</span> Olhar apenas os valores-P</a></li>
+  </ul></li>
+  <li><a href="#um-fluxo-de-trabalho-para-a-análise-exploratória" id="toc-um-fluxo-de-trabalho-para-a-análise-exploratória" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-para-a-análise-exploratória"><span class="header-section-number">4.11</span> Um fluxo de trabalho para a análise exploratória</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">4.12</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">4.13</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">4.14</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-conhecendo-um-conjunto-de-dados" id="toc-exercício-1.-conhecendo-um-conjunto-de-dados" class="nav-link" data-scroll-target="#exercício-1.-conhecendo-um-conjunto-de-dados"><span class="header-section-number">4.14.1</span> Exercício 1. Conhecendo um conjunto de dados</a></li>
+  <li><a href="#exercício-2.-da-exploração-às-perguntas" id="toc-exercício-2.-da-exploração-às-perguntas" class="nav-link" data-scroll-target="#exercício-2.-da-exploração-às-perguntas"><span class="header-section-number">4.14.2</span> Exercício 2. Da exploração às perguntas</a></li>
+  <li><a href="#exercício-3.-detectando-erros-de-digitação" id="toc-exercício-3.-detectando-erros-de-digitação" class="nav-link" data-scroll-target="#exercício-3.-detectando-erros-de-digitação"><span class="header-section-number">4.14.3</span> Exercício 3. Detectando erros de digitação</a></li>
+  <li><a href="#exercício-4.-comparando-a-variabilidade" id="toc-exercício-4.-comparando-a-variabilidade" class="nav-link" data-scroll-target="#exercício-4.-comparando-a-variabilidade"><span class="header-section-number">4.14.4</span> Exercício 4. Comparando a variabilidade</a></li>
+  <li><a href="#exercício-5.-interpretando-uma-figura-exploratória" id="toc-exercício-5.-interpretando-uma-figura-exploratória" class="nav-link" data-scroll-target="#exercício-5.-interpretando-uma-figura-exploratória"><span class="header-section-number">4.14.5</span> Exercício 5. Interpretando uma figura exploratória</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">4.15</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">4.16</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">O que os dados revelam?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">4.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>explicar o papel da análise exploratória de dados (AED) na pesquisa científica;</li>
+<li>distinguir a exploração da inferência estatística;</li>
+<li>resumir variáveis individuais numérica e graficamente;</li>
+<li>identificar observações incomuns, valores perdidos e possíveis erros;</li>
+<li>explorar relações entre variáveis;</li>
+<li>reconhecer padrões que orientam as análises estatísticas subsequentes;</li>
+<li>formular questões biológicas que surgem das análises exploratórias.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-explorar-os-dados" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="por-que-explorar-os-dados"><span class="header-section-number">4.2</span> Por que explorar os dados?</h2>
+<p>Depois que os dados foram coletados e organizados, é tentador passar diretamente ao teste estatístico que responde à questão do projeto de pesquisa. Pesquisadores experientes raramente fazem isso. Antes de estimar efeitos ou testar hipóteses, eles olham os dados: quantas observações existem, como os valores se distribuem, se algo está faltando ou é implausível e que padrões aparecem entre as variáveis. Essa etapa é chamada <strong>análise exploratória de dados</strong> (AED).</p>
+<p>O termo foi popularizado pelo estatístico John Tukey, que defendia que olhar os dados com a mente aberta é tão importante para a ciência quanto confirmar expectativas, e que os números devem ser examinados graficamente e com resumos simples e robustos antes da aplicação de modelos formais <span class="citation" data-cites="tukey1977">(<a href="references.html#ref-tukey1977" role="doc-biblioref">Tukey 1977</a>)</span>. Tukey comparava a análise exploratória ao trabalho de um detetive: ela procura pistas, enquanto a análise confirmatória avalia a força das provas no tribunal.</p>
+<p>A exploração serve a vários propósitos. Ela revela erros que escaparam à validação dos dados (Capítulo 3), como um valor de severidade de 250% ou um tratamento que aparece em apenas três dos quatro blocos. Mostra se os dados têm as características pressupostas pelos métodos planejados para a análise, como distribuições aproximadamente simétricas ou variabilidade semelhante entre grupos. Mostra o tamanho e a direção das diferenças antes de qualquer teste, o que mantém a atenção nos efeitos biológicos, e não nos valores-P. E frequentemente revela padrões não previstos, como um gradiente entre blocos ou a resposta incomum de uma cultivar, que podem se tornar os resultados mais interessantes do estudo.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A análise exploratória de dados não é feita para confirmar hipóteses, mas para compreender os dados antes das análises estatísticas formais.</p>
+</div>
+</div>
+</section>
+<section id="análise-exploratória-versus-confirmatória" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="análise-exploratória-versus-confirmatória"><span class="header-section-number">4.3</span> Análise exploratória versus confirmatória</h2>
+<section id="o-que-é-análise-exploratória-de-dados" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="o-que-é-análise-exploratória-de-dados"><span class="header-section-number">4.3.1</span> O que é análise exploratória de dados?</h3>
+<p>A análise exploratória de dados é um exame aberto dos dados, baseado principalmente em gráficos e resumos simples, cujo objetivo é compreender o que os dados contêm. Ela faz perguntas como: Que valores cada variável assume? Quão variáveis são as observações? Há observações incomuns? Quais variáveis parecem estar relacionadas? Os grupos diferem, e em quanto?</p>
+<p>A exploração é flexível. O pesquisador pode experimentar diferentes gráficos, olhar subconjuntos dos dados e seguir pistas que surgem pelo caminho. Seus produtos são descrições, perguntas e hipóteses, e não conclusões formais.</p>
+</section>
+<section id="o-que-é-análise-confirmatória" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="o-que-é-análise-confirmatória"><span class="header-section-number">4.3.2</span> O que é análise confirmatória?</h3>
+<p>A análise confirmatória avalia a evidência para questões e hipóteses definidas com antecedência, usando métodos escolhidos de acordo com o delineamento do estudo. Ela estima efeitos com medidas de incerteza, como intervalos de confiança, e pode testar hipóteses estatísticas (Capítulo 6). A análise confirmatória segue regras fixadas antes de os resultados serem vistos. Essas regras protegem contra encontrar padrões que são simplesmente fruto do acaso.</p>
+</section>
+<section id="por-que-ambas-são-necessárias" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="por-que-ambas-são-necessárias"><span class="header-section-number">4.3.3</span> Por que ambas são necessárias</h3>
+<p>Exploração e confirmação desempenham papéis complementares. Sem exploração, análises confirmatórias podem ser aplicadas a dados com erros, a variáveis cujas distribuições violam os pressupostos do método escolhido ou a questões que os dados não conseguem responder. Sem confirmação, os padrões exploratórios continuam sendo impressões: com gráficos e subconjuntos suficientes, algum padrão marcante sempre aparecerá, mesmo em dados sem nenhum efeito real.</p>
+<p>A distinção importa sobretudo quando a exploração sugere uma nova hipótese. Um padrão descoberto ao explorar um conjunto de dados não pode ser testado de forma justa com os mesmos dados, porque eles foram usados para encontrá-lo. Esses padrões devem ser relatados como achados exploratórios e, sempre que possível, confirmados com novos dados de um estudo independente.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter4-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter4-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-c0d214401c95ca4ca2d8" style="width:100%;height:420px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c0d214401c95ca4ca2d8">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica e delineamento<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Coleta e organização dos dados<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n3 [label = <<font color=\"#24301f\"><b>Análise exploratória<\/b><br/><font point-size=\"12\" color=\"#1f8075\">conhecer os dados, detectar erros,<br/>verificar pressupostos, encontrar padrões<\/font><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n4 [label = <<font color=\"#24301f\"><b>Análise confirmatória<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">estimar efeitos e incerteza<br/>para questões definidas antes<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n5 [label = <<font color=\"#24301f\"><b>Conclusão científica<\/b><\/font>>, fillcolor = \"#f4f4f4\", color = \"#bbbbbb\"]\n  n1 -> n2 -> n3 -> n4 -> n5\n  n3 -> n1 [style = dashed, color = \"#999999\", constraint = false, label = \"  novas hipóteses\", fontcolor = \"#777777\"]\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter4-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: O papel da análise exploratória de dados no fluxo de trabalho científico. A exploração precede a análise confirmatória e frequentemente gera novas questões e hipóteses, que exigem novos estudos para serem confirmadas.
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="tbl-ch4-eda-cda" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch4-eda-cda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.1: Comparação entre análise exploratória e confirmatória.
+</figcaption>
+<div aria-describedby="tbl-ch4-eda-cda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 37%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th>Análise exploratória</th>
+<th>Análise confirmatória</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Objetivo principal</td>
+<td>Compreender os dados, encontrar padrões</td>
+<td>Avaliar a evidência para questões predefinidas</td>
+</tr>
+<tr class="even">
+<td>Questões</td>
+<td>Abertas, podem mudar durante a análise</td>
+<td>Definidas antes da análise</td>
+</tr>
+<tr class="odd">
+<td>Principais ferramentas</td>
+<td>Gráficos, resumos simples</td>
+<td>Estimativas, intervalos, modelos, testes</td>
+</tr>
+<tr class="even">
+<td>Flexibilidade</td>
+<td>Alta</td>
+<td>Baixa; o plano de análise é fixo</td>
+</tr>
+<tr class="odd">
+<td>Produto típico</td>
+<td>Descrições, perguntas, hipóteses</td>
+<td>Conclusões com incerteza quantificada</td>
+</tr>
+<tr class="even">
+<td>Principal risco</td>
+<td>Superinterpretar padrões casuais</td>
+<td>Aplicar métodos a dados que não se ajustam a eles</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="conhecendo-o-seu-conjunto-de-dados" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="conhecendo-o-seu-conjunto-de-dados"><span class="header-section-number">4.4</span> Conhecendo o seu conjunto de dados</h2>
+<p>Toda exploração começa com perguntas simples sobre o conjunto de dados como um todo. Os exemplos deste capítulo usam o R e funções do tidyverse, que são apresentados com mais detalhe em capítulos posteriores. O código é mostrado para ilustrar as etapas; as mesmas etapas podem ser feitas em qualquer programa estatístico.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/processed/field_trial.csv"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Para que os exemplos possam ser executados, este capítulo usa um conjunto de dados simulado com a mesma estrutura: um ensaio em blocos casualizados com seis tratamentos, quatro blocos e quatro datas de avaliação. Como em dados reais, ele contém alguns problemas para a exploração encontrar.</p>
+<section id="dimensões-do-conjunto-de-dados" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="dimensões-do-conjunto-de-dados"><span class="header-section-number">4.4.1</span> Dimensões do conjunto de dados</h3>
+<p>A primeira verificação é o número de linhas e colunas. O número de linhas deve corresponder ao número de observações esperado pelo delineamento. Um DBC com seis tratamentos, quatro blocos e quatro datas de avaliação deve produzir 6 × 4 × 4 = 96 linhas. Se o conjunto de dados tiver 95 ou 100 linhas, algo está faltando ou duplicado, e o motivo precisa ser encontrado antes de prosseguir.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data)    <span class="co"># número de linhas e colunas</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 96  6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 96</code></pre>
+</div>
+</div>
+</section>
+<section id="nomes-das-variáveis" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="nomes-das-variáveis"><span class="header-section-number">4.4.2</span> Nomes das variáveis</h3>
+<p>Em seguida, liste os nomes das variáveis e confira se correspondem ao dicionário de dados. Colunas inesperadas (como <code>...7</code>, criada quando a planilha tem uma coluna vazia com formatação) ou colunas ausentes indicam problemas de importação.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "plot"      "block"     "treatment" "date"      "severity"  "yield"    </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)   <span class="co"># primeiras linhas do conjunto de dados</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+   plot block treatment  date       severity yield
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;      &lt;date&gt;        &lt;dbl&gt; &lt;dbl&gt;
+1   101 1     Testemunha 2025-06-10      2.3  2723
+2   101 1     Testemunha 2025-06-24      5.8  2723
+3   101 1     Testemunha 2025-07-08     15.3  2723
+4   101 1     Testemunha 2025-07-22     42.2  2723
+5   102 1     Fung. A    2025-06-10      1.6  3983
+6   102 1     Fung. A    2025-06-24      3.8  3983</code></pre>
+</div>
+</div>
+</section>
+<section id="classes-das-variáveis" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="classes-das-variáveis"><span class="header-section-number">4.4.3</span> Classes das variáveis</h3>
+<p>Os programas atribuem uma classe a cada variável: numérica, inteira, caractere, fator, lógica ou data. Conferir as classes revela muitos problemas de uma vez. Uma coluna de severidade lida como caractere geralmente contém, em algum lugar, uma entrada não numérica, como <code>12*</code>, <code>n/a</code> ou <code>25%</code>. Uma coluna de bloco lida como numérica precisa ser convertida em variável categórica (fator) antes da análise. Uma data lida como caractere precisa ser convertida em data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data)  <span class="co"># nomes, classes e primeiros valores de cada variável</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 96
+Columns: 6
+$ plot      &lt;dbl&gt; 101, 101, 101, 101, 102, 102, 102, 102, 103, 103, 103, 103, …
+$ block     &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ treatment &lt;fct&gt; Testemunha, Testemunha, Testemunha, Testemunha, Fung. A, Fun…
+$ date      &lt;date&gt; 2025-06-10, 2025-06-24, 2025-07-08, 2025-07-22, 2025-06-10,…
+$ severity  &lt;dbl&gt; 2.3, 5.8, 15.3, 42.2, 1.6, 3.8, 4.0, 7.9, 1.9, 4.5, 5.1, 7.3…
+$ yield     &lt;dbl&gt; 2723, 2723, 2723, 2723, 3983, 3983, 3983, 3983, 3965, 3965, …</code></pre>
+</div>
+</div>
+</section>
+<section id="valores-perdidos" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="valores-perdidos"><span class="header-section-number">4.4.4</span> Valores perdidos</h3>
+<p>Conte os valores perdidos em cada variável e verifique onde ocorrem. Poucos valores perdidos espalhados têm implicações diferentes de muitos valores perdidos concentrados em um tratamento, bloco ou data. Se as plantas morreram no tratamento mais suscetível, a perda está relacionada à própria resposta e pode enviesar as comparações.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(data))           <span class="co"># valores perdidos por coluna</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     plot     block treatment      date  severity     yield 
+        0         0         0         0         2         0 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(severity)) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(treatment, date)       <span class="co"># onde eles estão?</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  treatment date           n
+  &lt;fct&gt;     &lt;date&gt;     &lt;int&gt;
+1 Fung. C   2025-06-10     1
+2 Fung. E   2025-07-08     1</code></pre>
+</div>
+</div>
+</section>
+<section id="primeiros-resumos" class="level3" data-number="4.4.5">
+<h3 data-number="4.4.5" class="anchored" data-anchor-id="primeiros-resumos"><span class="header-section-number">4.4.5</span> Primeiros resumos</h3>
+<p>Por fim, calcule resumos simples de todas as variáveis e conte as observações em cada combinação dos fatores do delineamento. Esses resumos revelam valores impossíveis (mínimo ou máximo fora da faixa permitida), rótulos de categorias inconsistentes e delineamentos desbalanceados.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      plot       block       treatment       date               severity     
+ Min.   :101.0   1:24   Testemunha:16   Min.   :2025-06-10   Min.   : 1.300  
+ 1st Qu.:177.2   2:24   Fung. A   :16   1st Qu.:2025-06-20   1st Qu.: 2.850  
+ Median :253.5   3:24   Fung. B   :16   Median :2025-07-01   Median : 5.300  
+ Mean   :253.5   4:24   Fung. C   :16   Mean   :2025-07-01   Mean   : 9.528  
+ 3rd Qu.:329.8          Fung. D   :16   3rd Qu.:2025-07-11   3rd Qu.:10.425  
+ Max.   :406.0          Fung. E   :16   Max.   :2025-07-22   Max.   :97.200  
+                                                             NA's   :2       
+     yield     
+ Min.   :2670  
+ 1st Qu.:3542  
+ Median :3864  
+ Mean   :3740  
+ 3rd Qu.:4022  
+ Max.   :4392  
+               </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">count</span>(treatment)            <span class="co"># observações por tratamento</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  treatment      n
+  &lt;fct&gt;      &lt;int&gt;
+1 Testemunha    16
+2 Fung. A       16
+3 Fung. B       16
+4 Fung. C       16
+5 Fung. D       16
+6 Fung. E       16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">count</span>(treatment, block)     <span class="co"># o delineamento está completo?</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 24 × 3
+   treatment  block     n
+   &lt;fct&gt;      &lt;fct&gt; &lt;int&gt;
+ 1 Testemunha 1         4
+ 2 Testemunha 2         4
+ 3 Testemunha 3         4
+ 4 Testemunha 4         4
+ 5 Fung. A    1         4
+ 6 Fung. A    2         4
+ 7 Fung. A    3         4
+ 8 Fung. A    4         4
+ 9 Fung. B    1         4
+10 Fung. B    2         4
+# ℹ 14 more rows</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compare o conjunto de dados com o delineamento do estudo: número de tratamentos, de blocos ou repetições, de datas e de unidades experimentais. Discrepâncias são quase sempre erros de digitação ou de importação.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="explorando-uma-variável" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="explorando-uma-variável"><span class="header-section-number">4.5</span> Explorando uma variável</h2>
+<p>Depois da visão geral, cada variável importante é examinada individualmente. O objetivo é descrever seu centro, sua dispersão, a forma da sua distribuição e eventuais valores incomuns.</p>
+<section id="resumos-numéricos" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="resumos-numéricos"><span class="header-section-number">4.5.1</span> Resumos numéricos</h3>
+<p>Um pequeno conjunto de resumos descreve uma variável quantitativa:</p>
+<ul>
+<li><strong>média</strong>: a média aritmética, a soma dos valores dividida pelo seu número;</li>
+<li><strong>mediana</strong>: o valor central quando as observações são ordenadas; metade das observações está abaixo dela e metade acima;</li>
+<li><strong>desvio padrão</strong>: uma medida da distância típica entre as observações e sua média, expressa nas unidades da variável;</li>
+<li><strong>quartis</strong>: os valores abaixo dos quais estão 25% (primeiro quartil) e 75% (terceiro quartil) das observações; a distância entre eles é a amplitude interquartil (AIQ), que contém a metade central dos dados;</li>
+<li><strong>mínimo</strong> e <strong>máximo</strong>: o menor e o maior valor, que definem a amplitude.</li>
+</ul>
+<p>A média e o desvio padrão são sensíveis a valores extremos, enquanto a mediana e os quartis são resistentes a eles. Quando média e mediana diferem muito, a distribuição é assimétrica ou contém observações extremas. Por isso, é útil relatar ambas.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n      =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(severity)),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean   =</span> <span class="fu">mean</span>(severity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(severity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd     =</span> <span class="fu">sd</span>(severity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">q1     =</span> <span class="fu">quantile</span>(severity, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">q3     =</span> <span class="fu">quantile</span>(severity, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">min    =</span> <span class="fu">min</span>(severity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">max    =</span> <span class="fu">max</span>(severity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+      n  mean median    sd    q1    q3   min   max
+  &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    94  9.53    5.3  13.0  2.85  10.4   1.3  97.2</code></pre>
+</div>
+</div>
+<p>Para variáveis categóricas, os resumos relevantes são as contagens e proporções em cada categoria.</p>
+</section>
+<section id="distribuição" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="distribuição"><span class="header-section-number">4.5.2</span> Distribuição</h3>
+<p>A distribuição de uma variável descreve quais valores ocorrem e com que frequência. Os resumos numéricos condensam a distribuição em poucos números; os gráficos a mostram diretamente. Histogramas, gráficos de densidade, gráficos de pontos e diagramas de caixa (<em>boxplots</em>) são as ferramentas usuais, e sua construção é discutida no Capítulo 5.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> severity)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Severidade da doença (%)"</span>, <span class="at">y =</span> <span class="st">"Número de parcelas"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Três características da distribuição merecem atenção:</p>
+<ul>
+<li><strong>simetria</strong>: se os valores se distribuem de modo semelhante dos dois lados do centro;</li>
+<li><strong>assimetria</strong>: uma distribuição com uma cauda mais longa de um lado. Dados de doença frequentemente têm assimetria à direita: a maioria das plantas ou parcelas tem pouca doença, e algumas têm muita. Contagens de lesões, de esporos e quantidades de DNA do patógeno costumam se comportar assim;</li>
+<li><strong>dispersão</strong>: quão amplamente os valores variam. Na Fitopatologia, a variabilidade frequentemente aumenta com a média, de modo que tratamentos com mais doença também são mais variáveis.</li>
+</ul>
+<p>Outras características também são informativas. Uma distribuição com dois picos (bimodal) pode indicar que dois grupos diferentes foram misturados, como plantas resistentes e suscetíveis ou duas datas de avaliação. Muitos zeros podem indicar escape à infecção ou um limite de detecção. Valores acumulados em 0% ou 100% revelam os limites de uma escala percentual. Valores concentrados em 5, 10, 25 e 50% refletem hábitos de arredondamento da avaliação visual, e não a biologia.</p>
+<p>Essas características antecipam decisões tomadas mais tarde. A assimetria e a variabilidade que muda com a média podem exigir transformações ou modelos próprios para contagens e proporções (Capítulos 7 a 10).</p>
+</section>
+<section id="valores-discrepantes" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="valores-discrepantes"><span class="header-section-number">4.5.3</span> Valores discrepantes</h3>
+<p>Um valor discrepante (<em>outlier</em>) é uma observação excepcionalmente distante do restante dos dados. Uma regra comum classifica como possíveis valores discrepantes os valores situados mais de 1,5 vez a amplitude interquartil abaixo do primeiro quartil ou acima do terceiro, que é a regra usada nos diagramas de caixa. Essa regra é uma ferramenta de triagem, não uma definição: um valor sinalizado pela regra pode ser perfeitamente válido, e um erro pode estar dentro da faixa normal.</p>
+<p>Um valor discrepante pode ter três origens. Pode ser um <strong>erro</strong> de medida, registro ou digitação, como uma vírgula decimal deslocada. Pode ser uma <strong>observação real, mas incomum</strong>, como uma parcela localizada perto de uma fonte de inóculo. Ou pode indicar que a observação pertence a uma <strong>população diferente</strong>, como uma planta infectada por outro patógeno. Cada origem exige uma ação diferente: corrigir o erro a partir dos registros originais, manter o valor e examinar sua influência nos resultados, ou reconsiderar o escopo do estudo.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Valores discrepantes nunca devem ser removidos apenas porque são inconvenientes ou porque sua remoção produz um resultado significativo. Toda exclusão deve ser justificada com base documentada e relatada.</p>
+</div>
+</div>
+</section>
+<section id="valores-perdidos-1" class="level3" data-number="4.5.4">
+<h3 data-number="4.5.4" class="anchored" data-anchor-id="valores-perdidos-1"><span class="header-section-number">4.5.4</span> Valores perdidos</h3>
+<p>Os valores perdidos também afetam as variáveis individualmente. A proporção de valores perdidos, e se eles estão relacionados a outras variáveis, determinam o quanto podem afetar as conclusões. Resumos calculados com os valores perdidos removidos silenciosamente (como com <code>na.rm = TRUE</code>) baseiam-se em menos observações do que o planejado, e isso deve ser relatado.</p>
+</section>
+</section>
+<section id="explorando-relações" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="explorando-relações"><span class="header-section-number">4.6</span> Explorando relações</h2>
+<p>A maioria das questões em Fitopatologia envolve relações: entre doença e produtividade, entre tratamento e severidade, entre clima e infecção. A exploração das relações depende dos tipos de variáveis envolvidas.</p>
+<section id="contínua-versus-contínua" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="contínua-versus-contínua"><span class="header-section-number">4.6.1</span> Contínua versus contínua</h3>
+<p>A relação entre duas variáveis quantitativas, como severidade e produtividade, ou temperatura e tamanho da lesão, é explorada com um gráfico de dispersão. O gráfico mostra a <strong>direção</strong> da relação (crescente, decrescente, nenhuma), sua <strong>forma</strong> (linear, curva, com platô ou limiar), sua <strong>intensidade</strong> (quão de perto os pontos seguem um padrão) e as <strong>observações incomuns</strong> que não seguem o padrão geral.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># uma observação por parcela: a severidade na última avaliação</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>final <span class="ot">&lt;-</span> <span class="fu">filter</span>(data, date <span class="sc">==</span> <span class="fu">max</span>(date))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(final, <span class="fu">aes</span>(<span class="at">x =</span> severity, <span class="at">y =</span> yield)) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Severidade da doença (%)"</span>, <span class="at">y =</span> <span class="st">"Produtividade (kg/ha)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Na etapa exploratória, o objetivo é descrever o padrão, e não ajustar um modelo. Correlação e regressão são apresentadas no Capítulo 8.</p>
+</section>
+<section id="contínua-versus-categórica" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="contínua-versus-categórica"><span class="header-section-number">4.6.2</span> Contínua versus categórica</h3>
+<p>Comparar uma resposta quantitativa entre grupos, como a severidade entre tratamentos com fungicidas ou o diâmetro das lesões entre isolados, é a situação mais comum em experimentos. Resumos numéricos por grupo (contagens, médias, medianas, desvios padrão) são complementados por gráficos que mostram as observações individuais, como gráficos de pontos ou diagramas de caixa com pontos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(treatment) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean =</span> <span class="fu">mean</span>(severity), <span class="at">sd =</span> <span class="fu">sd</span>(severity))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  treatment      n  mean    sd
+  &lt;fct&gt;      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Testemunha    16 16.5  16.1 
+2 Fung. A       16  4.44  2.07
+3 Fung. B       16  5.19  2.83
+4 Fung. C       16 NA    NA   
+5 Fung. D       16  7.9   5.50
+6 Fung. E       16 NA    NA   </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Além das diferenças de centro, procure diferenças de dispersão entre grupos, assimetria dentro dos grupos, grupos com poucas observações e observações incomuns dentro do seu grupo, mesmo que não o sejam no conjunto.</p>
+</section>
+<section id="categórica-versus-categórica" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="categórica-versus-categórica"><span class="header-section-number">4.6.3</span> Categórica versus categórica</h3>
+<p>A relação entre duas variáveis categóricas, como cultivar e presença de doença, ou região e espécie do patógeno, é explorada com tabelas de contingência que mostram contagens e proporções em cada combinação de categorias. As proporções devem ser calculadas na direção que responde à questão: por exemplo, a proporção de lavouras infectadas em cada sistema de preparo do solo, e não a proporção de sistemas de preparo entre as lavouras infectadas.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>levantamento <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tillage, disease_present) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tillage) <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+# Groups:   tillage [2]
+  tillage        disease_present     n proportion
+  &lt;chr&gt;          &lt;chr&gt;           &lt;int&gt;      &lt;dbl&gt;
+1 Convencional   não                49      0.721
+2 Convencional   sim                19      0.279
+3 Plantio direto não                17      0.327
+4 Plantio direto sim                35      0.673</code></pre>
+</div>
+</div>
+</section>
+<section id="o-tempo-como-variável" class="level3" data-number="4.6.4">
+<h3 data-number="4.6.4" class="anchored" data-anchor-id="o-tempo-como-variável"><span class="header-section-number">4.6.4</span> O tempo como variável</h3>
+<p>Quando as observações se repetem ao longo do tempo, o tempo torna-se uma variável central. O progresso da doença é explorado representando a resposta em função do tempo, com as observações da mesma unidade ligadas por linhas. Isso revela a forma da epidemia, o momento de início, diferenças entre tratamentos que aparecem apenas no fim da safra e unidades que se comportam de modo diferente das demais.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> severity, <span class="at">group =</span> plot, <span class="at">color =</span> treatment)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Séries meteorológicas e outras séries temporais são exploradas da mesma forma. Observações próximas no tempo tendem a ser semelhantes, o que significa que não são independentes — uma característica que precisa ser considerada em análises posteriores.</p>
+<div id="tbl-ch4-tools" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch4-tools-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.2: Ferramentas exploratórias por tipo de variável.
+</figcaption>
+<div aria-describedby="tbl-ch4-tools-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 33%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variáveis envolvidas</th>
+<th>Resumos numéricos</th>
+<th>Gráficos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Uma quantitativa</td>
+<td>Média, mediana, DP, quartis, amplitude</td>
+<td>Histograma, densidade, diagrama de caixa, gráfico de pontos</td>
+</tr>
+<tr class="even">
+<td>Uma categórica</td>
+<td>Contagens, proporções</td>
+<td>Gráfico de barras de contagens</td>
+</tr>
+<tr class="odd">
+<td>Quantitativa vs quantitativa</td>
+<td>Descrição da direção, forma, intensidade</td>
+<td>Gráfico de dispersão</td>
+</tr>
+<tr class="even">
+<td>Quantitativa vs categórica</td>
+<td>Resumos por grupo</td>
+<td>Gráfico de pontos, diagrama de caixa com pontos</td>
+</tr>
+<tr class="odd">
+<td>Categórica vs categórica</td>
+<td>Tabela de contingência, proporções</td>
+<td>Barras agrupadas ou empilhadas, gráfico de mosaico</td>
+</tr>
+<tr class="even">
+<td>Quantitativa ao longo do tempo</td>
+<td>Resumos por data</td>
+<td>Gráfico de linhas ligando cada unidade</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="padrões-que-merecem-investigação" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="padrões-que-merecem-investigação"><span class="header-section-number">4.7</span> Padrões que merecem investigação</h2>
+<p>A exploração é uma busca por padrões. Alguns confirmam as expectativas; outros são surpreendentes e merecem atenção.</p>
+<section id="tendências" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="tendências"><span class="header-section-number">4.7.1</span> Tendências</h3>
+<p>Uma tendência é um aumento ou uma diminuição sistemática de uma resposta com outra variável: a doença aumentando com o tempo, a produtividade diminuindo com a severidade, a infecção aumentando com a duração do molhamento. As tendências podem ser lineares ou curvas, podem se estabilizar em um platô ou mudar de direção em um ótimo, como ocorre com a resposta de muitos patógenos à temperatura.</p>
+</section>
+<section id="agrupamentos" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="agrupamentos"><span class="header-section-number">4.7.2</span> Agrupamentos</h3>
+<p>Agrupamentos são grupos de observações semelhantes entre si e diferentes das demais. Em um gráfico de dispersão de severidade versus produtividade, pontos de locais ou anos diferentes frequentemente formam nuvens separadas. Os agrupamentos sugerem uma variável de agrupamento não considerada, e uma relação aparente no conjunto pode desaparecer, ou se inverter, dentro dos grupos.</p>
+</section>
+<section id="gradientes" class="level3" data-number="4.7.3">
+<h3 data-number="4.7.3" class="anchored" data-anchor-id="gradientes"><span class="header-section-number">4.7.3</span> Gradientes</h3>
+<p>Um gradiente é uma mudança sistemática da resposta no espaço ou ao longo da ordem em que as unidades foram manuseadas. A doença pode aumentar de um lado da lavoura para o outro, seguindo a drenagem ou o vento predominante a partir de uma fonte de inóculo, ou pode diferir entre bancadas de uma casa de vegetação. Representar as respostas em função do bloco, da linha, da coluna, da bancada ou da ordem de processamento revela gradientes. Eles justificam o uso de blocos (Capítulo 2) e, quando inesperados, podem apontar problemas na condução do experimento.</p>
+</section>
+<section id="interações" class="level3" data-number="4.7.4">
+<h3 data-number="4.7.4" class="anchored" data-anchor-id="interações"><span class="header-section-number">4.7.4</span> Interações</h3>
+<p>Uma interação ocorre quando o efeito de um fator depende do nível de outro. Um fungicida pode reduzir muito a doença em uma cultivar suscetível e ter pouco efeito em uma resistente; a infecção pode aumentar com a duração do molhamento a 25 °C, mas não a 10 °C. Nos gráficos exploratórios, as interações aparecem como linhas não paralelas quando as médias dos grupos são representadas em função de um fator, com linhas separadas para os níveis do outro. As interações são frequentemente importantes do ponto de vista biológico e determinam como os dados deverão ser modelados.</p>
+</section>
+<section id="valores-discrepantes-1" class="level3" data-number="4.7.5">
+<h3 data-number="4.7.5" class="anchored" data-anchor-id="valores-discrepantes-1"><span class="header-section-number">4.7.5</span> Valores discrepantes</h3>
+<p>Os valores discrepantes, discutidos antes para variáveis individuais, também podem aparecer apenas nas relações: uma parcela com severidade e produtividade médias pode ainda assim ser incomum se sua produtividade for muito maior do que o esperado para sua severidade. Essas observações só são visíveis em gráficos de dispersão ou em gráficos por grupo.</p>
+</section>
+<section id="erros-de-digitação" class="level3" data-number="4.7.6">
+<h3 data-number="4.7.6" class="anchored" data-anchor-id="erros-de-digitação"><span class="header-section-number">4.7.6</span> Erros de digitação</h3>
+<p>A exploração é a última oportunidade de detectar erros antes que afetem as conclusões. Sinais típicos são valores fora da faixa possível, valores exatamente dez ou cem vezes maiores que o esperado, linhas idênticas, saltos bruscos na série temporal de uma unidade e rótulos de categoria que aparecem uma única vez.</p>
+</section>
+<section id="observações-inesperadas" class="level3" data-number="4.7.7">
+<h3 data-number="4.7.7" class="anchored" data-anchor-id="observações-inesperadas"><span class="header-section-number">4.7.7</span> Observações inesperadas</h3>
+<p>Algumas observações não se encaixam em nenhum padrão esperado: uma parcela testemunha sem doença em uma safra de alta pressão, uma cultivar resistente com sintomas severos, um único isolado muito mais agressivo do que todos os outros. Essas observações podem ser erros, mas também podem ser o primeiro sinal de algo novo, como uma nova raça do patógeno superando a resistência.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Descobertas interessantes muitas vezes começam como observações inesperadas durante a análise exploratória.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="interpretação-biológica" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="interpretação-biológica"><span class="header-section-number">4.8</span> Interpretação biológica</h2>
+<section id="padrões-estatísticos-versus-significado-biológico" class="level3" data-number="4.8.1">
+<h3 data-number="4.8.1" class="anchored" data-anchor-id="padrões-estatísticos-versus-significado-biológico"><span class="header-section-number">4.8.1</span> Padrões estatísticos versus significado biológico</h3>
+<p>Um padrão nos dados ainda não é um achado biológico. Uma diferença entre tratamentos, uma tendência ao longo do tempo ou um agrupamento de pontos só ganha significado quando interpretado à luz da biologia do patossistema e do delineamento do estudo. O mesmo padrão pode ter explicações muito diferentes. Uma severidade maior em um bloco pode refletir um gradiente ambiental real, um avaliador diferente ou uma data de avaliação posterior. Uma associação negativa entre severidade e produtividade em um levantamento pode refletir o dano causado pela doença, ou o fato de que lavouras com manejo ruim têm mais doença e menor produtividade por outros motivos.</p>
+<p>Interpretar um padrão exige, portanto, perguntar: O padrão é grande o suficiente para importar biologicamente? É consistente entre blocos, experimentos ou anos? Poderia ser explicado pelo delineamento, pelo processo de coleta ou por um erro? É coerente com o que se sabe sobre o hospedeiro, o patógeno e o ambiente?</p>
+</section>
+<section id="fazendo-novas-perguntas" class="level3" data-number="4.8.2">
+<h3 data-number="4.8.2" class="anchored" data-anchor-id="fazendo-novas-perguntas"><span class="header-section-number">4.8.2</span> Fazendo novas perguntas</h3>
+<p>Uma boa análise exploratória costuma terminar com mais perguntas do que começou. Por que uma cultivar respondeu de modo diferente ao fungicida? Por que o progresso da doença parou depois da terceira avaliação? Por que algumas lavouras estão livres da doença apesar do clima favorável? Essas perguntas podem ser respondidas examinando outras variáveis do conjunto de dados, consultando as anotações de campo ou delineando um novo estudo.</p>
+</section>
+<section id="gerando-hipóteses" class="level3" data-number="4.8.3">
+<h3 data-number="4.8.3" class="anchored" data-anchor-id="gerando-hipóteses"><span class="header-section-number">4.8.3</span> Gerando hipóteses</h3>
+<p>A exploração é uma fonte legítima e valiosa de hipóteses científicas. Um padrão observado em um levantamento, como mais doença em lavouras semeadas mais cedo, pode levar à hipótese de que a semeadura antecipada expõe as plantas a condições mais favoráveis à infecção. Essa hipótese pode então ser testada em um experimento planejado, fechando o ciclo entre observação, hipótese e teste descrito no Capítulo 2.</p>
+<p>A regra essencial é ser transparente sobre como a hipótese foi gerada. Uma hipótese sugerida pela exploração dos dados não é confirmada pelos mesmos dados. Relatar os achados exploratórios como exploratórios, e os confirmatórios como confirmatórios, é uma questão de integridade científica.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A exploração gera hipóteses; a confirmação exige dados que não foram usados para gerá-las.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="pesquisa-na-prática" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="pesquisa-na-prática"><span class="header-section-number">4.9</span> Pesquisa na prática</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Explorando os efeitos da temperatura e do molhamento na antracnose da videira">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Explorando os efeitos da temperatura e do molhamento na antracnose da videira
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><strong>Contexto</strong></p>
+<p>O Capítulo 1 apresentou um estudo em ambiente controlado sobre como a temperatura e a duração do molhamento foliar influenciam a infecção de folhas de videira por <em>Elsinoë ampelina</em>, agente causal da antracnose da videira <span class="citation" data-cites="carisse2020">(<a href="references.html#ref-carisse2020" role="doc-biblioref">Carisse et al. 2020</a>)</span>. As plantas foram inoculadas e expostas a combinações de seis temperaturas (5 a 30 °C) e seis durações de molhamento (0 a 24 h), e a severidade da doença foi avaliada cerca de uma semana depois. Aqui perguntamos: antes de ajustar qualquer modelo, o que esses dados sugerem? Os valores abaixo são ilustrativos e não reproduzem os dados publicados.</p>
+<p><strong>Os dados brutos</strong></p>
+<p>O conjunto de dados organizado tem uma linha por planta inoculada:</p>
+<div id="tbl-ch4-grape-raw" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch4-grape-raw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.3: Primeiras linhas do conjunto de dados da antracnose da videira (ilustrativo).
+</figcaption>
+<div aria-describedby="tbl-ch4-grape-raw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>temp_c</th>
+<th>wetness_h</th>
+<th>plant</th>
+<th>severity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>24</td>
+<td>1</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>12</td>
+<td>1</td>
+<td>4.2</td>
+</tr>
+<tr class="even">
+<td>25</td>
+<td>12</td>
+<td>1</td>
+<td>11.8</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>24</td>
+<td>1</td>
+<td>24.5</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>24</td>
+<td>1</td>
+<td>13.1</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Conhecendo o conjunto de dados</strong></p>
+<p>Com seis temperaturas, seis durações de molhamento e um número fixo de plantas por combinação, o número esperado de linhas é conhecido de antemão e pode ser comparado com o número real. As duas variáveis explicativas são numéricas e controladas; a severidade é uma porcentagem limitada entre 0 e 100.</p>
+<p><strong>Resumos exploratórios</strong></p>
+<p>A severidade média em cada combinação de temperatura e duração do molhamento pode ser organizada em uma tabela de dupla entrada:</p>
+<div id="tbl-ch4-grape-means" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch4-grape-means-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.4: Severidade média da doença (%) por temperatura e duração do molhamento (subconjunto ilustrativo).
+</figcaption>
+<div aria-describedby="tbl-ch4-grape-means-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Temperatura</th>
+<th>0 h</th>
+<th>6 h</th>
+<th>12 h</th>
+<th>24 h</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5 °C</td>
+<td>0,0</td>
+<td>0,0</td>
+<td>0,0</td>
+<td>0,0</td>
+</tr>
+<tr class="even">
+<td>15 °C</td>
+<td>0,0</td>
+<td>1,1</td>
+<td>4,0</td>
+<td>9,5</td>
+</tr>
+<tr class="odd">
+<td>25 °C</td>
+<td>0,0</td>
+<td>4,8</td>
+<td>12,3</td>
+<td>23,9</td>
+</tr>
+<tr class="even">
+<td>30 °C</td>
+<td>0,0</td>
+<td>2,2</td>
+<td>6,5</td>
+<td>12,7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A distribuição da severidade é fortemente assimétrica à direita: muitas plantas não têm doença alguma, e poucas têm severidade alta.</p>
+<p><strong>Gráficos simples</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(grape, <span class="fu">aes</span>(<span class="at">x =</span> wetness_h, <span class="at">y =</span> severity, <span class="at">color =</span> <span class="fu">factor</span>(temp_c))) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"line"</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Duração do molhamento foliar (h)"</span>, <span class="at">y =</span> <span class="st">"Severidade da doença (%)"</span>,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Temperatura (°C)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>O que esses dados sugerem?</strong></p>
+<ul>
+<li>Não houve doença sem molhamento foliar, qualquer que fosse a temperatura, nem a 5 °C, qualquer que fosse a duração do molhamento. Os zeros são estruturais, e não aleatórios: marcam condições em que a infecção não ocorreu.</li>
+<li>A severidade aumentou com a duração do molhamento em todas as temperaturas em que houve infecção.</li>
+<li>O aumento foi mais acentuado perto de 25 °C e menos pronunciado a 15 e 30 °C, indicando uma temperatura ótima.</li>
+<li>Como o efeito do molhamento depende da temperatura, as linhas não são paralelas: os dois fatores interagem.</li>
+<li>A variabilidade entre plantas aumenta com a severidade média.</li>
+</ul>
+<p><strong>O que a exploração não nos diz</strong></p>
+<p>Essas observações descrevem padrões, mas não quantificam sua incerteza, não testam se a interação poderia ter surgido por acaso e não fornecem um modelo para prever a infecção em novas condições. Elas indicam, porém, que um modelo de linha reta com efeitos aditivos seria inadequado, que os zeros e a variabilidade crescente precisam ser considerados e que a análise deve permitir que o efeito do molhamento varie com a temperatura. São decisões que seriam difíceis de tomar sem a exploração.</p>
+<p><strong>Questões</strong></p>
+<ol type="1">
+<li>Por que o número esperado de linhas é conhecido antes de olhar os dados?</li>
+<li>O que os zeros a 0 h de molhamento e a 5 °C representam biologicamente?</li>
+<li>Como a tabela de médias revela uma interação?</li>
+<li>Por que uma única severidade média geral seria um resumo enganoso desses dados?</li>
+<li>Que hipóteses para estudos futuros surgem dessa exploração?</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="erros-comuns" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="erros-comuns"><span class="header-section-number">4.10</span> Erros comuns</h2>
+<section id="ignorar-os-valores-perdidos" class="level3" data-number="4.10.1">
+<h3 data-number="4.10.1" class="anchored" data-anchor-id="ignorar-os-valores-perdidos"><span class="header-section-number">4.10.1</span> Ignorar os valores perdidos</h3>
+<p>Análises que removem silenciosamente os valores perdidos podem comparar grupos com números muito diferentes de observações, ou podem ser enviesadas se os valores faltarem por motivos relacionados à resposta, como plantas que morreram da doença. O número e o padrão dos valores perdidos devem sempre ser examinados e relatados.</p>
+</section>
+<section id="ignorar-os-valores-discrepantes" class="level3" data-number="4.10.2">
+<h3 data-number="4.10.2" class="anchored" data-anchor-id="ignorar-os-valores-discrepantes"><span class="header-section-number">4.10.2</span> Ignorar os valores discrepantes</h3>
+<p>Valores extremos podem dominar médias, desvios padrão e modelos ajustados. Ignorá-los pode levar a conclusões determinadas por uma única observação. Todo valor discrepante deve ser conferido com os registros originais, e sua influência nos resultados, examinada.</p>
+</section>
+<section id="tratar-erros-como-biologia" class="level3" data-number="4.10.3">
+<h3 data-number="4.10.3" class="anchored" data-anchor-id="tratar-erros-como-biologia"><span class="header-section-number">4.10.3</span> Tratar erros como biologia</h3>
+<p>O erro oposto é interpretar um erro como achado biológico. Uma produtividade dez vezes maior do que todas as outras ou um valor de severidade acima de 100% é quase certamente um erro. Explicações biológicas elaboradas não devem ser construídas sobre valores não verificados.</p>
+</section>
+<section id="ir-direto-aos-testes-de-hipóteses" class="level3" data-number="4.10.4">
+<h3 data-number="4.10.4" class="anchored" data-anchor-id="ir-direto-aos-testes-de-hipóteses"><span class="header-section-number">4.10.4</span> Ir direto aos testes de hipóteses</h3>
+<p>Executar testes estatísticos sem olhar os dados significa aplicar métodos sem saber se seus pressupostos se verificam, se os dados contêm erros ou se a questão testada é a que os dados conseguem responder. A exploração deve sempre preceder a inferência.</p>
+</section>
+<section id="olhar-apenas-os-valores-p" class="level3" data-number="4.10.5">
+<h3 data-number="4.10.5" class="anchored" data-anchor-id="olhar-apenas-os-valores-p"><span class="header-section-number">4.10.5</span> Olhar apenas os valores-P</h3>
+<p>Um valor-P resume um único aspecto da evidência e nada diz sobre o tamanho de um efeito, a variabilidade das observações ou a presença de padrões incomuns (Capítulo 6). Os resultados devem ser interpretados junto com os gráficos e resumos que mostram os próprios dados.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As análises exploratórias ajudam a identificar problemas que os métodos estatísticos formais muitas vezes não conseguem detectar.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="um-fluxo-de-trabalho-para-a-análise-exploratória" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="um-fluxo-de-trabalho-para-a-análise-exploratória"><span class="header-section-number">4.11</span> Um fluxo de trabalho para a análise exploratória</h2>
+<p>A análise exploratória é iterativa, mas segue uma sequência reconhecível de etapas.</p>
+<ol type="1">
+<li><strong>Importar</strong>: ler o conjunto de dados processado no programa de análise.</li>
+<li><strong>Inspecionar</strong>: conferir dimensões, nomes, classes e valores perdidos em relação ao delineamento e ao dicionário de dados.</li>
+<li><strong>Limpar</strong>: corrigir erros documentados, converter classes e harmonizar códigos, voltando aos dados brutos quando necessário (Capítulo 3).</li>
+<li><strong>Resumir</strong>: calcular resumos numéricos de cada variável e dos grupos definidos pelo delineamento.</li>
+<li><strong>Visualizar</strong>: representar graficamente distribuições, comparações entre grupos, relações e mudanças ao longo do tempo.</li>
+<li><strong>Interpretar</strong>: descrever os padrões em termos biológicos e anotar observações inesperadas e novas perguntas.</li>
+<li><strong>Decidir</strong>: escolher as análises adequadas aos dados e às questões.</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter4-2" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter4-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-e0cc6533bfa153c24a5a" style="width:100%;height:464px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0cc6533bfa153c24a5a">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Importar<\/b><\/font>>, fillcolor = \"#f4f4f4\", color = \"#bbbbbb\"]\n  n2 [label = <<font color=\"#24301f\"><b>Inspecionar<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n3 [label = <<font color=\"#24301f\"><b>Limpar<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Resumir<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n5 [label = <<font color=\"#24301f\"><b>Visualizar<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Interpretar<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n7 [label = <<font color=\"#24301f\"><b>Decidir quais análises são adequadas<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7\n  n5 -> n3 [style = dashed, color = \"#999999\", constraint = false, label = \"  voltar\", fontcolor = \"#777777\"]\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter4-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.2: Fluxo de trabalho sugerido para a AED. A seta tracejada indica que descobertas nas etapas finais frequentemente levam de volta à limpeza dos dados.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>Descobertas em qualquer etapa podem levar a análise de volta a uma etapa anterior: um valor estranho encontrado na visualização leva de volta à limpeza; um agrupamento inesperado leva de volta a resumir por uma nova variável de agrupamento.</p>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">4.12</span> Resumo do capítulo</h2>
+<p>A análise exploratória de dados é a etapa em que os pesquisadores passam a compreender seus dados antes da inferência formal. Ela começa conferindo o conjunto de dados em relação ao delineamento do estudo (dimensões, variáveis, classes e valores perdidos) e prossegue descrevendo cada variável com resumos numéricos e gráficos que revelam seu centro, dispersão, forma e valores incomuns. As relações entre variáveis são exploradas com ferramentas adequadas aos tipos de variáveis envolvidas, e padrões como tendências, agrupamentos, gradientes e interações são identificados. Esses padrões só ganham significado por meio da interpretação biológica e frequentemente geram novas perguntas e hipóteses. A exploração complementa, mas não substitui, a análise confirmatória: ela revela erros, orienta a escolha dos métodos e mantém a atenção nos dados, enquanto as hipóteses sugeridas pela exploração exigem dados independentes para serem confirmadas.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="4.13">
+<h2 data-number="4.13" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">4.13</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>análise exploratória de dados;</li>
+<li>análise confirmatória;</li>
+<li>distribuição;</li>
+<li>centro e dispersão;</li>
+<li>assimetria;</li>
+<li>variabilidade;</li>
+<li>valor discrepante;</li>
+<li>valor perdido;</li>
+<li>padrão;</li>
+<li>associação;</li>
+<li>interação;</li>
+<li>interpretação biológica;</li>
+<li>geração de hipóteses.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="4.14">
+<h2 data-number="4.14" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">4.14</span> Exercícios</h2>
+<section id="exercício-1.-conhecendo-um-conjunto-de-dados" class="level3" data-number="4.14.1">
+<h3 data-number="4.14.1" class="anchored" data-anchor-id="exercício-1.-conhecendo-um-conjunto-de-dados"><span class="header-section-number">4.14.1</span> Exercício 1. Conhecendo um conjunto de dados</h3>
+<p>Explore o conjunto de dados fornecido pelo professor e descreva:</p>
+<ul>
+<li>as variáveis e seus tipos;</li>
+<li>o número de observações e se ele corresponde ao delineamento do estudo;</li>
+<li>o número e a localização dos valores perdidos;</li>
+<li>eventuais observações incomuns.</li>
+</ul>
+</section>
+<section id="exercício-2.-da-exploração-às-perguntas" class="level3" data-number="4.14.2">
+<h3 data-number="4.14.2" class="anchored" data-anchor-id="exercício-2.-da-exploração-às-perguntas"><span class="header-section-number">4.14.2</span> Exercício 2. Da exploração às perguntas</h3>
+<p>Com base na exploração do Exercício 1, liste três questões biológicas que surgem dos dados. Para cada uma, indique se poderia ser respondida com o conjunto de dados atual ou se exigiria um novo estudo.</p>
+</section>
+<section id="exercício-3.-detectando-erros-de-digitação" class="level3" data-number="4.14.3">
+<h3 data-number="4.14.3" class="anchored" data-anchor-id="exercício-3.-detectando-erros-de-digitação"><span class="header-section-number">4.14.3</span> Exercício 3. Detectando erros de digitação</h3>
+<p>Examine os resumos e gráficos do conjunto de dados e identifique possíveis erros de digitação. Para cada um, explique que evidência sugere um erro e como você o verificaria.</p>
+</section>
+<section id="exercício-4.-comparando-a-variabilidade" class="level3" data-number="4.14.4">
+<h3 data-number="4.14.4" class="anchored" data-anchor-id="exercício-4.-comparando-a-variabilidade"><span class="header-section-number">4.14.4</span> Exercício 4. Comparando a variabilidade</h3>
+<p>Compare dois conjuntos de dados fornecidos pelo professor, por exemplo a severidade em duas safras ou o tamanho das lesões de dois isolados. Qual deles parece ter maior variabilidade? Fundamente sua resposta com resumos numéricos e um gráfico, e sugira razões biológicas para a diferença.</p>
+</section>
+<section id="exercício-5.-interpretando-uma-figura-exploratória" class="level3" data-number="4.14.5">
+<h3 data-number="4.14.5" class="anchored" data-anchor-id="exercício-5.-interpretando-uma-figura-exploratória"><span class="header-section-number">4.14.5</span> Exercício 5. Interpretando uma figura exploratória</h3>
+<p>Escolha uma figura de um artigo publicado em Fitopatologia. Sem realizar nenhum teste estatístico, descreva o que a figura mostra: a distribuição dos dados, diferenças entre grupos, tendências, interações e observações incomuns. Quais conclusões podem ser tiradas apenas da figura, e quais exigiriam análise formal?</p>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="4.15">
+<h2 data-number="4.15" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">4.15</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>A análise exploratória de dados é, muitas vezes, a etapa em que os pesquisadores mais aprendem sobre seus dados.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="4.16">
+<h2 data-number="4.16" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">4.16</span> Próximos passos</h2>
+<p>As análises exploratórias dependem frequentemente de representações gráficas. O próximo capítulo apresenta os princípios da visualização científica eficaz e mostra como figuras bem elaboradas revelam padrões que os resumos numéricos sozinhos podem não mostrar.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-carisse2020" class="csl-entry" role="listitem">
+Carisse, O., Levasseur, A., e Provost, C. 2020. Influence of Leaf Wetness Duration and Temperature on Infection of Grape Leaves by <span>Elsinoë ampelina</span> under Controlled and Vineyard Conditions. Plant Disease 104:2817–2822. <a href="https://doi.org/10.1094/PDIS-02-20-0262-RE">https://doi.org/10.1094/PDIS-02-20-0262-RE</a>.
+</div>
+<div id="ref-tukey1977" class="csl-entry" role="listitem">
+Tukey, J. W. 1977. <em>Exploratory Data Analysis</em>. Reading, MA: Addison-Wesley.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter3.html" class="pagination-link" aria-label="Organização dos dados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter5.html" class="pagination-link" aria-label="Visualização de dados">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

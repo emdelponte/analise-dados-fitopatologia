@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Como visualizar dados de forma eficaz? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter6.html" rel="next">
+<link href="./chapter4.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter5.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">5.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-visualizar-dados" id="toc-por-que-visualizar-dados" class="nav-link" data-scroll-target="#por-que-visualizar-dados"><span class="header-section-number">5.2</span> Por que visualizar dados?</a></li>
+  <li><a href="#a-visualização-como-parte-do-raciocínio-científico" id="toc-a-visualização-como-parte-do-raciocínio-científico" class="nav-link" data-scroll-target="#a-visualização-como-parte-do-raciocínio-científico"><span class="header-section-number">5.3</span> A visualização como parte do raciocínio científico</a>
+  <ul class="collapse">
+  <li><a href="#vendo-padrões-nos-dados" id="toc-vendo-padrões-nos-dados" class="nav-link" data-scroll-target="#vendo-padrões-nos-dados"><span class="header-section-number">5.3.1</span> Vendo padrões nos dados</a></li>
+  <li><a href="#exploração-e-comunicação" id="toc-exploração-e-comunicação" class="nav-link" data-scroll-target="#exploração-e-comunicação"><span class="header-section-number">5.3.2</span> Exploração e comunicação</a></li>
+  <li><a href="#dos-dados-à-evidência-gráfica" id="toc-dos-dados-à-evidência-gráfica" class="nav-link" data-scroll-target="#dos-dados-à-evidência-gráfica"><span class="header-section-number">5.3.3</span> Dos dados à evidência gráfica</a></li>
+  </ul></li>
+  <li><a href="#a-anatomia-de-um-gráfico-estatístico" id="toc-a-anatomia-de-um-gráfico-estatístico" class="nav-link" data-scroll-target="#a-anatomia-de-um-gráfico-estatístico"><span class="header-section-number">5.4</span> A anatomia de um gráfico estatístico</a>
+  <ul class="collapse">
+  <li><a href="#dados" id="toc-dados" class="nav-link" data-scroll-target="#dados"><span class="header-section-number">5.4.1</span> Dados</a></li>
+  <li><a href="#mapeamentos-gráficos" id="toc-mapeamentos-gráficos" class="nav-link" data-scroll-target="#mapeamentos-gráficos"><span class="header-section-number">5.4.2</span> Mapeamentos gráficos</a></li>
+  <li><a href="#representações-geométricas" id="toc-representações-geométricas" class="nav-link" data-scroll-target="#representações-geométricas"><span class="header-section-number">5.4.3</span> Representações geométricas</a></li>
+  <li><a href="#escalas" id="toc-escalas" class="nav-link" data-scroll-target="#escalas"><span class="header-section-number">5.4.4</span> Escalas</a></li>
+  <li><a href="#sistemas-de-coordenadas" id="toc-sistemas-de-coordenadas" class="nav-link" data-scroll-target="#sistemas-de-coordenadas"><span class="header-section-number">5.4.5</span> Sistemas de coordenadas</a></li>
+  <li><a href="#rótulos-e-anotações" id="toc-rótulos-e-anotações" class="nav-link" data-scroll-target="#rótulos-e-anotações"><span class="header-section-number">5.4.6</span> Rótulos e anotações</a></li>
+  </ul></li>
+  <li><a href="#associando-variáveis-a-propriedades-visuais" id="toc-associando-variáveis-a-propriedades-visuais" class="nav-link" data-scroll-target="#associando-variáveis-a-propriedades-visuais"><span class="header-section-number">5.5</span> Associando variáveis a propriedades visuais</a>
+  <ul class="collapse">
+  <li><a href="#posição" id="toc-posição" class="nav-link" data-scroll-target="#posição"><span class="header-section-number">5.5.1</span> Posição</a></li>
+  <li><a href="#comprimento" id="toc-comprimento" class="nav-link" data-scroll-target="#comprimento"><span class="header-section-number">5.5.2</span> Comprimento</a></li>
+  <li><a href="#tamanho" id="toc-tamanho" class="nav-link" data-scroll-target="#tamanho"><span class="header-section-number">5.5.3</span> Tamanho</a></li>
+  <li><a href="#formato" id="toc-formato" class="nav-link" data-scroll-target="#formato"><span class="header-section-number">5.5.4</span> Formato</a></li>
+  <li><a href="#cor" id="toc-cor" class="nav-link" data-scroll-target="#cor"><span class="header-section-number">5.5.5</span> Cor</a></li>
+  <li><a href="#transparência" id="toc-transparência" class="nav-link" data-scroll-target="#transparência"><span class="header-section-number">5.5.6</span> Transparência</a></li>
+  </ul></li>
+  <li><a href="#escolhendo-um-gráfico" id="toc-escolhendo-um-gráfico" class="nav-link" data-scroll-target="#escolhendo-um-gráfico"><span class="header-section-number">5.6</span> Escolhendo um gráfico</a>
+  <ul class="collapse">
+  <li><a href="#mostrando-distribuições" id="toc-mostrando-distribuições" class="nav-link" data-scroll-target="#mostrando-distribuições"><span class="header-section-number">5.6.1</span> Mostrando distribuições</a></li>
+  <li><a href="#comparando-grupos" id="toc-comparando-grupos" class="nav-link" data-scroll-target="#comparando-grupos"><span class="header-section-number">5.6.2</span> Comparando grupos</a></li>
+  <li><a href="#mostrando-relações" id="toc-mostrando-relações" class="nav-link" data-scroll-target="#mostrando-relações"><span class="header-section-number">5.6.3</span> Mostrando relações</a></li>
+  <li><a href="#mostrando-mudanças-ao-longo-do-tempo" id="toc-mostrando-mudanças-ao-longo-do-tempo" class="nav-link" data-scroll-target="#mostrando-mudanças-ao-longo-do-tempo"><span class="header-section-number">5.6.4</span> Mostrando mudanças ao longo do tempo</a></li>
+  <li><a href="#mostrando-proporções-e-frequências" id="toc-mostrando-proporções-e-frequências" class="nav-link" data-scroll-target="#mostrando-proporções-e-frequências"><span class="header-section-number">5.6.5</span> Mostrando proporções e frequências</a></li>
+  <li><a href="#mostrando-a-incerteza" id="toc-mostrando-a-incerteza" class="nav-link" data-scroll-target="#mostrando-a-incerteza"><span class="header-section-number">5.6.6</span> Mostrando a incerteza</a></li>
+  </ul></li>
+  <li><a href="#mostre-os-dados-sempre-que-possível" id="toc-mostre-os-dados-sempre-que-possível" class="nav-link" data-scroll-target="#mostre-os-dados-sempre-que-possível"><span class="header-section-number">5.7</span> Mostre os dados sempre que possível</a>
+  <ul class="collapse">
+  <li><a href="#observações-brutas" id="toc-observações-brutas" class="nav-link" data-scroll-target="#observações-brutas"><span class="header-section-number">5.7.1</span> Observações brutas</a></li>
+  <li><a href="#estatísticas-resumo" id="toc-estatísticas-resumo" class="nav-link" data-scroll-target="#estatísticas-resumo"><span class="header-section-number">5.7.2</span> Estatísticas-resumo</a></li>
+  <li><a href="#distribuição-e-variação" id="toc-distribuição-e-variação" class="nav-link" data-scroll-target="#distribuição-e-variação"><span class="header-section-number">5.7.3</span> Distribuição e variação</a></li>
+  </ul></li>
+  <li><a href="#representando-a-incerteza" id="toc-representando-a-incerteza" class="nav-link" data-scroll-target="#representando-a-incerteza"><span class="header-section-number">5.8</span> Representando a incerteza</a>
+  <ul class="collapse">
+  <li><a href="#variabilidade-versus-incerteza" id="toc-variabilidade-versus-incerteza" class="nav-link" data-scroll-target="#variabilidade-versus-incerteza"><span class="header-section-number">5.8.1</span> Variabilidade versus incerteza</a></li>
+  <li><a href="#barras-de-erro" id="toc-barras-de-erro" class="nav-link" data-scroll-target="#barras-de-erro"><span class="header-section-number">5.8.2</span> Barras de erro</a></li>
+  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">5.8.3</span> Intervalos de confiança</a></li>
+  <li><a href="#intervalos-de-predição" id="toc-intervalos-de-predição" class="nav-link" data-scroll-target="#intervalos-de-predição"><span class="header-section-number">5.8.4</span> Intervalos de predição</a></li>
+  <li><a href="#quando-a-incerteza-deve-ser-mostrada" id="toc-quando-a-incerteza-deve-ser-mostrada" class="nav-link" data-scroll-target="#quando-a-incerteza-deve-ser-mostrada"><span class="header-section-number">5.8.5</span> Quando a incerteza deve ser mostrada</a></li>
+  </ul></li>
+  <li><a href="#cor-em-gráficos-científicos" id="toc-cor-em-gráficos-científicos" class="nav-link" data-scroll-target="#cor-em-gráficos-científicos"><span class="header-section-number">5.9</span> Cor em gráficos científicos</a>
+  <ul class="collapse">
+  <li><a href="#a-cor-como-informação" id="toc-a-cor-como-informação" class="nav-link" data-scroll-target="#a-cor-como-informação"><span class="header-section-number">5.9.1</span> A cor como informação</a></li>
+  <li><a href="#paletas-sequenciais" id="toc-paletas-sequenciais" class="nav-link" data-scroll-target="#paletas-sequenciais"><span class="header-section-number">5.9.2</span> Paletas sequenciais</a></li>
+  <li><a href="#paletas-divergentes" id="toc-paletas-divergentes" class="nav-link" data-scroll-target="#paletas-divergentes"><span class="header-section-number">5.9.3</span> Paletas divergentes</a></li>
+  <li><a href="#paletas-qualitativas" id="toc-paletas-qualitativas" class="nav-link" data-scroll-target="#paletas-qualitativas"><span class="header-section-number">5.9.4</span> Paletas qualitativas</a></li>
+  <li><a href="#acessibilidade-das-cores" id="toc-acessibilidade-das-cores" class="nav-link" data-scroll-target="#acessibilidade-das-cores"><span class="header-section-number">5.9.5</span> Acessibilidade das cores</a></li>
+  <li><a href="#quando-não-usar-cor" id="toc-quando-não-usar-cor" class="nav-link" data-scroll-target="#quando-não-usar-cor"><span class="header-section-number">5.9.6</span> Quando não usar cor</a></li>
+  </ul></li>
+  <li><a href="#rótulos-escalas-e-eixos" id="toc-rótulos-escalas-e-eixos" class="nav-link" data-scroll-target="#rótulos-escalas-e-eixos"><span class="header-section-number">5.10</span> Rótulos, escalas e eixos</a>
+  <ul class="collapse">
+  <li><a href="#rótulos-informativos-nos-eixos" id="toc-rótulos-informativos-nos-eixos" class="nav-link" data-scroll-target="#rótulos-informativos-nos-eixos"><span class="header-section-number">5.10.1</span> Rótulos informativos nos eixos</a></li>
+  <li><a href="#unidades-de-medida" id="toc-unidades-de-medida" class="nav-link" data-scroll-target="#unidades-de-medida"><span class="header-section-number">5.10.2</span> Unidades de medida</a></li>
+  <li><a href="#limites-dos-eixos" id="toc-limites-dos-eixos" class="nav-link" data-scroll-target="#limites-dos-eixos"><span class="header-section-number">5.10.3</span> Limites dos eixos</a></li>
+  <li><a href="#transformações" id="toc-transformações" class="nav-link" data-scroll-target="#transformações"><span class="header-section-number">5.10.4</span> Transformações</a></li>
+  <li><a href="#ordenando-categorias" id="toc-ordenando-categorias" class="nav-link" data-scroll-target="#ordenando-categorias"><span class="header-section-number">5.10.5</span> Ordenando categorias</a></li>
+  <li><a href="#legendas" id="toc-legendas" class="nav-link" data-scroll-target="#legendas"><span class="header-section-number">5.10.6</span> Legendas</a></li>
+  </ul></li>
+  <li><a href="#múltiplas-variáveis-e-múltiplos-painéis" id="toc-múltiplas-variáveis-e-múltiplos-painéis" class="nav-link" data-scroll-target="#múltiplas-variáveis-e-múltiplos-painéis"><span class="header-section-number">5.11</span> Múltiplas variáveis e múltiplos painéis</a>
+  <ul class="collapse">
+  <li><a href="#variáveis-de-agrupamento" id="toc-variáveis-de-agrupamento" class="nav-link" data-scroll-target="#variáveis-de-agrupamento"><span class="header-section-number">5.11.1</span> Variáveis de agrupamento</a></li>
+  <li><a href="#facetas" id="toc-facetas" class="nav-link" data-scroll-target="#facetas"><span class="header-section-number">5.11.2</span> Facetas</a></li>
+  <li><a href="#pequenos-múltiplos" id="toc-pequenos-múltiplos" class="nav-link" data-scroll-target="#pequenos-múltiplos"><span class="header-section-number">5.11.3</span> Pequenos múltiplos</a></li>
+  <li><a href="#comparando-ambientes" id="toc-comparando-ambientes" class="nav-link" data-scroll-target="#comparando-ambientes"><span class="header-section-number">5.11.4</span> Comparando ambientes</a></li>
+  <li><a href="#comparando-experimentos" id="toc-comparando-experimentos" class="nav-link" data-scroll-target="#comparando-experimentos"><span class="header-section-number">5.11.5</span> Comparando experimentos</a></li>
+  </ul></li>
+  <li><a href="#construindo-gráficos-com-o-ggplot2" id="toc-construindo-gráficos-com-o-ggplot2" class="nav-link" data-scroll-target="#construindo-gráficos-com-o-ggplot2"><span class="header-section-number">5.12</span> Construindo gráficos com o ggplot2</a>
+  <ul class="collapse">
+  <li><a href="#a-gramática-dos-gráficos" id="toc-a-gramática-dos-gráficos" class="nav-link" data-scroll-target="#a-gramática-dos-gráficos"><span class="header-section-number">5.12.1</span> A gramática dos gráficos</a></li>
+  <li><a href="#dados-e-estéticas" id="toc-dados-e-estéticas" class="nav-link" data-scroll-target="#dados-e-estéticas"><span class="header-section-number">5.12.2</span> Dados e estéticas</a></li>
+  <li><a href="#geometrias" id="toc-geometrias" class="nav-link" data-scroll-target="#geometrias"><span class="header-section-number">5.12.3</span> Geometrias</a></li>
+  <li><a href="#acrescentando-camadas" id="toc-acrescentando-camadas" class="nav-link" data-scroll-target="#acrescentando-camadas"><span class="header-section-number">5.12.4</span> Acrescentando camadas</a></li>
+  <li><a href="#facetas-1" id="toc-facetas-1" class="nav-link" data-scroll-target="#facetas-1"><span class="header-section-number">5.12.5</span> Facetas</a></li>
+  <li><a href="#rótulos-e-temas" id="toc-rótulos-e-temas" class="nav-link" data-scroll-target="#rótulos-e-temas"><span class="header-section-number">5.12.6</span> Rótulos e temas</a></li>
+  <li><a href="#juntando-tudo" id="toc-juntando-tudo" class="nav-link" data-scroll-target="#juntando-tudo"><span class="header-section-number">5.12.7</span> Juntando tudo</a></li>
+  </ul></li>
+  <li><a href="#problemas-comuns-em-figuras-científicas" id="toc-problemas-comuns-em-figuras-científicas" class="nav-link" data-scroll-target="#problemas-comuns-em-figuras-científicas"><span class="header-section-number">5.13</span> Problemas comuns em figuras científicas</a>
+  <ul class="collapse">
+  <li><a href="#gráficos-de-barras-que-escondem-os-dados" id="toc-gráficos-de-barras-que-escondem-os-dados" class="nav-link" data-scroll-target="#gráficos-de-barras-que-escondem-os-dados"><span class="header-section-number">5.13.1</span> Gráficos de barras que escondem os dados</a></li>
+  <li><a href="#uso-inadequado-de-gráficos-tridimensionais" id="toc-uso-inadequado-de-gráficos-tridimensionais" class="nav-link" data-scroll-target="#uso-inadequado-de-gráficos-tridimensionais"><span class="header-section-number">5.13.2</span> Uso inadequado de gráficos tridimensionais</a></li>
+  <li><a href="#decoração-excessiva" id="toc-decoração-excessiva" class="nav-link" data-scroll-target="#decoração-excessiva"><span class="header-section-number">5.13.3</span> Decoração excessiva</a></li>
+  <li><a href="#cores-demais" id="toc-cores-demais" class="nav-link" data-scroll-target="#cores-demais"><span class="header-section-number">5.13.4</span> Cores demais</a></li>
+  <li><a href="#escalas-mal-escolhidas" id="toc-escalas-mal-escolhidas" class="nav-link" data-scroll-target="#escalas-mal-escolhidas"><span class="header-section-number">5.13.5</span> Escalas mal escolhidas</a></li>
+  <li><a href="#escalas-inconsistentes-entre-painéis" id="toc-escalas-inconsistentes-entre-painéis" class="nav-link" data-scroll-target="#escalas-inconsistentes-entre-painéis"><span class="header-section-number">5.13.6</span> Escalas inconsistentes entre painéis</a></li>
+  <li><a href="#observações-sobrepostas" id="toc-observações-sobrepostas" class="nav-link" data-scroll-target="#observações-sobrepostas"><span class="header-section-number">5.13.7</span> Observações sobrepostas</a></li>
+  <li><a href="#legendas-desnecessárias" id="toc-legendas-desnecessárias" class="nav-link" data-scroll-target="#legendas-desnecessárias"><span class="header-section-number">5.13.8</span> Legendas desnecessárias</a></li>
+  <li><a href="#textos-pequenos-e-rótulos-ilegíveis" id="toc-textos-pequenos-e-rótulos-ilegíveis" class="nav-link" data-scroll-target="#textos-pequenos-e-rótulos-ilegíveis"><span class="header-section-number">5.13.9</span> Textos pequenos e rótulos ilegíveis</a></li>
+  <li><a href="#ligar-observações-que-não-deveriam-ser-ligadas" id="toc-ligar-observações-que-não-deveriam-ser-ligadas" class="nav-link" data-scroll-target="#ligar-observações-que-não-deveriam-ser-ligadas"><span class="header-section-number">5.13.10</span> Ligar observações que não deveriam ser ligadas</a></li>
+  <li><a href="#gráficos-que-sugerem-relações-sem-fundamento" id="toc-gráficos-que-sugerem-relações-sem-fundamento" class="nav-link" data-scroll-target="#gráficos-que-sugerem-relações-sem-fundamento"><span class="header-section-number">5.13.11</span> Gráficos que sugerem relações sem fundamento</a></li>
+  </ul></li>
+  <li><a href="#visualizações-enganosas" id="toc-visualizações-enganosas" class="nav-link" data-scroll-target="#visualizações-enganosas"><span class="header-section-number">5.14</span> Visualizações enganosas</a>
+  <ul class="collapse">
+  <li><a href="#eixos-truncados" id="toc-eixos-truncados" class="nav-link" data-scroll-target="#eixos-truncados"><span class="header-section-number">5.14.1</span> Eixos truncados</a></li>
+  <li><a href="#distorções-de-área-e-volume" id="toc-distorções-de-área-e-volume" class="nav-link" data-scroll-target="#distorções-de-área-e-volume"><span class="header-section-number">5.14.2</span> Distorções de área e volume</a></li>
+  <li><a href="#intervalos-gráficos-desiguais" id="toc-intervalos-gráficos-desiguais" class="nav-link" data-scroll-target="#intervalos-gráficos-desiguais"><span class="header-section-number">5.14.3</span> Intervalos gráficos desiguais</a></li>
+  <li><a href="#apresentação-seletiva-dos-dados" id="toc-apresentação-seletiva-dos-dados" class="nav-link" data-scroll-target="#apresentação-seletiva-dos-dados"><span class="header-section-number">5.14.4</span> Apresentação seletiva dos dados</a></li>
+  <li><a href="#suavização-e-agregação" id="toc-suavização-e-agregação" class="nav-link" data-scroll-target="#suavização-e-agregação"><span class="header-section-number">5.14.5</span> Suavização e agregação</a></li>
+  </ul></li>
+  <li><a href="#elaborando-figuras-para-publicações-científicas" id="toc-elaborando-figuras-para-publicações-científicas" class="nav-link" data-scroll-target="#elaborando-figuras-para-publicações-científicas"><span class="header-section-number">5.15</span> Elaborando figuras para publicações científicas</a>
+  <ul class="collapse">
+  <li><a href="#uma-figura-uma-mensagem-principal" id="toc-uma-figura-uma-mensagem-principal" class="nav-link" data-scroll-target="#uma-figura-uma-mensagem-principal"><span class="header-section-number">5.15.1</span> Uma figura, uma mensagem principal</a></li>
+  <li><a href="#painéis" id="toc-painéis" class="nav-link" data-scroll-target="#painéis"><span class="header-section-number">5.15.2</span> Painéis</a></li>
+  <li><a href="#linguagem-visual-consistente" id="toc-linguagem-visual-consistente" class="nav-link" data-scroll-target="#linguagem-visual-consistente"><span class="header-section-number">5.15.3</span> Linguagem visual consistente</a></li>
+  <li><a href="#legendas-das-figuras" id="toc-legendas-das-figuras" class="nav-link" data-scroll-target="#legendas-das-figuras"><span class="header-section-number">5.15.4</span> Legendas das figuras</a></li>
+  <li><a href="#resolução-e-dimensões" id="toc-resolução-e-dimensões" class="nav-link" data-scroll-target="#resolução-e-dimensões"><span class="header-section-number">5.15.5</span> Resolução e dimensões</a></li>
+  <li><a href="#formatos-vetoriais-e-rasterizados" id="toc-formatos-vetoriais-e-rasterizados" class="nav-link" data-scroll-target="#formatos-vetoriais-e-rasterizados"><span class="header-section-number">5.15.6</span> Formatos vetoriais e rasterizados</a></li>
+  <li><a href="#planejando-para-o-formato-final" id="toc-planejando-para-o-formato-final" class="nav-link" data-scroll-target="#planejando-para-o-formato-final"><span class="header-section-number">5.15.7</span> Planejando para o formato final</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática-aprimorando-uma-figura-científica" id="toc-pesquisa-na-prática-aprimorando-uma-figura-científica" class="nav-link" data-scroll-target="#pesquisa-na-prática-aprimorando-uma-figura-científica"><span class="header-section-number">5.16</span> Pesquisa na prática: aprimorando uma figura científica</a></li>
+  <li><a href="#um-fluxo-de-trabalho-para-a-visualização-científica" id="toc-um-fluxo-de-trabalho-para-a-visualização-científica" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-para-a-visualização-científica"><span class="header-section-number">5.17</span> Um fluxo de trabalho para a visualização científica</a></li>
+  <li><a href="#lista-de-verificação-da-figura" id="toc-lista-de-verificação-da-figura" class="nav-link" data-scroll-target="#lista-de-verificação-da-figura"><span class="header-section-number">5.18</span> Lista de verificação da figura</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">5.19</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">5.20</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">5.21</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-o-que-o-gráfico-revela" id="toc-exercício-1.-o-que-o-gráfico-revela" class="nav-link" data-scroll-target="#exercício-1.-o-que-o-gráfico-revela"><span class="header-section-number">5.21.1</span> Exercício 1. O que o gráfico revela?</a></li>
+  <li><a href="#exercício-2.-escolhendo-uma-representação-gráfica" id="toc-exercício-2.-escolhendo-uma-representação-gráfica" class="nav-link" data-scroll-target="#exercício-2.-escolhendo-uma-representação-gráfica"><span class="header-section-number">5.21.2</span> Exercício 2. Escolhendo uma representação gráfica</a></li>
+  <li><a href="#exercício-3.-aprimorando-uma-figura" id="toc-exercício-3.-aprimorando-uma-figura" class="nav-link" data-scroll-target="#exercício-3.-aprimorando-uma-figura"><span class="header-section-number">5.21.3</span> Exercício 3. Aprimorando uma figura</a></li>
+  <li><a href="#exercício-4.-dos-dados-à-figura" id="toc-exercício-4.-dos-dados-à-figura" class="nav-link" data-scroll-target="#exercício-4.-dos-dados-à-figura"><span class="header-section-number">5.21.4</span> Exercício 4. Dos dados à figura</a></li>
+  <li><a href="#exercício-5.-avaliando-criticamente-figuras-publicadas" id="toc-exercício-5.-avaliando-criticamente-figuras-publicadas" class="nav-link" data-scroll-target="#exercício-5.-avaliando-criticamente-figuras-publicadas"><span class="header-section-number">5.21.5</span> Exercício 5. Avaliando criticamente figuras publicadas</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">5.22</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">5.23</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Como visualizar dados de forma eficaz?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">5.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>explicar o papel da visualização na análise e na comunicação científica;</li>
+<li>distinguir gráficos exploratórios de gráficos explicativos;</li>
+<li>identificar os principais componentes de um gráfico estatístico;</li>
+<li>associar adequadamente variáveis a propriedades gráficas;</li>
+<li>escolher representações gráficas de acordo com a questão biológica e a estrutura dos dados;</li>
+<li>reconhecer visualizações enganosas ou ineficazes;</li>
+<li>construir figuras científicas claras e informativas usando o R;</li>
+<li>aprimorar figuras por meio do uso adequado de escalas, rótulos, símbolos e ênfase gráfica.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-visualizar-dados" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="por-que-visualizar-dados"><span class="header-section-number">5.2</span> Por que visualizar dados?</h2>
+<p>Conjuntos de dados científicos frequentemente contêm padrões difíceis de reconhecer apenas por tabelas ou resumos numéricos. A visualização estabelece uma conexão direta entre os dados e a percepção humana, permitindo identificar distribuições, relações, variação, observações incomuns e padrões biológicos.</p>
+<p>O Capítulo 4 mostrou que a análise exploratória depende fortemente de gráficos. Histogramas revelam assimetria e valores discrepantes, gráficos de dispersão revelam curvaturas e agrupamentos, e gráficos de linhas revelam como a doença se desenvolve ao longo do tempo. Os gráficos também são o principal meio de comunicar resultados: em artigos, teses, relatórios, apresentações e materiais de extensão, os leitores muitas vezes olham as figuras antes — e às vezes em vez — de ler o texto. Uma figura serve, portanto, a dois públicos: o pesquisador que tenta compreender os dados e o leitor que tenta avaliar a evidência.</p>
+<p>Os dois usos exigem escolhas. Quais variáveis vão em qual eixo, se mostrar as observações individuais ou apenas resumos, como representar a incerteza e como usar as cores — tudo isso afeta o que o leitor vê e conclui. Este capítulo apresenta princípios para fazer essas escolhas de forma deliberada, para que as figuras revelem a evidência em vez de obscurecê-la ou distorcê-la.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma figura científica deve ajudar o leitor a ver a evidência, e não apenas enfeitar os resultados.</p>
+</div>
+</div>
+</section>
+<section id="a-visualização-como-parte-do-raciocínio-científico" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="a-visualização-como-parte-do-raciocínio-científico"><span class="header-section-number">5.3</span> A visualização como parte do raciocínio científico</h2>
+<section id="vendo-padrões-nos-dados" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="vendo-padrões-nos-dados"><span class="header-section-number">5.3.1</span> Vendo padrões nos dados</h3>
+<p>Os resumos numéricos condensam os dados em poucos números e, ao fazer isso, inevitavelmente descartam informação. Conjuntos de dados muito diferentes podem ter as mesmas médias, desvios padrão e correlações. A demonstração clássica é o quarteto de Anscombe: quatro pequenos conjuntos de dados com médias, variâncias, correlação e reta de regressão praticamente idênticas, dos quais um mostra uma relação linear, outro uma curva, outro uma reta perfeita distorcida por um único valor discrepante e outro nenhuma relação, exceto por um ponto extremo <span class="citation" data-cites="anscombe1973">(<a href="references.html#ref-anscombe1973" role="doc-biblioref">Anscombe 1973</a>)</span>.</p>
+<p>O mesmo fenômeno ocorre na Fitopatologia. Imagine quatro ensaios de campo em que a severidade média da testemunha é 20% e seu desvio padrão é 8%. No primeiro ensaio, a severidade varia suavemente entre as parcelas. No segundo, a maioria das parcelas tem cerca de 15% de severidade e uma parcela tem 50%, talvez por estar ao lado de uma fonte de inóculo. No terceiro, as parcelas se dividem em dois grupos, 10% e 30%, correspondentes a dois tipos de solo. No quarto, a severidade aumenta continuamente de uma extremidade da lavoura à outra. Os resumos são idênticos; as histórias biológicas são completamente diferentes. Somente um gráfico das observações individuais revela qual história se aplica.</p>
+<p>O quarteto de Anscombe está disponível no R base (objeto <code>anscombe</code>), e basta reorganizá-lo para vê-lo (<a href="#fig-chapter5-anscombe" class="quarto-xref">Figura&nbsp;<span>5.1</span></a>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>quarteto <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">conjunto =</span> <span class="fu">rep</span>(<span class="fu">paste</span>(<span class="st">"Conjunto"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">each =</span> <span class="dv">11</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(anscombe<span class="sc">$</span>x1, anscombe<span class="sc">$</span>x2, anscombe<span class="sc">$</span>x3, anscombe<span class="sc">$</span>x4),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(anscombe<span class="sc">$</span>y1, anscombe<span class="sc">$</span>y2, anscombe<span class="sc">$</span>y3, anscombe<span class="sc">$</span>y4)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(quarteto, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">"grey60"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">colour =</span> <span class="st">"#0072B2"</span>) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> conjunto) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-chapter5-anscombe" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-anscombe-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-anscombe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.1: O quarteto de Anscombe: quatro conjuntos de dados com médias, variâncias, correlação (r ≈ 0,82) e reta de regressão praticamente idênticas, mas com padrões completamente diferentes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exploração-e-comunicação" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="exploração-e-comunicação"><span class="header-section-number">5.3.2</span> Exploração e comunicação</h3>
+<p>A visualização serve a dois propósitos distintos. <strong>Gráficos exploratórios</strong> são feitos pelos pesquisadores para si mesmos, para compreender os dados: pesquisador → dados → compreensão. São produzidos rapidamente, em grande número, e descartados livremente. Seu objetivo é revelar tudo o que possa existir nos dados, inclusive erros e padrões inesperados.</p>
+<p><strong>Gráficos explicativos</strong> são feitos para outras pessoas, para comunicar um resultado: pesquisador → figura → leitor. São produzidos com cuidado e em pequeno número, e cada um é planejado para transmitir uma mensagem específica de forma clara e honesta. Seu objetivo é ajudar os leitores a ver e avaliar a evidência que sustenta uma conclusão.</p>
+<p>Os dois tipos diferem no grau de acabamento, mas não na honestidade. Uma figura explicativa seleciona e enfatiza, mas não deve esconder características dos dados que sejam relevantes para a conclusão.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter5-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-f5763a2b28c2b25d906c" style="width:100%;height:280px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f5763a2b28c2b25d906c">{"x":{"diagram":"\ndigraph papeis {\n  graph [rankdir = LR, nodesep = 0.4, ranksep = 0.45, bgcolor = \"transparent\",\n         fontname = \"Helvetica\", fontsize = 15, labeljust = \"l\"]\n  node  [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\",\n         fontsize = 14, width = 1.7, height = 0.55, penwidth = 1.3]\n  edge  [arrowsize = 0.7, penwidth = 1.2]\n\n  // em rankdir = LR, o subgrafo definido por último aparece em cima\n  subgraph cluster_com {\n    label = <<b>Gráficos explicativos<\/b><br/><font point-size=\"12\">cuidadosos, poucos, uma mensagem cada<\/font>>\n    fontcolor = \"#c4473a\"; color = \"#eba39a\"; style = \"rounded,dashed\"\n    node [fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n    c1 [label = \"Pesquisador\"]\n    c2 [label = \"Figura\"]\n    c3 [label = \"Leitor\"]\n    edge [color = \"#c4473a\"]\n    c1 -> c2 -> c3\n  }\n\n  subgraph cluster_exp {\n    label = <<b>Gráficos exploratórios<\/b><br/><font point-size=\"12\">rápidos, numerosos, descartáveis<\/font>>\n    fontcolor = \"#1f8075\"; color = \"#86c9bf\"; style = \"rounded,dashed\"\n    node [fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n    e1 [label = \"Pesquisador\"]\n    e2 [label = \"Dados\"]\n    e3 [label = \"Compreensão\"]\n    edge [color = \"#1f8075\"]\n    e1 -> e2 -> e3\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.2: Dois papéis complementares da visualização científica: explorar os dados e comunicar a evidência.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="dos-dados-à-evidência-gráfica" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="dos-dados-à-evidência-gráfica"><span class="header-section-number">5.3.3</span> Dos dados à evidência gráfica</h3>
+<p>Uma figura é uma representação dos dados, e não os dados em si. Toda figura resulta de decisões: quais observações incluir, se mostrar valores individuais ou resumos, quais comparações colocar lado a lado, que escala usar e o que enfatizar com cor ou posição. Cada decisão torna algumas características dos dados mais fáceis de ver e outras mais difíceis.</p>
+<p>Não existe figura neutra. Por isso, a pergunta a fazer não é se uma figura envolve escolhas, mas se essas escolhas são orientadas pela questão científica e se representam a evidência de forma justa. O restante deste capítulo discute como fazer bem essas escolhas.</p>
+</section>
+</section>
+<section id="a-anatomia-de-um-gráfico-estatístico" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="a-anatomia-de-um-gráfico-estatístico"><span class="header-section-number">5.4</span> A anatomia de um gráfico estatístico</h2>
+<p>Gráficos estatísticos podem parecer muito diferentes entre si, mas são construídos a partir dos mesmos componentes. Essa ideia, formalizada como <strong>gramática dos gráficos</strong> <span class="citation" data-cites="wilkinson2005 wickham2010">(<a href="references.html#ref-wickham2010" role="doc-biblioref">Wickham 2010</a>; <a href="references.html#ref-wilkinson2005" role="doc-biblioref">Wilkinson 2005</a>)</span>, fornece uma forma sistemática de descrever, planejar e construir qualquer gráfico.</p>
+<section id="dados" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="dados"><span class="header-section-number">5.4.1</span> Dados</h3>
+<p>Todo gráfico começa com um conjunto de dados. A organização descrita no Capítulo 3, com uma linha por observação e uma coluna por variável, é a entrada natural para os gráficos: cada linha se torna um elemento gráfico (um ponto, uma barra, um segmento de linha), e cada variável pode ser associada a uma propriedade visual.</p>
+</section>
+<section id="mapeamentos-gráficos" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="mapeamentos-gráficos"><span class="header-section-number">5.4.2</span> Mapeamentos gráficos</h3>
+<p>Um mapeamento, também chamado mapeamento estético, associa uma variável a uma propriedade visual: severidade à posição vertical, tratamento à posição horizontal, cultivar à cor, ano ao formato. Os mapeamentos são as decisões centrais no planejamento de um gráfico, porque determinam quais comparações o leitor consegue fazer com facilidade.</p>
+</section>
+<section id="representações-geométricas" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="representações-geométricas"><span class="header-section-number">5.4.3</span> Representações geométricas</h3>
+<p>As geometrias são as marcas usadas para representar as observações: pontos, linhas, barras, caixas, áreas ou texto. O mesmo mapeamento pode ser desenhado com geometrias diferentes. A severidade por tratamento pode ser mostrada com pontos, diagramas de caixa ou barras, e cada opção enfatiza características diferentes dos dados.</p>
+</section>
+<section id="escalas" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="escalas"><span class="header-section-number">5.4.4</span> Escalas</h3>
+<p>As escalas traduzem os valores dos dados em valores visuais: severidade de 0 a 100% em posições verticais, cultivares em cores, número de esporos em tamanhos de pontos. As escalas também produzem os guias que permitem ao leitor fazer a tradução inversa: eixos e legendas. As escolhas sobre escalas incluem seus limites, marcações e transformações, como escalas logarítmicas.</p>
+</section>
+<section id="sistemas-de-coordenadas" class="level3" data-number="5.4.5">
+<h3 data-number="5.4.5" class="anchored" data-anchor-id="sistemas-de-coordenadas"><span class="header-section-number">5.4.5</span> Sistemas de coordenadas</h3>
+<p>O sistema de coordenadas define o espaço em que o gráfico é desenhado. A maioria dos gráficos científicos usa coordenadas cartesianas, com eixos horizontal e vertical perpendiculares. Outros sistemas incluem as coordenadas polares (usadas em gráficos de setores e gráficos circulares) e as projeções geográficas (usadas em mapas).</p>
+</section>
+<section id="rótulos-e-anotações" class="level3" data-number="5.4.6">
+<h3 data-number="5.4.6" class="anchored" data-anchor-id="rótulos-e-anotações"><span class="header-section-number">5.4.6</span> Rótulos e anotações</h3>
+<p>Rótulos e anotações tornam o gráfico interpretável: títulos dos eixos com unidades, títulos das legendas, rótulos dos painéis, linhas de referência (como um limiar econômico) e texto destacando observações específicas. Eles ligam a representação gráfica de volta ao significado biológico.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter5-2" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-7de84879c937383019a0" style="width:100%;height:330px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7de84879c937383019a0">{"x":{"diagram":"digraph conv {\n  graph [rankdir = LR, nodesep = 0.12, ranksep = 1.0, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 14, width = 2.6, height = 0.5, penwidth = 1.4, margin = \"0.15,0.06\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2]\n  c1 [label = <<font color=\"#24301f\"><b>Dados<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  c2 [label = <<font color=\"#24301f\"><b>Mapeamentos<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  c3 [label = <<font color=\"#24301f\"><b>Geometrias<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  c4 [label = <<font color=\"#24301f\"><b>Escalas<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  c5 [label = <<font color=\"#24301f\"><b>Coordenadas<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  c6 [label = <<font color=\"#24301f\"><b>Rótulos e anotações<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  {rank = same; c1; c2; c3; c4; c5; c6}\n  r [label = <<font color=\"#24301f\"><b>Gráfico<br/>estatístico<\/b><\/font>>, fillcolor = \"#f4f4f4\", color = \"#5f7132\", width = 2.4, height = 1, penwidth = 2]\n  c1 -> r\n  c2 -> r\n  c3 -> r\n  c4 -> r\n  c5 -> r\n  c6 -> r\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.3: Principais componentes de um gráfico estatístico, segundo a gramática dos gráficos.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="associando-variáveis-a-propriedades-visuais" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="associando-variáveis-a-propriedades-visuais"><span class="header-section-number">5.5</span> Associando variáveis a propriedades visuais</h2>
+<p>As propriedades visuais não são igualmente eficazes para transmitir informação quantitativa. Pesquisas sobre percepção gráfica mostraram que as pessoas julgam algumas propriedades visuais com mais precisão do que outras <span class="citation" data-cites="cleveland1984">(<a href="references.html#ref-cleveland1984" role="doc-biblioref">Cleveland e McGill 1984</a>)</span>. A escolha de qual variável associar a qual propriedade deve, portanto, refletir quais comparações são mais importantes.</p>
+<section id="posição" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="posição"><span class="header-section-number">5.5.1</span> Posição</h3>
+<p>A posição ao longo de uma escala comum é a propriedade visual percebida com mais precisão. Os leitores conseguem comparar com grande precisão as alturas de pontos alinhados no mesmo eixo. Por isso, a comparação mais importante de uma figura deve ser representada pela posição, geralmente no eixo vertical.</p>
+</section>
+<section id="comprimento" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="comprimento"><span class="header-section-number">5.5.2</span> Comprimento</h3>
+<p>O comprimento, como nos gráficos de barras, também é julgado com precisão, desde que as barras partam de uma linha de base comum, geralmente zero. Comprimentos que não começam em zero, ou que não estão alinhados, são comparados com muito menos precisão.</p>
+</section>
+<section id="tamanho" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="tamanho"><span class="header-section-number">5.5.3</span> Tamanho</h3>
+<p>O tamanho, como a área dos pontos, é percebido com menos precisão do que a posição ou o comprimento. Os leitores tendem a subestimar diferenças de área. O tamanho é útil para representar uma variável secundária, como o número de observações por trás de cada ponto, mas não para comparações precisas.</p>
+</section>
+<section id="formato" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="formato"><span class="header-section-number">5.5.4</span> Formato</h3>
+<p>O formato é adequado para distinguir um pequeno número de categorias, como anos ou locais. Ele não transmite quantidade, e mais de quatro ou cinco formatos tornam-se difíceis de distinguir.</p>
+</section>
+<section id="cor" class="level3" data-number="5.5.5">
+<h3 data-number="5.5.5" class="anchored" data-anchor-id="cor"><span class="header-section-number">5.5.5</span> Cor</h3>
+<p>A cor pode representar categorias (matiz) ou quantidades (luminosidade e saturação). O matiz é eficaz para distinguir poucos grupos; a intensidade da cor transmite apenas magnitudes aproximadas. A cor é discutida em detalhe mais adiante neste capítulo.</p>
+</section>
+<section id="transparência" class="level3" data-number="5.5.6">
+<h3 data-number="5.5.6" class="anchored" data-anchor-id="transparência"><span class="header-section-number">5.5.6</span> Transparência</h3>
+<p>A transparência é usada principalmente para lidar com observações sobrepostas. Quando muitos pontos caem uns sobre os outros, pontos semitransparentes revelam onde as observações se concentram. A transparência também pode atenuar informações de fundo, como as observações individuais por trás das médias dos grupos.</p>
+<div id="tbl-ch5-mappings" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch5-mappings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;5.1: Propriedades visuais e seus usos típicos.
+</figcaption>
+<div aria-describedby="tbl-ch5-mappings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 43%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propriedade visual</th>
+<th>Melhor uso</th>
+<th>Precisão para comparação quantitativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Posição em escala comum</td>
+<td>Comparação quantitativa principal</td>
+<td>Máxima</td>
+</tr>
+<tr class="even">
+<td>Comprimento a partir de base comum</td>
+<td>Contagens, totais, quantidades</td>
+<td>Alta</td>
+</tr>
+<tr class="odd">
+<td>Tamanho (área)</td>
+<td>Quantidades secundárias</td>
+<td>Baixa</td>
+</tr>
+<tr class="even">
+<td>Intensidade da cor</td>
+<td>Magnitudes aproximadas, mapas de calor</td>
+<td>Baixa</td>
+</tr>
+<tr class="odd">
+<td>Matiz da cor</td>
+<td>Poucas categorias</td>
+<td>Não quantitativa</td>
+</tr>
+<tr class="even">
+<td>Formato</td>
+<td>Poucas categorias</td>
+<td>Não quantitativa</td>
+</tr>
+<tr class="odd">
+<td>Transparência</td>
+<td>Pontos sobrepostos, atenuação</td>
+<td>Não quantitativa</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#fig-chapter5-percepcao" class="quarto-xref">Figura&nbsp;<span>5.4</span></a> mostra os mesmos cinco valores representados por quatro propriedades visuais diferentes. Na posição, as diferenças são lidas com facilidade; na área e na intensidade da cor, mesmo diferenças grandes parecem pequenas e imprecisas.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter5-percepcao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-percepcao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-percepcao-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-percepcao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.4: Os mesmos cinco valores (severidade de 10, 20, 25, 35 e 50%) representados por posição, comprimento, área e intensidade de cor. A precisão com que o leitor compara os valores diminui da esquerda para a direita.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sempre que a comparação quantitativa precisa for importante, prefira propriedades visuais que os leitores interpretam com precisão, especialmente a posição ao longo de uma escala comum.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="escolhendo-um-gráfico" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="escolhendo-um-gráfico"><span class="header-section-number">5.6</span> Escolhendo um gráfico</h2>
+<p>A representação gráfica adequada depende principalmente da questão biológica e das variáveis representadas.</p>
+<section id="mostrando-distribuições" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="mostrando-distribuições"><span class="header-section-number">5.6.1</span> Mostrando distribuições</h3>
+<p>A distribuição de uma única variável quantitativa é mostrada com histogramas, gráficos de densidade, diagramas de caixa, gráficos de violino ou gráficos das observações brutas. Os histogramas dividem a amplitude em intervalos e contam as observações em cada um; sua aparência depende da largura dos intervalos, que deve ser escolhida com cuidado. Os gráficos de densidade mostram uma versão suavizada da distribuição. Os diagramas de caixa resumem a distribuição com a mediana, os quartis e os possíveis valores discrepantes, e são compactos o suficiente para comparar muitos grupos. Os gráficos de violino combinam a compacidade do diagrama de caixa com a forma do gráfico de densidade. Quando o número de observações é pequeno, como na maioria dos experimentos planejados, as próprias observações, mostradas em um gráfico de pontos, costumam ser a representação mais informativa.</p>
+</section>
+<section id="comparando-grupos" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="comparando-grupos"><span class="header-section-number">5.6.2</span> Comparando grupos</h3>
+<p>Comparar uma resposta quantitativa entre tratamentos, cultivares ou isolados é a tarefa mais comum nas figuras de Fitopatologia. Gráficos de pontos mostrando todas as observações, diagramas de caixa e gráficos de médias com intervalos são todos eficazes. Gráficos de barras de médias são comuns, mas muitas vezes inadequados para respostas contínuas: mostram um único número por grupo, escondem a distribuição e o número de observações e sugerem que valores abaixo do topo da barra foram observados. A comparação entre grupos deve estar em um eixo comum, e os grupos devem estar ordenados de forma significativa.</p>
+</section>
+<section id="mostrando-relações" class="level3" data-number="5.6.3">
+<h3 data-number="5.6.3" class="anchored" data-anchor-id="mostrando-relações"><span class="header-section-number">5.6.3</span> Mostrando relações</h3>
+<p>A relação entre duas variáveis quantitativas, como severidade e produtividade ou temperatura e crescimento da lesão, é mostrada com um gráfico de dispersão. Variáveis adicionais podem ser mostradas por cor, formato ou painéis separados. Linhas ou curvas ajustadas podem ser acrescentadas, mas na etapa exploratória os próprios pontos são mais importantes do que qualquer linha-resumo.</p>
+</section>
+<section id="mostrando-mudanças-ao-longo-do-tempo" class="level3" data-number="5.6.4">
+<h3 data-number="5.6.4" class="anchored" data-anchor-id="mostrando-mudanças-ao-longo-do-tempo"><span class="header-section-number">5.6.4</span> Mostrando mudanças ao longo do tempo</h3>
+<p>Mudanças ao longo do tempo são mostradas com gráficos de linhas, em que o tempo fica no eixo horizontal e as observações da mesma unidade são ligadas. Curvas de progresso da doença, dinâmica de populações de patógenos e séries ambientais como temperatura, chuva e molhamento foliar são exemplos típicos. As linhas devem ligar observações apenas quando pertencem à mesma unidade ou grupo e quando os valores intermediários têm significado.</p>
+</section>
+<section id="mostrando-proporções-e-frequências" class="level3" data-number="5.6.5">
+<h3 data-number="5.6.5" class="anchored" data-anchor-id="mostrando-proporções-e-frequências"><span class="header-section-number">5.6.5</span> Mostrando proporções e frequências</h3>
+<p>Contagens e proporções de desfechos categóricos, como o número de lavouras em que um patógeno foi detectado ou a proporção de isolados resistentes a um fungicida, são mais bem mostradas com gráficos de barras, em que o comprimento da barra a partir do zero representa a contagem ou a proporção. Barras empilhadas mostram a composição dos grupos, mas dificultam a comparação de todos os segmentos exceto o de baixo. Gráficos de setores (“pizza”) representam proporções como ângulos e áreas, que são julgados com menos precisão do que comprimentos; raramente são a melhor escolha em figuras científicas.</p>
+</section>
+<section id="mostrando-a-incerteza" class="level3" data-number="5.6.6">
+<h3 data-number="5.6.6" class="anchored" data-anchor-id="mostrando-a-incerteza"><span class="header-section-number">5.6.6</span> Mostrando a incerteza</h3>
+<p>Estimativas como médias ou efeitos de tratamentos devem ser acompanhadas de uma representação de sua incerteza, normalmente um intervalo de confiança desenhado como uma linha em torno de um ponto. Sempre que possível, a incerteza deve ser mostrada junto com as observações, para que os leitores vejam tanto a variabilidade dos dados quanto a precisão das estimativas. Essas representações são discutidas em mais detalhe adiante.</p>
+<div id="tbl-ch5-graph-choice" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch5-graph-choice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;5.2: Relacionando questões científicas a abordagens gráficas comuns.
+</figcaption>
+<div aria-describedby="tbl-ch5-graph-choice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Questão científica</th>
+<th>Abordagem gráfica típica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Como uma variável está distribuída?</td>
+<td>Histograma, gráfico de densidade, diagrama de caixa</td>
+</tr>
+<tr class="even">
+<td>Como os grupos diferem?</td>
+<td>Gráfico de pontos, diagrama de caixa, gráfico de intervalos</td>
+</tr>
+<tr class="odd">
+<td>Duas variáveis quantitativas estão relacionadas?</td>
+<td>Gráfico de dispersão</td>
+</tr>
+<tr class="even">
+<td>Como uma resposta muda ao longo do tempo?</td>
+<td>Gráfico de linhas</td>
+</tr>
+<tr class="odd">
+<td>Qual a frequência de diferentes categorias?</td>
+<td>Gráfico de barras</td>
+</tr>
+<tr class="even">
+<td>Quão incerta é uma estimativa?</td>
+<td>Gráfico de pontos e intervalos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#fig-chapter5-galeria" class="quarto-xref">Figura&nbsp;<span>5.5</span></a> reúne exemplos dessas representações, todos construídos com o mesmo conjunto de dados simulados de um ensaio de fungicidas. O código de cada painel segue o padrão apresentado na seção sobre o <code>ggplot2</code>, mais adiante.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter5-galeria" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-galeria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-galeria-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-galeria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.5: Galeria de gráficos comuns em Fitopatologia (dados simulados). Distribuições: (A) histograma, (B) densidade, (C) diagrama de caixa e (D) violino com pontos. Comparação de grupos: (E) observações com média e IC 95%. Relações: (F) dispersão com reta ajustada. Tempo: (G) curvas de progresso. Proporções: (H) barras de proporção.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="mostre-os-dados-sempre-que-possível" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="mostre-os-dados-sempre-que-possível"><span class="header-section-number">5.7</span> Mostre os dados sempre que possível</h2>
+<section id="observações-brutas" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="observações-brutas"><span class="header-section-number">5.7.1</span> Observações brutas</h3>
+<p>A maioria dos experimentos em Fitopatologia tem um número modesto de unidades experimentais por tratamento, muitas vezes entre quatro e vinte. Com tão poucas observações, não há motivo para escondê-las. Mostrar cada observação permite ao leitor ver o número de repetições, a dispersão dos dados, valores incomuns e se as estatísticas-resumo representam bem os dados. Quando as observações se sobrepõem, podem ser espalhadas horizontalmente com um pequeno deslocamento aleatório (<em>jitter</em>) ou tornadas semitransparentes.</p>
+</section>
+<section id="estatísticas-resumo" class="level3" data-number="5.7.2">
+<h3 data-number="5.7.2" class="anchored" data-anchor-id="estatísticas-resumo"><span class="header-section-number">5.7.2</span> Estatísticas-resumo</h3>
+<p>Estatísticas-resumo, como médias ou medianas, ajudam o leitor a se concentrar na comparação de interesse. São mais bem mostradas sobre as observações, com um estilo visual distinto, como um ponto maior ou uma linha horizontal, para que os dois níveis de informação fiquem visíveis.</p>
+</section>
+<section id="distribuição-e-variação" class="level3" data-number="5.7.3">
+<h3 data-number="5.7.3" class="anchored" data-anchor-id="distribuição-e-variação"><span class="header-section-number">5.7.3</span> Distribuição e variação</h3>
+<p>Um tipo comum de figura mostra as médias dos tratamentos como barras com barras de erro padrão. Essa representação esconde quase tudo sobre os dados: o número de observações, sua distribuição, valores discrepantes e se a distribuição é assimétrica ou bimodal. Conjuntos de dados muito diferentes podem produzir barras idênticas <span class="citation" data-cites="weissgerber2015">(<a href="references.html#ref-weissgerber2015" role="doc-biblioref">Weissgerber et al. 2015</a>)</span>. Uma alternativa mais informativa mostra as observações individuais, as médias dos tratamentos e os intervalos de confiança. Com o mesmo espaço e a mesma tinta, ela revela os dados e a incerteza das estimativas.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convencional: barras e erros padrão</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"col"</span>) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_se, <span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.2</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Melhor: observações, médias e intervalos de confiança de 95%</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_cl_normal, <span class="at">color =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter5-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-3-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.6: Diferentes representações gráficas dos mesmos dados experimentais (dados simulados; seis parcelas por tratamento). (A) Barras com erro padrão mostram apenas a média e sua precisão. (B) Diagramas de caixa mostram a distribuição, mas com poucas observações escondem quantas são. (C) Observações individuais com a média e o intervalo de confiança de 95% revelam os dados e a incerteza, incluindo a parcela discrepante do Fungicida B e a maior variabilidade da testemunha.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As estatísticas-resumo não devem esconder desnecessariamente as observações a partir das quais foram calculadas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="representando-a-incerteza" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="representando-a-incerteza"><span class="header-section-number">5.8</span> Representando a incerteza</h2>
+<section id="variabilidade-versus-incerteza" class="level3" data-number="5.8.1">
+<h3 data-number="5.8.1" class="anchored" data-anchor-id="variabilidade-versus-incerteza"><span class="header-section-number">5.8.1</span> Variabilidade versus incerteza</h3>
+<p>Dois conceitos diferentes são frequentemente confundidos nas figuras. A <strong>variabilidade</strong> descreve o quanto as observações individuais diferem entre si; é uma propriedade dos dados e é resumida pelo desvio padrão ou pela amplitude. A <strong>incerteza</strong> descreve com que precisão uma grandeza, como a média de um tratamento, foi estimada; é resumida pelo erro padrão ou por um intervalo de confiança. A variabilidade não diminui à medida que mais observações são coletadas; a incerteza, sim. Os fundamentos estatísticos desses conceitos são apresentados no Capítulo 6. Para os gráficos, o ponto-chave é que o leitor precisa saber qual dos dois está sendo mostrado.</p>
+</section>
+<section id="barras-de-erro" class="level3" data-number="5.8.2">
+<h3 data-number="5.8.2" class="anchored" data-anchor-id="barras-de-erro"><span class="header-section-number">5.8.2</span> Barras de erro</h3>
+<p>As barras de erro podem representar o desvio padrão, o erro padrão, um intervalo de confiança ou a amplitude. Essas alternativas podem diferir muito em comprimento: o erro padrão é menor que o desvio padrão por um fator igual à raiz quadrada do tamanho da amostra. Barras de erro sem a indicação do que representam são ininterpretáveis. Toda figura com barras de erro deve informar na legenda o que elas mostram e em quantas observações cada uma se baseia.</p>
+</section>
+<section id="intervalos-de-confiança" class="level3" data-number="5.8.3">
+<h3 data-number="5.8.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">5.8.3</span> Intervalos de confiança</h3>
+<p>Um intervalo de confiança mostra uma faixa de valores para a grandeza estimada que são compatíveis com os dados, dado o modelo. Os intervalos de confiança são, em geral, a representação mais útil da incerteza para estimativas como médias, diferenças entre tratamentos ou inclinações, porque sua largura reflete diretamente a precisão da estimativa nas unidades da resposta.</p>
+</section>
+<section id="intervalos-de-predição" class="level3" data-number="5.8.4">
+<h3 data-number="5.8.4" class="anchored" data-anchor-id="intervalos-de-predição"><span class="header-section-number">5.8.4</span> Intervalos de predição</h3>
+<p>Um intervalo de predição mostra a faixa em que se espera que uma nova observação individual caia. Ele é sempre mais largo do que o intervalo de confiança da média, porque inclui tanto a incerteza da estimativa quanto a variabilidade das observações individuais. Os intervalos de predição são relevantes quando o objetivo é prever, por exemplo, o nível de doença esperado em uma nova lavoura sob determinadas condições (Capítulo 8).</p>
+</section>
+<section id="quando-a-incerteza-deve-ser-mostrada" class="level3" data-number="5.8.5">
+<h3 data-number="5.8.5" class="anchored" data-anchor-id="quando-a-incerteza-deve-ser-mostrada"><span class="header-section-number">5.8.5</span> Quando a incerteza deve ser mostrada</h3>
+<p>A incerteza deve ser mostrada sempre que uma figura sustenta uma conclusão sobre estimativas, como diferenças entre tratamentos, efeitos ou relações ajustadas. Pode ser omitida em gráficos puramente descritivos dos dados brutos, em que as próprias observações mostram a variabilidade. Em todos os casos, a representação deve corresponder à comparação de interesse: se a conclusão é sobre a diferença entre dois tratamentos, a incerteza dessa diferença é mais relevante do que a incerteza de cada média separadamente.</p>
+<div id="tbl-ch5-uncertainty" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch5-uncertainty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;5.3: Representações comuns de variabilidade e incerteza.
+</figcaption>
+<div aria-describedby="tbl-ch5-uncertainty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 50%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Representação</th>
+<th>O que descreve</th>
+<th>Diminui com mais observações?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Desvio padrão</td>
+<td>Variabilidade entre observações</td>
+<td>Não</td>
+</tr>
+<tr class="even">
+<td>Erro padrão</td>
+<td>Precisão de uma média estimada</td>
+<td>Sim</td>
+</tr>
+<tr class="odd">
+<td>Intervalo de confiança</td>
+<td>Faixa de valores compatíveis com os dados para uma estimativa</td>
+<td>Sim</td>
+</tr>
+<tr class="even">
+<td>Intervalo de predição</td>
+<td>Faixa esperada para uma nova observação</td>
+<td>Só em parte</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="cor-em-gráficos-científicos" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="cor-em-gráficos-científicos"><span class="header-section-number">5.9</span> Cor em gráficos científicos</h2>
+<section id="a-cor-como-informação" class="level3" data-number="5.9.1">
+<h3 data-number="5.9.1" class="anchored" data-anchor-id="a-cor-como-informação"><span class="header-section-number">5.9.1</span> A cor como informação</h3>
+<p>A cor é poderosa: atrai a atenção e distingue grupos instantaneamente. Pelo mesmo motivo, deve ser usada de forma deliberada. Em gráficos científicos, a cor deve codificar uma variável ou direcionar a atenção para a mensagem principal. O tipo de paleta deve corresponder ao tipo de variável.</p>
+</section>
+<section id="paletas-sequenciais" class="level3" data-number="5.9.2">
+<h3 data-number="5.9.2" class="anchored" data-anchor-id="paletas-sequenciais"><span class="header-section-number">5.9.2</span> Paletas sequenciais</h3>
+<p>Paletas sequenciais variam gradualmente do claro ao escuro (ou de baixa a alta saturação) e representam quantidades ordenadas que vão de baixo a alto: severidade da doença em um mapa, concentração de DNA do patógeno, chuva. Cores mais claras costumam representar valores menores, e cores mais escuras, valores maiores.</p>
+</section>
+<section id="paletas-divergentes" class="level3" data-number="5.9.3">
+<h3 data-number="5.9.3" class="anchored" data-anchor-id="paletas-divergentes"><span class="header-section-number">5.9.3</span> Paletas divergentes</h3>
+<p>Paletas divergentes usam dois matizes contrastantes que divergem a partir de um ponto central neutro. Representam quantidades com um centro significativo, como mudança zero, uma cultivar de referência ou correlação zero. Exemplos incluem mudanças na doença em relação a uma testemunha, anomalias de temperatura e matrizes de correlação.</p>
+</section>
+<section id="paletas-qualitativas" class="level3" data-number="5.9.4">
+<h3 data-number="5.9.4" class="anchored" data-anchor-id="paletas-qualitativas"><span class="header-section-number">5.9.4</span> Paletas qualitativas</h3>
+<p>Paletas qualitativas usam matizes distintos de luminosidade semelhante para representar categorias sem ordem, como cultivares, isolados ou locais. Não devem sugerir uma ordem inexistente e funcionam bem apenas para um número limitado de categorias, geralmente não mais que seis a oito.</p>
+</section>
+<section id="acessibilidade-das-cores" class="level3" data-number="5.9.5">
+<h3 data-number="5.9.5" class="anchored" data-anchor-id="acessibilidade-das-cores"><span class="header-section-number">5.9.5</span> Acessibilidade das cores</h3>
+<p>Cerca de 8% dos homens e 0,5% das mulheres têm alguma forma de deficiência na visão de cores, mais comumente dificuldade em distinguir vermelho e verde. Paletas vermelho–verde, infelizmente comuns em figuras de doença e sanidade, são portanto inacessíveis para uma parte considerável do público. Devem ser preferidas paletas projetadas para daltonismo, como a família viridis ou a paleta de Okabe–Ito. Distinções essenciais não devem depender exclusivamente da cor: combinar cor com formato, tipo de linha, rótulos diretos ou posição garante que as figuras continuem interpretáveis em impressão em tons de cinza e para todos os leitores.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter5-paletas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-paletas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-paletas-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-paletas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.7: Os três tipos de paleta. Sequencial (viridis): quantidades de baixo a alto. Divergente: desvios em torno de um centro com significado, como zero. Qualitativa (Okabe–Ito): categorias sem ordem; é segura para pessoas com deficiência na visão de cores.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O código abaixo aplica uma paleta acessível às curvas de progresso de três cultivares e combina cor com formato dos pontos, para que as curvas continuem distinguíveis mesmo sem cor.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(progresso, <span class="fu">aes</span>(<span class="at">x =</span> dias, <span class="at">y =</span> severity,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">color =</span> cultivar, <span class="at">shape =</span> cultivar)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Dias após a semeadura"</span>, <span class="at">y =</span> <span class="st">"Severidade (%)"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Cultivar"</span>, <span class="at">shape =</span> <span class="st">"Cultivar"</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-chapter5-cor-exemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-cor-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-cor-exemplo-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-cor-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.8: Curvas de progresso da doença (dados simulados) com a paleta viridis e formatos diferentes para cada cultivar.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="quando-não-usar-cor" class="level3" data-number="5.9.6">
+<h3 data-number="5.9.6" class="anchored" data-anchor-id="quando-não-usar-cor"><span class="header-section-number">5.9.6</span> Quando não usar cor</h3>
+<p>A cor é desnecessária quando duplica informação já mostrada pela posição, como quando cada barra de um gráfico de barras recebe uma cor diferente embora as categorias já estejam rotuladas no eixo. A cor decorativa distrai e pode sugerir agrupamentos inexistentes. Usar uma única cor neutra para a maioria dos elementos e uma cor contrastante apenas para os elementos que carregam a mensagem é, muitas vezes, a estratégia mais eficaz.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A cor deve codificar informação ou direcionar a atenção. Se remover uma cor não muda a interpretação da figura, ela talvez não seja necessária.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="rótulos-escalas-e-eixos" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="rótulos-escalas-e-eixos"><span class="header-section-number">5.10</span> Rótulos, escalas e eixos</h2>
+<section id="rótulos-informativos-nos-eixos" class="level3" data-number="5.10.1">
+<h3 data-number="5.10.1" class="anchored" data-anchor-id="rótulos-informativos-nos-eixos"><span class="header-section-number">5.10.1</span> Rótulos informativos nos eixos</h3>
+<p>Os rótulos dos eixos devem descrever a variável com palavras que o leitor entende, e não com as abreviações usadas no conjunto de dados. <code>sev_pct</code> e <code>dap</code> fazem sentido para quem analisa; “Severidade da doença (%)” e “Dias após a semeadura” fazem sentido para o leitor.</p>
+</section>
+<section id="unidades-de-medida" class="level3" data-number="5.10.2">
+<h3 data-number="5.10.2" class="anchored" data-anchor-id="unidades-de-medida"><span class="header-section-number">5.10.2</span> Unidades de medida</h3>
+<p>Todo eixo que representa uma grandeza medida deve incluir sua unidade, geralmente entre parênteses: comprimento da lesão (mm), produtividade (kg/ha), temperatura (°C). As unidades de grandezas derivadas, como taxas ou razões, merecem atenção especial.</p>
+</section>
+<section id="limites-dos-eixos" class="level3" data-number="5.10.3">
+<h3 data-number="5.10.3" class="anchored" data-anchor-id="limites-dos-eixos"><span class="header-section-number">5.10.3</span> Limites dos eixos</h3>
+<p>Os limites dos eixos determinam o tamanho aparente das diferenças. Em gráficos de barras, o eixo deve começar em zero, porque o comprimento da barra representa a magnitude. Em gráficos de pontos, de linhas e de dispersão, o eixo não precisa incluir o zero, e começar em outro valor pode revelar variação relevante. Truncar um eixo, porém, pode exagerar diferenças pequenas, e a escolha deve refletir qual tamanho de diferença é biologicamente relevante. Para variáveis limitadas, como porcentagens, mostrar a faixa completa de 0 a 100% pode ajudar o leitor a julgar a magnitude das diferenças (<a href="#fig-chapter5-eixo" class="quarto-xref">Figura&nbsp;<span>5.9</span></a>).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter5-eixo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-eixo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-eixo-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-eixo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.9: O efeito de truncar o eixo de um gráfico de barras. Os dados são os mesmos nos dois painéis (controle de 82, 84 e 85% por três fungicidas). Com o eixo começando em 80% (A), uma diferença de 3 pontos percentuais parece enorme; com o eixo começando em zero (B), ela aparece na proporção correta.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="transformações" class="level3" data-number="5.10.4">
+<h3 data-number="5.10.4" class="anchored" data-anchor-id="transformações"><span class="header-section-number">5.10.4</span> Transformações</h3>
+<p>Quando os valores abrangem várias ordens de grandeza, como contagens de esporos, quantidades de DNA do patógeno ou valores de CE<sub>50</sub> de fungicidas, uma escala logarítmica espalha os dados e torna visíveis as diferenças relativas. Os rótulos do eixo devem então mostrar os valores na escala original (1, 10, 100, 1000), e não os logaritmos, para que o leitor possa interpretá-los diretamente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(isolados, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(isolate, ec50), <span class="at">y =</span> ec50)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">colour =</span> <span class="st">"#0072B2"</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Isolado"</span>, <span class="at">y =</span> <span class="fu">expression</span>(CE[<span class="dv">50</span>]<span class="sc">~</span>(mu<span class="sc">*</span>g<span class="sc">/</span>mL))) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-chapter5-log" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-log-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-log-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-log-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.10: Valores de CE<sub>50</sub> de 15 isolados (dados simulados) em escala logarítmica. Os rótulos do eixo mostram os valores originais, e as diferenças relativas entre isolados sensíveis e menos sensíveis ficam visíveis.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ordenando-categorias" class="level3" data-number="5.10.5">
+<h3 data-number="5.10.5" class="anchored" data-anchor-id="ordenando-categorias"><span class="header-section-number">5.10.5</span> Ordenando categorias</h3>
+<p>Os programas costumam ordenar as categorias alfabeticamente, o que raramente corresponde a algo significativo. As categorias devem ser ordenadas de forma que ajude a comparação: tratamentos em uma sequência lógica (testemunha primeiro, depois doses crescentes), cultivares segundo sua resposta (da menos à mais doente), meses em ordem cronológica. Ordenar pela resposta torna os ranqueamentos imediatamente visíveis.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pA <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(notas_cv, <span class="fu">aes</span>(<span class="at">x =</span> cultivar, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(A) Ordem alfabética"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Severidade (%)"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pB <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(notas_cv, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(cultivar, severity), <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(B) Ordenado pela resposta"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Severidade (%)"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>pA <span class="sc">+</span> pB <span class="sc">&amp;</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-chapter5-ordenar" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-ordenar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-ordenar-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-ordenar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.11: Severidade em oito cultivares (dados simulados). (A) Ordem alfabética, o padrão do R. (B) Cultivares ordenadas pela severidade média com <code>reorder()</code>: o ranqueamento fica imediatamente visível.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="legendas" class="level3" data-number="5.10.6">
+<h3 data-number="5.10.6" class="anchored" data-anchor-id="legendas"><span class="header-section-number">5.10.6</span> Legendas</h3>
+<p>As legendas obrigam o leitor a olhar alternadamente para a legenda e para os dados. Quando possível, rotular os grupos diretamente no gráfico, no fim das linhas ou ao lado das nuvens de pontos, facilita a leitura. Quando uma legenda é necessária, ela deve ter um título informativo, listar as categorias na mesma ordem em que aparecem no gráfico e ficar perto dos dados.</p>
+</section>
+</section>
+<section id="múltiplas-variáveis-e-múltiplos-painéis" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="múltiplas-variáveis-e-múltiplos-painéis"><span class="header-section-number">5.11</span> Múltiplas variáveis e múltiplos painéis</h2>
+<section id="variáveis-de-agrupamento" class="level3" data-number="5.11.1">
+<h3 data-number="5.11.1" class="anchored" data-anchor-id="variáveis-de-agrupamento"><span class="header-section-number">5.11.1</span> Variáveis de agrupamento</h3>
+<p>Muitas questões envolvem mais de duas variáveis. Uma terceira variável pode ser acrescentada associando-a à cor, ao formato ou ao tipo de linha, de modo que os grupos sejam comparados no mesmo painel. Isso funciona bem quando há poucos grupos e quando a comparação direta entre eles é o objetivo principal, como ao comparar as curvas de progresso da doença de três cultivares.</p>
+</section>
+<section id="facetas" class="level3" data-number="5.11.2">
+<h3 data-number="5.11.2" class="anchored" data-anchor-id="facetas"><span class="header-section-number">5.11.2</span> Facetas</h3>
+<p>As facetas dividem os dados em subconjuntos e desenham o mesmo gráfico para cada um em painéis separados. São preferíveis ao agrupamento quando há muitos grupos, quando os grupos se sobrepõem muito ou quando cada grupo deve ser examinado isoladamente. Os painéis devem compartilhar as mesmas escalas nos eixos, a menos que haja um bom motivo para não fazê-lo, para que os valores possam ser comparados entre painéis.</p>
+</section>
+<section id="pequenos-múltiplos" class="level3" data-number="5.11.3">
+<h3 data-number="5.11.3" class="anchored" data-anchor-id="pequenos-múltiplos"><span class="header-section-number">5.11.3</span> Pequenos múltiplos</h3>
+<p>Uma série de painéis com estrutura idêntica, cada um mostrando um subconjunto diferente, é chamada de conjunto de pequenos múltiplos (<em>small multiples</em>) <span class="citation" data-cites="tufte2001">(<a href="references.html#ref-tufte2001" role="doc-biblioref">Tufte 2001</a>)</span>. Como o leitor aprende a ler um painel, todos os outros podem ser lidos imediatamente, e a atenção pode se concentrar nas diferenças entre eles. Os pequenos múltiplos estão entre as formas mais eficazes de mostrar conjuntos de dados complexos.</p>
+</section>
+<section id="comparando-ambientes" class="level3" data-number="5.11.4">
+<h3 data-number="5.11.4" class="anchored" data-anchor-id="comparando-ambientes"><span class="header-section-number">5.11.4</span> Comparando ambientes</h3>
+<p>Os dados de Fitopatologia frequentemente vêm de vários locais, safras ou condições ambientais. Mostrar cada ambiente em seu próprio painel, como curvas de progresso da doença para cada local ou relações severidade–produtividade para cada ano, revela se os padrões são consistentes entre ambientes ou mudam com eles, o que muitas vezes é a questão central.</p>
+</section>
+<section id="comparando-experimentos" class="level3" data-number="5.11.5">
+<h3 data-number="5.11.5" class="anchored" data-anchor-id="comparando-experimentos"><span class="header-section-number">5.11.5</span> Comparando experimentos</h3>
+<p>Quando um experimento é repetido, os resultados de cada execução podem ser mostrados em painéis separados ou lado a lado no mesmo painel. Essas figuras mostram se os efeitos dos tratamentos são consistentes entre experimentos, o que é essencial para avaliar a generalidade das conclusões (Capítulo 2). Exemplos típicos incluem respostas cultivar × doença entre experimentos, comparações tratamento × ano em ensaios de fungicidas e curvas de progresso da doença × ambiente.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter5-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-4-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.12: Pequenos múltiplos permitem comparar conjuntos de dados complexos usando estruturas gráficas repetidas. Curvas de progresso da doença (dados simulados) de três cultivares em quatro locais: todos os painéis compartilham as mesmas escalas, de modo que diferenças entre locais e entre cultivares podem ser comparadas diretamente.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="construindo-gráficos-com-o-ggplot2" class="level2" data-number="5.12">
+<h2 data-number="5.12" class="anchored" data-anchor-id="construindo-gráficos-com-o-ggplot2"><span class="header-section-number">5.12</span> Construindo gráficos com o ggplot2</h2>
+<section id="a-gramática-dos-gráficos" class="level3" data-number="5.12.1">
+<h3 data-number="5.12.1" class="anchored" data-anchor-id="a-gramática-dos-gráficos"><span class="header-section-number">5.12.1</span> A gramática dos gráficos</h3>
+<p>O pacote <code>ggplot2</code> do R implementa a gramática dos gráficos descrita no início deste capítulo <span class="citation" data-cites="wickham2016">(<a href="references.html#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span>. Um gráfico é construído especificando os dados, associando variáveis às estéticas e acrescentando camadas de geometrias, escalas, facetas, rótulos e temas. Todo gráfico segue o mesmo modelo básico:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> x_variable, <span class="at">y =</span> y_variable)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Os exemplos a seguir usam o conjunto de dados simulado <code>ensaio</code>: um ensaio de fungicidas com uma testemunha e quatro programas de fungicida, seis blocos e dois ambientes. Ele está organizado no formato descrito no Capítulo 3, com uma linha por parcela:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ensaio)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  block  treatment environment severity yield
+1     1 Testemunha  Ambiente 1 44.46945  2792
+2     2 Testemunha  Ambiente 1 40.25662  2951
+3     3 Testemunha  Ambiente 1 45.56671  2725
+4     4 Testemunha  Ambiente 1 49.16192  2823
+5     5 Testemunha  Ambiente 1 42.67102  2420
+6     6 Testemunha  Ambiente 1 38.82745  2228</code></pre>
+</div>
+</div>
+<p>Cada passo abaixo acrescenta um componente ao gráfico, e o resultado aparece logo após o código.</p>
+</section>
+<section id="dados-e-estéticas" class="level3" data-number="5.12.2">
+<h3 data-number="5.12.2" class="anchored" data-anchor-id="dados-e-estéticas"><span class="header-section-number">5.12.2</span> Dados e estéticas</h3>
+<p>A função <code>ggplot()</code> recebe o conjunto de dados e os mapeamentos estéticos, definidos com <code>aes()</code>. O código abaixo associa o tratamento ao eixo horizontal e a severidade ao eixo vertical. Sozinho, ele produz um painel vazio com eixos, porque nenhuma geometria foi especificada ainda.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="geometrias" class="level3" data-number="5.12.3">
+<h3 data-number="5.12.3" class="anchored" data-anchor-id="geometrias"><span class="header-section-number">5.12.3</span> Geometrias</h3>
+<p>As geometrias são acrescentadas com funções que começam com <code>geom_</code>: <code>geom_point()</code> para pontos, <code>geom_line()</code> para linhas, <code>geom_boxplot()</code> para diagramas de caixa, <code>geom_histogram()</code> para histogramas e <code>geom_col()</code> para barras. Trocar uma geometria por outra muda a representação, mantendo o mesmo mapeamento.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Com 12 parcelas por tratamento, vários pontos se sobrepõem. Trocar <code>geom_point()</code> por <code>geom_jitter()</code> espalha os pontos horizontalmente, e a transparência (<code>alpha</code>) mostra onde eles se acumulam:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Com o mesmo mapeamento, <code>geom_boxplot()</code> resume a distribuição de cada tratamento:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="acrescentando-camadas" class="level3" data-number="5.12.4">
+<h3 data-number="5.12.4" class="anchored" data-anchor-id="acrescentando-camadas"><span class="header-section-number">5.12.4</span> Acrescentando camadas</h3>
+<p>Os gráficos são construídos acrescentando camadas com o operador <code>+</code>. Cada camada pode mostrar um aspecto diferente dos dados. Aqui, uma camada de resumos é acrescentada sobre as observações. Por padrão, <code>stat_summary()</code> mostra a média e seu erro padrão; os argumentos <code>colour</code> e <code>size</code> a distinguem visualmente das observações.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">colour =</span> <span class="st">"#D55E00"</span>, <span class="at">size =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No summary function supplied, defaulting to `mean_se()`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="facetas-1" class="level3" data-number="5.12.5">
+<h3 data-number="5.12.5" class="anchored" data-anchor-id="facetas-1"><span class="header-section-number">5.12.5</span> Facetas</h3>
+<p>As facetas são acrescentadas com <code>facet_wrap()</code> ou <code>facet_grid()</code>, que dividem os dados por uma ou duas variáveis e desenham um painel para cada subconjunto. Aqui, cada ambiente aparece em seu próprio painel, com a mesma escala vertical:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">colour =</span> <span class="st">"#D55E00"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> environment)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No summary function supplied, defaulting to `mean_se()`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="rótulos-e-temas" class="level3" data-number="5.12.6">
+<h3 data-number="5.12.6" class="anchored" data-anchor-id="rótulos-e-temas"><span class="header-section-number">5.12.6</span> Rótulos e temas</h3>
+<p>Os títulos dos eixos, das legendas e as legendas da figura são definidos com <code>labs()</code>. Os temas controlam os elementos do gráfico que não são dados, como o fundo, as linhas de grade e o tamanho da fonte. Um tema limpo, como <code>theme_bw()</code> ou <code>theme_classic()</code>, e um tamanho de fonte maior costumam bastar para figuras científicas. Os temas são secundários em relação às decisões sobre dados, mapeamentos e geometrias: um gráfico bem planejado com o tema padrão comunica melhor do que um gráfico mal planejado com um tema elaborado.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">colour =</span> <span class="st">"#D55E00"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> environment) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Programa de fungicida"</span>, <span class="at">y =</span> <span class="st">"Severidade da doença (%)"</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">30</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No summary function supplied, defaulting to `mean_se()`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="juntando-tudo" class="level3" data-number="5.12.7">
+<h3 data-number="5.12.7" class="anchored" data-anchor-id="juntando-tudo"><span class="header-section-number">5.12.7</span> Juntando tudo</h3>
+<p>Os mesmos componentes servem para qualquer tipo de gráfico. O exemplo abaixo relaciona a produtividade à severidade da doença, com uma cor por ambiente, uma reta ajustada para cada um e rótulos completos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ensaio, <span class="fu">aes</span>(<span class="at">x =</span> severity, <span class="at">y =</span> yield, <span class="at">colour =</span> environment)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#0072B2"</span>, <span class="st">"#E69F00"</span>)) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Severidade da doença (%)"</span>, <span class="at">y =</span> <span class="st">"Produtividade (kg/ha)"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter5_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O objetivo não é memorizar funções do <code>ggplot2</code>. A gramática dos gráficos fornece uma forma sistemática de traduzir variáveis e questões científicas em representações gráficas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="problemas-comuns-em-figuras-científicas" class="level2" data-number="5.13">
+<h2 data-number="5.13" class="anchored" data-anchor-id="problemas-comuns-em-figuras-científicas"><span class="header-section-number">5.13</span> Problemas comuns em figuras científicas</h2>
+<p>Muitas fragilidades das figuras científicas não são erros nos dados, mas más escolhas gráficas. Os problemas a seguir são frequentes em publicações de Fitopatologia.</p>
+<section id="gráficos-de-barras-que-escondem-os-dados" class="level3" data-number="5.13.1">
+<h3 data-number="5.13.1" class="anchored" data-anchor-id="gráficos-de-barras-que-escondem-os-dados"><span class="header-section-number">5.13.1</span> Gráficos de barras que escondem os dados</h3>
+<p>Barras com erros padrão resumem cada grupo com dois números e escondem as observações. São adequadas para contagens e proporções, mas, para respostas contínuas como severidade, tamanho de lesão ou produtividade, gráficos de pontos ou diagramas de caixa com as observações são quase sempre mais informativos.</p>
+</section>
+<section id="uso-inadequado-de-gráficos-tridimensionais" class="level3" data-number="5.13.2">
+<h3 data-number="5.13.2" class="anchored" data-anchor-id="uso-inadequado-de-gráficos-tridimensionais"><span class="header-section-number">5.13.2</span> Uso inadequado de gráficos tridimensionais</h3>
+<p>Gráficos de barras e de setores tridimensionais acrescentam profundidade sem acrescentar informação. A perspectiva distorce o tamanho aparente dos elementos, tornando os valores mais difíceis de ler e comparar. A menos que a terceira dimensão represente uma variável real e possa ser lida com precisão, os gráficos devem ser bidimensionais.</p>
+</section>
+<section id="decoração-excessiva" class="level3" data-number="5.13.3">
+<h3 data-number="5.13.3" class="anchored" data-anchor-id="decoração-excessiva"><span class="header-section-number">5.13.3</span> Decoração excessiva</h3>
+<p>Linhas de grade pesadas, fundos sombreados, bordas, sombras, degradês e ilustrações competem com os dados pela atenção. Cada elemento de uma figura deve ter uma função. Remover elementos que não carregam informação geralmente faz os dados se destacarem.</p>
+</section>
+<section id="cores-demais" class="level3" data-number="5.13.4">
+<h3 data-number="5.13.4" class="anchored" data-anchor-id="cores-demais"><span class="header-section-number">5.13.4</span> Cores demais</h3>
+<p>Figuras com muitas cores são difíceis de decodificar, especialmente quando a legenda precisa ser consultada repetidamente. Quando é preciso distinguir mais de seis a oito categorias, facetas, rótulos diretos ou o destaque de alguns grupos de interesse são opções melhores.</p>
+</section>
+<section id="escalas-mal-escolhidas" class="level3" data-number="5.13.5">
+<h3 data-number="5.13.5" class="anchored" data-anchor-id="escalas-mal-escolhidas"><span class="header-section-number">5.13.5</span> Escalas mal escolhidas</h3>
+<p>Escalas lineares para dados que abrangem várias ordens de grandeza comprimem a maioria das observações em um canto do gráfico. Escalas que se estendem muito além dos dados desperdiçam espaço e achatam as diferenças. As escalas devem ser escolhidas para mostrar claramente a amplitude e a variação dos dados.</p>
+</section>
+<section id="escalas-inconsistentes-entre-painéis" class="level3" data-number="5.13.6">
+<h3 data-number="5.13.6" class="anchored" data-anchor-id="escalas-inconsistentes-entre-painéis"><span class="header-section-number">5.13.6</span> Escalas inconsistentes entre painéis</h3>
+<p>Quando os painéis usam faixas diferentes nos eixos, os leitores tendem a compará-los como se as escalas fossem iguais, e as diferenças de magnitude são mal interpretadas. Painéis que devem ser comparados devem compartilhar a mesma escala. Se escalas diferentes forem necessárias, isso deve ser informado com clareza.</p>
+</section>
+<section id="observações-sobrepostas" class="level3" data-number="5.13.7">
+<h3 data-number="5.13.7" class="anchored" data-anchor-id="observações-sobrepostas"><span class="header-section-number">5.13.7</span> Observações sobrepostas</h3>
+<p>Quando muitas observações têm valores iguais ou semelhantes, como é comum em avaliações visuais de severidade, os pontos se sobrepõem e o gráfico sugere menos observações do que realmente existem. Deslocamento aleatório (<em>jitter</em>), transparência ou gráficos que mostram contagens ajudam a revelar todas as observações (<a href="#fig-chapter5-sobreposicao" class="quarto-xref">Figura&nbsp;<span>5.13</span></a>).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter5-sobreposicao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-sobreposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-sobreposicao-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-sobreposicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.13: Observações sobrepostas (dados simulados). Notas visuais de severidade arredondadas para múltiplos de 5% em 300 plantas de duas cultivares. (A) Com pontos simples, cada valor parece ter sido observado uma única vez. (B) Com deslocamento aleatório e transparência, a concentração das observações fica visível.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="legendas-desnecessárias" class="level3" data-number="5.13.8">
+<h3 data-number="5.13.8" class="anchored" data-anchor-id="legendas-desnecessárias"><span class="header-section-number">5.13.8</span> Legendas desnecessárias</h3>
+<p>Uma legenda que repete informação já mostrada em um eixo, ou uma legenda para um único grupo, acrescenta poluição visual sem informação. As legendas devem aparecer apenas quando necessárias para decodificar o gráfico.</p>
+</section>
+<section id="textos-pequenos-e-rótulos-ilegíveis" class="level3" data-number="5.13.9">
+<h3 data-number="5.13.9" class="anchored" data-anchor-id="textos-pequenos-e-rótulos-ilegíveis"><span class="header-section-number">5.13.9</span> Textos pequenos e rótulos ilegíveis</h3>
+<p>As figuras costumam ser reduzidas para caber em uma coluna de revista ou projetadas em uma sala grande. Um texto legível na tela do computador pode se tornar ilegível. O tamanho das fontes deve ser escolhido para o tamanho final da figura, e os rótulos dos eixos não devem se sobrepor.</p>
+</section>
+<section id="ligar-observações-que-não-deveriam-ser-ligadas" class="level3" data-number="5.13.10">
+<h3 data-number="5.13.10" class="anchored" data-anchor-id="ligar-observações-que-não-deveriam-ser-ligadas"><span class="header-section-number">5.13.10</span> Ligar observações que não deveriam ser ligadas</h3>
+<p>Linhas sugerem continuidade e conexão. Ligar por linhas as médias de diferentes cultivares ou tratamentos sugere uma tendência entre categorias que não têm ordem natural. As linhas devem ligar observações apenas ao longo de uma dimensão contínua, como tempo, dose ou temperatura, ou medidas repetidas da mesma unidade.</p>
+</section>
+<section id="gráficos-que-sugerem-relações-sem-fundamento" class="level3" data-number="5.13.11">
+<h3 data-number="5.13.11" class="anchored" data-anchor-id="gráficos-que-sugerem-relações-sem-fundamento"><span class="header-section-number">5.13.11</span> Gráficos que sugerem relações sem fundamento</h3>
+<p>Linhas ajustadas, curvas suavizadas e extrapolações sugerem relações que podem não ser sustentadas pelos dados ou pelo delineamento. Uma reta de regressão traçada através de dois grupos de pontos de locais diferentes, ou uma curva estendida além da faixa de temperaturas observadas, sugere mais do que a evidência sustenta.</p>
+</section>
+</section>
+<section id="visualizações-enganosas" class="level2" data-number="5.14">
+<h2 data-number="5.14" class="anchored" data-anchor-id="visualizações-enganosas"><span class="header-section-number">5.14</span> Visualizações enganosas</h2>
+<p>Algumas figuras criam impressões falsas sobre a evidência. Às vezes isso é deliberado, mas com muito mais frequência resulta de escolhas padrão não examinadas. Em qualquer caso, o efeito sobre o leitor é o mesmo.</p>
+<section id="eixos-truncados" class="level3" data-number="5.14.1">
+<h3 data-number="5.14.1" class="anchored" data-anchor-id="eixos-truncados"><span class="header-section-number">5.14.1</span> Eixos truncados</h3>
+<p>Um gráfico de barras cujo eixo vertical começa em 80 em vez de 0 faz uma diferença entre 82% e 85% de controle parecer um grande efeito. Como o comprimento da barra representa a magnitude, eixos truncados em gráficos de barras são sempre enganosos. Para pontos e linhas, o truncamento é aceitável, mas o leitor deve conseguir julgar o tamanho das diferenças em relação a valores biologicamente relevantes.</p>
+</section>
+<section id="distorções-de-área-e-volume" class="level3" data-number="5.14.2">
+<h3 data-number="5.14.2" class="anchored" data-anchor-id="distorções-de-área-e-volume"><span class="header-section-number">5.14.2</span> Distorções de área e volume</h3>
+<p>Quando os símbolos são dimensionados pela altura ou largura, e não pela área, um valor duas vezes maior é representado por um símbolo quatro vezes maior. Pictogramas, ícones escalonados e bolhas cujo diâmetro, e não a área, é proporcional ao valor exageram as diferenças.</p>
+</section>
+<section id="intervalos-gráficos-desiguais" class="level3" data-number="5.14.3">
+<h3 data-number="5.14.3" class="anchored" data-anchor-id="intervalos-gráficos-desiguais"><span class="header-section-number">5.14.3</span> Intervalos gráficos desiguais</h3>
+<p>Eixos em que distâncias iguais representam intervalos desiguais, como datas de avaliação colocadas em espaçamento igual embora estivessem separadas por 7, 14 e 30 dias, distorcem taxas e formas. O tempo e outras variáveis contínuas devem ser representados em uma escala contínua adequada.</p>
+</section>
+<section id="apresentação-seletiva-dos-dados" class="level3" data-number="5.14.4">
+<h3 data-number="5.14.4" class="anchored" data-anchor-id="apresentação-seletiva-dos-dados"><span class="header-section-number">5.14.4</span> Apresentação seletiva dos dados</h3>
+<p>Mostrar apenas os experimentos, anos, locais ou tratamentos que sustentam uma conclusão, ou recortar uma série temporal para começar ou terminar em pontos convenientes, dá uma visão distorcida da evidência. As figuras devem representar todos os dados relevantes, ou informar claramente o que foi selecionado e por quê.</p>
+</section>
+<section id="suavização-e-agregação" class="level3" data-number="5.14.5">
+<h3 data-number="5.14.5" class="anchored" data-anchor-id="suavização-e-agregação"><span class="header-section-number">5.14.5</span> Suavização e agregação</h3>
+<p>A suavização e as médias simplificam dados complexos, mas também podem esconder variabilidade, valores discrepantes e padrões. Médias entre locais ou anos podem esconder efeitos opostos; uma curva suavizada pode sugerir uma tendência determinada por poucos pontos. Os resumos devem ser acompanhados, quando possível, pelos dados em que se baseiam.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um gráfico pode estar numericamente correto e ainda assim criar uma impressão enganosa da evidência.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="elaborando-figuras-para-publicações-científicas" class="level2" data-number="5.15">
+<h2 data-number="5.15" class="anchored" data-anchor-id="elaborando-figuras-para-publicações-científicas"><span class="header-section-number">5.15</span> Elaborando figuras para publicações científicas</h2>
+<section id="uma-figura-uma-mensagem-principal" class="level3" data-number="5.15.1">
+<h3 data-number="5.15.1" class="anchored" data-anchor-id="uma-figura-uma-mensagem-principal"><span class="header-section-number">5.15.1</span> Uma figura, uma mensagem principal</h3>
+<p>Cada figura de uma publicação deve ter uma mensagem principal clara, que geralmente pode ser enunciada em uma frase: “Os programas de fungicida A e B reduziram a severidade em comparação com a testemunha nos dois anos.” Planejar a figura para tornar essa mensagem visível — colocando a comparação-chave em um eixo comum e dispondo os grupos de modo a facilitá-la — é mais importante do que qualquer escolha de estilo.</p>
+</section>
+<section id="painéis" class="level3" data-number="5.15.2">
+<h3 data-number="5.15.2" class="anchored" data-anchor-id="painéis"><span class="header-section-number">5.15.2</span> Painéis</h3>
+<p>Figuras com vários painéis combinam gráficos relacionados, como severidade e produtividade, ou resultados de vários experimentos. Os painéis devem ser identificados (A, B, C), dispostos em uma ordem lógica de leitura, alinhados em eixos comuns quando possível e referidos na legenda. Gráficos não relacionados devem ser figuras separadas.</p>
+</section>
+<section id="linguagem-visual-consistente" class="level3" data-number="5.15.3">
+<h3 data-number="5.15.3" class="anchored" data-anchor-id="linguagem-visual-consistente"><span class="header-section-number">5.15.3</span> Linguagem visual consistente</h3>
+<p>Dentro de uma figura, e em todas as figuras de uma publicação, o mesmo tratamento ou cultivar deve ter a mesma cor e o mesmo símbolo, a mesma variável deve ter o mesmo rótulo de eixo e o mesmo estilo deve ser usado para observações, médias e intervalos. A consistência permite ao leitor transferir o que aprendeu de uma figura para a seguinte.</p>
+</section>
+<section id="legendas-das-figuras" class="level3" data-number="5.15.4">
+<h3 data-number="5.15.4" class="anchored" data-anchor-id="legendas-das-figuras"><span class="header-section-number">5.15.4</span> Legendas das figuras</h3>
+<p>A legenda deve permitir que a figura seja compreendida sem a leitura do texto principal. Deve informar o que é mostrado, o delineamento experimental, o número de observações ou repetições, o que os pontos, linhas e barras de erro representam e quaisquer abreviações usadas. Uma boa legenda muitas vezes começa com uma frase que enuncia a mensagem principal da figura.</p>
+</section>
+<section id="resolução-e-dimensões" class="level3" data-number="5.15.5">
+<h3 data-number="5.15.5" class="anchored" data-anchor-id="resolução-e-dimensões"><span class="header-section-number">5.15.5</span> Resolução e dimensões</h3>
+<p>As revistas especificam as dimensões das figuras (frequentemente a largura de uma ou duas colunas) e a resolução mínima para imagens rasterizadas, tipicamente 300 dpi ou mais para fotografias e mais ainda para desenhos de linhas. Produzir as figuras nas dimensões finais, em vez de redimensioná-las depois, garante que textos e símbolos apareçam no tamanho pretendido.</p>
+</section>
+<section id="formatos-vetoriais-e-rasterizados" class="level3" data-number="5.15.6">
+<h3 data-number="5.15.6" class="anchored" data-anchor-id="formatos-vetoriais-e-rasterizados"><span class="header-section-number">5.15.6</span> Formatos vetoriais e rasterizados</h3>
+<p>Formatos vetoriais, como PDF, SVG e EPS, guardam as figuras como formas e texto e podem ser ampliados sem perda de qualidade; são ideais para gráficos. Formatos rasterizados, como PNG, TIFF e JPEG, guardam as figuras como grades de pixels, e a qualidade depende da resolução; são necessários para fotografias. PNG e TIFF preservam linhas e textos nítidos, enquanto a compressão do JPEG pode borrá-los. As exigências variam entre revistas e devem ser conferidas antes da submissão.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/fig1_severity.pdf"</span>, <span class="at">width =</span> <span class="dv">17</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">units =</span> <span class="st">"cm"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/fig1_severity.png"</span>, <span class="at">width =</span> <span class="dv">17</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="planejando-para-o-formato-final" class="level3" data-number="5.15.7">
+<h3 data-number="5.15.7" class="anchored" data-anchor-id="planejando-para-o-formato-final"><span class="header-section-number">5.15.7</span> Planejando para o formato final</h3>
+<p>A mesma figura pode precisar ser adaptada a diferentes formatos. Na tela e em artigos de revista, o leitor pode examinar os detalhes no seu próprio ritmo. Em apresentações, o público tem segundos para captar a mensagem, de modo que as figuras devem ser mais simples, com textos maiores e menos painéis. Pôsteres são vistos à distância e devem enfatizar uma mensagem clara por figura. Planejar para o formato final significa considerar o tamanho, a distância de visualização e o tempo disponível para o leitor.</p>
+</section>
+</section>
+<section id="pesquisa-na-prática-aprimorando-uma-figura-científica" class="level2" data-number="5.16">
+<h2 data-number="5.16" class="anchored" data-anchor-id="pesquisa-na-prática-aprimorando-uma-figura-científica"><span class="header-section-number">5.16</span> Pesquisa na prática: aprimorando uma figura científica</h2>
+<p>Um ensaio de campo comparou a severidade de uma doença foliar em uma testemunha e quatro programas de fungicida, em blocos casualizados com seis blocos. O exemplo é ilustrativo, mas a sequência de melhorias se aplica à maioria dos experimentos que comparam tratamentos. Partindo de uma figura convencional, porém fraca, a figura é aprimorada passo a passo.</p>
+<ol type="1">
+<li><p><strong>O ponto de partida.</strong> Barras mostram as médias dos tratamentos em ordem alfabética, com barras de erro padrão, fundo cinza, uma cor diferente para cada barra e o rótulo de eixo <code>sev</code>. A figura mostra cinco números e seus erros padrão, e nada mais.</p></li>
+<li><p><strong>Mostrar as observações brutas.</strong> Substituir as barras pelos seis valores das parcelas de cada tratamento revela que um programa de fungicida tem uma parcela com severidade excepcionalmente alta e que a testemunha é muito mais variável que as parcelas tratadas.</p></li>
+<li><p><strong>Mostrar a distribuição.</strong> Com seis observações por tratamento, os próprios pontos mostram a distribuição. Com mais observações, um diagrama de caixa ou de violino poderia ser acrescentado por trás deles.</p></li>
+<li><p><strong>Acrescentar os resumos dos tratamentos.</strong> As médias são acrescentadas como pontos maiores, distinguíveis das observações, para que a comparação de interesse seja fácil de ver.</p></li>
+<li><p><strong>Representar a incerteza.</strong> São acrescentados intervalos de confiança para as médias dos tratamentos, e a legenda informa o que eles representam.</p></li>
+<li><p><strong>Ordenar de forma significativa.</strong> A testemunha é colocada primeiro, seguida dos programas de fungicida em ordem crescente de eficácia, para que o ranqueamento fique imediatamente visível.</p></li>
+<li><p><strong>Rotular e finalizar.</strong> O rótulo do eixo passa a ser “Severidade da doença (%)”, as cores redundantes e a legenda são removidas, uma única cor de destaque é usada para as médias, o tema é simplificado e o tamanho da fonte é aumentado para a largura final da figura. A legenda informa o delineamento, o número de parcelas e o que os pontos e intervalos representam.</p></li>
+</ol>
+<p>A <a href="#fig-chapter5-antes-depois" class="quarto-xref">Figura&nbsp;<span>5.14</span></a> mostra o ponto de partida e o resultado final, usando as parcelas do Ambiente 1 do conjunto <code>ensaio</code>. O código abaixo produz as duas versões.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>trial <span class="ot">&lt;-</span> <span class="fu">subset</span>(ensaio, environment <span class="sc">==</span> <span class="st">"Ambiente 1"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (A) Ponto de partida</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>antes <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(trial, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.character</span>(treatment), <span class="at">y =</span> severity,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">fill =</span> <span class="fu">as.character</span>(treatment))) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"col"</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_se, <span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(A) Antes"</span>, <span class="at">x =</span> <span class="st">"trat"</span>, <span class="at">y =</span> <span class="st">"sev"</span>, <span class="at">fill =</span> <span class="st">"trat"</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (B) Versão final: testemunha primeiro, depois em ordem de eficácia</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>ordem <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Testemunha"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>           <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">tapply</span>(trial<span class="sc">$</span>severity, trial<span class="sc">$</span>treatment, mean)[<span class="sc">-</span><span class="dv">1</span>])))</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>trial<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">factor</span>(trial<span class="sc">$</span>treatment, <span class="at">levels =</span> ordem)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>depois <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(trial, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.08</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> media_ic95, <span class="at">colour =</span> <span class="st">"#0072B2"</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">0.6</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(B) Depois"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Severidade da doença (%)"</span>) <span class="sc">+</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">30</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>antes <span class="sc">+</span> depois</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-chapter5-antes-depois" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-antes-depois-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter5_files/figure-html/fig-chapter5-antes-depois-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-antes-depois-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.14: Aprimorando uma figura (dados simulados; seis parcelas por tratamento). (A) Ponto de partida: barras com erro padrão em ordem alfabética, cores redundantes, legenda desnecessária e rótulo abreviado. (B) Versão final: observações individuais, média e intervalo de confiança de 95% em uma única cor de destaque, testemunha primeiro e tratamentos em ordem de eficácia, rótulos completos e tema limpo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Dos dados à figura científica">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Dos dados à figura científica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere um experimento que compara a severidade da doença entre tratamentos.</p>
+<p><strong>Questão</strong></p>
+<p>Qual representação gráfica comunica com mais clareza a evidência experimental?</p>
+<p>Compare várias alternativas:</p>
+<ol type="1">
+<li>tabela de médias dos tratamentos;</li>
+<li>gráfico de barras das médias;</li>
+<li>diagramas de caixa;</li>
+<li>observações brutas;</li>
+<li>observações combinadas com os efeitos estimados dos tratamentos e sua incerteza.</li>
+</ol>
+<p>Para cada representação, pergunte:</p>
+<ul>
+<li>Que informação está visível?</li>
+<li>Que informação está escondida?</li>
+<li>Que comparações são fáceis de fazer?</li>
+<li>Que conclusão biológica a figura enfatiza?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="um-fluxo-de-trabalho-para-a-visualização-científica" class="level2" data-number="5.17">
+<h2 data-number="5.17" class="anchored" data-anchor-id="um-fluxo-de-trabalho-para-a-visualização-científica"><span class="header-section-number">5.17</span> Um fluxo de trabalho para a visualização científica</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter5-5" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter5-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-8fc58b1fd577519baba2" style="width:100%;height:526px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8fc58b1fd577519baba2">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Identificar as variáveis<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Escolher a comparação gráfica<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Mostrar as observações<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Representar a variação ou a incerteza<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Remover elementos desnecessários<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Destacar a mensagem científica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n8 [label = <<font color=\"#24301f\"><b>Verificar legibilidade e acessibilidade<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7 -> n8\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter5-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.15: Um fluxo de trabalho prático para construir gráficos científicos.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="lista-de-verificação-da-figura" class="level2" data-number="5.18">
+<h2 data-number="5.18" class="anchored" data-anchor-id="lista-de-verificação-da-figura"><span class="header-section-number">5.18</span> Lista de verificação da figura</h2>
+<p>Antes de finalizar uma figura científica, pergunte:</p>
+<ol type="1">
+<li>Que questão científica a figura aborda?</li>
+<li>O que o leitor deve notar primeiro?</li>
+<li>As observações subjacentes estão visíveis, quando apropriado?</li>
+<li>As comparações são fáceis de fazer?</li>
+<li>Os eixos e as unidades estão claramente identificados?</li>
+<li>A incerteza está representada de forma adequada?</li>
+<li>A cor codifica informação útil?</li>
+<li>A figura pode ser compreendida sem depender exclusivamente da cor?</li>
+<li>Todos os elementos gráficos são necessários?</li>
+<li>Algum aspecto da figura poderia enganar o leitor?</li>
+<li>A figura é legível no tamanho final de publicação?</li>
+<li>A legenda permite interpretar a figura de forma independente?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="5.19">
+<h2 data-number="5.19" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">5.19</span> Resumo do capítulo</h2>
+<p>A visualização científica é ao mesmo tempo uma ferramenta analítica e de comunicação. Figuras eficazes revelam padrões, variação, relações e incerteza, direcionando a atenção para a evidência biológica relevante para a questão de pesquisa. As escolhas gráficas devem, portanto, ser orientadas pela estrutura dos dados e pelas comparações de interesse científico, e não por convenções ou decoração. A gramática dos gráficos fornece um arcabouço sistemático para traduzir essas decisões em visualizações reprodutíveis no R.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="5.20">
+<h2 data-number="5.20" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">5.20</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>visualização científica;</li>
+<li>gráfico exploratório;</li>
+<li>gráfico explicativo;</li>
+<li>mapeamento gráfico;</li>
+<li>geometria;</li>
+<li>escala;</li>
+<li>posição;</li>
+<li>distribuição;</li>
+<li>variabilidade versus incerteza;</li>
+<li>incerteza;</li>
+<li>pequenos múltiplos;</li>
+<li>facetas;</li>
+<li>acessibilidade gráfica;</li>
+<li>gramática dos gráficos.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="5.21">
+<h2 data-number="5.21" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">5.21</span> Exercícios</h2>
+<section id="exercício-1.-o-que-o-gráfico-revela" class="level3" data-number="5.21.1">
+<h3 data-number="5.21.1" class="anchored" data-anchor-id="exercício-1.-o-que-o-gráfico-revela"><span class="header-section-number">5.21.1</span> Exercício 1. O que o gráfico revela?</h3>
+<p>Examine uma figura fornecida pelo professor sem ler sua legenda nem o texto que a acompanha.</p>
+<p>Identifique:</p>
+<ol type="1">
+<li>as variáveis representadas;</li>
+<li>a comparação biológica aparente;</li>
+<li>o padrão principal;</li>
+<li>a variação entre as observações;</li>
+<li>qualquer informação difícil de interpretar.</li>
+</ol>
+</section>
+<section id="exercício-2.-escolhendo-uma-representação-gráfica" class="level3" data-number="5.21.2">
+<h3 data-number="5.21.2" class="anchored" data-anchor-id="exercício-2.-escolhendo-uma-representação-gráfica"><span class="header-section-number">5.21.2</span> Exercício 2. Escolhendo uma representação gráfica</h3>
+<p>Para cada questão de pesquisa, proponha uma representação gráfica adequada:</p>
+<ol type="1">
+<li>A severidade da doença difere entre cinco cultivares?</li>
+<li>A severidade da doença está associada à temperatura?</li>
+<li>Como a severidade da doença muda durante uma epidemia?</li>
+<li>Quão variável é a eficácia de um fungicida entre experimentos?</li>
+<li>A relação entre doença e produtividade difere entre ambientes?</li>
+</ol>
+<p>Justifique cada escolha.</p>
+</section>
+<section id="exercício-3.-aprimorando-uma-figura" class="level3" data-number="5.21.3">
+<h3 data-number="5.21.3" class="anchored" data-anchor-id="exercício-3.-aprimorando-uma-figura"><span class="header-section-number">5.21.3</span> Exercício 3. Aprimorando uma figura</h3>
+<p>Você recebe uma figura científica mal elaborada.</p>
+<p>Identifique problemas envolvendo:</p>
+<ul>
+<li>a representação gráfica;</li>
+<li>as escalas;</li>
+<li>os rótulos;</li>
+<li>as cores;</li>
+<li>as legendas;</li>
+<li>elementos desnecessários;</li>
+<li>a representação da variabilidade.</li>
+</ul>
+<p>Refaça a figura.</p>
+</section>
+<section id="exercício-4.-dos-dados-à-figura" class="level3" data-number="5.21.4">
+<h3 data-number="5.21.4" class="anchored" data-anchor-id="exercício-4.-dos-dados-à-figura"><span class="header-section-number">5.21.4</span> Exercício 4. Dos dados à figura</h3>
+<p>Usando um conjunto de dados fornecido pelo professor:</p>
+<ol type="1">
+<li>identifique a questão biológica;</li>
+<li>selecione as variáveis necessárias para abordá-la;</li>
+<li>construa uma visualização exploratória;</li>
+<li>construa uma figura adequada para comunicar o resultado principal;</li>
+<li>explique por que as duas figuras podem diferir.</li>
+</ol>
+</section>
+<section id="exercício-5.-avaliando-criticamente-figuras-publicadas" class="level3" data-number="5.21.5">
+<h3 data-number="5.21.5" class="anchored" data-anchor-id="exercício-5.-avaliando-criticamente-figuras-publicadas"><span class="header-section-number">5.21.5</span> Exercício 5. Avaliando criticamente figuras publicadas</h3>
+<p>Escolha uma figura de um artigo recente de Fitopatologia.</p>
+<p>Avalie:</p>
+<ol type="1">
+<li>Que questão científica a figura aborda?</li>
+<li>A representação gráfica escolhida é adequada?</li>
+<li>As observações individuais estão visíveis?</li>
+<li>A variabilidade ou a incerteza está representada?</li>
+<li>As comparações são fáceis de fazer?</li>
+<li>A figura poderia ser simplificada?</li>
+<li>Você a elaboraria de outra forma?</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="5.22">
+<h2 data-number="5.22" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">5.22</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p>Uma boa figura científica não apenas mostra os dados; ela torna a evidência mais fácil de compreender.</p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="5.23">
+<h2 data-number="5.23" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">5.23</span> Próximos passos</h2>
+<p>A visualização permite reconhecer padrões e comunicar evidências, mas diferenças visuais, por si só, não estabelecem se um efeito observado é compatível com a variação aleatória nem com que precisão um efeito foi estimado. O próximo capítulo apresenta a inferência estatística e o raciocínio usado para passar dos dados observados às conclusões científicas.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-anscombe1973" class="csl-entry" role="listitem">
+Anscombe, F. J. 1973. Graphs in statistical analysis. The American Statistician 27:17–21. <a href="https://doi.org/10.1080/00031305.1973.10478966">https://doi.org/10.1080/00031305.1973.10478966</a>.
+</div>
+<div id="ref-cleveland1984" class="csl-entry" role="listitem">
+Cleveland, W. S., e McGill, R. 1984. Graphical perception: theory, experimentation, and application to the development of graphical methods. Journal of the American Statistical Association 79:531–554. <a href="https://doi.org/10.1080/01621459.1984.10478080">https://doi.org/10.1080/01621459.1984.10478080</a>.
+</div>
+<div id="ref-tufte2001" class="csl-entry" role="listitem">
+Tufte, E. R. 2001. <em>The Visual Display of Quantitative Information</em>. 2º ed. Cheshire, CT: Graphics Press.
+</div>
+<div id="ref-weissgerber2015" class="csl-entry" role="listitem">
+Weissgerber, T. L., Milic, N. M., Winham, S. J., e Garovic, V. D. 2015. Beyond bar and line graphs: time for a new data presentation paradigm. PLoS Biology 13:e1002128. <a href="https://doi.org/10.1371/journal.pbio.1002128">https://doi.org/10.1371/journal.pbio.1002128</a>.
+</div>
+<div id="ref-wickham2010" class="csl-entry" role="listitem">
+Wickham, H. 2010. A layered grammar of graphics. Journal of Computational and Graphical Statistics 19:3–28. <a href="https://doi.org/10.1198/jcgs.2009.07098">https://doi.org/10.1198/jcgs.2009.07098</a>.
+</div>
+<div id="ref-wickham2016" class="csl-entry" role="listitem">
+Wickham, H. 2016. <em>ggplot2: Elegant Graphics for Data Analysis</em>. 2º ed. New York: Springer.
+</div>
+<div id="ref-wilkinson2005" class="csl-entry" role="listitem">
+Wilkinson, L. 2005. <em>The Grammar of Graphics</em>. 2º ed. New York: Springer.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter4.html" class="pagination-link" aria-label="Análise exploratória">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter6.html" class="pagination-link" aria-label="Inferência estatística">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

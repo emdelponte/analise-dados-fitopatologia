@@ -1,0 +1,667 @@
+{
+    "sources": [
+        {
+            "DOI": "10.1016/c2019-0-04179-9",
+            "URL": "http://dx.doi.org/10.1016/c2019-0-04179-9",
+            "id": "agrios2024",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024
+                    ]
+                ]
+            },
+            "language": "en",
+            "publisher": "Elsevier",
+            "title": "Agrios’ plant pathology",
+            "type": "book"
+        },
+        {
+            "DOI": "https://doi.org/10.1016/B978-0-12-822429-8.00001-7",
+            "ISBN": "978-0-12-822429-8",
+            "URL": "https://www.sciencedirect.com/science/article/pii/B9780128224298000017",
+            "abstract": "Plant pathology is the science that studies plant diseases. It is concerned with how pathogens cause disease and how plants resist pathogens. It describes how diseases spread in time and place. It also seeks to find methods to protect plants from the impacts of disease. Plant pathology is challenging, interesting, and important. It has a practical and noble goal of protecting the food available for humans and animals and preserving the natural environment against invasive diseases. Plant diseases, by their presence, prevent the cultivation and growth of food plants in some areas. More commonly, plants may be cultivated and grown but plant diseases attack them, destroy part or all of the plant, and reduce much of their food and fiber products, before they can be harvested or consumed; and they may, often with human help, invade new territories and damage nature.",
+            "author": [
+                {
+                    "family": "Oliver",
+                    "given": "Richard P."
+                }
+            ],
+            "container-title": "Agrios’ plant pathology (sixth edition)",
+            "edition": "Sixth Edition",
+            "editor": [
+                {
+                    "family": "Oliver",
+                    "given": "Richard P."
+                }
+            ],
+            "id": "OLIVER20243",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024
+                    ]
+                ]
+            },
+            "keyword": "Theophrastus, Albertus Magnus, Spontaneous generation, Thoullier, Hooke, Leeuwenhoek, Linnaeus, Darwin, Tillet, Prevost, deBary, Petri, Koch, Koch’s postulates, Pasteur, Irish potato famine, Diener, Prusiner, Millardet, Bordeaux mixture, Ug99, Ash dieback, Pesticides, Fleming, Carson, Flor, Vanderplank, CGIAR, Eriksson, The profession of plant pathology",
+            "page": "3-61",
+            "publisher": "Academic Press",
+            "title": "Chapter 1 - the history and development of plant pathology",
+            "type": "chapter"
+        },
+        {
+            "DOI": "10.1016/b978-0-08-047378-9.50007-5",
+            "URL": "http://dx.doi.org/10.1016/b978-0-08-047378-9.50007-5",
+            "author": [
+                {
+                    "family": "AGRIOS",
+                    "given": "GEORGE N."
+                }
+            ],
+            "id": "agrios2005",
+            "issued": {
+                "date-parts": [
+                    [
+                        2005
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "3-75",
+            "publisher": "Elsevier",
+            "title": "INTRODUCTION",
+            "type": "chapter"
+        },
+        {
+            "DOI": "10.1007/s10327-024-01171-7",
+            "URL": "http://dx.doi.org/10.1007/s10327-024-01171-7",
+            "author": [
+                {
+                    "dropping-particle": "da",
+                    "family": "Silva",
+                    "given": "Eveline Mendes"
+                },
+                {
+                    "family": "Brito",
+                    "given": "Natália Deniz"
+                },
+                {
+                    "family": "Mesquita",
+                    "given": "Naasoom Luiz Santos"
+                },
+                {
+                    "family": "Soares",
+                    "given": "Poliana Prates de Souza"
+                },
+                {
+                    "dropping-particle": "de",
+                    "family": "Oliveira",
+                    "given": "Rafael José Vilela"
+                },
+                {
+                    "family": "Santos",
+                    "given": "Armínio"
+                },
+                {
+                    "dropping-particle": "de",
+                    "family": "Novaes",
+                    "given": "Quelmo Silva"
+                }
+            ],
+            "container-title": "Journal of General Plant Pathology",
+            "id": "silva2024",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024,
+                        3,
+                        4
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "168-172",
+            "title": "First report of pythium aphanidermatum causing damping off, collar and root rot of coriander in brazil",
+            "type": "article-journal",
+            "volume": "90"
+        },
+        {
+            "DOI": "10.1094/PDIS-11-19-2382-RE",
+            "author": [
+                {
+                    "family": "McGrath",
+                    "given": "Margaret T."
+                }
+            ],
+            "container-title": "Plant Disease",
+            "id": "mcgrath2020",
+            "issue": "11",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "2967-2972",
+            "title": "Efficacy of conventional fungicides for downy mildew in field-grown sweet basil in the united states",
+            "type": "article-journal",
+            "volume": "104"
+        },
+        {
+            "DOI": "10.1094/PDIS-02-20-0262-RE",
+            "author": [
+                {
+                    "family": "Carisse",
+                    "given": "Odile"
+                },
+                {
+                    "family": "Levasseur",
+                    "given": "Audrey"
+                },
+                {
+                    "family": "Provost",
+                    "given": "Caroline"
+                }
+            ],
+            "container-title": "Plant Disease",
+            "id": "carisse2020",
+            "issue": "11",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "2817-2822",
+            "title": "Influence of leaf wetness duration and temperature on infection of grape leaves by Elsinoë ampelina under controlled and vineyard conditions",
+            "type": "article-journal",
+            "volume": "104"
+        },
+        {
+            "DOI": "10.1016/j.pmpp.2023.102020",
+            "ISSN": "0885-5765",
+            "author": [
+                {
+                    "family": "Silva",
+                    "given": "Bruno N."
+                },
+                {
+                    "family": "Picanço",
+                    "given": "Bárbara B. M."
+                },
+                {
+                    "family": "Martins",
+                    "given": "Samuel C. V."
+                },
+                {
+                    "family": "Rodrigues",
+                    "given": "Fabrício A."
+                }
+            ],
+            "container-title": "Physiological and Molecular Plant Pathology",
+            "id": "Silva2023",
+            "issued": {
+                "date-parts": [
+                    [
+                        2023
+                    ]
+                ]
+            },
+            "page": "102020",
+            "title": "Impairment of the photorespiratory pathway on tomato leaves during the infection process of Septoria lycopersici",
+            "type": "article-journal",
+            "volume": "125"
+        },
+        {
+            "DOI": "10.18637/jss.v059.i10",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "container-title": "Journal of Statistical Software",
+            "id": "wickham2014",
+            "issue": "10",
+            "issued": {
+                "date-parts": [
+                    [
+                        2014
+                    ]
+                ]
+            },
+            "page": "1-23",
+            "title": "Tidy data",
+            "type": "article-journal",
+            "volume": "59"
+        },
+        {
+            "DOI": "10.1080/00031305.2017.1375989",
+            "author": [
+                {
+                    "family": "Broman",
+                    "given": "Karl W."
+                },
+                {
+                    "family": "Woo",
+                    "given": "Kara H."
+                }
+            ],
+            "container-title": "The American Statistician",
+            "id": "broman2018",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "page": "2-10",
+            "title": "Data organization in spreadsheets",
+            "type": "article-journal",
+            "volume": "72"
+        },
+        {
+            "DOI": "10.1038/sdata.2016.18",
+            "author": [
+                {
+                    "family": "Wilkinson",
+                    "given": "Mark D."
+                },
+                {
+                    "family": "Dumontier",
+                    "given": "Michel"
+                },
+                {
+                    "family": "Aalbersberg",
+                    "given": "IJsbrand Jan"
+                },
+                {
+                    "family": "Appleton",
+                    "given": "Gabrielle"
+                },
+                {
+                    "family": "Axton",
+                    "given": "Myles"
+                },
+                {
+                    "family": "Baak",
+                    "given": "Arie"
+                },
+                {
+                    "literal": "others"
+                }
+            ],
+            "container-title": "Scientific Data",
+            "id": "wilkinson2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "page": "160018",
+            "title": "The FAIR guiding principles for scientific data management and stewardship",
+            "type": "article-journal",
+            "volume": "3"
+        },
+        {
+            "author": [
+                {
+                    "family": "Tukey",
+                    "given": "John W."
+                }
+            ],
+            "id": "tukey1977",
+            "issued": {
+                "date-parts": [
+                    [
+                        1977
+                    ]
+                ]
+            },
+            "publisher": "Addison-Wesley",
+            "publisher-place": "Reading, MA",
+            "title": "Exploratory data analysis",
+            "type": "book"
+        },
+        {
+            "DOI": "10.2307/1942661",
+            "author": [
+                {
+                    "family": "Hurlbert",
+                    "given": "Stuart H."
+                }
+            ],
+            "container-title": "Ecological Monographs",
+            "id": "hurlbert1984",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        1984
+                    ]
+                ]
+            },
+            "page": "187-211",
+            "title": "Pseudoreplication and the design of ecological field experiments",
+            "type": "article-journal",
+            "volume": "54"
+        },
+        {
+            "DOI": "10.1080/00031305.1973.10478966",
+            "author": [
+                {
+                    "family": "Anscombe",
+                    "given": "Francis J."
+                }
+            ],
+            "container-title": "The American Statistician",
+            "id": "anscombe1973",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1973
+                    ]
+                ]
+            },
+            "page": "17-21",
+            "title": "Graphs in statistical analysis",
+            "type": "article-journal",
+            "volume": "27"
+        },
+        {
+            "author": [
+                {
+                    "family": "Wilkinson",
+                    "given": "Leland"
+                }
+            ],
+            "edition": "2",
+            "id": "wilkinson2005",
+            "issued": {
+                "date-parts": [
+                    [
+                        2005
+                    ]
+                ]
+            },
+            "publisher": "Springer",
+            "publisher-place": "New York",
+            "title": "The grammar of graphics",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1198/jcgs.2009.07098",
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "container-title": "Journal of Computational and Graphical Statistics",
+            "id": "wickham2010",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2010
+                    ]
+                ]
+            },
+            "page": "3-28",
+            "title": "A layered grammar of graphics",
+            "type": "article-journal",
+            "volume": "19"
+        },
+        {
+            "DOI": "10.1080/01621459.1984.10478080",
+            "author": [
+                {
+                    "family": "Cleveland",
+                    "given": "William S."
+                },
+                {
+                    "family": "McGill",
+                    "given": "Robert"
+                }
+            ],
+            "container-title": "Journal of the American Statistical Association",
+            "id": "cleveland1984",
+            "issue": "387",
+            "issued": {
+                "date-parts": [
+                    [
+                        1984
+                    ]
+                ]
+            },
+            "page": "531-554",
+            "title": "Graphical perception: Theory, experimentation, and application to the development of graphical methods",
+            "title-short": "Graphical perception",
+            "type": "article-journal",
+            "volume": "79"
+        },
+        {
+            "DOI": "10.1371/journal.pbio.1002128",
+            "author": [
+                {
+                    "family": "Weissgerber",
+                    "given": "Tracey L."
+                },
+                {
+                    "family": "Milic",
+                    "given": "Natasa M."
+                },
+                {
+                    "family": "Winham",
+                    "given": "Stacey J."
+                },
+                {
+                    "family": "Garovic",
+                    "given": "Vesna D."
+                }
+            ],
+            "container-title": "PLoS Biology",
+            "id": "weissgerber2015",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "page": "e1002128",
+            "title": "Beyond bar and line graphs: Time for a new data presentation paradigm",
+            "title-short": "Beyond bar and line graphs",
+            "type": "article-journal",
+            "volume": "13"
+        },
+        {
+            "author": [
+                {
+                    "family": "Tufte",
+                    "given": "Edward R."
+                }
+            ],
+            "edition": "2",
+            "id": "tufte2001",
+            "issued": {
+                "date-parts": [
+                    [
+                        2001
+                    ]
+                ]
+            },
+            "publisher": "Graphics Press",
+            "publisher-place": "Cheshire, CT",
+            "title": "The visual display of quantitative information",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Wickham",
+                    "given": "Hadley"
+                }
+            ],
+            "edition": "2",
+            "id": "wickham2016",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "publisher": "Springer",
+            "publisher-place": "New York",
+            "title": "ggplot2: Elegant graphics for data analysis",
+            "title-short": "ggplot2",
+            "type": "book"
+        },
+        {
+            "DOI": "10.1080/00031305.2016.1154108",
+            "author": [
+                {
+                    "family": "Wasserstein",
+                    "given": "Ronald L."
+                },
+                {
+                    "family": "Lazar",
+                    "given": "Nicole A."
+                }
+            ],
+            "container-title": "The American Statistician",
+            "id": "wasserstein2016",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "page": "129-133",
+            "title": "The ASA’s statement on p-values: Context, process, and purpose",
+            "title-short": "The ASA’s statement on p-values",
+            "type": "article-journal",
+            "volume": "70"
+        },
+        {
+            "DOI": "10.1038/d41586-019-00857-9",
+            "author": [
+                {
+                    "family": "Amrhein",
+                    "given": "Valentin"
+                },
+                {
+                    "family": "Greenland",
+                    "given": "Sander"
+                },
+                {
+                    "family": "McShane",
+                    "given": "Blake"
+                }
+            ],
+            "container-title": "Nature",
+            "id": "amrhein2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "page": "305-307",
+            "title": "Scientists rise up against statistical significance",
+            "type": "article-journal",
+            "volume": "567"
+        },
+        {
+            "DOI": "10.1177/0956797611417632",
+            "author": [
+                {
+                    "family": "Simmons",
+                    "given": "Joseph P."
+                },
+                {
+                    "family": "Nelson",
+                    "given": "Leif D."
+                },
+                {
+                    "family": "Simonsohn",
+                    "given": "Uri"
+                }
+            ],
+            "container-title": "Psychological Science",
+            "id": "simmons2011",
+            "issue": "11",
+            "issued": {
+                "date-parts": [
+                    [
+                        2011
+                    ]
+                ]
+            },
+            "page": "1359-1366",
+            "title": "False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant",
+            "title-short": "False-positive psychology",
+            "type": "article-journal",
+            "volume": "22"
+        },
+        {
+            "DOI": "10.1371/journal.pcbi.1005510",
+            "author": [
+                {
+                    "family": "Wilson",
+                    "given": "Greg"
+                },
+                {
+                    "family": "Bryan",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Cranston",
+                    "given": "Karen"
+                },
+                {
+                    "family": "Kitzes",
+                    "given": "Justin"
+                },
+                {
+                    "family": "Nederbragt",
+                    "given": "Lex"
+                },
+                {
+                    "family": "Teal",
+                    "given": "Tracy K."
+                }
+            ],
+            "container-title": "PLoS Computational Biology",
+            "id": "wilson2017",
+            "issue": "6",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "page": "e1005510",
+            "title": "Good enough practices in scientific computing",
+            "type": "article-journal",
+            "volume": "13"
+        }
+    ],
+    "project_biblios": [
+        "references.bib"
+    ]
+}

@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Como os dados científicos devem ser organizados? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter4.html" rel="next">
+<link href="./chapter2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">3.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-a-organização-dos-dados-importa" id="toc-por-que-a-organização-dos-dados-importa" class="nav-link" data-scroll-target="#por-que-a-organização-dos-dados-importa"><span class="header-section-number">3.2</span> Por que a organização dos dados importa</a></li>
+  <li><a href="#das-observações-ao-conjunto-de-dados" id="toc-das-observações-ao-conjunto-de-dados" class="nav-link" data-scroll-target="#das-observações-ao-conjunto-de-dados"><span class="header-section-number">3.3</span> Das observações ao conjunto de dados</a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-um-conjunto-de-dados" id="toc-o-que-é-um-conjunto-de-dados" class="nav-link" data-scroll-target="#o-que-é-um-conjunto-de-dados"><span class="header-section-number">3.3.1</span> O que é um conjunto de dados?</a></li>
+  <li><a href="#observações" id="toc-observações" class="nav-link" data-scroll-target="#observações"><span class="header-section-number">3.3.2</span> Observações</a></li>
+  <li><a href="#variáveis" id="toc-variáveis" class="nav-link" data-scroll-target="#variáveis"><span class="header-section-number">3.3.3</span> Variáveis</a></li>
+  <li><a href="#identificadores" id="toc-identificadores" class="nav-link" data-scroll-target="#identificadores"><span class="header-section-number">3.3.4</span> Identificadores</a></li>
+  <li><a href="#unidades-de-observação" id="toc-unidades-de-observação" class="nav-link" data-scroll-target="#unidades-de-observação"><span class="header-section-number">3.3.5</span> Unidades de observação</a></li>
+  </ul></li>
+  <li><a href="#princípios-de-dados-organizados-tidy-data" id="toc-princípios-de-dados-organizados-tidy-data" class="nav-link" data-scroll-target="#princípios-de-dados-organizados-tidy-data"><span class="header-section-number">3.4</span> Princípios de dados organizados (<em>tidy data</em>)</a>
+  <ul class="collapse">
+  <li><a href="#uma-linha-por-observação" id="toc-uma-linha-por-observação" class="nav-link" data-scroll-target="#uma-linha-por-observação"><span class="header-section-number">3.4.1</span> Uma linha por observação</a></li>
+  <li><a href="#uma-coluna-por-variável" id="toc-uma-coluna-por-variável" class="nav-link" data-scroll-target="#uma-coluna-por-variável"><span class="header-section-number">3.4.2</span> Uma coluna por variável</a></li>
+  <li><a href="#uma-tabela-por-unidade-de-observação" id="toc-uma-tabela-por-unidade-de-observação" class="nav-link" data-scroll-target="#uma-tabela-por-unidade-de-observação"><span class="header-section-number">3.4.3</span> Uma tabela por unidade de observação</a></li>
+  <li><a href="#por-que-dados-organizados-simplificam-as-análises" id="toc-por-que-dados-organizados-simplificam-as-análises" class="nav-link" data-scroll-target="#por-que-dados-organizados-simplificam-as-análises"><span class="header-section-number">3.4.4</span> Por que dados organizados simplificam as análises</a></li>
+  </ul></li>
+  <li><a href="#estruturas-de-dados-comuns-em-fitopatologia" id="toc-estruturas-de-dados-comuns-em-fitopatologia" class="nav-link" data-scroll-target="#estruturas-de-dados-comuns-em-fitopatologia"><span class="header-section-number">3.5</span> Estruturas de dados comuns em Fitopatologia</a>
+  <ul class="collapse">
+  <li><a href="#experimentos-de-avaliação-de-doença" id="toc-experimentos-de-avaliação-de-doença" class="nav-link" data-scroll-target="#experimentos-de-avaliação-de-doença"><span class="header-section-number">3.5.1</span> Experimentos de avaliação de doença</a></li>
+  <li><a href="#ensaios-de-campo" id="toc-ensaios-de-campo" class="nav-link" data-scroll-target="#ensaios-de-campo"><span class="header-section-number">3.5.2</span> Ensaios de campo</a></li>
+  <li><a href="#experimentos-em-casa-de-vegetação" id="toc-experimentos-em-casa-de-vegetação" class="nav-link" data-scroll-target="#experimentos-em-casa-de-vegetação"><span class="header-section-number">3.5.3</span> Experimentos em casa de vegetação</a></li>
+  <li><a href="#dados-de-progresso-da-doença" id="toc-dados-de-progresso-da-doença" class="nav-link" data-scroll-target="#dados-de-progresso-da-doença"><span class="header-section-number">3.5.4</span> Dados de progresso da doença</a></li>
+  <li><a href="#dados-meteorológicos" id="toc-dados-meteorológicos" class="nav-link" data-scroll-target="#dados-meteorológicos"><span class="header-section-number">3.5.5</span> Dados meteorológicos</a></li>
+  <li><a href="#dados-moleculares" id="toc-dados-moleculares" class="nav-link" data-scroll-target="#dados-moleculares"><span class="header-section-number">3.5.6</span> Dados moleculares</a></li>
+  <li><a href="#dados-de-levantamento" id="toc-dados-de-levantamento" class="nav-link" data-scroll-target="#dados-de-levantamento"><span class="header-section-number">3.5.7</span> Dados de levantamento</a></li>
+  </ul></li>
+  <li><a href="#tipos-de-variáveis" id="toc-tipos-de-variáveis" class="nav-link" data-scroll-target="#tipos-de-variáveis"><span class="header-section-number">3.6</span> Tipos de variáveis</a>
+  <ul class="collapse">
+  <li><a href="#variáveis-contínuas" id="toc-variáveis-contínuas" class="nav-link" data-scroll-target="#variáveis-contínuas"><span class="header-section-number">3.6.1</span> Variáveis contínuas</a></li>
+  <li><a href="#contagens" id="toc-contagens" class="nav-link" data-scroll-target="#contagens"><span class="header-section-number">3.6.2</span> Contagens</a></li>
+  <li><a href="#categorias" id="toc-categorias" class="nav-link" data-scroll-target="#categorias"><span class="header-section-number">3.6.3</span> Categorias</a></li>
+  <li><a href="#variáveis-binárias" id="toc-variáveis-binárias" class="nav-link" data-scroll-target="#variáveis-binárias"><span class="header-section-number">3.6.4</span> Variáveis binárias</a></li>
+  <li><a href="#datas-e-horários" id="toc-datas-e-horários" class="nav-link" data-scroll-target="#datas-e-horários"><span class="header-section-number">3.6.5</span> Datas e horários</a></li>
+  <li><a href="#cadeias-de-caracteres" id="toc-cadeias-de-caracteres" class="nav-link" data-scroll-target="#cadeias-de-caracteres"><span class="header-section-number">3.6.6</span> Cadeias de caracteres</a></li>
+  <li><a href="#valores-perdidos" id="toc-valores-perdidos" class="nav-link" data-scroll-target="#valores-perdidos"><span class="header-section-number">3.6.7</span> Valores perdidos</a></li>
+  </ul></li>
+  <li><a href="#metadados" id="toc-metadados" class="nav-link" data-scroll-target="#metadados"><span class="header-section-number">3.7</span> Metadados</a>
+  <ul class="collapse">
+  <li><a href="#o-que-são-metadados" id="toc-o-que-são-metadados" class="nav-link" data-scroll-target="#o-que-são-metadados"><span class="header-section-number">3.7.1</span> O que são metadados?</a></li>
+  <li><a href="#dicionários-de-dados" id="toc-dicionários-de-dados" class="nav-link" data-scroll-target="#dicionários-de-dados"><span class="header-section-number">3.7.2</span> Dicionários de dados</a></li>
+  <li><a href="#unidades-de-medida" id="toc-unidades-de-medida" class="nav-link" data-scroll-target="#unidades-de-medida"><span class="header-section-number">3.7.3</span> Unidades de medida</a></li>
+  <li><a href="#sistemas-de-codificação" id="toc-sistemas-de-codificação" class="nav-link" data-scroll-target="#sistemas-de-codificação"><span class="header-section-number">3.7.4</span> Sistemas de codificação</a></li>
+  <li><a href="#vocabulários-controlados" id="toc-vocabulários-controlados" class="nav-link" data-scroll-target="#vocabulários-controlados"><span class="header-section-number">3.7.5</span> Vocabulários controlados</a></li>
+  </ul></li>
+  <li><a href="#convenções-de-nomes" id="toc-convenções-de-nomes" class="nav-link" data-scroll-target="#convenções-de-nomes"><span class="header-section-number">3.8</span> Convenções de nomes</a>
+  <ul class="collapse">
+  <li><a href="#variáveis-1" id="toc-variáveis-1" class="nav-link" data-scroll-target="#variáveis-1"><span class="header-section-number">3.8.1</span> Variáveis</a></li>
+  <li><a href="#arquivos" id="toc-arquivos" class="nav-link" data-scroll-target="#arquivos"><span class="header-section-number">3.8.2</span> Arquivos</a></li>
+  <li><a href="#pastas" id="toc-pastas" class="nav-link" data-scroll-target="#pastas"><span class="header-section-number">3.8.3</span> Pastas</a></li>
+  <li><a href="#projetos" id="toc-projetos" class="nav-link" data-scroll-target="#projetos"><span class="header-section-number">3.8.4</span> Projetos</a></li>
+  </ul></li>
+  <li><a href="#problemas-comuns-na-digitação-de-dados" id="toc-problemas-comuns-na-digitação-de-dados" class="nav-link" data-scroll-target="#problemas-comuns-na-digitação-de-dados"><span class="header-section-number">3.9</span> Problemas comuns na digitação de dados</a>
+  <ul class="collapse">
+  <li><a href="#erros-de-digitação" id="toc-erros-de-digitação" class="nav-link" data-scroll-target="#erros-de-digitação"><span class="header-section-number">3.9.1</span> Erros de digitação</a></li>
+  <li><a href="#codificação-inconsistente" id="toc-codificação-inconsistente" class="nav-link" data-scroll-target="#codificação-inconsistente"><span class="header-section-number">3.9.2</span> Codificação inconsistente</a></li>
+  <li><a href="#valores-perdidos-ocultos" id="toc-valores-perdidos-ocultos" class="nav-link" data-scroll-target="#valores-perdidos-ocultos"><span class="header-section-number">3.9.3</span> Valores perdidos ocultos</a></li>
+  <li><a href="#unidades-misturadas" id="toc-unidades-misturadas" class="nav-link" data-scroll-target="#unidades-misturadas"><span class="header-section-number">3.9.4</span> Unidades misturadas</a></li>
+  <li><a href="#observações-duplicadas" id="toc-observações-duplicadas" class="nav-link" data-scroll-target="#observações-duplicadas"><span class="header-section-number">3.9.5</span> Observações duplicadas</a></li>
+  <li><a href="#valores-impossíveis" id="toc-valores-impossíveis" class="nav-link" data-scroll-target="#valores-impossíveis"><span class="header-section-number">3.9.6</span> Valores impossíveis</a></li>
+  <li><a href="#problemas-de-formatação-em-planilhas" id="toc-problemas-de-formatação-em-planilhas" class="nav-link" data-scroll-target="#problemas-de-formatação-em-planilhas"><span class="header-section-number">3.9.7</span> Problemas de formatação em planilhas</a></li>
+  </ul></li>
+  <li><a href="#validação-dos-dados" id="toc-validação-dos-dados" class="nav-link" data-scroll-target="#validação-dos-dados"><span class="header-section-number">3.10</span> Validação dos dados</a>
+  <ul class="collapse">
+  <li><a href="#verificação-de-faixas" id="toc-verificação-de-faixas" class="nav-link" data-scroll-target="#verificação-de-faixas"><span class="header-section-number">3.10.1</span> Verificação de faixas</a></li>
+  <li><a href="#verificação-de-consistência" id="toc-verificação-de-consistência" class="nav-link" data-scroll-target="#verificação-de-consistência"><span class="header-section-number">3.10.2</span> Verificação de consistência</a></li>
+  <li><a href="#conferência-com-os-registros-originais" id="toc-conferência-com-os-registros-originais" class="nav-link" data-scroll-target="#conferência-com-os-registros-originais"><span class="header-section-number">3.10.3</span> Conferência com os registros originais</a></li>
+  <li><a href="#resumos-exploratórios" id="toc-resumos-exploratórios" class="nav-link" data-scroll-target="#resumos-exploratórios"><span class="header-section-number">3.10.4</span> Resumos exploratórios</a></li>
+  </ul></li>
+  <li><a href="#dados-brutos-versus-dados-processados" id="toc-dados-brutos-versus-dados-processados" class="nav-link" data-scroll-target="#dados-brutos-versus-dados-processados"><span class="header-section-number">3.11</span> Dados brutos versus dados processados</a>
+  <ul class="collapse">
+  <li><a href="#nunca-sobrescreva-os-dados-brutos" id="toc-nunca-sobrescreva-os-dados-brutos" class="nav-link" data-scroll-target="#nunca-sobrescreva-os-dados-brutos"><span class="header-section-number">3.11.1</span> Nunca sobrescreva os dados brutos</a></li>
+  <li><a href="#variáveis-derivadas" id="toc-variáveis-derivadas" class="nav-link" data-scroll-target="#variáveis-derivadas"><span class="header-section-number">3.11.2</span> Variáveis derivadas</a></li>
+  <li><a href="#limpeza-dos-dados" id="toc-limpeza-dos-dados" class="nav-link" data-scroll-target="#limpeza-dos-dados"><span class="header-section-number">3.11.3</span> Limpeza dos dados</a></li>
+  <li><a href="#controle-de-versões" id="toc-controle-de-versões" class="nav-link" data-scroll-target="#controle-de-versões"><span class="header-section-number">3.11.4</span> Controle de versões</a></li>
+  </ul></li>
+  <li><a href="#organizando-projetos-de-pesquisa" id="toc-organizando-projetos-de-pesquisa" class="nav-link" data-scroll-target="#organizando-projetos-de-pesquisa"><span class="header-section-number">3.12</span> Organizando projetos de pesquisa</a>
+  <ul class="collapse">
+  <li><a href="#pastas-do-projeto" id="toc-pastas-do-projeto" class="nav-link" data-scroll-target="#pastas-do-projeto"><span class="header-section-number">3.12.1</span> Pastas do projeto</a></li>
+  <li><a href="#dados" id="toc-dados" class="nav-link" data-scroll-target="#dados"><span class="header-section-number">3.12.2</span> Dados</a></li>
+  <li><a href="#scripts" id="toc-scripts" class="nav-link" data-scroll-target="#scripts"><span class="header-section-number">3.12.3</span> Scripts</a></li>
+  <li><a href="#figuras" id="toc-figuras" class="nav-link" data-scroll-target="#figuras"><span class="header-section-number">3.12.4</span> Figuras</a></li>
+  <li><a href="#resultados" id="toc-resultados" class="nav-link" data-scroll-target="#resultados"><span class="header-section-number">3.12.5</span> Resultados</a></li>
+  <li><a href="#manuscritos" id="toc-manuscritos" class="nav-link" data-scroll-target="#manuscritos"><span class="header-section-number">3.12.6</span> Manuscritos</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática" id="toc-pesquisa-na-prática" class="nav-link" data-scroll-target="#pesquisa-na-prática"><span class="header-section-number">3.13</span> Pesquisa na prática</a></li>
+  <li><a href="#lista-de-verificação-da-organização-dos-dados" id="toc-lista-de-verificação-da-organização-dos-dados" class="nav-link" data-scroll-target="#lista-de-verificação-da-organização-dos-dados"><span class="header-section-number">3.14</span> Lista de verificação da organização dos dados</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">3.15</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">3.16</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">3.17</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-identificando-problemas-em-conjuntos-de-dados-mal-organizados" id="toc-exercício-1.-identificando-problemas-em-conjuntos-de-dados-mal-organizados" class="nav-link" data-scroll-target="#exercício-1.-identificando-problemas-em-conjuntos-de-dados-mal-organizados"><span class="header-section-number">3.17.1</span> Exercício 1. Identificando problemas em conjuntos de dados mal organizados</a></li>
+  <li><a href="#exercício-2.-convertendo-um-conjunto-de-dados-para-o-formato-organizado" id="toc-exercício-2.-convertendo-um-conjunto-de-dados-para-o-formato-organizado" class="nav-link" data-scroll-target="#exercício-2.-convertendo-um-conjunto-de-dados-para-o-formato-organizado"><span class="header-section-number">3.17.2</span> Exercício 2. Convertendo um conjunto de dados para o formato organizado</a></li>
+  <li><a href="#exercício-3.-criando-uma-tabela-de-metadados" id="toc-exercício-3.-criando-uma-tabela-de-metadados" class="nav-link" data-scroll-target="#exercício-3.-criando-uma-tabela-de-metadados"><span class="header-section-number">3.17.3</span> Exercício 3. Criando uma tabela de metadados</a></li>
+  <li><a href="#exercício-4.-revisando-os-dados-suplementares-de-um-artigo-publicado" id="toc-exercício-4.-revisando-os-dados-suplementares-de-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-4.-revisando-os-dados-suplementares-de-um-artigo-publicado"><span class="header-section-number">3.17.4</span> Exercício 4. Revisando os dados suplementares de um artigo publicado</a></li>
+  <li><a href="#exercício-5.-planejando-uma-estrutura-de-pastas" id="toc-exercício-5.-planejando-uma-estrutura-de-pastas" class="nav-link" data-scroll-target="#exercício-5.-planejando-uma-estrutura-de-pastas"><span class="header-section-number">3.17.5</span> Exercício 5. Planejando uma estrutura de pastas</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">3.18</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">3.19</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como os dados científicos devem ser organizados?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">3.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>explicar por que a organização dos dados é essencial para a pesquisa reprodutível;</li>
+<li>distinguir dados brutos de dados processados;</li>
+<li>construir conjuntos de dados organizados (<em>tidy</em>) adequados para a análise;</li>
+<li>identificar observações, variáveis e identificadores;</li>
+<li>organizar metadados e informações de apoio;</li>
+<li>reconhecer erros comuns de digitação de dados;</li>
+<li>aplicar boas práticas de documentação e armazenamento de dados de pesquisa.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-a-organização-dos-dados-importa" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="por-que-a-organização-dos-dados-importa"><span class="header-section-number">3.2</span> Por que a organização dos dados importa</h2>
+<p>Um estudo bem delineado produz observações, mas as observações só se tornam evidência depois de registradas, organizadas, verificadas e documentadas. Entre o campo, a casa de vegetação ou o laboratório e a análise final existe uma etapa frequentemente tratada como burocrática: a construção do conjunto de dados. Na prática, essa etapa determina se a análise será simples ou penosa, transparente ou opaca, correta ou silenciosamente errada.</p>
+<p>Dados mal organizados causam problemas que nenhum método estatístico consegue corrigir. Um valor de severidade digitado na linha errada atribui doença ao tratamento errado. Um valor perdido registrado como zero reduz a média de um tratamento. Uma planilha em que os tratamentos são identificados apenas pela cor das células não pode ser lida por programas de análise. Um arquivo chamado <code>dados_final_v2_NOVO_corrigido.xlsx</code> não indica se contém as observações brutas ou uma versão da qual se removeram valores discrepantes. Cada um desses problemas é comum, e cada um pode mudar as conclusões de um estudo sem que ninguém perceba.</p>
+<p>A organização dos dados também determina se a pesquisa pode ser reproduzida. Um colaborador, um revisor ou o próprio pesquisador dois anos depois deve conseguir abrir o conjunto de dados e entender o que cada linha representa, o que cada coluna contém, em que unidades os valores estão expressos e como o conjunto foi obtido a partir dos registros originais. Quando essa informação existe apenas na memória de quem coletou os dados, os resultados não podem ser verificados, reutilizados ou combinados com outros estudos.</p>
+<p>Por fim, uma boa organização economiza tempo. Os pesquisadores frequentemente gastam mais tempo preparando os dados para a análise do que analisando-os. Boa parte desse esforço decorre de decisões tomadas na digitação: nomes inconsistentes, células mescladas, várias tabelas na mesma planilha ou informação codificada em formatação. Organizar os dados com cuidado desde o início é muito mais barato do que consertá-los depois.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dados bem organizados são a base da pesquisa científica reprodutível. A estatística não compensa dados mal organizados.</p>
+</div>
+</div>
+</section>
+<section id="das-observações-ao-conjunto-de-dados" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="das-observações-ao-conjunto-de-dados"><span class="header-section-number">3.3</span> Das observações ao conjunto de dados</h2>
+<section id="o-que-é-um-conjunto-de-dados" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="o-que-é-um-conjunto-de-dados"><span class="header-section-number">3.3.1</span> O que é um conjunto de dados?</h3>
+<p>Um conjunto de dados é uma coleção estruturada de observações registradas segundo regras consistentes. Na maioria dos estudos em Fitopatologia, ele tem a forma de uma tabela retangular: as linhas representam o que foi observado, e as colunas representam as características registradas para cada observação. Essa forma retangular não é mera convenção. É a estrutura esperada pelos programas estatísticos, e ela obriga o pesquisador a declarar explicitamente o que foi observado e o que foi medido.</p>
+<p>Um conjunto de dados não é o mesmo que um arquivo de planilha. Um único arquivo pode conter vários conjuntos de dados (por exemplo, uma tabela com informações das parcelas e outra com as avaliações de doença), e um único conjunto de dados pode estar guardado em vários arquivos (por exemplo, avaliações de anos diferentes). O que importa é que cada tabela tenha uma estrutura clara e que as relações entre as tabelas estejam documentadas.</p>
+</section>
+<section id="observações" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="observações"><span class="header-section-number">3.3.2</span> Observações</h3>
+<p>Uma observação é o registro único das características de uma unidade em um momento. Em um ensaio de campo, uma observação pode ser a severidade da doença em uma parcela em uma data de avaliação. Em um ensaio de laboratório, pode ser o diâmetro da colônia em uma placa de Petri após determinado período de incubação. Em um levantamento, pode ser a informação registrada para uma lavoura visitada.</p>
+<p>Definir a observação é a decisão mais importante na organização dos dados, e ela decorre diretamente do delineamento do estudo discutido no Capítulo 2. Se a severidade foi avaliada em dez folhas por parcela, o pesquisador precisa decidir se cada linha representará uma folha ou uma parcela. As duas escolhas podem ser válidas, mas levam a conjuntos de dados diferentes e devem ser declaradas claramente. Manter o nível mais detalhado efetivamente registrado (aqui, a folha) costuma ser preferível, porque resumos em níveis superiores (médias por parcela) sempre podem ser calculados depois, ao passo que a informação detalhada não pode ser recuperada a partir dos resumos.</p>
+</section>
+<section id="variáveis" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="variáveis"><span class="header-section-number">3.3.3</span> Variáveis</h3>
+<p>Uma variável é uma característica registrada para todas as observações e que pode variar entre elas. Tratamento, bloco, cultivar, data de avaliação, incidência, severidade, temperatura e produtividade são variáveis. Cada variável é registrada em uma coluna, e todos os valores dessa coluna devem se referir à mesma característica, medida da mesma forma e expressa nas mesmas unidades.</p>
+<p>Algumas variáveis descrevem o delineamento do estudo (tratamento, bloco, repetição, execução), outras descrevem o contexto (local, data, cultivar, avaliador) e outras são as respostas que respondem à questão biológica (severidade, incidência, número de lesões, produtividade). Todas pertencem ao conjunto de dados. A informação sobre o delineamento é particularmente fácil de omitir, porque parece óbvia para quem coletou os dados, mas é indispensável para a análise.</p>
+</section>
+<section id="identificadores" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="identificadores"><span class="header-section-number">3.3.4</span> Identificadores</h3>
+<p>Um identificador é uma variável, ou combinação de variáveis, que distingue de forma única cada unidade. Números de parcela, etiquetas de plantas, códigos de isolados, códigos de barras de amostras e identificadores de lavouras são exemplos típicos. Os identificadores ligam as observações às unidades físicas de onde foram obtidas, conectam tabelas diferentes (por exemplo, informações das parcelas e avaliações de doença) e permitem rastrear qualquer valor até sua origem.</p>
+<p>Na terminologia de bancos de dados, uma variável ou combinação de variáveis que identifica de forma única cada linha de uma tabela é chamada chave primária. Em uma tabela de características das parcelas, o número da parcela pode bastar. Em uma tabela de avaliações repetidas, é necessária a combinação de parcela e data, porque cada parcela aparece uma vez para cada avaliação. Se duas linhas têm a mesma chave, ou os dados contêm duplicatas ou a chave está incompleta.</p>
+</section>
+<section id="unidades-de-observação" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="unidades-de-observação"><span class="header-section-number">3.3.5</span> Unidades de observação</h3>
+<p>A unidade de observação é a entidade descrita por uma linha da tabela. Ela está relacionada, mas nem sempre é igual, à unidade experimental e à unidade amostral apresentadas no Capítulo 2. Em um ensaio de campo em que os tratamentos são aplicados às parcelas e a severidade é avaliada em folhas individuais, a parcela é a unidade experimental, a folha é a unidade amostral, e o conjunto de dados poderia ser organizado tendo a folha ou a parcela como unidade de observação.</p>
+<p>O importante é que a unidade de observação seja explícita e constante dentro de uma tabela. Uma tabela em que algumas linhas representam folhas individuais e outras representam médias de parcelas não pode ser analisada corretamente. Quando há informação em mais de um nível, geralmente é melhor guardá-la em tabelas separadas, uma para cada nível, ligadas por identificadores.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter3-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter3-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter3_files/figure-html/fig-chapter3-1-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter3-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.1: Estrutura de um conjunto de dados científicos. Cada linha é uma observação (aqui, uma folha) e cada coluna é uma variável. As cores indicam o papel das variáveis: identificadores, variáveis do delineamento e resposta.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tbl-ch3-structure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.1: Um pequeno conjunto de dados em que cada linha é uma folha (a unidade de observação), cada coluna é uma variável, e a combinação de <code>plot</code> e <code>leaf</code> identifica cada linha de forma única.
+</figcaption>
+<div aria-describedby="tbl-ch3-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>plot</th>
+<th>block</th>
+<th>treatment</th>
+<th>leaf</th>
+<th>severity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>101</td>
+<td>1</td>
+<td>control</td>
+<td>1</td>
+<td>12.5</td>
+</tr>
+<tr class="even">
+<td>101</td>
+<td>1</td>
+<td>control</td>
+<td>2</td>
+<td>8.0</td>
+</tr>
+<tr class="odd">
+<td>102</td>
+<td>1</td>
+<td>fungicide</td>
+<td>1</td>
+<td>2.0</td>
+</tr>
+<tr class="even">
+<td>102</td>
+<td>1</td>
+<td>fungicide</td>
+<td>2</td>
+<td>3.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nos exemplos deste livro, nomes de variáveis e códigos de categorias são mantidos em inglês (<code>plot</code>, <code>block</code>, <code>treatment</code>, <code>severity</code>), como é comum em códigos de análise e em dados compartilhados internacionalmente. O mais importante é escolher uma convenção e aplicá-la de forma consistente.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="princípios-de-dados-organizados-tidy-data" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="princípios-de-dados-organizados-tidy-data"><span class="header-section-number">3.4</span> Princípios de dados organizados (<em>tidy data</em>)</h2>
+<p>A estrutura descrita acima foi formalizada como <strong>dados organizados</strong> (<em>tidy data</em>) <span class="citation" data-cites="wickham2014">(<a href="references.html#ref-wickham2014" role="doc-biblioref">Wickham 2014</a>)</span>. Um conjunto de dados é organizado quando sua estrutura corresponde ao seu significado: a forma da tabela reflete diretamente o que foi observado e o que foi medido. Dados organizados seguem três princípios.</p>
+<section id="uma-linha-por-observação" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="uma-linha-por-observação"><span class="header-section-number">3.4.1</span> Uma linha por observação</h3>
+<p>Cada linha contém todos os valores registrados para uma única observação e nada mais. Se a severidade foi avaliada em quatro datas em cada parcela, um conjunto organizado contém quatro linhas por parcela, uma para cada avaliação. Uma linha nunca deve conter observações de mais de uma unidade ou de mais de um momento.</p>
+</section>
+<section id="uma-coluna-por-variável" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="uma-coluna-por-variável"><span class="header-section-number">3.4.2</span> Uma coluna por variável</h3>
+<p>Cada coluna contém uma única variável. A informação que varia entre observações, como a data de avaliação, pertence à sua própria coluna, e não aos nomes das colunas. Uma tabela com colunas chamadas <code>sev_jun10</code>, <code>sev_jun24</code> e <code>sev_jul08</code> guarda a variável <em>data</em> nos cabeçalhos. A versão organizada tem uma coluna chamada <code>date</code> e uma coluna chamada <code>severity</code>.</p>
+<p>O princípio também proíbe guardar duas variáveis em uma coluna. Uma coluna com valores como <code>R1-control</code> combina repetição e tratamento, e uma coluna com <code>25 C/12 h</code> combina temperatura e duração do molhamento. Cada uma deve ser dividida em colunas separadas.</p>
+</section>
+<section id="uma-tabela-por-unidade-de-observação" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="uma-tabela-por-unidade-de-observação"><span class="header-section-number">3.4.3</span> Uma tabela por unidade de observação</h3>
+<p>Cada tipo de unidade de observação fica em sua própria tabela. As características das parcelas (bloco, tratamento, cultivar, data de semeadura) são registradas uma vez por parcela, em uma tabela de parcelas. As avaliações repetidas ficam em uma tabela de avaliações, com uma linha por parcela e data. Registros meteorológicos, com uma linha por hora ou por dia, formam uma terceira tabela. Essas tabelas são ligadas por identificadores compartilhados, como o número da parcela ou a data, em vez de repetir toda a informação em uma única tabela grande.</p>
+</section>
+<section id="por-que-dados-organizados-simplificam-as-análises" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="por-que-dados-organizados-simplificam-as-análises"><span class="header-section-number">3.4.4</span> Por que dados organizados simplificam as análises</h3>
+<p>Dados organizados não são questão de estilo. A maioria dos programas estatísticos e gráficos, incluindo as ferramentas do R usadas neste livro, espera que cada variável seja uma coluna e cada observação uma linha. Quando os dados estão organizados, o mesmo pequeno conjunto de operações (filtrar linhas, selecionar colunas, agrupar, resumir e unir tabelas) pode ser aplicado a praticamente qualquer conjunto de dados. Quando não estão, toda análise começa com uma reorganização diferente e improvisada, demorada e sujeita a erros.</p>
+<p>A estrutura organizada também torna visível o delineamento do estudo. Olhando uma tabela organizada, o leitor vê os tratamentos, os blocos, as unidades e as medidas repetidas, e pode verificar se o conjunto de dados é coerente com o estudo descrito.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter3-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter3-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter3_files/figure-html/fig-chapter3-2-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter3-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.2: Os mesmos dados em formato não organizado (largo), com as datas de avaliação guardadas nos nomes das colunas, e em formato organizado (longo), em que data e severidade são variáveis em colunas próprias.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tbl-ch3-wide" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-wide-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.2: Uma tabela não organizada (formato largo): as datas de avaliação estão nos nomes das colunas.
+</figcaption>
+<div aria-describedby="tbl-ch3-wide-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>plot</th>
+<th>treatment</th>
+<th>sev_jun10</th>
+<th>sev_jun24</th>
+<th>sev_jul08</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>101</td>
+<td>control</td>
+<td>2</td>
+<td>10</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>102</td>
+<td>fungicide</td>
+<td>0</td>
+<td>2</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-ch3-long" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-long-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.3: Os mesmos dados em formato organizado (longo): uma linha por parcela e data, com data e severidade como variáveis separadas.
+</figcaption>
+<div aria-describedby="tbl-ch3-long-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>plot</th>
+<th>treatment</th>
+<th>date</th>
+<th>severity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>101</td>
+<td>control</td>
+<td>2025-06-10</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>101</td>
+<td>control</td>
+<td>2025-06-24</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>101</td>
+<td>control</td>
+<td>2025-07-08</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td>102</td>
+<td>fungicide</td>
+<td>2025-06-10</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>102</td>
+<td>fungicide</td>
+<td>2025-06-24</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>102</td>
+<td>fungicide</td>
+<td>2025-07-08</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tabelas largas costumam ser práticas para anotar dados no campo, e não há nada de errado em usá-las na ficha de campo. O que importa é que o conjunto de dados usado na análise esteja organizado e que a conversão de um formato para o outro seja documentada e reprodutível.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="estruturas-de-dados-comuns-em-fitopatologia" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="estruturas-de-dados-comuns-em-fitopatologia"><span class="header-section-number">3.5</span> Estruturas de dados comuns em Fitopatologia</h2>
+<p>Embora os estudos em Fitopatologia variem muito, a maioria dos conjuntos de dados se enquadra em algumas estruturas recorrentes. Reconhecê-las ajuda a decidir como organizar os dados antes da coleta.</p>
+<section id="experimentos-de-avaliação-de-doença" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="experimentos-de-avaliação-de-doença"><span class="header-section-number">3.5.1</span> Experimentos de avaliação de doença</h3>
+<p>Em muitos experimentos, a doença é avaliada em várias unidades amostrais dentro de cada unidade experimental: folhas em uma planta, plantas em um vaso ou lesões em uma folha. O conjunto de dados deve registrar a unidade experimental, a unidade amostral e a resposta.</p>
+<div id="tbl-ch3-assessment" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-assessment-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.4: Experimento de avaliação com folhas aninhadas em plantas e plantas aninhadas em vasos.
+</figcaption>
+<div aria-describedby="tbl-ch3-assessment-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>pot</th>
+<th>isolate</th>
+<th>plant</th>
+<th>leaf</th>
+<th>lesions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>A12</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>A12</td>
+<td>1</td>
+<td>2</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>A12</td>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="ensaios-de-campo" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="ensaios-de-campo"><span class="header-section-number">3.5.2</span> Ensaios de campo</h3>
+<p>Ensaios de campo normalmente incluem tratamentos dispostos em blocos, muitas vezes com várias variáveis resposta medidas por parcela. Cada linha é uma parcela, e cada resposta é uma coluna.</p>
+<div id="tbl-ch3-field" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-field-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.5: Ensaio de campo com uma linha por parcela.
+</figcaption>
+<div aria-describedby="tbl-ch3-field-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>plot</th>
+<th>block</th>
+<th>treatment</th>
+<th>incidence</th>
+<th>severity</th>
+<th>yield_kg_ha</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>101</td>
+<td>1</td>
+<td>control</td>
+<td>85</td>
+<td>22.4</td>
+<td>2850</td>
+</tr>
+<tr class="even">
+<td>102</td>
+<td>1</td>
+<td>fung_A</td>
+<td>30</td>
+<td>4.1</td>
+<td>3620</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="experimentos-em-casa-de-vegetação" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="experimentos-em-casa-de-vegetação"><span class="header-section-number">3.5.3</span> Experimentos em casa de vegetação</h3>
+<p>Experimentos em casa de vegetação e câmara de crescimento acrescentam fontes de estrutura que precisam ser registradas: bancada, câmara, bandeja, posição e execução do experimento. Essas variáveis podem ser usadas depois como blocos ou efeitos aleatórios, e omiti-las impossibilita considerá-las.</p>
+<div id="tbl-ch3-greenhouse" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-greenhouse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.6: Experimento em casa de vegetação registrando execução, câmara e bancada.
+</figcaption>
+<div aria-describedby="tbl-ch3-greenhouse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>run</th>
+<th>chamber</th>
+<th>bench</th>
+<th>pot</th>
+<th>inoculum</th>
+<th>severity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>C1</td>
+<td>2</td>
+<td>14</td>
+<td>10^5</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>C1</td>
+<td>2</td>
+<td>15</td>
+<td>10^6</td>
+<td>31</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="dados-de-progresso-da-doença" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="dados-de-progresso-da-doença"><span class="header-section-number">3.5.4</span> Dados de progresso da doença</h3>
+<p>Quando a doença é avaliada repetidamente nas mesmas unidades, cada avaliação se torna uma linha separada, identificada pela unidade e pela data ou pelo tempo desde um evento de referência (semeadura, inoculação ou primeiros sintomas). Tanto a data do calendário quanto o tempo decorrido costumam ser úteis.</p>
+<div id="tbl-ch3-progress" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-progress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.7: Avaliações repetidas ao longo do tempo na mesma parcela.
+</figcaption>
+<div aria-describedby="tbl-ch3-progress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>plot</th>
+<th>treatment</th>
+<th>date</th>
+<th>days_after_planting</th>
+<th>severity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>101</td>
+<td>control</td>
+<td>2025-06-10</td>
+<td>35</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>101</td>
+<td>control</td>
+<td>2025-06-24</td>
+<td>49</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="dados-meteorológicos" class="level3" data-number="3.5.5">
+<h3 data-number="3.5.5" class="anchored" data-anchor-id="dados-meteorológicos"><span class="header-section-number">3.5.5</span> Dados meteorológicos</h3>
+<p>Registros meteorológicos geralmente são coletados em intervalos regulares por estações automáticas. Cada linha é um instante, e cada coluna é uma variável meteorológica. As tabelas de clima normalmente se ligam às tabelas de doença pela data e pelo local.</p>
+<div id="tbl-ch3-weather" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.8: Registros meteorológicos horários.
+</figcaption>
+<div aria-describedby="tbl-ch3-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 27%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>station</th>
+<th>datetime</th>
+<th>temp_c</th>
+<th>rh_pct</th>
+<th>rain_mm</th>
+<th>leaf_wet_min</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ST01</td>
+<td>2025-06-10 06:00</td>
+<td>14.2</td>
+<td>96</td>
+<td>0.0</td>
+<td>60</td>
+</tr>
+<tr class="even">
+<td>ST01</td>
+<td>2025-06-10 07:00</td>
+<td>15.8</td>
+<td>91</td>
+<td>0.2</td>
+<td>45</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="dados-moleculares" class="level3" data-number="3.5.6">
+<h3 data-number="3.5.6" class="anchored" data-anchor-id="dados-moleculares"><span class="header-section-number">3.5.6</span> Dados moleculares</h3>
+<p>Estudos moleculares frequentemente produzem muitas variáveis por amostra, como os níveis de expressão de muitos genes. Normalmente são necessárias duas tabelas: uma tabela de amostras, que descreve cada amostra biológica (tratamento, tempo, repetição), e uma tabela de medidas. Quando o número de variáveis é grande, a tabela de medidas pode ser guardada em formato longo, com uma linha por amostra e gene, ou no formato de matriz exigido por programas especializados, mas a informação das amostras deve sempre ficar em uma tabela separada e organizada.</p>
+<div id="tbl-ch3-molecular" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-molecular-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.9: Dados de expressão gênica em formato longo; <code>hpi</code> = horas após a inoculação.
+</figcaption>
+<div aria-describedby="tbl-ch3-molecular-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>sample</th>
+<th>treatment</th>
+<th>hpi</th>
+<th>bio_rep</th>
+<th>gene</th>
+<th>ct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>S01</td>
+<td>mock</td>
+<td>24</td>
+<td>1</td>
+<td>PR1</td>
+<td>27.3</td>
+</tr>
+<tr class="even">
+<td>S01</td>
+<td>mock</td>
+<td>24</td>
+<td>1</td>
+<td>EF1a</td>
+<td>18.9</td>
+</tr>
+<tr class="odd">
+<td>S02</td>
+<td>inoculated</td>
+<td>24</td>
+<td>1</td>
+<td>PR1</td>
+<td>22.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="dados-de-levantamento" class="level3" data-number="3.5.7">
+<h3 data-number="3.5.7" class="anchored" data-anchor-id="dados-de-levantamento"><span class="header-section-number">3.5.7</span> Dados de levantamento</h3>
+<p>Levantamentos registram informações sobre lavouras, propriedades ou regiões, muitas vezes combinando localização, práticas de manejo e observações de doença. Coordenadas, datas e o procedimento de amostragem devem ser registrados para que os resultados possam ser mapeados, relacionados ao clima ou comparados entre anos.</p>
+<div id="tbl-ch3-survey" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-survey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.10: Dados de levantamento com uma linha por lavoura visitada.
+</figcaption>
+<div aria-describedby="tbl-ch3-survey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>field</th>
+<th>lat</th>
+<th>lon</th>
+<th>date</th>
+<th>cultivar</th>
+<th>tillage</th>
+<th>incidence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>F001</td>
+<td>-20.7542</td>
+<td>-42.8821</td>
+<td>2025-03-12</td>
+<td>BRS 123</td>
+<td>no-till</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>F002</td>
+<td>-20.8123</td>
+<td>-42.9010</td>
+<td>2025-03-12</td>
+<td>BRS 456</td>
+<td>conv</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="tipos-de-variáveis" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="tipos-de-variáveis"><span class="header-section-number">3.6</span> Tipos de variáveis</h2>
+<p>O tipo de uma variável determina como ela deve ser registrada, resumida, representada graficamente e analisada. Identificar os tipos de variáveis na organização dos dados prepara o terreno para as escolhas feitas nos capítulos seguintes.</p>
+<section id="variáveis-contínuas" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="variáveis-contínuas"><span class="header-section-number">3.6.1</span> Variáveis contínuas</h3>
+<p>Variáveis contínuas podem assumir qualquer valor dentro de um intervalo, limitadas apenas pela precisão da medida: comprimento da lesão, diâmetro da colônia, temperatura, produtividade ou taxa fotossintética. Devem ser registradas como números, com tanta precisão quanto a medida permitir, e em uma única unidade para toda a coluna.</p>
+<p>A severidade expressa em porcentagem é frequentemente tratada como contínua, mas é limitada entre 0 e 100. Quando a severidade é estimada visualmente, os valores podem se concentrar em certos números (5, 10, 25), refletindo o método de avaliação e não a biologia. Essas características importam mais tarde, na escolha de gráficos e modelos.</p>
+</section>
+<section id="contagens" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="contagens"><span class="header-section-number">3.6.2</span> Contagens</h3>
+<p>Contagens são números inteiros não negativos: lesões por folha, pústulas por cm², esporos por armadilha ou plantas infectadas por parcela. Devem ser registradas como inteiros. Quando uma contagem é convertida em proporção (plantas infectadas divididas por plantas avaliadas), tanto o numerador quanto o denominador devem ser mantidos, porque o denominador carrega informação sobre a precisão.</p>
+</section>
+<section id="categorias" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="categorias"><span class="header-section-number">3.6.3</span> Categorias</h3>
+<p>Variáveis categóricas classificam as observações em grupos: tratamento, cultivar, isolado, bloco ou tipo de solo. As categorias devem ser registradas com rótulos consistentes. Algumas variáveis categóricas têm uma ordem natural, como as classes de severidade em uma escala ordinal (0 a 5) ou os níveis de resistência (resistente, moderadamente resistente, suscetível). Categorias ordenadas são registradas como categorias, e não como medidas contínuas, mesmo quando codificadas com números.</p>
+<p>Números usados como rótulos merecem atenção especial. Um bloco codificado como 1, 2, 3, 4 ou um tratamento codificado de 1 a 6 é categórico, embora pareça numérico. Os programas tratarão essas colunas como números se não forem instruídos do contrário, o que pode levar a análises sem sentido, como calcular a média dos números dos blocos.</p>
+</section>
+<section id="variáveis-binárias" class="level3" data-number="3.6.4">
+<h3 data-number="3.6.4" class="anchored" data-anchor-id="variáveis-binárias"><span class="header-section-number">3.6.4</span> Variáveis binárias</h3>
+<p>Variáveis binárias têm apenas dois valores possíveis: infectado ou não infectado, presente ou ausente, germinado ou não germinado. O melhor é registrá-las de forma consistente como 0 e 1 ou com dois rótulos claramente definidos (por exemplo, <code>yes</code> e <code>no</code>). Misturar códigos como <code>S</code>, <code>sim</code>, <code>1</code> e <code>+</code> na mesma coluna gera erros.</p>
+</section>
+<section id="datas-e-horários" class="level3" data-number="3.6.5">
+<h3 data-number="3.6.5" class="anchored" data-anchor-id="datas-e-horários"><span class="header-section-number">3.6.5</span> Datas e horários</h3>
+<p>Datas e horários são essenciais na Fitopatologia, porque a doença se desenvolve ao longo do tempo e depende do clima. Devem ser registrados em um formato sem ambiguidade. O padrão internacional ISO 8601 (<code>AAAA-MM-DD</code>, por exemplo <code>2025-06-10</code>) evita a confusão entre as convenções dia-mês e mês-dia e ordena corretamente como texto. Os horários devem incluir o fuso horário ou ser claramente documentados como hora local.</p>
+<p>Programas de planilha frequentemente convertem datas, sem aviso, em números internos ou as reinterpretam de acordo com as configurações regionais. Conferir as datas após a importação é, portanto, uma etapa importante da validação.</p>
+</section>
+<section id="cadeias-de-caracteres" class="level3" data-number="3.6.6">
+<h3 data-number="3.6.6" class="anchored" data-anchor-id="cadeias-de-caracteres"><span class="header-section-number">3.6.6</span> Cadeias de caracteres</h3>
+<p>Texto livre, como anotações de campo, comentários do avaliador ou descrições de sintomas, é registrado como cadeia de caracteres. O texto é um contexto valioso, mas difícil de analisar. A informação que será usada na análise deve ser registrada em variáveis próprias, codificadas, enquanto o texto livre deve ficar em uma coluna separada de <code>notes</code> ou <code>comments</code>, e não misturado com valores numéricos.</p>
+</section>
+<section id="valores-perdidos" class="level3" data-number="3.6.7">
+<h3 data-number="3.6.7" class="anchored" data-anchor-id="valores-perdidos"><span class="header-section-number">3.6.7</span> Valores perdidos</h3>
+<p>Valores perdidos indicam que uma observação foi planejada, mas não obtida: uma planta morreu, uma parcela foi danificada, uma amostra se perdeu ou uma avaliação não foi feita. Os valores perdidos devem ser registrados de forma consistente, de preferência como células vazias ou como <code>NA</code>, e nunca como zero. Zero significa que a grandeza foi medida e é igual a zero; um valor perdido significa que nada se sabe.</p>
+<p>O motivo da perda também deve ser documentado sempre que possível. Valores perdidos porque as plantas morreram da doença carregam informação diferente de valores perdidos porque uma etiqueta se extraviou. Essa distinção se torna importante em análises posteriores.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nunca use zero, um espaço em branco, um traço ou um número implausível como -99 ou 999 para indicar dado perdido, a menos que o código esteja documentado e seja tratado de forma consistente na análise. Zero é uma medida válida, não um valor perdido.</p>
+</div>
+</div>
+<div id="tbl-ch3-variable-types" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-variable-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.11: Tipos comuns de variáveis e como registrá-las.
+</figcaption>
+<div aria-describedby="tbl-ch3-variable-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 38%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo de variável</th>
+<th>Exemplos em Fitopatologia</th>
+<th>Como registrar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Contínua</td>
+<td>Comprimento da lesão, produtividade, temperatura</td>
+<td>Número, uma única unidade por coluna</td>
+</tr>
+<tr class="even">
+<td>Contagem</td>
+<td>Lesões por folha, esporos por armadilha</td>
+<td>Inteiro, manter denominadores</td>
+</tr>
+<tr class="odd">
+<td>Categórica (nominal)</td>
+<td>Tratamento, cultivar, isolado</td>
+<td>Rótulos de texto consistentes</td>
+</tr>
+<tr class="even">
+<td>Categórica (ordinal)</td>
+<td>Classes de severidade, níveis de resistência</td>
+<td>Rótulos ou códigos ordenados e documentados</td>
+</tr>
+<tr class="odd">
+<td>Binária</td>
+<td>Infectado ou não, presente ou ausente</td>
+<td>0/1 ou dois rótulos definidos</td>
+</tr>
+<tr class="even">
+<td>Data e hora</td>
+<td>Data de avaliação, horário da inoculação</td>
+<td>ISO 8601 (<code>AAAA-MM-DD</code>)</td>
+</tr>
+<tr class="odd">
+<td>Perdido</td>
+<td>Planta morta, amostra perdida</td>
+<td>Célula vazia ou <code>NA</code>, nunca 0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="metadados" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="metadados"><span class="header-section-number">3.7</span> Metadados</h2>
+<section id="o-que-são-metadados" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="o-que-são-metadados"><span class="header-section-number">3.7.1</span> O que são metadados?</h3>
+<p>Metadados são dados sobre os dados. Descrevem o que o conjunto de dados contém, como, quando, onde e por quem foi coletado e como deve ser interpretado. Sem metadados, um conjunto de dados é uma tabela de números cujo significado depende da memória de alguém.</p>
+<p>Os metadados operam em vários níveis. Os metadados do projeto descrevem o estudo: objetivos, local, datas, delineamento e responsáveis. Os metadados do conjunto de dados descrevem cada arquivo: conteúdo, unidade de observação, número de linhas e relação com outros arquivos. Os metadados das variáveis descrevem cada coluna: nome, definição, unidades, valores permitidos e codificação.</p>
+<p>Bons metadados também são centrais para os princípios que tornam os dados de pesquisa localizáveis, acessíveis, interoperáveis e reutilizáveis, conhecidos como princípios FAIR <span class="citation" data-cites="wilkinson2016">(<a href="references.html#ref-wilkinson2016" role="doc-biblioref"><span class="nocase">Wilkinson et al.</span> 2016</a>)</span>. Dados bem documentados podem ser reutilizados em novas análises, combinados em meta-análises e verificados por outros.</p>
+</section>
+<section id="dicionários-de-dados" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="dicionários-de-dados"><span class="header-section-number">3.7.2</span> Dicionários de dados</h3>
+<p>Um dicionário de dados é uma tabela que documenta todas as variáveis de um conjunto de dados. É a forma mais prática de metadados das variáveis e deve ser criado no início do estudo, e não no fim. Um dicionário simples inclui o nome da variável, uma descrição, o tipo, as unidades e os valores ou a faixa permitidos.</p>
+<table class="caption-top table">
+<caption>Exemplo de um dicionário de dados simples. {#tbl-ch3-dictionary} ### Nomes de variáveis</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 33%">
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>variável</th>
+<th>descrição</th>
+<th>tipo</th>
+<th>unidades</th>
+<th>valores permitidos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>plot</td>
+<td>Identificador da parcela</td>
+<td>categórica</td>
+<td>—</td>
+<td>101–416</td>
+</tr>
+<tr class="even">
+<td>block</td>
+<td>Bloco experimental</td>
+<td>categórica</td>
+<td>—</td>
+<td>1, 2, 3, 4</td>
+</tr>
+<tr class="odd">
+<td>treatment</td>
+<td>Programa de fungicida</td>
+<td>categórica</td>
+<td>—</td>
+<td>control, fung_A, fung_B</td>
+</tr>
+<tr class="even">
+<td>date</td>
+<td>Data da avaliação</td>
+<td>data</td>
+<td>—</td>
+<td>AAAA-MM-DD</td>
+</tr>
+<tr class="odd">
+<td>severity</td>
+<td>Porcentagem da área foliar com sintomas (média de 10 folhas)</td>
+<td>contínua</td>
+<td>%</td>
+<td>0–100</td>
+</tr>
+<tr class="even">
+<td>yield_kg_ha</td>
+<td>Produtividade comercial</td>
+<td>contínua</td>
+<td>kg/ha</td>
+<td>≥ 0</td>
+</tr>
+</tbody>
+</table>
+<p>Os nomes das variáveis devem ser curtos, informativos e utilizáveis pelos programas de análise. Bons nomes evitam espaços, acentos, caracteres especiais e números no início, e usam um estilo consistente. Uma convenção muito usada é o <code>snake_case</code>, em que as palavras são escritas em minúsculas e separadas por sublinhado: <code>disease_severity</code>, <code>days_after_planting</code>, <code>yield_kg_ha</code>.</p>
+<p>Nomes como <code>Sev (%)</code>, <code>Severidade - 10 jun</code> ou <code>2ª avaliação</code> podem ser legíveis em uma planilha, mas causam problemas nos programas e no código. Descrições detalhadas pertencem ao dicionário de dados, e não ao nome da coluna.</p>
+</section>
+<section id="unidades-de-medida" class="level3" data-number="3.7.3">
+<h3 data-number="3.7.3" class="anchored" data-anchor-id="unidades-de-medida"><span class="header-section-number">3.7.3</span> Unidades de medida</h3>
+<p>Toda variável quantitativa deve ter uma unidade documentada, e cada coluna deve usar uma única unidade do início ao fim. Incluir a unidade no nome da variável (<code>temp_c</code>, <code>yield_kg_ha</code>, <code>lesion_mm</code>) ajuda a evitar erros, especialmente quando os conjuntos de dados são compartilhados ou combinados. As unidades nunca devem ser digitadas dentro das células (<code>25 mm</code>), porque isso transforma números em texto.</p>
+</section>
+<section id="sistemas-de-codificação" class="level3" data-number="3.7.4">
+<h3 data-number="3.7.4" class="anchored" data-anchor-id="sistemas-de-codificação"><span class="header-section-number">3.7.4</span> Sistemas de codificação</h3>
+<p>Códigos são rótulos curtos usados para representar categorias, como <code>fung_A</code> para um programa de fungicida ou <code>R</code>, <code>MR</code> e <code>S</code> para classes de resistência. Os códigos economizam espaço e reduzem erros de digitação, mas precisam ser documentados. Todo código usado no conjunto de dados deve aparecer no dicionário com seu significado completo. As escalas de notas devem ser documentadas com uma descrição ou referência para cada classe.</p>
+</section>
+<section id="vocabulários-controlados" class="level3" data-number="3.7.5">
+<h3 data-number="3.7.5" class="anchored" data-anchor-id="vocabulários-controlados"><span class="header-section-number">3.7.5</span> Vocabulários controlados</h3>
+<p>Um vocabulário controlado é uma lista predefinida de valores permitidos para uma variável. Usar vocabulários controlados para cultivares, tratamentos, espécies de patógenos ou estádios de desenvolvimento impede que a mesma categoria seja escrita de várias formas. Os programas de planilha permitem listas suspensas (validação de dados) que restringem as entradas aos valores permitidos. Para algumas variáveis já existem padrões estabelecidos pela comunidade, como os nomes científicos dos organismos ou as escalas padronizadas de estádios fenológicos das culturas, e estes devem ser preferidos a rótulos improvisados.</p>
+</section>
+</section>
+<section id="convenções-de-nomes" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="convenções-de-nomes"><span class="header-section-number">3.8</span> Convenções de nomes</h2>
+<p>Nomes consistentes para variáveis, arquivos e pastas tornam os dados mais fáceis de encontrar, entender e processar. A convenção específica importa menos do que aplicá-la de forma consistente em todo o projeto.</p>
+<section id="variáveis-1" class="level3" data-number="3.8.1">
+<h3 data-number="3.8.1" class="anchored" data-anchor-id="variáveis-1"><span class="header-section-number">3.8.1</span> Variáveis</h3>
+<p>Os nomes das variáveis seguem as orientações apresentadas acima: minúsculas, sem espaços, palavras separadas por sublinhado, unidades incluídas quando relevante e o mesmo nome para a mesma variável em todas as tabelas e arquivos. Se as parcelas se chamam <code>plot</code> em uma tabela, não devem se chamar <code>Plot_ID</code> em outra.</p>
+</section>
+<section id="arquivos" class="level3" data-number="3.8.2">
+<h3 data-number="3.8.2" class="anchored" data-anchor-id="arquivos"><span class="header-section-number">3.8.2</span> Arquivos</h3>
+<p>Os nomes de arquivos devem descrever o conteúdo, ser legíveis por pessoas e por computadores e ordenar-se de forma significativa. Regras úteis incluem:</p>
+<ul>
+<li>sem espaços nem caracteres especiais;</li>
+<li>datas escritas como <code>AAAA-MM-DD</code> no início, quando a ordem cronológica importa;</li>
+<li>palavras descritivas separadas por sublinhado ou hífen;</li>
+<li>números de versão explícitos, em vez de palavras como <code>final</code> ou <code>novo</code>.</li>
+</ul>
+<div id="tbl-ch3-filenames" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-filenames-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.12: Exemplos de nomes de arquivos ruins e melhores.
+</figcaption>
+<div aria-describedby="tbl-ch3-filenames-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nome de arquivo ruim</th>
+<th>Nome de arquivo melhor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dados final NOVO.xlsx</code></td>
+<td><code>2025_basil_trial_severity_raw.csv</code></td>
+</tr>
+<tr class="even">
+<td><code>ensaio(2)-corrigido.xls</code></td>
+<td><code>2025_basil_trial_severity_clean_v02.csv</code></td>
+</tr>
+<tr class="odd">
+<td><code>clima junho.xlsx</code></td>
+<td><code>2025-06_station01_weather_hourly.csv</code></td>
+</tr>
+<tr class="even">
+<td><code>Analise.R</code></td>
+<td><code>02_fit_severity_models.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Formatos de texto simples, como CSV (valores separados por vírgula), são preferíveis para guardar os dados usados na análise. Podem ser lidos por qualquer programa, não escondem informação em formatação e continuam legíveis à medida que os programas mudam.</p>
+</section>
+<section id="pastas" class="level3" data-number="3.8.3">
+<h3 data-number="3.8.3" class="anchored" data-anchor-id="pastas"><span class="header-section-number">3.8.3</span> Pastas</h3>
+<p>As pastas agrupam arquivos relacionados e separam os dados em diferentes etapas de processamento. Uma estrutura típica separa dados brutos, dados processados, scripts e resultados, como descrito mais adiante neste capítulo. Os nomes das pastas seguem as mesmas convenções dos nomes de arquivos.</p>
+</section>
+<section id="projetos" class="level3" data-number="3.8.4">
+<h3 data-number="3.8.4" class="anchored" data-anchor-id="projetos"><span class="header-section-number">3.8.4</span> Projetos</h3>
+<p>Cada projeto de pesquisa — seja um capítulo de tese, um experimento ou um artigo — deve ter sua própria pasta autocontida, com tudo o que é necessário para reproduzir a análise. Um breve arquivo <code>README</code> no nível superior explica o objetivo do projeto, o conteúdo de cada pasta e como executar a análise. Números de versão ou datas devem ser usados quando conjuntos de dados ou análises forem atualizados, para que os resultados possam sempre ser rastreados até a versão exata dos dados utilizada.</p>
+</section>
+</section>
+<section id="problemas-comuns-na-digitação-de-dados" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="problemas-comuns-na-digitação-de-dados"><span class="header-section-number">3.9</span> Problemas comuns na digitação de dados</h2>
+<p>Muitos erros são introduzidos quando as observações são transferidas de fichas de campo, instrumentos ou cadernos para arquivos digitais. Conhecer os problemas mais comuns ajuda a preveni-los e facilita detectá-los.</p>
+<section id="erros-de-digitação" class="level3" data-number="3.9.1">
+<h3 data-number="3.9.1" class="anchored" data-anchor-id="erros-de-digitação"><span class="header-section-number">3.9.1</span> Erros de digitação</h3>
+<p>Erros de digitação incluem dígitos trocados (<code>52</code> em vez de <code>25</code>), vírgulas decimais deslocadas (<code>345</code> em vez de <code>3,45</code>) e valores digitados na linha ou coluna errada. Esses erros são especialmente perigosos porque produzem números plausíveis. A dupla digitação, em que duas pessoas digitam os mesmos dados de forma independente e os arquivos são comparados, é uma forma eficaz de detectá-los em conjuntos de dados críticos.</p>
+</section>
+<section id="codificação-inconsistente" class="level3" data-number="3.9.2">
+<h3 data-number="3.9.2" class="anchored" data-anchor-id="codificação-inconsistente"><span class="header-section-number">3.9.2</span> Codificação inconsistente</h3>
+<p>A mesma categoria é frequentemente escrita de formas diferentes: <code>Controle</code>, <code>controle</code>, <code>CTRL</code>, <code>testemunha</code> e <code>controle</code> (com um espaço no final). Os programas tratam cada versão como uma categoria diferente, e a análise pode relatar cinco tratamentos em vez de um. Vocabulários controlados e listas suspensas evitam esse problema.</p>
+</section>
+<section id="valores-perdidos-ocultos" class="level3" data-number="3.9.3">
+<h3 data-number="3.9.3" class="anchored" data-anchor-id="valores-perdidos-ocultos"><span class="header-section-number">3.9.3</span> Valores perdidos ocultos</h3>
+<p>Valores perdidos podem estar ocultos como zeros, espaços em branco, traços, <code>n/a</code>, <code>-</code>, <code>?</code> ou números como <code>-99</code>. Cada um pode ser interpretado de forma diferente pelos programas, e os zeros, em particular, são indistinguíveis de medidas verdadeiras. Os valores perdidos devem ser codificados de uma única forma documentada.</p>
+</section>
+<section id="unidades-misturadas" class="level3" data-number="3.9.4">
+<h3 data-number="3.9.4" class="anchored" data-anchor-id="unidades-misturadas"><span class="header-section-number">3.9.4</span> Unidades misturadas</h3>
+<p>Valores na mesma coluna podem estar em unidades diferentes: comprimento de lesão em milímetros e centímetros, produtividade em kg/ha e t/ha, temperatura em °C e °F. Unidades misturadas são comuns quando conjuntos de dados de diferentes fontes ou avaliadores são combinados. Elas produzem valores que parecem razoáveis individualmente, mas são inconsistentes em conjunto.</p>
+</section>
+<section id="observações-duplicadas" class="level3" data-number="3.9.5">
+<h3 data-number="3.9.5" class="anchored" data-anchor-id="observações-duplicadas"><span class="header-section-number">3.9.5</span> Observações duplicadas</h3>
+<p>A mesma observação pode ser digitada duas vezes, especialmente quando os dados são copiados entre arquivos ou combinados a partir de diferentes planilhas. As duplicatas inflam o tamanho aparente da amostra e dão mais peso a algumas unidades. Verificar se os identificadores são únicos detecta a maioria das duplicatas.</p>
+</section>
+<section id="valores-impossíveis" class="level3" data-number="3.9.6">
+<h3 data-number="3.9.6" class="anchored" data-anchor-id="valores-impossíveis"><span class="header-section-number">3.9.6</span> Valores impossíveis</h3>
+<p>Valores impossíveis estão fora da faixa que a variável pode assumir: severidade de 120%, contagem de lesões negativa, umidade relativa acima de 100% ou data de avaliação anterior à semeadura. Esses valores indicam erros de digitação, de medida ou de cálculo e devem ser investigados, e não removidos silenciosamente.</p>
+</section>
+<section id="problemas-de-formatação-em-planilhas" class="level3" data-number="3.9.7">
+<h3 data-number="3.9.7" class="anchored" data-anchor-id="problemas-de-formatação-em-planilhas"><span class="header-section-number">3.9.7</span> Problemas de formatação em planilhas</h3>
+<p>As planilhas incentivam práticas que dificultam a análise dos dados <span class="citation" data-cites="broman2018">(<a href="references.html#ref-broman2018" role="doc-biblioref">Broman e Woo 2018</a>)</span>:</p>
+<ul>
+<li>células mescladas, que deixam valores apenas na primeira célula do intervalo mesclado;</li>
+<li>cores ou negrito usados para codificar informação, como destacar plantas doentes;</li>
+<li>várias tabelas na mesma planilha, separadas por linhas em branco;</li>
+<li>linhas de resumo (médias, totais) inseridas no meio dos dados;</li>
+<li>comentários, unidades ou símbolos digitados dentro de células numéricas (<code>12*</code>, <code>25 mm</code>, <code>&lt;0,1</code>);</li>
+<li>conversão automática de valores em datas (o nome de um gene ou isolado, como <code>MARCH1</code> ou <code>1-2</code>, virando data).</li>
+</ul>
+<p>Uma planilha usada para guardar dados deve conter uma única tabela retangular por aba, com uma única linha de cabeçalho, sem células mescladas, sem formatação que carregue significado e sem cálculos misturados aos dados.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Muitos erros surgem na digitação dos dados, e não na análise estatística.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="validação-dos-dados" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="validação-dos-dados"><span class="header-section-number">3.10</span> Validação dos dados</h2>
+<p>A validação dos dados é o processo de verificar se um conjunto de dados está completo, consistente e plausível antes de ser analisado. A validação não garante que os dados estejam corretos, mas detecta muitos erros enquanto ainda é possível rastreá-los até a origem.</p>
+<section id="verificação-de-faixas" class="level3" data-number="3.10.1">
+<h3 data-number="3.10.1" class="anchored" data-anchor-id="verificação-de-faixas"><span class="header-section-number">3.10.1</span> Verificação de faixas</h3>
+<p>A verificação de faixas confere se cada valor está dentro da faixa possível ou esperada para sua variável. A severidade deve estar entre 0 e 100%, as contagens devem ser inteiros não negativos e as datas devem estar dentro do período do estudo. A faixa permitida de cada variável deve constar do dicionário de dados, o que torna a verificação de faixas simples.</p>
+</section>
+<section id="verificação-de-consistência" class="level3" data-number="3.10.2">
+<h3 data-number="3.10.2" class="anchored" data-anchor-id="verificação-de-consistência"><span class="header-section-number">3.10.2</span> Verificação de consistência</h3>
+<p>A verificação de consistência confere se os valores concordam entre si e com o delineamento do estudo. Cada parcela deve pertencer a um único tratamento e a um único bloco, cada tratamento deve aparecer uma vez em cada bloco de um DBC, e o número de linhas deve corresponder ao número de observações planejadas. Relações lógicas também podem ser verificadas: a incidência não pode ser zero quando a severidade é maior que zero, e a data dos primeiros sintomas não pode ser anterior à inoculação.</p>
+</section>
+<section id="conferência-com-os-registros-originais" class="level3" data-number="3.10.3">
+<h3 data-number="3.10.3" class="anchored" data-anchor-id="conferência-com-os-registros-originais"><span class="header-section-number">3.10.3</span> Conferência com os registros originais</h3>
+<p>Conferir a digitação significa comparar o conjunto de dados digital com uma fonte independente: as fichas de campo originais, fotografias das fichas, arquivos de saída dos instrumentos ou uma segunda digitação independente dos mesmos dados. Mesmo conferir uma amostra aleatória de registros com as fichas originais fornece uma estimativa útil da taxa de erro.</p>
+</section>
+<section id="resumos-exploratórios" class="level3" data-number="3.10.4">
+<h3 data-number="3.10.4" class="anchored" data-anchor-id="resumos-exploratórios"><span class="header-section-number">3.10.4</span> Resumos exploratórios</h3>
+<p>Resumos simples revelam muitos problemas rapidamente. Contar o número de observações por tratamento, bloco e data revela registros faltantes ou duplicados. Listar os valores distintos de cada variável categórica revela codificação inconsistente. Calcular os valores mínimo e máximo revela valores impossíveis. Representar graficamente cada variável revela valores discrepantes e padrões inesperados. Esses resumos são os primeiros passos da análise exploratória de dados apresentada no Capítulo 4.</p>
+<div id="tbl-ch3-validation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-validation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.13: Verificações comuns na validação dos dados.
+</figcaption>
+<div aria-describedby="tbl-ch3-validation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 37%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Verificação</th>
+<th>Pergunta feita</th>
+<th>Exemplo de problema detectado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Faixa</td>
+<td>Cada valor é possível?</td>
+<td>Severidade de 150%</td>
+</tr>
+<tr class="even">
+<td>Consistência</td>
+<td>Os valores concordam entre si e com o delineamento?</td>
+<td>Parcela atribuída a dois tratamentos</td>
+</tr>
+<tr class="odd">
+<td>Unicidade</td>
+<td>Cada identificador é único?</td>
+<td>Parcela 203 digitada duas vezes na mesma data</td>
+</tr>
+<tr class="even">
+<td>Completude</td>
+<td>Todas as observações planejadas estão presentes?</td>
+<td>Um bloco faltando na última data de avaliação</td>
+</tr>
+<tr class="odd">
+<td>Codificação</td>
+<td>As categorias estão escritas de forma consistente?</td>
+<td><code>control</code>, <code>Control</code> e <code>CTRL</code></td>
+</tr>
+<tr class="even">
+<td>Conferência</td>
+<td>O arquivo corresponde aos registros originais?</td>
+<td>Dígitos trocados na produtividade</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Quando um erro é encontrado, a correção deve ser documentada: o que foi alterado, por quê e com base em quê. Valores não devem ser apagados ou alterados apenas porque parecem incomuns. Um valor extremo pode ser uma observação real, e removê-lo sem justificativa é uma forma de manipulação de dados.</p>
+</section>
+</section>
+<section id="dados-brutos-versus-dados-processados" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="dados-brutos-versus-dados-processados"><span class="header-section-number">3.11</span> Dados brutos versus dados processados</h2>
+<section id="nunca-sobrescreva-os-dados-brutos" class="level3" data-number="3.11.1">
+<h3 data-number="3.11.1" class="anchored" data-anchor-id="nunca-sobrescreva-os-dados-brutos"><span class="header-section-number">3.11.1</span> Nunca sobrescreva os dados brutos</h3>
+<p>Dados brutos são os registros originais das observações, tal como foram coletados: fichas de campo preenchidas, arquivos de saída de instrumentos, imagens e a primeira transcrição digital das observações. Os dados brutos devem ser guardados com segurança, protegidos contra modificações acidentais e nunca sobrescritos. Todo o trabalho posterior deve ser feito em cópias ou, de preferência, por meio de scripts que leem os arquivos brutos e gravam novos arquivos.</p>
+<p>Manter os dados brutos intactos permite corrigir erros cometidos no processamento, aplicar decisões de processamento diferentes e demonstrar exatamente como os dados analisados foram obtidos.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Trate os dados brutos como somente leitura. Toda alteração deve ser feita em um novo arquivo, e toda alteração deve ser documentada.</p>
+</div>
+</div>
+</section>
+<section id="variáveis-derivadas" class="level3" data-number="3.11.2">
+<h3 data-number="3.11.2" class="anchored" data-anchor-id="variáveis-derivadas"><span class="header-section-number">3.11.2</span> Variáveis derivadas</h3>
+<p>Variáveis derivadas são calculadas a partir das variáveis registradas: a incidência calculada a partir do número de plantas doentes e avaliadas, a severidade média por parcela calculada a partir das avaliações por folha, os dias após a semeadura calculados a partir das datas, ou a produtividade relativa calculada a partir das parcelas tratadas e não tratadas. As variáveis derivadas devem ser calculadas por procedimentos documentados, de preferência em um script, e não digitadas à mão. Isso garante que o cálculo seja consistente para todas as observações e possa ser refeito se os dados brutos mudarem.</p>
+</section>
+<section id="limpeza-dos-dados" class="level3" data-number="3.11.3">
+<h3 data-number="3.11.3" class="anchored" data-anchor-id="limpeza-dos-dados"><span class="header-section-number">3.11.3</span> Limpeza dos dados</h3>
+<p>A limpeza dos dados é o processo de transformar os dados brutos em um conjunto pronto para a análise. Inclui corrigir erros documentados, harmonizar códigos e unidades, recodificar valores perdidos, reorganizar tabelas no formato organizado e unir tabelas relacionadas. Cada decisão de limpeza deve ser registrada. Quando a limpeza é feita com um script, o próprio script é o registro: qualquer pessoa pode lê-lo para ver exatamente o que foi feito, e executá-lo novamente reproduz o conjunto processado a partir dos dados brutos.</p>
+</section>
+<section id="controle-de-versões" class="level3" data-number="3.11.4">
+<h3 data-number="3.11.4" class="anchored" data-anchor-id="controle-de-versões"><span class="header-section-number">3.11.4</span> Controle de versões</h3>
+<p>Conjuntos de dados e análises mudam durante um projeto, à medida que novos dados são coletados e erros são corrigidos. Controle de versões significa acompanhar essas mudanças para que seja sempre possível saber qual versão dos dados produziu qual resultado. Na forma mais simples, consiste em salvar novas versões com números de versão e datas explícitos e manter um registro das alterações. Ferramentas mais poderosas, como o Git, registram automaticamente todas as mudanças em scripts e arquivos de texto e são amplamente usadas na pesquisa reprodutível.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter3-4" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter3-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-fa76672f96faaa69da6b" style="width:100%;height:358px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fa76672f96faaa69da6b">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Dados brutos<\/b><br/><font point-size=\"12\" color=\"#666666\">somente leitura (data/raw/)<\/font><\/font>>, fillcolor = \"#f4f4f4\", color = \"#bbbbbb\"]\n  n2 [label = <<font color=\"#24301f\"><b>Limpeza<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">scripts documentados<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n3 [label = <<font color=\"#24301f\"><b>Dados processados<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">conjunto organizado (data/processed/)<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n4 [label = <<font color=\"#24301f\"><b>Análise<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">exploração, modelos, figuras<\/font><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n1 -> n2 -> n3 -> n4\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter3-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.3: Fluxo de trabalho recomendado para os dados. Os dados brutos nunca são alterados; a limpeza, feita por scripts documentados, gera os dados processados usados na análise.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="organizando-projetos-de-pesquisa" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="organizando-projetos-de-pesquisa"><span class="header-section-number">3.12</span> Organizando projetos de pesquisa</h2>
+<p>Uma estrutura de projeto consistente facilita encontrar arquivos, separar os dados em diferentes etapas e reproduzir as análises. A estrutura exata varia com o projeto, mas um modelo simples funciona bem para a maioria dos estudos em Fitopatologia.</p>
+<pre><code>basil_fungicide_trial/
+├── README.md
+├── data/
+│   ├── raw/
+│   └── processed/
+├── scripts/
+├── figures/
+├── results/
+└── manuscript/</code></pre>
+<section id="pastas-do-projeto" class="level3" data-number="3.12.1">
+<h3 data-number="3.12.1" class="anchored" data-anchor-id="pastas-do-projeto"><span class="header-section-number">3.12.1</span> Pastas do projeto</h3>
+<p>Cada projeto tem uma única pasta principal contendo tudo o que é necessário para entender e reproduzir o trabalho. Um arquivo <code>README</code> no nível superior explica o objetivo do projeto, as fontes dos dados, o conteúdo de cada pasta e a ordem em que os scripts devem ser executados.</p>
+</section>
+<section id="dados" class="level3" data-number="3.12.2">
+<h3 data-number="3.12.2" class="anchored" data-anchor-id="dados"><span class="header-section-number">3.12.2</span> Dados</h3>
+<p>A pasta <code>data</code> contém os conjuntos de dados, separados nas subpastas <code>raw</code> (brutos) e <code>processed</code> (processados). Os arquivos brutos nunca são modificados. Os arquivos processados são gerados a partir dos brutos por scripts e podem ser apagados e recriados a qualquer momento. O dicionário de dados e outros metadados ficam junto com os dados.</p>
+</section>
+<section id="scripts" class="level3" data-number="3.12.3">
+<h3 data-number="3.12.3" class="anchored" data-anchor-id="scripts"><span class="header-section-number">3.12.3</span> Scripts</h3>
+<p>A pasta <code>scripts</code> contém o código usado para limpar, analisar e visualizar os dados. Numerar os scripts na ordem em que devem ser executados (<code>01_clean_data.R</code>, <code>02_explore.R</code>, <code>03_fit_models.R</code>) torna o fluxo de trabalho fácil de acompanhar.</p>
+</section>
+<section id="figuras" class="level3" data-number="3.12.4">
+<h3 data-number="3.12.4" class="anchored" data-anchor-id="figuras"><span class="header-section-number">3.12.4</span> Figuras</h3>
+<p>A pasta <code>figures</code> contém os gráficos produzidos pelos scripts. Como as figuras são geradas por código, podem ser atualizadas automaticamente quando os dados ou as análises mudam, em vez de serem editadas à mão.</p>
+</section>
+<section id="resultados" class="level3" data-number="3.12.5">
+<h3 data-number="3.12.5" class="anchored" data-anchor-id="resultados"><span class="header-section-number">3.12.5</span> Resultados</h3>
+<p>A pasta <code>results</code> contém tabelas, saídas de modelos e outros produtos da análise. Assim como as figuras, os resultados devem ser gerados por scripts, para que todo número relatado possa ser rastreado até os dados e o código que o produziram.</p>
+</section>
+<section id="manuscritos" class="level3" data-number="3.12.6">
+<h3 data-number="3.12.6" class="anchored" data-anchor-id="manuscritos"><span class="header-section-number">3.12.6</span> Manuscritos</h3>
+<p>A pasta <code>manuscript</code> contém versões de relatórios, teses ou artigos. Ferramentas como o Quarto, usado para escrever este livro, permitem combinar texto, código, resultados e figuras em um único documento, de modo que o manuscrito seja atualizado automaticamente quando a análise muda.</p>
+</section>
+</section>
+<section id="pesquisa-na-prática" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="pesquisa-na-prática"><span class="header-section-number">3.13</span> Pesquisa na prática</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Organizando os dados do ensaio de fungicidas em manjericão">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Organizando os dados do ensaio de fungicidas em manjericão
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><strong>Contexto</strong></p>
+<p>O Capítulo 1 apresentou experimentos de campo que avaliaram fungicidas para o controle do míldio do manjericão, e o Capítulo 2 examinou seu delineamento: tratamentos com fungicidas e uma testemunha dispostos em blocos casualizados com quatro parcelas por tratamento, com a doença avaliada periodicamente durante a safra <span class="citation" data-cites="mcgrath2020">(<a href="references.html#ref-mcgrath2020" role="doc-biblioref">McGrath 2020</a>)</span>. Aqui, acompanhamos como os dados de um experimento desse tipo passam da ficha de campo a um conjunto de dados organizado. Os valores abaixo são ilustrativos e não reproduzem os dados publicados.</p>
+<p><strong>Etapa 1: a planilha bruta</strong></p>
+<p>Uma primeira transcrição típica das anotações de campo poderia ser assim:</p>
+<div id="tbl-ch3-raw-basil" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-raw-basil-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.14: Planilha bruta, como digitada a partir das anotações de campo (ilustrativa).
+</figcaption>
+<div aria-describedby="tbl-ch3-raw-basil-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Bloco</th>
+<th>Parcela</th>
+<th>Trat</th>
+<th>10-jun</th>
+<th>24-jun</th>
+<th>8-jul</th>
+<th>Obs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>I</td>
+<td>101</td>
+<td>Controle</td>
+<td>2%</td>
+<td>10</td>
+<td>35</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>I</td>
+<td>102</td>
+<td>Fung A</td>
+<td>0</td>
+<td>2</td>
+<td>6</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>I</td>
+<td>103</td>
+<td>fung A</td>
+<td>-</td>
+<td>1</td>
+<td>4</td>
+<td>parcela alagada</td>
+</tr>
+<tr class="even">
+<td>II</td>
+<td>201</td>
+<td>CTRL</td>
+<td>3</td>
+<td>12</td>
+<td>40</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><strong>Média</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>21,3</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Essa planilha contém vários problemas: as datas de avaliação estão nos nomes das colunas; a testemunha está escrita de três formas diferentes, e o fungicida A, com maiúsculas e espaços inconsistentes; um sinal de porcentagem foi digitado em uma célula; um traço foi usado para um valor perdido; a parcela 103 parece repetir o tratamento da parcela 102 no mesmo bloco, o que precisa ser conferido no croqui; e uma linha de resumo com uma média foi inserida no meio dos dados.</p>
+<p><strong>Etapa 2: a planilha limpa</strong></p>
+<p>As seguintes alterações foram feitas e registradas em um registro de limpeza:</p>
+<ol type="1">
+<li>Os rótulos dos tratamentos foram harmonizados segundo um vocabulário controlado (<code>control</code>, <code>fung_A</code>, <code>fung_B</code>, …).</li>
+<li>O sinal de porcentagem foi removido para que a severidade fique registrada como número; a unidade (%) foi documentada no dicionário de dados.</li>
+<li>O traço foi substituído por <code>NA</code>, e o motivo (parcela alagada antes da primeira avaliação) foi mantido na coluna <code>notes</code>.</li>
+<li>A parcela 103 foi conferida no croqui e na ficha original, e seu tratamento foi corrigido para <code>fung_B</code>.</li>
+<li>A linha de resumo foi apagada; as médias serão calculadas na análise.</li>
+<li>Os números dos blocos foram convertidos de algarismos romanos para inteiros e documentados como variável categórica.</li>
+<li>Os nomes das colunas foram convertidos para <code>snake_case</code> em minúsculas.</li>
+</ol>
+<p><strong>Etapa 3: o conjunto de dados organizado</strong></p>
+<p>Por fim, a tabela foi reorganizada de modo que cada linha represente uma parcela em uma data de avaliação:</p>
+<div id="tbl-ch3-tidy-basil" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch3-tidy-basil-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;3.15: Conjunto de dados organizado: uma linha por parcela e data de avaliação (ilustrativo).
+</figcaption>
+<div aria-describedby="tbl-ch3-tidy-basil-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>block</th>
+<th>plot</th>
+<th>treatment</th>
+<th>date</th>
+<th>severity</th>
+<th>notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>101</td>
+<td>control</td>
+<td>2025-06-10</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>101</td>
+<td>control</td>
+<td>2025-06-24</td>
+<td>10</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>101</td>
+<td>control</td>
+<td>2025-07-08</td>
+<td>35</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>102</td>
+<td>fung_A</td>
+<td>2025-06-10</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>103</td>
+<td>fung_B</td>
+<td>2025-06-10</td>
+<td>NA</td>
+<td>parcela alagada</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A planilha bruta foi preservada sem alterações em <code>data/raw/</code>, e o conjunto organizado foi salvo como um novo arquivo CSV em <code>data/processed/</code>, junto com o dicionário de dados e o registro de limpeza.</p>
+<p><strong>Questões</strong></p>
+<ol type="1">
+<li>Qual é a unidade de observação no conjunto de dados organizado?</li>
+<li>Que combinação de variáveis identifica cada linha de forma única?</li>
+<li>Por que a linha de resumo deve ser removida, em vez de mantida no conjunto de dados?</li>
+<li>Por que é importante manter o motivo do valor perdido?</li>
+<li>Como os rótulos inconsistentes dos tratamentos poderiam ter sido evitados na digitação?</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="lista-de-verificação-da-organização-dos-dados" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="lista-de-verificação-da-organização-dos-dados"><span class="header-section-number">3.14</span> Lista de verificação da organização dos dados</h2>
+<p>Antes de iniciar qualquer análise, verifique:</p>
+<ol type="1">
+<li>As observações estão claramente definidas?</li>
+<li>Cada linha é uma observação?</li>
+<li>Cada coluna é uma variável?</li>
+<li>Os identificadores são únicos?</li>
+<li>As unidades estão documentadas?</li>
+<li>Os valores perdidos estão codificados de forma consistente?</li>
+<li>Os dados brutos estão preservados?</li>
+<li>Os metadados estão completos?</li>
+<li>Os nomes dos arquivos são informativos?</li>
+<li>O conjunto de dados está pronto para a análise?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="3.15">
+<h2 data-number="3.15" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">3.15</span> Resumo do capítulo</h2>
+<p>A organização dos dados liga o delineamento do estudo à análise. Um conjunto de dados é uma coleção estruturada de observações em que a unidade de observação é explícita, cada linha representa uma observação, cada coluna representa uma variável e identificadores ligam cada registro à unidade da qual foi obtido. Esses princípios de dados organizados simplificam a análise e tornam visível a estrutura do estudo. Reconhecer os tipos de variáveis, documentá-las em um dicionário de dados e usar nomes consistentes para variáveis, arquivos e pastas tornam os conjuntos de dados compreensíveis para outras pessoas e para os próprios pesquisadores. Muitos erros surgem na digitação, e verificações simples de validação detectam a maioria deles antes que afetem os resultados. Os dados brutos devem ser preservados sem alterações, e cada etapa entre os dados brutos e o conjunto analisado deve ser documentada, de preferência em scripts, para que a análise possa ser reproduzida.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="3.16">
+<h2 data-number="3.16" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">3.16</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>conjunto de dados;</li>
+<li>observação;</li>
+<li>variável;</li>
+<li>identificador;</li>
+<li>unidade de observação;</li>
+<li>dados organizados (<em>tidy data</em>);</li>
+<li>metadados;</li>
+<li>dicionário de dados;</li>
+<li>vocabulário controlado;</li>
+<li>valores perdidos;</li>
+<li>validação dos dados;</li>
+<li>dados brutos;</li>
+<li>dados processados;</li>
+<li>variável derivada;</li>
+<li>reprodutibilidade.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="3.17">
+<h2 data-number="3.17" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">3.17</span> Exercícios</h2>
+<section id="exercício-1.-identificando-problemas-em-conjuntos-de-dados-mal-organizados" class="level3" data-number="3.17.1">
+<h3 data-number="3.17.1" class="anchored" data-anchor-id="exercício-1.-identificando-problemas-em-conjuntos-de-dados-mal-organizados"><span class="header-section-number">3.17.1</span> Exercício 1. Identificando problemas em conjuntos de dados mal organizados</h3>
+<p>Examine as três planilhas fornecidas pelo professor. Para cada uma, liste todos os problemas encontrados, incluindo estrutura não organizada, codificação inconsistente, valores perdidos ocultos, unidades misturadas, observações duplicadas, valores impossíveis e problemas de formatação. Explique como cada problema poderia afetar a análise.</p>
+</section>
+<section id="exercício-2.-convertendo-um-conjunto-de-dados-para-o-formato-organizado" class="level3" data-number="3.17.2">
+<h3 data-number="3.17.2" class="anchored" data-anchor-id="exercício-2.-convertendo-um-conjunto-de-dados-para-o-formato-organizado"><span class="header-section-number">3.17.2</span> Exercício 2. Convertendo um conjunto de dados para o formato organizado</h3>
+<p>A tabela abaixo registra o número de lesões em folhas de três cultivares avaliadas em duas épocas.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>cultivar</th>
+<th>rep</th>
+<th>lesions_7dai</th>
+<th>lesions_14dai</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>1</td>
+<td>3</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>A</td>
+<td>2</td>
+<td>5</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>B</td>
+<td>1</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Que informação está guardada nos nomes das colunas?</li>
+<li>Reescreva a tabela no formato organizado.</li>
+<li>Quantas linhas tem a tabela organizada?</li>
+<li>Quais variáveis identificam cada linha de forma única?</li>
+</ol>
+</section>
+<section id="exercício-3.-criando-uma-tabela-de-metadados" class="level3" data-number="3.17.3">
+<h3 data-number="3.17.3" class="anchored" data-anchor-id="exercício-3.-criando-uma-tabela-de-metadados"><span class="header-section-number">3.17.3</span> Exercício 3. Criando uma tabela de metadados</h3>
+<p>Escolha um conjunto de dados da sua própria pesquisa ou um fornecido pelo professor e construa um dicionário de dados contendo, para cada variável, o nome, a descrição, o tipo, as unidades e os valores ou a faixa permitidos.</p>
+</section>
+<section id="exercício-4.-revisando-os-dados-suplementares-de-um-artigo-publicado" class="level3" data-number="3.17.4">
+<h3 data-number="3.17.4" class="anchored" data-anchor-id="exercício-4.-revisando-os-dados-suplementares-de-um-artigo-publicado"><span class="header-section-number">3.17.4</span> Exercício 4. Revisando os dados suplementares de um artigo publicado</h3>
+<p>Baixe os dados suplementares de um artigo publicado em Fitopatologia. Você conseguiria reproduzir a análise principal usando apenas esses arquivos? Que informação está faltando? O conjunto de dados está organizado? As variáveis, unidades e códigos estão documentados?</p>
+</section>
+<section id="exercício-5.-planejando-uma-estrutura-de-pastas" class="level3" data-number="3.17.5">
+<h3 data-number="3.17.5" class="anchored" data-anchor-id="exercício-5.-planejando-uma-estrutura-de-pastas"><span class="header-section-number">3.17.5</span> Exercício 5. Planejando uma estrutura de pastas</h3>
+<p>Planeje uma estrutura de pastas para um projeto de pesquisa de sua escolha, como um capítulo de tese ou um ensaio de campo de vários anos. Escreva um breve arquivo <code>README</code> descrevendo o conteúdo de cada pasta e as convenções de nomes dos arquivos.</p>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="3.18">
+<h2 data-number="3.18" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">3.18</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Boas análises começam com dados bem organizados.</strong></p>
+</blockquote>
+<p>Discuta por que essa afirmação é verdadeira, usando um exemplo da sua própria experiência ou de um estudo publicado.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="3.19">
+<h2 data-number="3.19" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">3.19</span> Próximos passos</h2>
+<p>Uma vez organizados os dados, o passo seguinte é entender o que eles contêm antes de aplicar métodos estatísticos. O Capítulo 4 apresenta a análise exploratória de dados e a exploração gráfica.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-broman2018" class="csl-entry" role="listitem">
+Broman, K. W., e Woo, K. H. 2018. Data organization in spreadsheets. The American Statistician 72:2–10. <a href="https://doi.org/10.1080/00031305.2017.1375989">https://doi.org/10.1080/00031305.2017.1375989</a>.
+</div>
+<div id="ref-mcgrath2020" class="csl-entry" role="listitem">
+McGrath, M. T. 2020. Efficacy of Conventional Fungicides for Downy Mildew in Field-Grown Sweet Basil in the United States. Plant Disease 104:2967–2972. <a href="https://doi.org/10.1094/PDIS-11-19-2382-RE">https://doi.org/10.1094/PDIS-11-19-2382-RE</a>.
+</div>
+<div id="ref-wickham2014" class="csl-entry" role="listitem">
+Wickham, H. 2014. Tidy data. Journal of Statistical Software 59:1–23. <a href="https://doi.org/10.18637/jss.v059.i10">https://doi.org/10.18637/jss.v059.i10</a>.
+</div>
+<div id="ref-wilkinson2016" class="csl-entry" role="listitem">
+<span class="nocase">Wilkinson, M. D., Dumontier, M., Aalbersberg, Ij. J., Appleton, G., Axton, M., Baak, A., e others</span>. 2016. The <span>FAIR</span> Guiding Principles for scientific data management and stewardship. Scientific Data 3:160018. <a href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter2.html" class="pagination-link" aria-label="Delineamento de estudos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter4.html" class="pagination-link" aria-label="Análise exploratória">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

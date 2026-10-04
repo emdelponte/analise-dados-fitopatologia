@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Como analisamos respostas não lineares? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter10.html" rel="next">
+<link href="./chapter8.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter9.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">9.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-respostas-não-lineares" id="toc-por-que-respostas-não-lineares" class="nav-link" data-scroll-target="#por-que-respostas-não-lineares"><span class="header-section-number">9.2</span> Por que respostas não lineares?</a></li>
+  <li><a href="#da-questão-biológica-ao-parâmetro-da-curva" id="toc-da-questão-biológica-ao-parâmetro-da-curva" class="nav-link" data-scroll-target="#da-questão-biológica-ao-parâmetro-da-curva"><span class="header-section-number">9.3</span> Da questão biológica ao parâmetro da curva</a></li>
+  <li><a href="#por-que-não-uma-reta-ou-um-polinômio" id="toc-por-que-não-uma-reta-ou-um-polinômio" class="nav-link" data-scroll-target="#por-que-não-uma-reta-ou-um-polinômio"><span class="header-section-number">9.4</span> Por que não uma reta ou um polinômio?</a>
+  <ul class="collapse">
+  <li><a href="#retas" id="toc-retas" class="nav-link" data-scroll-target="#retas"><span class="header-section-number">9.4.1</span> Retas</a></li>
+  <li><a href="#transformações" id="toc-transformações" class="nav-link" data-scroll-target="#transformações"><span class="header-section-number">9.4.2</span> Transformações</a></li>
+  <li><a href="#polinômios" id="toc-polinômios" class="nav-link" data-scroll-target="#polinômios"><span class="header-section-number">9.4.3</span> Polinômios</a></li>
+  </ul></li>
+  <li><a href="#a-anatomia-de-um-modelo-não-linear" id="toc-a-anatomia-de-um-modelo-não-linear" class="nav-link" data-scroll-target="#a-anatomia-de-um-modelo-não-linear"><span class="header-section-number">9.5</span> A anatomia de um modelo não linear</a>
+  <ul class="collapse">
+  <li><a href="#parâmetros-com-significado-biológico" id="toc-parâmetros-com-significado-biológico" class="nav-link" data-scroll-target="#parâmetros-com-significado-biológico"><span class="header-section-number">9.5.1</span> Parâmetros com significado biológico</a></li>
+  </ul></li>
+  <li><a href="#formas-comuns-de-curvas" id="toc-formas-comuns-de-curvas" class="nav-link" data-scroll-target="#formas-comuns-de-curvas"><span class="header-section-number">9.6</span> Formas comuns de curvas</a>
+  <ul class="collapse">
+  <li><a href="#declínio-exponencial" id="toc-declínio-exponencial" class="nav-link" data-scroll-target="#declínio-exponencial"><span class="header-section-number">9.6.1</span> Declínio exponencial</a></li>
+  <li><a href="#curva-monomolecular-de-saturação" id="toc-curva-monomolecular-de-saturação" class="nav-link" data-scroll-target="#curva-monomolecular-de-saturação"><span class="header-section-number">9.6.2</span> Curva monomolecular (de saturação)</a></li>
+  <li><a href="#curvas-logística-e-de-gompertz" id="toc-curvas-logística-e-de-gompertz" class="nav-link" data-scroll-target="#curvas-logística-e-de-gompertz"><span class="header-section-number">9.6.3</span> Curvas logística e de Gompertz</a></li>
+  <li><a href="#curvas-log-logísticas-de-doseresposta" id="toc-curvas-log-logísticas-de-doseresposta" class="nav-link" data-scroll-target="#curvas-log-logísticas-de-doseresposta"><span class="header-section-number">9.6.4</span> Curvas log-logísticas de dose–resposta</a></li>
+  <li><a href="#curvas-com-um-ótimo" id="toc-curvas-com-um-ótimo" class="nav-link" data-scroll-target="#curvas-com-um-ótimo"><span class="header-section-number">9.6.5</span> Curvas com um ótimo</a></li>
+  </ul></li>
+  <li><a href="#análise-de-doseresposta" id="toc-análise-de-doseresposta" class="nav-link" data-scroll-target="#análise-de-doseresposta"><span class="header-section-number">9.7</span> Análise de dose–resposta</a>
+  <ul class="collapse">
+  <li><a href="#por-que-experimentos-de-doseresposta" id="toc-por-que-experimentos-de-doseresposta" class="nav-link" data-scroll-target="#por-que-experimentos-de-doseresposta"><span class="header-section-number">9.7.1</span> Por que experimentos de dose–resposta?</a></li>
+  <li><a href="#o-modelo-log-logístico" id="toc-o-modelo-log-logístico" class="nav-link" data-scroll-target="#o-modelo-log-logístico"><span class="header-section-number">9.7.2</span> O modelo log-logístico</a></li>
+  <li><a href="#um-exemplo-simples" id="toc-um-exemplo-simples" class="nav-link" data-scroll-target="#um-exemplo-simples"><span class="header-section-number">9.7.3</span> Um exemplo simples</a></li>
+  <li><a href="#ajustando-o-modelo-no-r" id="toc-ajustando-o-modelo-no-r" class="nav-link" data-scroll-target="#ajustando-o-modelo-no-r"><span class="header-section-number">9.7.4</span> Ajustando o modelo no R</a></li>
+  <li><a href="#estimando-a-ce50" id="toc-estimando-a-ce50" class="nav-link" data-scroll-target="#estimando-a-ce50"><span class="header-section-number">9.7.5</span> Estimando a CE<sub>50</sub></a></li>
+  <li><a href="#ce50-absoluta-e-relativa" id="toc-ce50-absoluta-e-relativa" class="nav-link" data-scroll-target="#ce50-absoluta-e-relativa"><span class="header-section-number">9.7.6</span> CE<sub>50</sub> absoluta e relativa</a></li>
+  <li><a href="#expressando-a-resposta-em-relação-à-testemunha" id="toc-expressando-a-resposta-em-relação-à-testemunha" class="nav-link" data-scroll-target="#expressando-a-resposta-em-relação-à-testemunha"><span class="header-section-number">9.7.7</span> Expressando a resposta em relação à testemunha</a></li>
+  <li><a href="#a-dose-zero" id="toc-a-dose-zero" class="nav-link" data-scroll-target="#a-dose-zero"><span class="header-section-number">9.7.8</span> A dose zero</a></li>
+  <li><a href="#respostas-acima-da-testemunha" id="toc-respostas-acima-da-testemunha" class="nav-link" data-scroll-target="#respostas-acima-da-testemunha"><span class="header-section-number">9.7.9</span> Respostas acima da testemunha</a></li>
+  </ul></li>
+  <li><a href="#comparando-curvas-de-doseresposta" id="toc-comparando-curvas-de-doseresposta" class="nav-link" data-scroll-target="#comparando-curvas-de-doseresposta"><span class="header-section-number">9.8</span> Comparando curvas de dose–resposta</a>
+  <ul class="collapse">
+  <li><a href="#vários-isolados-ou-compostos" id="toc-vários-isolados-ou-compostos" class="nav-link" data-scroll-target="#vários-isolados-ou-compostos"><span class="header-section-number">9.8.1</span> Vários isolados ou compostos</a></li>
+  <li><a href="#comparando-valores-de-ce50" id="toc-comparando-valores-de-ce50" class="nav-link" data-scroll-target="#comparando-valores-de-ce50"><span class="header-section-number">9.8.2</span> Comparando valores de CE<sub>50</sub></a></li>
+  <li><a href="#distribuições-de-sensibilidade" id="toc-distribuições-de-sensibilidade" class="nav-link" data-scroll-target="#distribuições-de-sensibilidade"><span class="header-section-number">9.8.3</span> Distribuições de sensibilidade</a></li>
+  <li><a href="#doses-discriminatórias" id="toc-doses-discriminatórias" class="nav-link" data-scroll-target="#doses-discriminatórias"><span class="header-section-number">9.8.4</span> Doses discriminatórias</a></li>
+  </ul></li>
+  <li><a href="#respostas-à-temperatura-e-a-outras-variáveis-ambientais" id="toc-respostas-à-temperatura-e-a-outras-variáveis-ambientais" class="nav-link" data-scroll-target="#respostas-à-temperatura-e-a-outras-variáveis-ambientais"><span class="header-section-number">9.9</span> Respostas à temperatura e a outras variáveis ambientais</a>
+  <ul class="collapse">
+  <li><a href="#curvas-com-um-ótimo-1" id="toc-curvas-com-um-ótimo-1" class="nav-link" data-scroll-target="#curvas-com-um-ótimo-1"><span class="header-section-number">9.9.1</span> Curvas com um ótimo</a></li>
+  <li><a href="#ajustando-com-nls" id="toc-ajustando-com-nls" class="nav-link" data-scroll-target="#ajustando-com-nls"><span class="header-section-number">9.9.2</span> Ajustando com nls()</a></li>
+  <li><a href="#interpretando-as-temperaturas-cardeais" id="toc-interpretando-as-temperaturas-cardeais" class="nav-link" data-scroll-target="#interpretando-as-temperaturas-cardeais"><span class="header-section-number">9.9.3</span> Interpretando as temperaturas cardeais</a></li>
+  </ul></li>
+  <li><a href="#como-os-modelos-não-lineares-são-ajustados" id="toc-como-os-modelos-não-lineares-são-ajustados" class="nav-link" data-scroll-target="#como-os-modelos-não-lineares-são-ajustados"><span class="header-section-number">9.10</span> Como os modelos não lineares são ajustados</a>
+  <ul class="collapse">
+  <li><a href="#estimação-iterativa" id="toc-estimação-iterativa" class="nav-link" data-scroll-target="#estimação-iterativa"><span class="header-section-number">9.10.1</span> Estimação iterativa</a></li>
+  <li><a href="#valores-iniciais" id="toc-valores-iniciais" class="nav-link" data-scroll-target="#valores-iniciais"><span class="header-section-number">9.10.2</span> Valores iniciais</a></li>
+  <li><a href="#quando-o-ajuste-falha" id="toc-quando-o-ajuste-falha" class="nav-link" data-scroll-target="#quando-o-ajuste-falha"><span class="header-section-number">9.10.3</span> Quando o ajuste falha</a></li>
+  </ul></li>
+  <li><a href="#incerteza-nos-modelos-não-lineares" id="toc-incerteza-nos-modelos-não-lineares" class="nav-link" data-scroll-target="#incerteza-nos-modelos-não-lineares"><span class="header-section-number">9.11</span> Incerteza nos modelos não lineares</a>
+  <ul class="collapse">
+  <li><a href="#erros-padrão-e-intervalos-de-confiança" id="toc-erros-padrão-e-intervalos-de-confiança" class="nav-link" data-scroll-target="#erros-padrão-e-intervalos-de-confiança"><span class="header-section-number">9.11.1</span> Erros padrão e intervalos de confiança</a></li>
+  <li><a href="#grandezas-derivadas" id="toc-grandezas-derivadas" class="nav-link" data-scroll-target="#grandezas-derivadas"><span class="header-section-number">9.11.2</span> Grandezas derivadas</a></li>
+  <li><a href="#faixas-de-confiança-para-a-curva" id="toc-faixas-de-confiança-para-a-curva" class="nav-link" data-scroll-target="#faixas-de-confiança-para-a-curva"><span class="header-section-number">9.11.3</span> Faixas de confiança para a curva</a></li>
+  </ul></li>
+  <li><a href="#pressupostos-e-diagnóstico-do-modelo" id="toc-pressupostos-e-diagnóstico-do-modelo" class="nav-link" data-scroll-target="#pressupostos-e-diagnóstico-do-modelo"><span class="header-section-number">9.12</span> Pressupostos e diagnóstico do modelo</a>
+  <ul class="collapse">
+  <li><a href="#resíduos-versus-valores-ajustados" id="toc-resíduos-versus-valores-ajustados" class="nav-link" data-scroll-target="#resíduos-versus-valores-ajustados"><span class="header-section-number">9.12.1</span> Resíduos versus valores ajustados</a></li>
+  <li><a href="#variância-não-constante" id="toc-variância-não-constante" class="nav-link" data-scroll-target="#variância-não-constante"><span class="header-section-number">9.12.2</span> Variância não constante</a></li>
+  <li><a href="#quando-a-resposta-não-é-contínua" id="toc-quando-a-resposta-não-é-contínua" class="nav-link" data-scroll-target="#quando-a-resposta-não-é-contínua"><span class="header-section-number">9.12.3</span> Quando a resposta não é contínua</a></li>
+  </ul></li>
+  <li><a href="#escolhendo-entre-modelos" id="toc-escolhendo-entre-modelos" class="nav-link" data-scroll-target="#escolhendo-entre-modelos"><span class="header-section-number">9.13</span> Escolhendo entre modelos</a></li>
+  <li><a href="#delineando-experimentos-para-respostas-não-lineares" id="toc-delineando-experimentos-para-respostas-não-lineares" class="nav-link" data-scroll-target="#delineando-experimentos-para-respostas-não-lineares"><span class="header-section-number">9.14</span> Delineando experimentos para respostas não lineares</a>
+  <ul class="collapse">
+  <li><a href="#escolhendo-as-doses" id="toc-escolhendo-as-doses" class="nav-link" data-scroll-target="#escolhendo-as-doses"><span class="header-section-number">9.14.1</span> Escolhendo as doses</a></li>
+  <li><a href="#escolhendo-as-temperaturas" id="toc-escolhendo-as-temperaturas" class="nav-link" data-scroll-target="#escolhendo-as-temperaturas"><span class="header-section-number">9.14.2</span> Escolhendo as temperaturas</a></li>
+  <li><a href="#repetição-e-experimentos-repetidos" id="toc-repetição-e-experimentos-repetidos" class="nav-link" data-scroll-target="#repetição-e-experimentos-repetidos"><span class="header-section-number">9.14.3</span> Repetição e experimentos repetidos</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática-monitorando-a-sensibilidade-a-fungicidas" id="toc-pesquisa-na-prática-monitorando-a-sensibilidade-a-fungicidas" class="nav-link" data-scroll-target="#pesquisa-na-prática-monitorando-a-sensibilidade-a-fungicidas"><span class="header-section-number">9.15</span> Pesquisa na prática: monitorando a sensibilidade a fungicidas</a></li>
+  <li><a href="#um-fluxo-de-trabalho-prático-para-respostas-não-lineares" id="toc-um-fluxo-de-trabalho-prático-para-respostas-não-lineares" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-prático-para-respostas-não-lineares"><span class="header-section-number">9.16</span> Um fluxo de trabalho prático para respostas não lineares</a></li>
+  <li><a href="#relatando-análises-não-lineares" id="toc-relatando-análises-não-lineares" class="nav-link" data-scroll-target="#relatando-análises-não-lineares"><span class="header-section-number">9.17</span> Relatando análises não lineares</a>
+  <ul class="collapse">
+  <li><a href="#que-modelo-foi-ajustado" id="toc-que-modelo-foi-ajustado" class="nav-link" data-scroll-target="#que-modelo-foi-ajustado"><span class="header-section-number">9.17.1</span> Que modelo foi ajustado?</a></li>
+  <li><a href="#estimativas-dos-parâmetros" id="toc-estimativas-dos-parâmetros" class="nav-link" data-scroll-target="#estimativas-dos-parâmetros"><span class="header-section-number">9.17.2</span> Estimativas dos parâmetros</a></li>
+  <li><a href="#incerteza" id="toc-incerteza" class="nav-link" data-scroll-target="#incerteza"><span class="header-section-number">9.17.3</span> Incerteza</a></li>
+  <li><a href="#definições" id="toc-definições" class="nav-link" data-scroll-target="#definições"><span class="header-section-number">9.17.4</span> Definições</a></li>
+  <li><a href="#adequação-do-modelo" id="toc-adequação-do-modelo" class="nav-link" data-scroll-target="#adequação-do-modelo"><span class="header-section-number">9.17.5</span> Adequação do modelo</a></li>
+  <li><a href="#interpretação-biológica" id="toc-interpretação-biológica" class="nav-link" data-scroll-target="#interpretação-biológica"><span class="header-section-number">9.17.6</span> Interpretação biológica</a></li>
+  </ul></li>
+  <li><a href="#erros-comuns" id="toc-erros-comuns" class="nav-link" data-scroll-target="#erros-comuns"><span class="header-section-number">9.18</span> Erros comuns</a>
+  <ul class="collapse">
+  <li><a href="#ajustar-retas-a-respostas-curvas" id="toc-ajustar-retas-a-respostas-curvas" class="nav-link" data-scroll-target="#ajustar-retas-a-respostas-curvas"><span class="header-section-number">9.18.1</span> Ajustar retas a respostas curvas</a></li>
+  <li><a href="#usar-polinômios-quando-os-parâmetros-importam" id="toc-usar-polinômios-quando-os-parâmetros-importam" class="nav-link" data-scroll-target="#usar-polinômios-quando-os-parâmetros-importam"><span class="header-section-number">9.18.2</span> Usar polinômios quando os parâmetros importam</a></li>
+  <li><a href="#não-informar-a-definição-de-ce50" id="toc-não-informar-a-definição-de-ce50" class="nav-link" data-scroll-target="#não-informar-a-definição-de-ce50"><span class="header-section-number">9.18.3</span> Não informar a definição de CE<sub>50</sub></a></li>
+  <li><a href="#normalizar-em-relação-à-testemunha-e-ignorar-sua-variabilidade" id="toc-normalizar-em-relação-à-testemunha-e-ignorar-sua-variabilidade" class="nav-link" data-scroll-target="#normalizar-em-relação-à-testemunha-e-ignorar-sua-variabilidade"><span class="header-section-number">9.18.4</span> Normalizar em relação à testemunha e ignorar sua variabilidade</a></li>
+  <li><a href="#relatar-a-ce50-sem-incerteza" id="toc-relatar-a-ce50-sem-incerteza" class="nav-link" data-scroll-target="#relatar-a-ce50-sem-incerteza"><span class="header-section-number">9.18.5</span> Relatar a CE<sub>50</sub> sem incerteza</a></li>
+  <li><a href="#comparar-valores-de-ce50-em-escala-linear" id="toc-comparar-valores-de-ce50-em-escala-linear" class="nav-link" data-scroll-target="#comparar-valores-de-ce50-em-escala-linear"><span class="header-section-number">9.18.6</span> Comparar valores de CE<sub>50</sub> em escala linear</a></li>
+  <li><a href="#usar-doses-que-não-cobrem-a-curva" id="toc-usar-doses-que-não-cobrem-a-curva" class="nav-link" data-scroll-target="#usar-doses-que-não-cobrem-a-curva"><span class="header-section-number">9.18.7</span> Usar doses que não cobrem a curva</a></li>
+  <li><a href="#interpretar-limiares-extrapolados-como-medidas" id="toc-interpretar-limiares-extrapolados-como-medidas" class="nav-link" data-scroll-target="#interpretar-limiares-extrapolados-como-medidas"><span class="header-section-number">9.18.8</span> Interpretar limiares extrapolados como medidas</a></li>
+  <li><a href="#escolher-modelos-pelo-r²" id="toc-escolher-modelos-pelo-r²" class="nav-link" data-scroll-target="#escolher-modelos-pelo-r²"><span class="header-section-number">9.18.9</span> Escolher modelos pelo R²</a></li>
+  <li><a href="#ignorar-avisos-de-convergência" id="toc-ignorar-avisos-de-convergência" class="nav-link" data-scroll-target="#ignorar-avisos-de-convergência"><span class="header-section-number">9.18.10</span> Ignorar avisos de convergência</a></li>
+  <li><a href="#tratar-medidas-repetidas-na-mesma-unidade-como-repetições" id="toc-tratar-medidas-repetidas-na-mesma-unidade-como-repetições" class="nav-link" data-scroll-target="#tratar-medidas-repetidas-na-mesma-unidade-como-repetições"><span class="header-section-number">9.18.11</span> Tratar medidas repetidas na mesma unidade como repetições</a></li>
+  </ul></li>
+  <li><a href="#lista-de-verificação-para-análises-não-lineares" id="toc-lista-de-verificação-para-análises-não-lineares" class="nav-link" data-scroll-target="#lista-de-verificação-para-análises-não-lineares"><span class="header-section-number">9.19</span> Lista de verificação para análises não lineares</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">9.20</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">9.21</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">9.22</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-qual-curva" id="toc-exercício-1.-qual-curva" class="nav-link" data-scroll-target="#exercício-1.-qual-curva"><span class="header-section-number">9.22.1</span> Exercício 1. Qual curva?</a></li>
+  <li><a href="#exercício-2.-reta-polinômio-ou-curva" id="toc-exercício-2.-reta-polinômio-ou-curva" class="nav-link" data-scroll-target="#exercício-2.-reta-polinômio-ou-curva"><span class="header-section-number">9.22.2</span> Exercício 2. Reta, polinômio ou curva?</a></li>
+  <li><a href="#exercício-3.-estimando-a-ce50" id="toc-exercício-3.-estimando-a-ce50" class="nav-link" data-scroll-target="#exercício-3.-estimando-a-ce50"><span class="header-section-number">9.22.3</span> Exercício 3. Estimando a CE<sub>50</sub></a></li>
+  <li><a href="#exercício-4.-comparando-isolados" id="toc-exercício-4.-comparando-isolados" class="nav-link" data-scroll-target="#exercício-4.-comparando-isolados"><span class="header-section-number">9.22.4</span> Exercício 4. Comparando isolados</a></li>
+  <li><a href="#exercício-5.-temperatura-ótima" id="toc-exercício-5.-temperatura-ótima" class="nav-link" data-scroll-target="#exercício-5.-temperatura-ótima"><span class="header-section-number">9.22.5</span> Exercício 5. Temperatura ótima</a></li>
+  <li><a href="#exercício-6.-delineando-um-experimento-de-doseresposta" id="toc-exercício-6.-delineando-um-experimento-de-doseresposta" class="nav-link" data-scroll-target="#exercício-6.-delineando-um-experimento-de-doseresposta"><span class="header-section-number">9.22.6</span> Exercício 6. Delineando um experimento de dose–resposta</a></li>
+  <li><a href="#exercício-7.-avaliação-de-um-artigo-publicado" id="toc-exercício-7.-avaliação-de-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">9.22.7</span> Exercício 7. Avaliação de um artigo publicado</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">9.23</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">9.24</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Como analisamos respostas não lineares?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">9.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>reconhecer respostas biológicas intrinsecamente não lineares;</li>
+<li>explicar por que retas e polinômios costumam descrever mal essas respostas;</li>
+<li>descrever formas comuns de curvas não lineares e o significado biológico de seus parâmetros;</li>
+<li>ajustar e interpretar modelos de dose–resposta e estimar valores de CE<sub>50</sub>;</li>
+<li>distinguir concentrações efetivas absolutas e relativas;</li>
+<li>comparar curvas de dose–resposta e valores de CE<sub>50</sub> entre isolados ou tratamentos;</li>
+<li>ajustar modelos que descrevem respostas à temperatura e a outras variáveis ambientais;</li>
+<li>compreender como os modelos não lineares são ajustados, incluindo o papel dos valores iniciais;</li>
+<li>quantificar a incerteza dos parâmetros do modelo e de grandezas derivadas;</li>
+<li>escolher entre modelos não lineares concorrentes usando critérios biológicos e estatísticos;</li>
+<li>delinear experimentos que permitam estimar com precisão os parâmetros não lineares;</li>
+<li>comunicar análises não lineares usando estimativas dos parâmetros, incerteza e curvas ajustadas.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-respostas-não-lineares" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="por-que-respostas-não-lineares"><span class="header-section-number">9.2</span> Por que respostas não lineares?</h2>
+<p>O Capítulo 8 descreveu relações em que a resposta muda a uma taxa constante com a variável explicativa. Muitas respostas biológicas não se comportam assim. Elas sobem e depois se estabilizam, decrescem em direção a um piso, seguem uma curva em forma de S ou atingem um máximo em um valor intermediário.</p>
+<p>Exemplos típicos em Fitopatologia incluem:</p>
+<ul>
+<li><strong>sensibilidade a fungicidas</strong>: o crescimento micelial ou a germinação de esporos diminui com a concentração do fungicida, devagar no início, depois rapidamente, e então se aproxima de um mínimo;</li>
+<li><strong>respostas à temperatura</strong>: o crescimento, a germinação ou a infecção aumentam com a temperatura até um ótimo e diminuem além dele;</li>
+<li><strong>densidade de inóculo</strong>: a infecção aumenta com a concentração de inóculo, mas se satura quando a maioria dos sítios suscetíveis já está infectada;</li>
+<li><strong>duração do molhamento foliar</strong>: a proporção de folhas infectadas aumenta com a duração do molhamento e se aproxima de um platô;</li>
+<li><strong>progresso da doença</strong>: a doença aumenta devagar, depois rapidamente, e então se aproxima de um máximo ao longo da safra.</li>
+</ul>
+<p>Em cada caso, a forma da resposta não é um incômodo a ser eliminado por uma transformação. <strong>A forma é a biologia.</strong> A curva nos diz em que concentração um patógeno é inibido, em que temperatura cresce melhor ou quanto inóculo é necessário para causar doença.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O objetivo da modelagem não linear não é simplesmente desenhar uma curva sobre os dados. É estimar <strong>parâmetros com significado biológico</strong>, como uma concentração efetiva, uma temperatura ótima ou uma resposta máxima, e quantificar sua incerteza.</p>
+</div>
+</div>
+</section>
+<section id="da-questão-biológica-ao-parâmetro-da-curva" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="da-questão-biológica-ao-parâmetro-da-curva"><span class="header-section-number">9.3</span> Da questão biológica ao parâmetro da curva</h2>
+<p>Considere um ensaio de laboratório em que o crescimento micelial de um isolado fúngico é medido em meio de cultura com concentrações crescentes de fungicida.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter9-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter9-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-bcea54494bf18bc879db" style="width:100%;height:564px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bcea54494bf18bc879db">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 5, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">Quão sensível é este isolado ao fungicida?<\/font><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Resposta<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">Crescimento micelial (diâmetro da colônia, mm)<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Variável explicativa<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">Concentração do fungicida (µg/mL)<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Modelo<\/b><br/><font point-size=\"12\" color=\"#6c4f9e\">Curva de dose–resposta<\/font><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Estimando<\/b><br/><font point-size=\"12\" color=\"#1f8075\">Concentração que reduz o crescimento em 50% (CE50)<\/font><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Estimativa + incerteza<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Interpretação biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter9-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.1: Da questão biológica à estimação de um parâmetro de curva (CE<sub>50</sub>).
+</figcaption>
+</figure>
+</div>
+</div>
+<p>Aqui o estimando não é uma diferença entre médias (Capítulo 7) nem uma inclinação (Capítulo 8). É um <strong>parâmetro de uma curva</strong>: a concentração em que a resposta atinge a metade de sua amplitude.</p>
+</section>
+<section id="por-que-não-uma-reta-ou-um-polinômio" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="por-que-não-uma-reta-ou-um-polinômio"><span class="header-section-number">9.4</span> Por que não uma reta ou um polinômio?</h2>
+<section id="retas" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="retas"><span class="header-section-number">9.4.1</span> Retas</h3>
+<p>Uma reta ajustada a uma resposta curva a representa mal em todos os pontos: superestima a resposta em algumas regiões e a subestima em outras, e sua inclinação é a média de uma taxa de variação que não é constante. Os gráficos de resíduos revelam o problema como um padrão curvo sistemático (Capítulo 8).</p>
+</section>
+<section id="transformações" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="transformações"><span class="header-section-number">9.4.2</span> Transformações</h3>
+<p>Algumas relações curvas podem ser retificadas. Representar a resposta em função do logaritmo da concentração, por exemplo, frequentemente torna aproximadamente linear a parte central de uma curva de dose–resposta. As análises clássicas de sensibilidade a fungicidas faziam a regressão da inibição transformada em probit ou logit sobre o logaritmo da concentração.</p>
+<p>A linearização tem limitações. Geralmente descreve apenas parte da curva, altera a estrutura de erro dos dados e pode exigir o descarte de observações nos extremos, como respostas de 0% ou 100%.</p>
+</section>
+<section id="polinômios" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="polinômios"><span class="header-section-number">9.4.3</span> Polinômios</h3>
+<p>Polinômios quadráticos ou cúbicos podem acompanhar a curvatura dentro da faixa observada, mas:</p>
+<ul>
+<li>seus parâmetros não têm interpretação biológica direta;</li>
+<li>não conseguem representar assíntotas e, por isso, preveem valores impossíveis (crescimento negativo, inibição acima de 100%) fora dos dados;</li>
+<li>frequentemente oscilam entre as observações.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um polinômio pode ser uma descrição exploratória razoável. Quando a questão biológica diz respeito a uma dose efetiva, a um ótimo ou a um máximo, prefira um modelo em que essa grandeza seja um parâmetro.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="a-anatomia-de-um-modelo-não-linear" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="a-anatomia-de-um-modelo-não-linear"><span class="header-section-number">9.5</span> A anatomia de um modelo não linear</h2>
+<p>Um modelo de regressão não linear pode ser escrito como:</p>
+<p><span class="math display">\[
+y_i = f(x_i, \boldsymbol{\theta}) + \varepsilon_i
+\]</span></p>
+<p>em que <span class="math inline">\(f\)</span> é uma função escolhida para descrever a forma da resposta, <span class="math inline">\(\boldsymbol{\theta}\)</span> é um conjunto de parâmetros e <span class="math inline">\(\varepsilon_i\)</span> representa a variação residual.</p>
+<p>O modelo é <em>não linear</em> porque a resposta não depende linearmente dos parâmetros. Um polinômio quadrático é curvo, mas ainda é linear em seus parâmetros e pode ser ajustado com <code>lm()</code>; uma curva logística, não.</p>
+<section id="parâmetros-com-significado-biológico" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="parâmetros-com-significado-biológico"><span class="header-section-number">9.5.1</span> Parâmetros com significado biológico</h3>
+<p>A maioria das curvas usadas em Fitopatologia é construída a partir de um pequeno conjunto de características interpretáveis:</p>
+<ul>
+<li><strong>assíntota superior</strong>: a resposta máxima (por exemplo, o crescimento na ausência de fungicida);</li>
+<li><strong>assíntota inferior</strong>: a resposta mínima (por exemplo, o crescimento residual em concentrações muito altas);</li>
+<li><strong>posição</strong>: onde, ao longo do eixo <span class="math inline">\(x\)</span>, a resposta muda (por exemplo, a CE<sub>50</sub> ou o ponto de inflexão);</li>
+<li><strong>inclinação</strong>: quão abruptamente a resposta muda em torno dessa posição;</li>
+<li><strong>ótimo</strong>: o valor de <span class="math inline">\(x\)</span> em que a resposta é máxima;</li>
+<li><strong>limiares</strong>: valores mínimo e máximo de <span class="math inline">\(x\)</span> além dos quais não há resposta.</li>
+</ul>
+<!--
+Ideia de figura (Ch9_fig2): curva sigmoide anotada mostrando as assíntotas
+superior e inferior, a CE50 e a inclinação; curva de temperatura anotada
+mostrando Tmin, Topt e Tmax.
+-->
+</section>
+</section>
+<section id="formas-comuns-de-curvas" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="formas-comuns-de-curvas"><span class="header-section-number">9.6</span> Formas comuns de curvas</h2>
+<section id="declínio-exponencial" class="level3" data-number="9.6.1">
+<h3 data-number="9.6.1" class="anchored" data-anchor-id="declínio-exponencial"><span class="header-section-number">9.6.1</span> Declínio exponencial</h3>
+<p>A resposta diminui a uma taxa proporcional ao seu valor atual, aproximando-se de zero. Exemplos incluem a sobrevivência de propágulos do patógeno ao longo do tempo ou o declínio de resíduos de fungicida.</p>
+<p><span class="math display">\[
+y = a \, e^{-b x}
+\]</span></p>
+</section>
+<section id="curva-monomolecular-de-saturação" class="level3" data-number="9.6.2">
+<h3 data-number="9.6.2" class="anchored" data-anchor-id="curva-monomolecular-de-saturação"><span class="header-section-number">9.6.2</span> Curva monomolecular (de saturação)</h3>
+<p>A resposta aumenta rapidamente no início e depois se estabiliza em direção a um máximo, sem ponto de inflexão. Exemplos incluem a infecção em função da concentração de inóculo ou da duração do molhamento.</p>
+<p><span class="math display">\[
+y = a \left(1 - e^{-b x}\right)
+\]</span></p>
+</section>
+<section id="curvas-logística-e-de-gompertz" class="level3" data-number="9.6.3">
+<h3 data-number="9.6.3" class="anchored" data-anchor-id="curvas-logística-e-de-gompertz"><span class="header-section-number">9.6.3</span> Curvas logística e de Gompertz</h3>
+<p>Curvas em forma de S, simétricas (logística) ou assimétricas (Gompertz), que sobem de uma assíntota inferior a uma superior. São muito usadas para descrever o progresso da doença ao longo do tempo e as respostas à duração do molhamento.</p>
+<p><span class="math display">\[
+y = \frac{a}{1 + e^{-b (x - m)}}
+\]</span></p>
+<p>O ajuste detalhado de modelos epidemiológicos está além do escopo deste livro.</p>
+</section>
+<section id="curvas-log-logísticas-de-doseresposta" class="level3" data-number="9.6.4">
+<h3 data-number="9.6.4" class="anchored" data-anchor-id="curvas-log-logísticas-de-doseresposta"><span class="header-section-number">9.6.4</span> Curvas log-logísticas de dose–resposta</h3>
+<p>Curvas em forma de S no logaritmo da dose, decrescendo de uma assíntota superior a uma inferior. São os modelos-padrão para a sensibilidade a fungicidas e são descritas em detalhe a seguir.</p>
+</section>
+<section id="curvas-com-um-ótimo" class="level3" data-number="9.6.5">
+<h3 data-number="9.6.5" class="anchored" data-anchor-id="curvas-com-um-ótimo"><span class="header-section-number">9.6.5</span> Curvas com um ótimo</h3>
+<p>Curvas que sobem até um máximo e depois decrescem, usadas para descrever respostas à temperatura. A função beta e modelos relacionados são parametrizados diretamente em termos das temperaturas mínima, ótima e máxima.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Explorar formas candidatas antes do ajuste</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">10</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.3</span> <span class="sc">*</span> x)), <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">24</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab =</span> <span class="st">"Duração do molhamento (h)"</span>, <span class="at">ylab =</span> <span class="st">"Infecção"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter9_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Escolha uma família de curvas com base no que se sabe sobre o processo biológico e no gráfico de dispersão, e não experimentando todas as funções disponíveis.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="análise-de-doseresposta" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="análise-de-doseresposta"><span class="header-section-number">9.7</span> Análise de dose–resposta</h2>
+<section id="por-que-experimentos-de-doseresposta" class="level3" data-number="9.7.1">
+<h3 data-number="9.7.1" class="anchored" data-anchor-id="por-que-experimentos-de-doseresposta"><span class="header-section-number">9.7.1</span> Por que experimentos de dose–resposta?</h3>
+<p>Os experimentos de dose–resposta são centrais no monitoramento da resistência a fungicidas, na avaliação de novos ingredientes ativos, em estudos de agentes de controle biológico e em ensaios de extratos vegetais ou outros compostos antimicrobianos. Eles respondem a perguntas como:</p>
+<ul>
+<li>Quão sensível é uma população do patógeno a um fungicida?</li>
+<li>Alguns isolados são menos sensíveis que uma população de referência (linha de base)?</li>
+<li>A sensibilidade está mudando ao longo do tempo?</li>
+<li>Qual de dois compostos é mais potente?</li>
+</ul>
+</section>
+<section id="o-modelo-log-logístico" class="level3" data-number="9.7.2">
+<h3 data-number="9.7.2" class="anchored" data-anchor-id="o-modelo-log-logístico"><span class="header-section-number">9.7.2</span> O modelo log-logístico</h3>
+<p>O modelo log-logístico de quatro parâmetros é:</p>
+<p><span class="math display">\[
+f(x) = c + \frac{d - c}{1 + \exp\{b\,[\log(x) - \log(e)]\}}
+\]</span></p>
+<p>em que:</p>
+<ul>
+<li><span class="math inline">\(d\)</span> é a assíntota superior, a resposta na ausência do composto;</li>
+<li><span class="math inline">\(c\)</span> é a assíntota inferior, a resposta em concentrações muito altas;</li>
+<li><span class="math inline">\(e\)</span> é a concentração que produz uma resposta a meio caminho entre <span class="math inline">\(c\)</span> e <span class="math inline">\(d\)</span>, a <strong>CE<sub>50</sub></strong>;</li>
+<li><span class="math inline">\(b\)</span> descreve a inclinação da curva em torno da CE<sub>50</sub>.</li>
+</ul>
+<p>Quando se sabe que a resposta se aproxima de zero em altas concentrações, a assíntota inferior pode ser fixada em zero, resultando no modelo de três parâmetros.</p>
+</section>
+<section id="um-exemplo-simples" class="level3" data-number="9.7.3">
+<h3 data-number="9.7.3" class="anchored" data-anchor-id="um-exemplo-simples"><span class="header-section-number">9.7.3</span> Um exemplo simples</h3>
+<p>O código a seguir simula um ensaio de crescimento micelial com seis concentrações e quatro placas por concentração, além da testemunha.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">606</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>conc <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.01</span>, <span class="fl">0.03</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="at">each =</span> <span class="dv">4</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>growth <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> (<span class="dv">60</span> <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="fl">1.5</span> <span class="sc">*</span> (<span class="fu">log</span>(conc) <span class="sc">-</span> <span class="fu">log</span>(<span class="fl">0.15</span>))))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>growth[conc <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">60</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">conc =</span> conc,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">growth =</span> growth <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(conc), <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ajustando-o-modelo-no-r" class="level3" data-number="9.7.4">
+<h3 data-number="9.7.4" class="anchored" data-anchor-id="ajustando-o-modelo-no-r"><span class="header-section-number">9.7.4</span> Ajustando o modelo no R</h3>
+<p>O pacote <code>drc</code> fornece modelos de dose–resposta e ferramentas para estimar doses efetivas.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(drc)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">LL.4</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>, <span class="st">"e"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model fitted: Log-logistic (ED50 as parameter) (4 parms)
+
+Parameter estimates:
+
+              Estimate Std. Error t-value   p-value    
+b:(Intercept)  1.38519    0.15130  9.1554 2.675e-09 ***
+c:(Intercept)  1.69492    1.76596  0.9598    0.3467    
+d:(Intercept) 59.41427    1.22573 48.4725 &lt; 2.2e-16 ***
+e:(Intercept)  0.16564    0.01608 10.3011 2.745e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error:
+
+ 3.33071 (24 degrees of freedom)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model, <span class="at">type =</span> <span class="st">"all"</span>, <span class="at">log =</span> <span class="st">"x"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter9_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="estimando-a-ce50" class="level3" data-number="9.7.5">
+<h3 data-number="9.7.5" class="anchored" data-anchor-id="estimando-a-ce50"><span class="header-section-number">9.7.5</span> Estimando a CE<sub>50</sub></h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ED</span>(model, <span class="dv">50</span>, <span class="at">interval =</span> <span class="st">"delta"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estimated effective doses
+
+       Estimate Std. Error   Lower   Upper
+e:1:50  0.16564    0.01608 0.13245 0.19883</code></pre>
+</div>
+</div>
+<p>A CE<sub>50</sub> é relatada nas unidades de concentração, junto com seu intervalo de confiança. Outras concentrações efetivas, como a CE<sub>90</sub>, podem ser estimadas da mesma forma quando outro nível de inibição é relevante.</p>
+</section>
+<section id="ce50-absoluta-e-relativa" class="level3" data-number="9.7.6">
+<h3 data-number="9.7.6" class="anchored" data-anchor-id="ce50-absoluta-e-relativa"><span class="header-section-number">9.7.6</span> CE<sub>50</sub> absoluta e relativa</h3>
+<p>Duas definições de CE<sub>50</sub> são de uso comum:</p>
+<ul>
+<li>a CE<sub>50</sub> <strong>relativa</strong> é a concentração que produz uma resposta a meio caminho entre as assíntotas superior e inferior estimadas pelo modelo, que é o parâmetro <span class="math inline">\(e\)</span> acima;</li>
+<li>a CE<sub>50</sub> <strong>absoluta</strong> é a concentração que reduz a resposta a 50% da testemunha.</li>
+</ul>
+<p>As duas só coincidem quando a assíntota inferior é zero. Quando a curva se estabiliza acima de zero, como acontece quando algum crescimento persiste mesmo em altas concentrações, elas podem diferir substancialmente.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ED</span>(model, <span class="dv">50</span>, <span class="at">type =</span> <span class="st">"relative"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estimated effective doses
+
+       Estimate Std. Error
+e:1:50  0.16564    0.01608</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ED</span>(model, <span class="dv">50</span>, <span class="at">type =</span> <span class="st">"absolute"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estimated effective doses
+
+       Estimate Std. Error
+e:1:50 0.050869   0.007294</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sempre informe qual definição de CE<sub>50</sub> foi usada. Valores calculados com definições diferentes não são comparáveis entre estudos.</p>
+</div>
+</div>
+</section>
+<section id="expressando-a-resposta-em-relação-à-testemunha" class="level3" data-number="9.7.7">
+<h3 data-number="9.7.7" class="anchored" data-anchor-id="expressando-a-resposta-em-relação-à-testemunha"><span class="header-section-number">9.7.7</span> Expressando a resposta em relação à testemunha</h3>
+<p>As respostas são frequentemente expressas como porcentagem de inibição em relação à testemunha antes da análise. Isso é conveniente, mas trata a média da testemunha como conhecida sem erro e descarta a informação sobre a variabilidade das testemunhas. Ajustar o modelo às medidas originais, com a assíntota superior estimada a partir dos dados, propaga essa incerteza corretamente. Os resultados ainda podem ser apresentados em escala relativa depois.</p>
+</section>
+<section id="a-dose-zero" class="level3" data-number="9.7.8">
+<h3 data-number="9.7.8" class="anchored" data-anchor-id="a-dose-zero"><span class="header-section-number">9.7.8</span> A dose zero</h3>
+<p>A testemunha tem concentração zero, que não pode ser mostrada em um eixo logarítmico. O modelo log-logístico trata corretamente as doses zero durante o ajuste; nas figuras, a testemunha geralmente é mostrada em uma posição pequena e arbitrária do eixo, com uma quebra, e isso deve ser indicado.</p>
+</section>
+<section id="respostas-acima-da-testemunha" class="level3" data-number="9.7.9">
+<h3 data-number="9.7.9" class="anchored" data-anchor-id="respostas-acima-da-testemunha"><span class="header-section-number">9.7.9</span> Respostas acima da testemunha</h3>
+<p>Alguns compostos estimulam o crescimento em baixas concentrações antes de inibi-lo em concentrações mais altas, um fenômeno chamado hormese. Os modelos log-logísticos-padrão não conseguem descrever esse padrão, e existem modelos específicos para hormese. Antes de concluir que há hormese, verifique se o aparente estímulo é maior do que a variabilidade entre as repetições da testemunha.</p>
+</section>
+</section>
+<section id="comparando-curvas-de-doseresposta" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="comparando-curvas-de-doseresposta"><span class="header-section-number">9.8</span> Comparando curvas de dose–resposta</h2>
+<section id="vários-isolados-ou-compostos" class="level3" data-number="9.8.1">
+<h3 data-number="9.8.1" class="anchored" data-anchor-id="vários-isolados-ou-compostos"><span class="header-section-number">9.8.1</span> Vários isolados ou compostos</h3>
+<p>Estudos de sensibilidade geralmente envolvem muitos isolados, ou vários compostos testados no mesmo isolado. As curvas podem ser ajustadas a todos os grupos simultaneamente:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model_iso <span class="ot">&lt;-</span> <span class="fu">drm</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  growth <span class="sc">~</span> conc,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">curveid =</span> isolate,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_iso,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fct =</span> <span class="fu">LL.4</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ED</span>(model_iso, <span class="dv">50</span>, <span class="at">interval =</span> <span class="st">"delta"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estimated effective doses
+
+            Estimate Std. Error     Lower     Upper
+e:Iso-1:50 0.0550798  0.0042369 0.0466048 0.0635549
+e:Iso-2:50 0.3720363  0.0284418 0.3151442 0.4289284
+e:Iso-3:50 1.7942362  0.1538093 1.4865718 2.1019006</code></pre>
+</div>
+</div>
+<p>As curvas ajustadas dos três isolados mostram o deslocamento horizontal que corresponde às diferenças de sensibilidade:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_iso, <span class="at">log =</span> <span class="st">"x"</span>, <span class="at">legendPos =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">60</span>),</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Concentração (µg/mL)"</span>, <span class="at">ylab =</span> <span class="st">"Crescimento micelial (mm)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter9_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comparando-valores-de-ce50" class="level3" data-number="9.8.2">
+<h3 data-number="9.8.2" class="anchored" data-anchor-id="comparando-valores-de-ce50"><span class="header-section-number">9.8.2</span> Comparando valores de CE<sub>50</sub></h3>
+<p>As diferenças de sensibilidade geralmente são expressas como razões, e não como diferenças, porque as concentrações efetivas variam em escala multiplicativa:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">EDcomp</span>(model_iso, <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estimated ratios of effect doses
+
+                     Estimate  Std. Error     t-value     p-value
+Iso-1/Iso-2:50/50  1.4805e-01  1.6056e-02 -5.3061e+01  1.9851e-52
+Iso-1/Iso-3:50/50  3.0698e-02  3.5357e-03 -2.7415e+02  5.8277e-95
+Iso-2/Iso-3:50/50  2.0735e-01  2.3817e-02 -3.3281e+01  1.1122e-40</code></pre>
+</div>
+</div>
+<p>O <strong>fator de resistência</strong> de um isolado é sua CE<sub>50</sub> dividida pela CE<sub>50</sub> de um isolado sensível de referência ou da população de linha de base. Um fator de resistência de 10 significa que é preciso dez vezes mais fungicida para obter a mesma inibição.</p>
+</section>
+<section id="distribuições-de-sensibilidade" class="level3" data-number="9.8.3">
+<h3 data-number="9.8.3" class="anchored" data-anchor-id="distribuições-de-sensibilidade"><span class="header-section-number">9.8.3</span> Distribuições de sensibilidade</h3>
+<p>Em estudos de monitoramento, a CE<sub>50</sub> de cada isolado torna-se, ela própria, uma observação. A distribuição dos valores de CE<sub>50</sub> em uma população, geralmente examinada em escala logarítmica, descreve sua sensibilidade. Comparar as distribuições entre uma linha de base coletada antes do uso do fungicida e coletas posteriores revela mudanças de sensibilidade.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ec50_table, <span class="fu">aes</span>(<span class="at">x =</span> ec50, <span class="at">fill =</span> period)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"CE50 (µg/mL)"</span>, <span class="at">y =</span> <span class="st">"Número de isolados"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter9_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A mudança de sensibilidade é estimada na escala logarítmica e expressa como razão entre as médias geométricas:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(<span class="fu">log10</span>(ec50) <span class="sc">~</span> period, <span class="at">data =</span> ec50_table)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># quantas vezes a CE50 da coleta recente é maior que a da linha de base</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>razao    <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(tt<span class="sc">$</span>estimate[<span class="dv">2</span>] <span class="sc">-</span> tt<span class="sc">$</span>estimate[<span class="dv">1</span>])</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>razao_ic <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="fu">rev</span>(tt<span class="sc">$</span>conf.int))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">razao =</span> <span class="fu">unname</span>(razao), <span class="at">inferior =</span> razao_ic[<span class="dv">1</span>], <span class="at">superior =</span> razao_ic[<span class="dv">2</span>]), <span class="dv">1</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   razao inferior superior 
+    10.7      7.3     15.6 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Os valores de CE<sub>50</sub> são estimativas, cada uma com sua própria incerteza. Quando são analisados depois como dados, os isolados cujas curvas foram mal estimadas devem ser identificados, em vez de tratados como conhecidos com precisão.</p>
+</div>
+</div>
+</section>
+<section id="doses-discriminatórias" class="level3" data-number="9.8.4">
+<h3 data-number="9.8.4" class="anchored" data-anchor-id="doses-discriminatórias"><span class="header-section-number">9.8.4</span> Doses discriminatórias</h3>
+<p>Quando grandes números de isolados precisam ser avaliados, uma curva de dose–resposta completa para cada um pode não ser viável. Uma alternativa comum é medir o crescimento relativo em uma única <strong>dose discriminatória</strong>, escolhida a partir das curvas de dose–resposta de um conjunto representativo de isolados. A escolha dessa dose depende da análise não linear descrita aqui.</p>
+</section>
+</section>
+<section id="respostas-à-temperatura-e-a-outras-variáveis-ambientais" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="respostas-à-temperatura-e-a-outras-variáveis-ambientais"><span class="header-section-number">9.9</span> Respostas à temperatura e a outras variáveis ambientais</h2>
+<section id="curvas-com-um-ótimo-1" class="level3" data-number="9.9.1">
+<h3 data-number="9.9.1" class="anchored" data-anchor-id="curvas-com-um-ótimo-1"><span class="header-section-number">9.9.1</span> Curvas com um ótimo</h3>
+<p>O crescimento do patógeno, a germinação de esporos e a infecção geralmente aumentam com a temperatura até um ótimo e depois diminuem. Polinômios são frequentemente usados para descrever esse padrão, mas modelos parametrizados em termos de temperaturas cardeais são mais informativos:</p>
+<ul>
+<li><span class="math inline">\(T_{min}\)</span>: a temperatura mínima para o processo;</li>
+<li><span class="math inline">\(T_{opt}\)</span>: a temperatura ótima;</li>
+<li><span class="math inline">\(T_{max}\)</span>: a temperatura máxima;</li>
+<li><span class="math inline">\(y_{opt}\)</span>: a resposta no ótimo.</li>
+</ul>
+<p>Uma forma muito usada é a função beta:</p>
+<p><span class="math display">\[
+y = y_{opt}
+\left(\frac{T - T_{min}}{T_{opt} - T_{min}}\right)^{a}
+\left(\frac{T_{max} - T}{T_{max} - T_{opt}}\right)^{a \frac{T_{max} - T_{opt}}{T_{opt} - T_{min}}}
+\]</span></p>
+<p>para <span class="math inline">\(T_{min} &lt; T &lt; T_{max}\)</span>, e zero fora desse intervalo.</p>
+<!--
+Decidir se apresentamos a função beta ou uma forma generalizada mais simples
+(por exemplo, Analytis/Yan-Hunt). Manter apenas uma no texto principal.
+-->
+</section>
+<section id="ajustando-com-nls" class="level3" data-number="9.9.2">
+<h3 data-number="9.9.2" class="anchored" data-anchor-id="ajustando-com-nls"><span class="header-section-number">9.9.2</span> Ajustando com nls()</h3>
+<p>Modelos não fornecidos por pacotes especializados podem ser ajustados com <code>nls()</code>, que exige a fórmula do modelo e valores iniciais para cada parâmetro:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>beta_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(T, yopt, Tmin, Topt, Tmax, a) {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> a <span class="sc">*</span> (Tmax <span class="sc">-</span> Topt) <span class="sc">/</span> (Topt <span class="sc">-</span> Tmin)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(T <span class="sc">&gt;</span> Tmin <span class="sc">&amp;</span> T <span class="sc">&lt;</span> Tmax,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>         yopt <span class="sc">*</span> ((T <span class="sc">-</span> Tmin) <span class="sc">/</span> (Topt <span class="sc">-</span> Tmin))<span class="sc">^</span>a <span class="sc">*</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                ((Tmax <span class="sc">-</span> T) <span class="sc">/</span> (Tmax <span class="sc">-</span> Topt))<span class="sc">^</span>b,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>         <span class="dv">0</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>model_temp <span class="ot">&lt;-</span> <span class="fu">nls</span>(</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  growth <span class="sc">~</span> <span class="fu">beta_fun</span>(temperature, yopt, Tmin, Topt, Tmax, a),</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_temp,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">list</span>(<span class="at">yopt =</span> <span class="dv">8</span>, <span class="at">Tmin =</span> <span class="dv">7</span>, <span class="at">Topt =</span> <span class="dv">24</span>, <span class="at">Tmax =</span> <span class="dv">35</span>, <span class="at">a =</span> <span class="fl">1.5</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_temp)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Formula: growth ~ beta_fun(temperature, yopt, Tmin, Topt, Tmax, a)
+
+Parameters:
+     Estimate Std. Error t value Pr(&gt;|t|)    
+yopt   8.0735     0.0892  90.506  &lt; 2e-16 ***
+Tmin   9.1490     0.4655  19.653  &lt; 2e-16 ***
+Topt  24.9799     0.1813 137.810  &lt; 2e-16 ***
+Tmax  33.7680     0.3316 101.828  &lt; 2e-16 ***
+a      1.3493     0.1361   9.917 3.79e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.264 on 25 degrees of freedom
+
+Number of iterations to convergence: 6 
+Achieved convergence tolerance: 5.396e-07</code></pre>
+</div>
+</div>
+<p>A curva ajustada pode ser desenhada sobre as observações a partir das previsões do modelo:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>grade_t <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">temperature =</span> <span class="fu">seq</span>(<span class="dv">8</span>, <span class="dv">35</span>, <span class="at">by =</span> <span class="fl">0.25</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>grade_t<span class="sc">$</span>growth <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_temp, <span class="at">newdata =</span> grade_t)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_temp, <span class="fu">aes</span>(temperature, growth)) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> grade_t, <span class="at">colour =</span> <span class="st">"#0072B2"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">coef</span>(model_temp)[<span class="st">"Topt"</span>], <span class="at">linetype =</span> <span class="dv">2</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"#D55E00"</span>) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Temperatura (°C)"</span>, <span class="at">y =</span> <span class="st">"Crescimento micelial (mm/dia)"</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter9_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A linha tracejada marca a temperatura ótima estimada (<span class="math inline">\(T_{opt}\)</span>).</p>
+</section>
+<section id="interpretando-as-temperaturas-cardeais" class="level3" data-number="9.9.3">
+<h3 data-number="9.9.3" class="anchored" data-anchor-id="interpretando-as-temperaturas-cardeais"><span class="header-section-number">9.9.3</span> Interpretando as temperaturas cardeais</h3>
+<p><span class="math inline">\(T_{opt}\)</span> costuma ser o parâmetro de maior interesse biológico, e também frequentemente o estimado com mais precisão, porque depende de observações ao longo de toda a curva. <span class="math inline">\(T_{min}\)</span> e <span class="math inline">\(T_{max}\)</span> são estimadas extrapolando a curva até zero e são muitas vezes muito incertas, a menos que temperaturas próximas a elas tenham sido incluídas no experimento.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Temperaturas cardeais estimadas além da faixa de temperaturas testadas são extrapolações. Relate seus intervalos de confiança e não as interprete como limiares medidos.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="como-os-modelos-não-lineares-são-ajustados" class="level2" data-number="9.10">
+<h2 data-number="9.10" class="anchored" data-anchor-id="como-os-modelos-não-lineares-são-ajustados"><span class="header-section-number">9.10</span> Como os modelos não lineares são ajustados</h2>
+<section id="estimação-iterativa" class="level3" data-number="9.10.1">
+<h3 data-number="9.10.1" class="anchored" data-anchor-id="estimação-iterativa"><span class="header-section-number">9.10.1</span> Estimação iterativa</h3>
+<p>Como na regressão linear, a regressão não linear geralmente estima os parâmetros por mínimos quadrados. Diferentemente da regressão linear, não há uma fórmula direta para a solução. O algoritmo parte de valores iniciais e ajusta iterativamente os parâmetros até que a soma dos quadrados dos resíduos pare de diminuir.</p>
+</section>
+<section id="valores-iniciais" class="level3" data-number="9.10.2">
+<h3 data-number="9.10.2" class="anchored" data-anchor-id="valores-iniciais"><span class="header-section-number">9.10.2</span> Valores iniciais</h3>
+<p>Bons valores iniciais costumam ser lidos diretamente no gráfico de dispersão:</p>
+<ul>
+<li>a assíntota superior, a partir da resposta nas doses baixas ou na testemunha;</li>
+<li>a assíntota inferior, a partir da resposta nas doses mais altas;</li>
+<li>a CE<sub>50</sub>, a partir da concentração em que a resposta está aproximadamente na metade;</li>
+<li>um ótimo, a partir da posição do máximo.</li>
+</ul>
+<p>Pacotes como o <code>drc</code> e os modelos autoiniciáveis do R base (por exemplo, <code>SSlogis</code>) calculam os valores iniciais automaticamente.</p>
+</section>
+<section id="quando-o-ajuste-falha" class="level3" data-number="9.10.3">
+<h3 data-number="9.10.3" class="anchored" data-anchor-id="quando-o-ajuste-falha"><span class="header-section-number">9.10.3</span> Quando o ajuste falha</h3>
+<p>Falhas de convergência e estimativas implausíveis são comuns e informativas. Geralmente indicam que:</p>
+<ul>
+<li>os valores iniciais estavam longe de valores razoáveis;</li>
+<li>os dados não contêm informação suficiente sobre algum parâmetro, por exemplo, nenhuma dose além do ponto de inflexão;</li>
+<li>a curva escolhida é inadequada para os dados;</li>
+<li>o modelo tem mais parâmetros do que os dados conseguem sustentar.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando um modelo não converge, olhe os dados de novo antes de trocar o algoritmo. O problema geralmente está no delineamento ou no modelo, e não no programa.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="incerteza-nos-modelos-não-lineares" class="level2" data-number="9.11">
+<h2 data-number="9.11" class="anchored" data-anchor-id="incerteza-nos-modelos-não-lineares"><span class="header-section-number">9.11</span> Incerteza nos modelos não lineares</h2>
+<section id="erros-padrão-e-intervalos-de-confiança" class="level3" data-number="9.11.1">
+<h3 data-number="9.11.1" class="anchored" data-anchor-id="erros-padrão-e-intervalos-de-confiança"><span class="header-section-number">9.11.1</span> Erros padrão e intervalos de confiança</h3>
+<p>As estimativas dos parâmetros são relatadas com erros padrão e intervalos de confiança, como nos modelos lineares. Nos modelos não lineares, esses intervalos são aproximações. Os intervalos aproximados (de Wald) são simétricos em torno da estimativa; os intervalos de perfil de verossimilhança podem ser assimétricos e costumam ser mais exatos para parâmetros como a CE<sub>50</sub>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(model_temp)   <span class="co"># intervalos de perfil para modelos nls</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting for profiling to be done...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          2.5%     97.5%
+yopt  7.893417  8.256896
+Tmin  7.902474  9.896287
+Topt 24.602663 25.364128
+Tmax 33.236020 34.694971
+a     1.134537  1.711541</code></pre>
+</div>
+</div>
+</section>
+<section id="grandezas-derivadas" class="level3" data-number="9.11.2">
+<h3 data-number="9.11.2" class="anchored" data-anchor-id="grandezas-derivadas"><span class="header-section-number">9.11.2</span> Grandezas derivadas</h3>
+<p>Algumas grandezas de interesse não são parâmetros do modelo, mas funções deles, como uma CE<sub>90</sub>, um fator de resistência ou a temperatura em que o crescimento atinge a metade do máximo. Sua incerteza pode ser obtida pelo método delta ou por <em>bootstrap</em>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ED</span>(model, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>), <span class="at">interval =</span> <span class="st">"delta"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estimated effective doses
+
+        Estimate Std. Error     Lower     Upper
+e:1:10 0.0339059  0.0060713 0.0213754 0.0464364
+e:1:50 0.1656387  0.0160796 0.1324520 0.1988254
+e:1:90 0.8091859  0.1750881 0.4478218 1.1705500</code></pre>
+</div>
+</div>
+</section>
+<section id="faixas-de-confiança-para-a-curva" class="level3" data-number="9.11.3">
+<h3 data-number="9.11.3" class="anchored" data-anchor-id="faixas-de-confiança-para-a-curva"><span class="header-section-number">9.11.3</span> Faixas de confiança para a curva</h3>
+<p>Representar a curva ajustada junto com uma faixa de confiança e as observações individuais mostra tanto o modelo quanto o quão bem ele descreve os dados.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">conc =</span> <span class="fu">exp</span>(<span class="fu">seq</span>(<span class="fu">log</span>(<span class="fl">0.005</span>), <span class="fu">log</span>(<span class="dv">5</span>), <span class="at">length.out =</span> <span class="dv">100</span>)))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> new, <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.
+Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
+  Use c() or as.vector() instead.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">cbind</span>(new, pred)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">y =</span> growth)) <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> new,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">ymin =</span> Lower, <span class="at">ymax =</span> Upper),</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> new, <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">y =</span> Prediction)) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Concentração (µg/mL)"</span>, <span class="at">y =</span> <span class="st">"Diâmetro da colônia (mm)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in scale_x_log10(): log-10 transformation introduced infinite values.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter9_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="pressupostos-e-diagnóstico-do-modelo" class="level2" data-number="9.12">
+<h2 data-number="9.12" class="anchored" data-anchor-id="pressupostos-e-diagnóstico-do-modelo"><span class="header-section-number">9.12</span> Pressupostos e diagnóstico do modelo</h2>
+<p>Os pressupostos da regressão não linear são paralelos aos do modelo linear (Capítulos 7 e 8): a curva descreve corretamente a resposta média, as observações são independentes, a variância residual é razoavelmente constante e os resíduos são aproximadamente simétricos em torno de zero.</p>
+<section id="resíduos-versus-valores-ajustados" class="level3" data-number="9.12.1">
+<h3 data-number="9.12.1" class="anchored" data-anchor-id="resíduos-versus-valores-ajustados"><span class="header-section-number">9.12.1</span> Resíduos versus valores ajustados</h3>
+<p>Um padrão sistemático nos resíduos indica que a curva não acompanha os dados, por exemplo uma assíntota baixa demais ou uma transição abrupta demais.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(model), <span class="fu">residuals</span>(model))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter9_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="variância-não-constante" class="level3" data-number="9.12.2">
+<h3 data-number="9.12.2" class="anchored" data-anchor-id="variância-não-constante"><span class="header-section-number">9.12.2</span> Variância não constante</h3>
+<p>Em dados de dose–resposta, a variabilidade frequentemente é maior nas concentrações baixas, onde o crescimento é alto, do que nas concentrações altas, onde o crescimento é próximo de zero. O ajuste ponderado ou uma transformação dos dois lados do modelo podem lidar com isso.</p>
+</section>
+<section id="quando-a-resposta-não-é-contínua" class="level3" data-number="9.12.3">
+<h3 data-number="9.12.3" class="anchored" data-anchor-id="quando-a-resposta-não-é-contínua"><span class="header-section-number">9.12.3</span> Quando a resposta não é contínua</h3>
+<p>Quando a resposta é uma contagem de esporos germinados em um total conhecido ou o número de folhas infectadas, a variabilidade é determinada pela distribuição binomial ou de Poisson, e modelos próprios para esses dados são mais adequados. Eles são apresentados no Capítulo 10; modelos de dose–resposta para esse tipo de resposta estão disponíveis nos mesmos pacotes.</p>
+</section>
+</section>
+<section id="escolhendo-entre-modelos" class="level2" data-number="9.13">
+<h2 data-number="9.13" class="anchored" data-anchor-id="escolhendo-entre-modelos"><span class="header-section-number">9.13</span> Escolhendo entre modelos</h2>
+<p>Várias famílias de curvas podem descrever os mesmos dados. A escolha entre elas combina critérios biológicos e estatísticos:</p>
+<ol type="1">
+<li>O modelo representa a biologia conhecida (assíntotas, presença de um ótimo, simetria)?</li>
+<li>Os parâmetros necessários para a questão estão presentes e são estimáveis?</li>
+<li>Os resíduos mostram padrões sistemáticos?</li>
+<li>Critérios de informação, como o AIC, favorecem algum modelo?</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model_ll3 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">LL.3</span>())</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>model_ll4 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">LL.4</span>())</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>model_w14 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">W1.4</span>())</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mselect</span>(model_ll4, <span class="fu">list</span>(<span class="fu">LL.3</span>(), <span class="fu">W1.4</span>(), <span class="fu">W2.4</span>()))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        logLik       IC Lack of fit  Res var
+W2.4 -70.67105 151.3421   0.4018585 10.63559
+LL.3 -71.74741 151.4948   0.3208891 11.02611
+LL.4 -71.26136 152.5227   0.2792751 11.09363
+W1.4 -72.47342 154.9468   0.1272162 12.09686</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O <span class="math inline">\(R^2\)</span> não é um critério confiável para comparar modelos não lineares. Compare os modelos usando os padrões dos resíduos, critérios de informação e a plausibilidade biológica de seus parâmetros.</p>
+</div>
+</div>
+<p>Quando modelos concorrentes dão ajustes semelhantes, mas estimativas diferentes de CE<sub>50</sub>, a incerteza devida à escolha do modelo deve ser reconhecida.</p>
+</section>
+<section id="delineando-experimentos-para-respostas-não-lineares" class="level2" data-number="9.14">
+<h2 data-number="9.14" class="anchored" data-anchor-id="delineando-experimentos-para-respostas-não-lineares"><span class="header-section-number">9.14</span> Delineando experimentos para respostas não lineares</h2>
+<p>Na regressão linear, as observações nos extremos da variável explicativa são as mais informativas sobre a inclinação. Na regressão não linear, <strong>a posição das observações determina quais parâmetros podem ser estimados</strong>.</p>
+<section id="escolhendo-as-doses" class="level3" data-number="9.14.1">
+<h3 data-number="9.14.1" class="anchored" data-anchor-id="escolhendo-as-doses"><span class="header-section-number">9.14.1</span> Escolhendo as doses</h3>
+<p>Para experimentos de dose–resposta:</p>
+<ul>
+<li>inclua uma testemunha sem tratamento;</li>
+<li>espace as doses em escala logarítmica (por exemplo, 0,01; 0,03; 0,1; 0,3; 1; 3 µg/mL);</li>
+<li>inclua doses que cubram toda a curva, de pouco efeito a efeito quase máximo;</li>
+<li>coloque várias doses perto da CE<sub>50</sub> esperada;</li>
+<li>use experimentos preliminares de definição da faixa quando a sensibilidade for desconhecida.</li>
+</ul>
+</section>
+<section id="escolhendo-as-temperaturas" class="level3" data-number="9.14.2">
+<h3 data-number="9.14.2" class="anchored" data-anchor-id="escolhendo-as-temperaturas"><span class="header-section-number">9.14.2</span> Escolhendo as temperaturas</h3>
+<p>Em experimentos de resposta à temperatura, inclua temperaturas próximas da mínima e da máxima esperadas, além de temperaturas em torno do ótimo. Sem elas, as temperaturas cardeais não podem ser estimadas com confiabilidade.</p>
+</section>
+<section id="repetição-e-experimentos-repetidos" class="level3" data-number="9.14.3">
+<h3 data-number="9.14.3" class="anchored" data-anchor-id="repetição-e-experimentos-repetidos"><span class="header-section-number">9.14.3</span> Repetição e experimentos repetidos</h3>
+<p>Como no Capítulo 2, a repetição ocorre no nível da unidade experimental, como uma placa, folha ou planta. Medir a mesma colônia várias vezes não constitui repetição. Os ensaios de dose–resposta são comumente repetidos no tempo; as curvas de experimentos repetidos devem ser examinadas separadamente antes de serem combinadas, e modelos que levam em conta a variação entre experimentos, como os modelos mistos não lineares, são o arcabouço natural para combiná-las.</p>
+<!--
+Decidir quanto de nlme / drc com efeitos aleatórios incluir.
+-->
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Muitos problemas no ajuste de modelos não lineares são problemas de delineamento. Se as doses ou temperaturas testadas não cobrem a região em que a curva muda, nenhuma análise consegue recuperar a informação que falta.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="pesquisa-na-prática-monitorando-a-sensibilidade-a-fungicidas" class="level2" data-number="9.15">
+<h2 data-number="9.15" class="anchored" data-anchor-id="pesquisa-na-prática-monitorando-a-sensibilidade-a-fungicidas"><span class="header-section-number">9.15</span> Pesquisa na prática: monitorando a sensibilidade a fungicidas</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: A população do patógeno está se tornando menos sensível?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: A população do patógeno está se tornando menos sensível?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere um estudo em que isolados de um fungo fitopatogênico, coletados antes e depois de vários anos de uso de um fungicida, foram testados em meio de cultura com uma série de concentrações do fungicida.</p>
+<p>A questão científica não é simplesmente:</p>
+<blockquote class="blockquote">
+<p>O fungicida inibe o crescimento?</p>
+</blockquote>
+<p>Em vez disso, pergunte:</p>
+<ol type="1">
+<li>Qual é a CE<sub>50</sub> de cada isolado, e com que precisão ela foi estimada?</li>
+<li>Qual definição de CE<sub>50</sub> foi usada, e por quê?</li>
+<li>Como os valores de CE<sub>50</sub> se distribuem na população de linha de base e na população recente?</li>
+<li>Qual é o tamanho da mudança de sensibilidade, expressa como razão?</li>
+<li>Há isolados com fatores de resistência grandes o suficiente para importar na prática?</li>
+<li>As doses testadas foram adequadas para estimar a CE<sub>50</sub> tanto de isolados sensíveis quanto de menos sensíveis?</li>
+<li>As estimativas de sensibilidade em laboratório se relacionam com o controle da doença no campo?</li>
+</ol>
+</div>
+</div>
+<!--
+Escolher um conjunto de dados real (por exemplo, de um estudo publicado de
+monitoramento de sensibilidade) e substituir o exemplo simulado.
+-->
+</section>
+<section id="um-fluxo-de-trabalho-prático-para-respostas-não-lineares" class="level2" data-number="9.16">
+<h2 data-number="9.16" class="anchored" data-anchor-id="um-fluxo-de-trabalho-prático-para-respostas-não-lineares"><span class="header-section-number">9.16</span> Um fluxo de trabalho prático para respostas não lineares</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter9-3" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter9-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-bdaa6efab4060cc7b555" style="width:100%;height:872px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bdaa6efab4060cc7b555">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 5, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Identificar o parâmetro com<br/>significado biológico (estimando)<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Verificar se o delineamento<br/>cobre a faixa relevante<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Visualizar as observações<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Escolher famílias de curvas<br/>candidatas com base na biologia<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Obter valores iniciais e<br/>ajustar o modelo<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Examinar os resíduos e a<br/>adequação do modelo<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n8 [label = <<font color=\"#24301f\"><b>Comparar os modelos candidatos<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n9 [label = <<font color=\"#24301f\"><b>Estimar parâmetros e grandezas<br/>derivadas com incerteza<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n10 [label = <<font color=\"#24301f\"><b>Comparar grupos (isolados,<br/>compostos, tratamentos)<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n11 [label = <<font color=\"#24301f\"><b>Interpretar a importância<br/>biológica dentro da faixa testada<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7 -> n8 -> n9 -> n10 -> n11\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter9-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.2: Fluxo de trabalho para analisar respostas não lineares.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="relatando-análises-não-lineares" class="level2" data-number="9.17">
+<h2 data-number="9.17" class="anchored" data-anchor-id="relatando-análises-não-lineares"><span class="header-section-number">9.17</span> Relatando análises não lineares</h2>
+<p>Um bom enunciado de resultados geralmente inclui:</p>
+<section id="que-modelo-foi-ajustado" class="level3" data-number="9.17.1">
+<h3 data-number="9.17.1" class="anchored" data-anchor-id="que-modelo-foi-ajustado"><span class="header-section-number">9.17.1</span> Que modelo foi ajustado?</h3>
+<p>Nomeie o modelo, sua parametrização e o programa usado.</p>
+</section>
+<section id="estimativas-dos-parâmetros" class="level3" data-number="9.17.2">
+<h3 data-number="9.17.2" class="anchored" data-anchor-id="estimativas-dos-parâmetros"><span class="header-section-number">9.17.2</span> Estimativas dos parâmetros</h3>
+<p>Relate os parâmetros com significado biológico (CE<sub>50</sub>, assíntotas, temperaturas cardeais) com suas unidades.</p>
+</section>
+<section id="incerteza" class="level3" data-number="9.17.3">
+<h3 data-number="9.17.3" class="anchored" data-anchor-id="incerteza"><span class="header-section-number">9.17.3</span> Incerteza</h3>
+<p>Relate os intervalos de confiança e informe como foram obtidos.</p>
+</section>
+<section id="definições" class="level3" data-number="9.17.4">
+<h3 data-number="9.17.4" class="anchored" data-anchor-id="definições"><span class="header-section-number">9.17.4</span> Definições</h3>
+<p>Informe se os valores de CE<sub>50</sub> são absolutos ou relativos e se a resposta foi expressa em relação à testemunha.</p>
+</section>
+<section id="adequação-do-modelo" class="level3" data-number="9.17.5">
+<h3 data-number="9.17.5" class="anchored" data-anchor-id="adequação-do-modelo"><span class="header-section-number">9.17.5</span> Adequação do modelo</h3>
+<p>Descreva como o ajuste foi avaliado e, quando pertinente, como os modelos concorrentes foram comparados.</p>
+</section>
+<section id="interpretação-biológica" class="level3" data-number="9.17.6">
+<h3 data-number="9.17.6" class="anchored" data-anchor-id="interpretação-biológica"><span class="header-section-number">9.17.6</span> Interpretação biológica</h3>
+<p>Explique o que os parâmetros estimados significam para o organismo ou para a prática de manejo.</p>
+<p>Em vez de:</p>
+<blockquote class="blockquote">
+<p>O fungicida reduziu significativamente o crescimento micelial (P &lt; 0,001).</p>
+</blockquote>
+<p>prefira algo como:</p>
+<blockquote class="blockquote">
+<p>O crescimento micelial seguiu uma resposta log-logística de quatro parâmetros à concentração. A CE<sub>50</sub> relativa foi de 0,17 µg/mL (IC 95%: 0,13 a 0,20 µg/mL), e os isolados da coleta recente foram, em média, 10,7 vezes menos sensíveis que os isolados da linha de base (IC 95%: 7,3 a 15,6 vezes).</p>
+</blockquote>
+<p>Esses números vêm das saídas de <code>ED(model, 50, interval = "delta")</code> e da comparação das distribuições de CE<sub>50</sub> apresentadas neste capítulo.</p>
+</section>
+</section>
+<section id="erros-comuns" class="level2" data-number="9.18">
+<h2 data-number="9.18" class="anchored" data-anchor-id="erros-comuns"><span class="header-section-number">9.18</span> Erros comuns</h2>
+<section id="ajustar-retas-a-respostas-curvas" class="level3" data-number="9.18.1">
+<h3 data-number="9.18.1" class="anchored" data-anchor-id="ajustar-retas-a-respostas-curvas"><span class="header-section-number">9.18.1</span> Ajustar retas a respostas curvas</h3>
+<p>A inclinação estimada é a média de uma taxa de variação que não é constante.</p>
+</section>
+<section id="usar-polinômios-quando-os-parâmetros-importam" class="level3" data-number="9.18.2">
+<h3 data-number="9.18.2" class="anchored" data-anchor-id="usar-polinômios-quando-os-parâmetros-importam"><span class="header-section-number">9.18.2</span> Usar polinômios quando os parâmetros importam</h3>
+<p>Os coeficientes de um polinômio não estimam doses efetivas nem ótimos.</p>
+</section>
+<section id="não-informar-a-definição-de-ce50" class="level3" data-number="9.18.3">
+<h3 data-number="9.18.3" class="anchored" data-anchor-id="não-informar-a-definição-de-ce50"><span class="header-section-number">9.18.3</span> Não informar a definição de CE<sub>50</sub></h3>
+<p>Valores de CE<sub>50</sub> absolutos e relativos podem diferir substancialmente.</p>
+</section>
+<section id="normalizar-em-relação-à-testemunha-e-ignorar-sua-variabilidade" class="level3" data-number="9.18.4">
+<h3 data-number="9.18.4" class="anchored" data-anchor-id="normalizar-em-relação-à-testemunha-e-ignorar-sua-variabilidade"><span class="header-section-number">9.18.4</span> Normalizar em relação à testemunha e ignorar sua variabilidade</h3>
+<p>A média da testemunha também é uma estimativa.</p>
+</section>
+<section id="relatar-a-ce50-sem-incerteza" class="level3" data-number="9.18.5">
+<h3 data-number="9.18.5" class="anchored" data-anchor-id="relatar-a-ce50-sem-incerteza"><span class="header-section-number">9.18.5</span> Relatar a CE<sub>50</sub> sem incerteza</h3>
+<p>Uma estimativa pontual sozinha não revela curvas mal estimadas.</p>
+</section>
+<section id="comparar-valores-de-ce50-em-escala-linear" class="level3" data-number="9.18.6">
+<h3 data-number="9.18.6" class="anchored" data-anchor-id="comparar-valores-de-ce50-em-escala-linear"><span class="header-section-number">9.18.6</span> Comparar valores de CE<sub>50</sub> em escala linear</h3>
+<p>As diferenças de sensibilidade são multiplicativas e são mais bem expressas como razões.</p>
+</section>
+<section id="usar-doses-que-não-cobrem-a-curva" class="level3" data-number="9.18.7">
+<h3 data-number="9.18.7" class="anchored" data-anchor-id="usar-doses-que-não-cobrem-a-curva"><span class="header-section-number">9.18.7</span> Usar doses que não cobrem a curva</h3>
+<p>Parâmetros fora da faixa testada não podem ser estimados com confiabilidade.</p>
+</section>
+<section id="interpretar-limiares-extrapolados-como-medidas" class="level3" data-number="9.18.8">
+<h3 data-number="9.18.8" class="anchored" data-anchor-id="interpretar-limiares-extrapolados-como-medidas"><span class="header-section-number">9.18.8</span> Interpretar limiares extrapolados como medidas</h3>
+<p>As temperaturas mínima e máxima são frequentemente extrapolações.</p>
+</section>
+<section id="escolher-modelos-pelo-r²" class="level3" data-number="9.18.9">
+<h3 data-number="9.18.9" class="anchored" data-anchor-id="escolher-modelos-pelo-r²"><span class="header-section-number">9.18.9</span> Escolher modelos pelo R²</h3>
+<p>O <span class="math inline">\(R^2\)</span> não discrimina entre modelos não lineares.</p>
+</section>
+<section id="ignorar-avisos-de-convergência" class="level3" data-number="9.18.10">
+<h3 data-number="9.18.10" class="anchored" data-anchor-id="ignorar-avisos-de-convergência"><span class="header-section-number">9.18.10</span> Ignorar avisos de convergência</h3>
+<p>Um modelo que não convergiu não produziu estimativas válidas.</p>
+</section>
+<section id="tratar-medidas-repetidas-na-mesma-unidade-como-repetições" class="level3" data-number="9.18.11">
+<h3 data-number="9.18.11" class="anchored" data-anchor-id="tratar-medidas-repetidas-na-mesma-unidade-como-repetições"><span class="header-section-number">9.18.11</span> Tratar medidas repetidas na mesma unidade como repetições</h3>
+<p>A precisão é superestimada quando subamostras são tratadas como independentes.</p>
+</section>
+</section>
+<section id="lista-de-verificação-para-análises-não-lineares" class="level2" data-number="9.19">
+<h2 data-number="9.19" class="anchored" data-anchor-id="lista-de-verificação-para-análises-não-lineares"><span class="header-section-number">9.19</span> Lista de verificação para análises não lineares</h2>
+<p>Antes de interpretar uma análise não linear, pergunte:</p>
+<ol type="1">
+<li>Que questão biológica está sendo abordada?</li>
+<li>Qual parâmetro da curva a responde?</li>
+<li>A curva escolhida reflete a biologia conhecida?</li>
+<li>As doses ou valores testados cobrem toda a resposta?</li>
+<li>Qual é a unidade experimental?</li>
+<li>Os valores iniciais foram razoáveis e o modelo convergiu?</li>
+<li>Os resíduos mostram padrões sistemáticos?</li>
+<li>Modelos alternativos foram considerados?</li>
+<li>Qual definição de CE<sub>50</sub> (ou de outro parâmetro) foi usada?</li>
+<li>Quais são as estimativas dos parâmetros e seus intervalos de confiança?</li>
+<li>As grandezas derivadas são relatadas com incerteza?</li>
+<li>As comparações entre grupos são expressas em uma escala adequada?</li>
+<li>Algum parâmetro é uma extrapolação além dos dados?</li>
+<li>A resposta é contínua, ou um modelo para contagens ou proporções seria mais adequado?</li>
+<li>Os efeitos estimados são biologicamente relevantes?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="9.20">
+<h2 data-number="9.20" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">9.20</span> Resumo do capítulo</h2>
+<p>Muitas respostas biológicas em Fitopatologia são intrinsecamente não lineares: o crescimento do patógeno diminui de forma sigmoide com a concentração do fungicida, aumenta até um ótimo com a temperatura e se satura com a densidade de inóculo ou a duração do molhamento. Retas e polinômios descrevem mal essas respostas e não fornecem parâmetros com significado biológico.</p>
+<p>Os modelos não lineares descrevem essas respostas com curvas cujos parâmetros correspondem a grandezas de interesse direto, como as assíntotas superior e inferior, a concentração efetiva que produz 50% de inibição e as temperaturas cardeais. Ajustar esses modelos exige uma família de curvas adequada, valores iniciais razoáveis e um delineamento experimental que cubra a região em que a resposta muda. Uma interpretação confiável exige definições explícitas das grandezas estimadas, intervalos de confiança para os parâmetros e as grandezas derivadas, exame dos resíduos, consideração de modelos alternativos e cautela com parâmetros que são extrapolações além dos dados. As comparações de sensibilidade entre isolados ou compostos são naturalmente expressas como razões entre concentrações efetivas.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="9.21">
+<h2 data-number="9.21" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">9.21</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>resposta não linear;</li>
+<li>regressão não linear;</li>
+<li>assíntota;</li>
+<li>ponto de inflexão;</li>
+<li>modelo monomolecular;</li>
+<li>modelo logístico;</li>
+<li>modelo de Gompertz;</li>
+<li>modelo log-logístico;</li>
+<li>curva de dose–resposta;</li>
+<li>CE<sub>50</sub>;</li>
+<li>CE<sub>50</sub> absoluta e relativa;</li>
+<li>hormese;</li>
+<li>fator de resistência;</li>
+<li>distribuição de sensibilidade;</li>
+<li>dose discriminatória;</li>
+<li>temperaturas cardeais;</li>
+<li>valores iniciais;</li>
+<li>convergência;</li>
+<li>intervalo de confiança de perfil;</li>
+<li>método delta;</li>
+<li>seleção de modelos;</li>
+<li>critérios de informação;</li>
+<li>delineamento experimental para modelos não lineares.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="9.22">
+<h2 data-number="9.22" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">9.22</span> Exercícios</h2>
+<section id="exercício-1.-qual-curva" class="level3" data-number="9.22.1">
+<h3 data-number="9.22.1" class="anchored" data-anchor-id="exercício-1.-qual-curva"><span class="header-section-number">9.22.1</span> Exercício 1. Qual curva?</h3>
+<p>Para cada situação, esboce a forma esperada da resposta e identifique qual parâmetro responderia à questão biológica:</p>
+<ul>
+<li>crescimento micelial de um isolado em meio com concentrações crescentes de fungicida;</li>
+<li>germinação de esporos em temperaturas entre 5 e 35 °C;</li>
+<li>proporção de folhas infectadas após um número crescente de horas de molhamento foliar;</li>
+<li>número de lesões por folha após inoculação com concentrações crescentes de esporos.</li>
+</ul>
+</section>
+<section id="exercício-2.-reta-polinômio-ou-curva" class="level3" data-number="9.22.2">
+<h3 data-number="9.22.2" class="anchored" data-anchor-id="exercício-2.-reta-polinômio-ou-curva"><span class="header-section-number">9.22.2</span> Exercício 2. Reta, polinômio ou curva?</h3>
+<p>Usando os dados simulados de dose–resposta deste capítulo:</p>
+<ol type="1">
+<li>ajuste uma reta ao crescimento em função da concentração;</li>
+<li>ajuste um polinômio quadrático;</li>
+<li>ajuste um modelo log-logístico de quatro parâmetros;</li>
+<li>compare os gráficos de resíduos;</li>
+<li>explique qual modelo permite estimar a CE<sub>50</sub>.</li>
+</ol>
+</section>
+<section id="exercício-3.-estimando-a-ce50" class="level3" data-number="9.22.3">
+<h3 data-number="9.22.3" class="anchored" data-anchor-id="exercício-3.-estimando-a-ce50"><span class="header-section-number">9.22.3</span> Exercício 3. Estimando a CE<sub>50</sub></h3>
+<p>Usando um conjunto de dados de dose–resposta fornecido pelo professor:</p>
+<ol type="1">
+<li>represente os dados com o eixo de concentração em escala logarítmica;</li>
+<li>ajuste os modelos log-logísticos de três e de quatro parâmetros;</li>
+<li>estime as CE<sub>50</sub> relativa e absoluta com intervalos de confiança;</li>
+<li>explique por que os dois valores diferem ou coincidem;</li>
+<li>represente a curva ajustada com sua faixa de confiança e as observações.</li>
+</ol>
+</section>
+<section id="exercício-4.-comparando-isolados" class="level3" data-number="9.22.4">
+<h3 data-number="9.22.4" class="anchored" data-anchor-id="exercício-4.-comparando-isolados"><span class="header-section-number">9.22.4</span> Exercício 4. Comparando isolados</h3>
+<p>Usando dados de dose–resposta de vários isolados:</p>
+<ol type="1">
+<li>ajuste as curvas de todos os isolados simultaneamente;</li>
+<li>estime a CE<sub>50</sub> de cada isolado;</li>
+<li>calcule os fatores de resistência em relação a um isolado de referência;</li>
+<li>identifique os isolados cuja CE<sub>50</sub> foi mal estimada e explique por quê.</li>
+</ol>
+</section>
+<section id="exercício-5.-temperatura-ótima" class="level3" data-number="9.22.5">
+<h3 data-number="9.22.5" class="anchored" data-anchor-id="exercício-5.-temperatura-ótima"><span class="header-section-number">9.22.5</span> Exercício 5. Temperatura ótima</h3>
+<p>Usando dados de crescimento medidos em várias temperaturas:</p>
+<ol type="1">
+<li>represente os dados;</li>
+<li>ajuste um modelo com parâmetros de temperaturas cardeais;</li>
+<li>relate <span class="math inline">\(T_{opt}\)</span>, <span class="math inline">\(T_{min}\)</span> e <span class="math inline">\(T_{max}\)</span> com intervalos de confiança;</li>
+<li>discuta quais parâmetros são bem sustentados pelas temperaturas testadas.</li>
+</ol>
+</section>
+<section id="exercício-6.-delineando-um-experimento-de-doseresposta" class="level3" data-number="9.22.6">
+<h3 data-number="9.22.6" class="anchored" data-anchor-id="exercício-6.-delineando-um-experimento-de-doseresposta"><span class="header-section-number">9.22.6</span> Exercício 6. Delineando um experimento de dose–resposta</h3>
+<p>Você precisa determinar a sensibilidade de um patógeno recém-descrito a um fungicida, sem nenhuma informação prévia. Proponha uma sequência de experimentos, incluindo as concentrações a testar, o número de repetições e como os resultados preliminares orientariam o delineamento final.</p>
+</section>
+<section id="exercício-7.-avaliação-de-um-artigo-publicado" class="level3" data-number="9.22.7">
+<h3 data-number="9.22.7" class="anchored" data-anchor-id="exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">9.22.7</span> Exercício 7. Avaliação de um artigo publicado</h3>
+<p>Escolha um artigo recente de Fitopatologia que relate valores de CE<sub>50</sub> ou outro modelo não linear.</p>
+<p>Identifique:</p>
+<ol type="1">
+<li>o modelo ajustado;</li>
+<li>as doses ou valores testados;</li>
+<li>se a definição de CE<sub>50</sub> foi informada;</li>
+<li>se a incerteza dos parâmetros foi relatada;</li>
+<li>se as curvas ajustadas foram mostradas junto com os dados;</li>
+<li>se modelos alternativos foram considerados;</li>
+<li>se algum parâmetro relatado era uma extrapolação;</li>
+<li>se as comparações entre isolados ou compostos foram expressas de forma adequada.</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="9.23">
+<h2 data-number="9.23" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">9.23</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Em uma resposta não linear, a forma da curva não é um incômodo estatístico. Ela é o resultado biológico.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="9.24">
+<h2 data-number="9.24" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">9.24</span> Próximos passos</h2>
+<p>Os modelos dos Capítulos 7 a 9 pressupõem uma resposta contínua com variabilidade aproximadamente constante e simétrica em torno da média. Muitas respostas em Fitopatologia não se encaixam nessa descrição: uma planta está infectada ou não, uma folha tem determinado número de lesões, uma proporção das sementes germina ou uma lavoura é classificada em uma categoria de doença. O Capítulo 10 apresenta métodos para dados categóricos, de contagem e de proporção, incluindo modelos logísticos e do tipo Poisson, que respeitam a natureza dessas respostas.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter8.html" class="pagination-link" aria-label="Relações entre variáveis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter10.html" class="pagination-link" aria-label="Dados categóricos e de contagem">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

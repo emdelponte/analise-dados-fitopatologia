@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Como tornar a pesquisa totalmente reprodutível? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./chapter12.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter13.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">13.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-a-reprodutibilidade-importa" id="toc-por-que-a-reprodutibilidade-importa" class="nav-link" data-scroll-target="#por-que-a-reprodutibilidade-importa"><span class="header-section-number">13.2</span> Por que a reprodutibilidade importa</a></li>
+  <li><a href="#reprodutibilidade-replicabilidade-e-robustez" id="toc-reprodutibilidade-replicabilidade-e-robustez" class="nav-link" data-scroll-target="#reprodutibilidade-replicabilidade-e-robustez"><span class="header-section-number">13.3</span> Reprodutibilidade, replicabilidade e robustez</a></li>
+  <li><a href="#organizando-o-projeto" id="toc-organizando-o-projeto" class="nav-link" data-scroll-target="#organizando-o-projeto"><span class="header-section-number">13.4</span> Organizando o projeto</a>
+  <ul class="collapse">
+  <li><a href="#uma-pasta-por-projeto" id="toc-uma-pasta-por-projeto" class="nav-link" data-scroll-target="#uma-pasta-por-projeto"><span class="header-section-number">13.4.1</span> Uma pasta por projeto</a></li>
+  <li><a href="#projetos-do-rstudio-e-caminhos-relativos" id="toc-projetos-do-rstudio-e-caminhos-relativos" class="nav-link" data-scroll-target="#projetos-do-rstudio-e-caminhos-relativos"><span class="header-section-number">13.4.2</span> Projetos do RStudio e caminhos relativos</a></li>
+  <li><a href="#o-arquivo-readme" id="toc-o-arquivo-readme" class="nav-link" data-scroll-target="#o-arquivo-readme"><span class="header-section-number">13.4.3</span> O arquivo README</a></li>
+  </ul></li>
+  <li><a href="#scripts-em-vez-de-cliques" id="toc-scripts-em-vez-de-cliques" class="nav-link" data-scroll-target="#scripts-em-vez-de-cliques"><span class="header-section-number">13.5</span> Scripts em vez de cliques</a>
+  <ul class="collapse">
+  <li><a href="#uma-cadeia-de-scripts" id="toc-uma-cadeia-de-scripts" class="nav-link" data-scroll-target="#uma-cadeia-de-scripts"><span class="header-section-number">13.5.1</span> Uma cadeia de scripts</a></li>
+  <li><a href="#código-legível" id="toc-código-legível" class="nav-link" data-scroll-target="#código-legível"><span class="header-section-number">13.5.2</span> Código legível</a></li>
+  </ul></li>
+  <li><a href="#documentos-dinâmicos-com-o-quarto" id="toc-documentos-dinâmicos-com-o-quarto" class="nav-link" data-scroll-target="#documentos-dinâmicos-com-o-quarto"><span class="header-section-number">13.6</span> Documentos dinâmicos com o Quarto</a>
+  <ul class="collapse">
+  <li><a href="#texto-código-e-resultados-no-mesmo-documento" id="toc-texto-código-e-resultados-no-mesmo-documento" class="nav-link" data-scroll-target="#texto-código-e-resultados-no-mesmo-documento"><span class="header-section-number">13.6.1</span> Texto, código e resultados no mesmo documento</a></li>
+  <li><a href="#opções-dos-blocos-de-código" id="toc-opções-dos-blocos-de-código" class="nav-link" data-scroll-target="#opções-dos-blocos-de-código"><span class="header-section-number">13.6.2</span> Opções dos blocos de código</a></li>
+  <li><a href="#parâmetros" id="toc-parâmetros" class="nav-link" data-scroll-target="#parâmetros"><span class="header-section-number">13.6.3</span> Parâmetros</a></li>
+  </ul></li>
+  <li><a href="#o-ambiente-computacional" id="toc-o-ambiente-computacional" class="nav-link" data-scroll-target="#o-ambiente-computacional"><span class="header-section-number">13.7</span> O ambiente computacional</a>
+  <ul class="collapse">
+  <li><a href="#registrando-as-versões" id="toc-registrando-as-versões" class="nav-link" data-scroll-target="#registrando-as-versões"><span class="header-section-number">13.7.1</span> Registrando as versões</a></li>
+  <li><a href="#ambientes-isolados-com-renv" id="toc-ambientes-isolados-com-renv" class="nav-link" data-scroll-target="#ambientes-isolados-com-renv"><span class="header-section-number">13.7.2</span> Ambientes isolados com renv</a></li>
+  <li><a href="#aleatoriedade-controlada" id="toc-aleatoriedade-controlada" class="nav-link" data-scroll-target="#aleatoriedade-controlada"><span class="header-section-number">13.7.3</span> Aleatoriedade controlada</a></li>
+  </ul></li>
+  <li><a href="#controle-de-versões-com-git" id="toc-controle-de-versões-com-git" class="nav-link" data-scroll-target="#controle-de-versões-com-git"><span class="header-section-number">13.8</span> Controle de versões com Git</a>
+  <ul class="collapse">
+  <li><a href="#por-que-controlar-versões" id="toc-por-que-controlar-versões" class="nav-link" data-scroll-target="#por-que-controlar-versões"><span class="header-section-number">13.8.1</span> Por que controlar versões</a></li>
+  <li><a href="#conceitos-básicos" id="toc-conceitos-básicos" class="nav-link" data-scroll-target="#conceitos-básicos"><span class="header-section-number">13.8.2</span> Conceitos básicos</a></li>
+  <li><a href="#o-que-versionar" id="toc-o-que-versionar" class="nav-link" data-scroll-target="#o-que-versionar"><span class="header-section-number">13.8.3</span> O que versionar</a></li>
+  </ul></li>
+  <li><a href="#compartilhando-dados-e-código" id="toc-compartilhando-dados-e-código" class="nav-link" data-scroll-target="#compartilhando-dados-e-código"><span class="header-section-number">13.9</span> Compartilhando dados e código</a>
+  <ul class="collapse">
+  <li><a href="#repositórios-permanentes" id="toc-repositórios-permanentes" class="nav-link" data-scroll-target="#repositórios-permanentes"><span class="header-section-number">13.9.1</span> Repositórios permanentes</a></li>
+  <li><a href="#princípios-fair" id="toc-princípios-fair" class="nav-link" data-scroll-target="#princípios-fair"><span class="header-section-number">13.9.2</span> Princípios FAIR</a></li>
+  <li><a href="#o-que-compartilhar" id="toc-o-que-compartilhar" class="nav-link" data-scroll-target="#o-que-compartilhar"><span class="header-section-number">13.9.3</span> O que compartilhar</a></li>
+  </ul></li>
+  <li><a href="#bom-o-suficiente-é-melhor-do-que-perfeito" id="toc-bom-o-suficiente-é-melhor-do-que-perfeito" class="nav-link" data-scroll-target="#bom-o-suficiente-é-melhor-do-que-perfeito"><span class="header-section-number">13.10</span> “Bom o suficiente” é melhor do que perfeito</a></li>
+  <li><a href="#pesquisa-na-prática-tornando-reprodutível-um-ensaio-de-fungicidas" id="toc-pesquisa-na-prática-tornando-reprodutível-um-ensaio-de-fungicidas" class="nav-link" data-scroll-target="#pesquisa-na-prática-tornando-reprodutível-um-ensaio-de-fungicidas"><span class="header-section-number">13.11</span> Pesquisa na prática: tornando reprodutível um ensaio de fungicidas</a></li>
+  <li><a href="#erros-comuns" id="toc-erros-comuns" class="nav-link" data-scroll-target="#erros-comuns"><span class="header-section-number">13.12</span> Erros comuns</a>
+  <ul class="collapse">
+  <li><a href="#editar-os-dados-brutos-à-mão" id="toc-editar-os-dados-brutos-à-mão" class="nav-link" data-scroll-target="#editar-os-dados-brutos-à-mão"><span class="header-section-number">13.12.1</span> Editar os dados brutos à mão</a></li>
+  <li><a href="#usar-caminhos-absolutos-e-setwd" id="toc-usar-caminhos-absolutos-e-setwd" class="nav-link" data-scroll-target="#usar-caminhos-absolutos-e-setwd"><span class="header-section-number">13.12.2</span> Usar caminhos absolutos e <code>setwd()</code></a></li>
+  <li><a href="#copiar-números-da-saída-para-o-texto" id="toc-copiar-números-da-saída-para-o-texto" class="nav-link" data-scroll-target="#copiar-números-da-saída-para-o-texto"><span class="header-section-number">13.12.3</span> Copiar números da saída para o texto</a></li>
+  <li><a href="#guardar-versões-em-nomes-de-arquivos" id="toc-guardar-versões-em-nomes-de-arquivos" class="nav-link" data-scroll-target="#guardar-versões-em-nomes-de-arquivos"><span class="header-section-number">13.12.4</span> Guardar versões em nomes de arquivos</a></li>
+  <li><a href="#não-registrar-as-versões-dos-pacotes" id="toc-não-registrar-as-versões-dos-pacotes" class="nav-link" data-scroll-target="#não-registrar-as-versões-dos-pacotes"><span class="header-section-number">13.12.5</span> Não registrar as versões dos pacotes</a></li>
+  <li><a href="#esquecer-de-fixar-a-semente-aleatória" id="toc-esquecer-de-fixar-a-semente-aleatória" class="nav-link" data-scroll-target="#esquecer-de-fixar-a-semente-aleatória"><span class="header-section-number">13.12.6</span> Esquecer de fixar a semente aleatória</a></li>
+  <li><a href="#compartilhar-apenas-o-resultado-final" id="toc-compartilhar-apenas-o-resultado-final" class="nav-link" data-scroll-target="#compartilhar-apenas-o-resultado-final"><span class="header-section-number">13.12.7</span> Compartilhar apenas o resultado final</a></li>
+  <li><a href="#depender-de-um-único-computador" id="toc-depender-de-um-único-computador" class="nav-link" data-scroll-target="#depender-de-um-único-computador"><span class="header-section-number">13.12.8</span> Depender de um único computador</a></li>
+  </ul></li>
+  <li><a href="#um-fluxo-de-trabalho-para-a-pesquisa-reprodutível" id="toc-um-fluxo-de-trabalho-para-a-pesquisa-reprodutível" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-para-a-pesquisa-reprodutível"><span class="header-section-number">13.13</span> Um fluxo de trabalho para a pesquisa reprodutível</a></li>
+  <li><a href="#lista-de-verificação-da-reprodutibilidade" id="toc-lista-de-verificação-da-reprodutibilidade" class="nav-link" data-scroll-target="#lista-de-verificação-da-reprodutibilidade"><span class="header-section-number">13.14</span> Lista de verificação da reprodutibilidade</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">13.15</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">13.16</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">13.17</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-diagnóstico-de-reprodutibilidade" id="toc-exercício-1.-diagnóstico-de-reprodutibilidade" class="nav-link" data-scroll-target="#exercício-1.-diagnóstico-de-reprodutibilidade"><span class="header-section-number">13.17.1</span> Exercício 1. Diagnóstico de reprodutibilidade</a></li>
+  <li><a href="#exercício-2.-reorganizando-um-projeto" id="toc-exercício-2.-reorganizando-um-projeto" class="nav-link" data-scroll-target="#exercício-2.-reorganizando-um-projeto"><span class="header-section-number">13.17.2</span> Exercício 2. Reorganizando um projeto</a></li>
+  <li><a href="#exercício-3.-relatório-dinâmico" id="toc-exercício-3.-relatório-dinâmico" class="nav-link" data-scroll-target="#exercício-3.-relatório-dinâmico"><span class="header-section-number">13.17.3</span> Exercício 3. Relatório dinâmico</a></li>
+  <li><a href="#exercício-4.-sementes-e-simulações" id="toc-exercício-4.-sementes-e-simulações" class="nav-link" data-scroll-target="#exercício-4.-sementes-e-simulações"><span class="header-section-number">13.17.4</span> Exercício 4. Sementes e simulações</a></li>
+  <li><a href="#exercício-5.-avaliação-de-um-artigo-publicado" id="toc-exercício-5.-avaliação-de-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-5.-avaliação-de-um-artigo-publicado"><span class="header-section-number">13.17.5</span> Exercício 5. Avaliação de um artigo publicado</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">13.18</span> Reflexão</a></li>
+  <li><a href="#considerações-finais" id="toc-considerações-finais" class="nav-link" data-scroll-target="#considerações-finais"><span class="header-section-number">13.19</span> Considerações finais</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Como tornar a pesquisa totalmente reprodutível?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">13.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>distinguir reprodutibilidade, replicabilidade e robustez;</li>
+<li>organizar um projeto de pesquisa de modo que qualquer pessoa consiga reproduzir suas análises;</li>
+<li>preferir scripts a operações manuais e escrever código legível e documentado;</li>
+<li>usar documentos Quarto para integrar texto, código e resultados;</li>
+<li>registrar o ambiente computacional e controlar a aleatoriedade;</li>
+<li>compreender os princípios do controle de versões com Git;</li>
+<li>preparar dados e código para compartilhamento em repositórios permanentes;</li>
+<li>avaliar a reprodutibilidade de um estudo publicado.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-a-reprodutibilidade-importa" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="por-que-a-reprodutibilidade-importa"><span class="header-section-number">13.2</span> Por que a reprodutibilidade importa</h2>
+<p>Ao longo deste livro, cada etapa da pesquisa foi tratada como parte de um mesmo fluxo: a questão biológica orienta o delineamento, o delineamento determina a estrutura dos dados, os dados organizados permitem a exploração, a exploração orienta a análise, e a análise sustenta as conclusões comunicadas. Este capítulo trata do que mantém esse fluxo íntegro ao longo do tempo: a capacidade de refazer cada etapa e obter os mesmos resultados.</p>
+<p>Uma análise é <strong>reprodutível</strong> quando outra pessoa, ou o próprio pesquisador meses depois, consegue partir dos mesmos dados brutos, executar o mesmo código e chegar exatamente aos mesmos números, tabelas e figuras. Parece uma exigência mínima, mas na prática muitas análises não passam nesse teste: os dados foram editados à mão sem registro, os passos foram feitos clicando em menus, os arquivos intermediários se perderam, a versão de um pacote mudou ou ninguém lembra qual dos vários arquivos chamados <code>analise_final</code> produziu a figura do artigo.</p>
+<p>A reprodutibilidade beneficia, antes de todos, o próprio pesquisador. Quando um revisor pede uma nova análise, quando um erro é descoberto nos dados ou quando um novo ano de experimento é acrescentado, um projeto reprodutível é atualizado em minutos; um projeto não reprodutível exige refazer tudo à mão, com risco de introduzir novos erros. Ela também aumenta a confiança nos resultados, facilita a colaboração e permite que outros reutilizem dados e métodos.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A pessoa que mais se beneficia de uma análise reprodutível é, quase sempre, o próprio autor alguns meses depois.</p>
+</div>
+</div>
+</section>
+<section id="reprodutibilidade-replicabilidade-e-robustez" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="reprodutibilidade-replicabilidade-e-robustez"><span class="header-section-number">13.3</span> Reprodutibilidade, replicabilidade e robustez</h2>
+<p>Esses termos são usados de formas diferentes em diferentes áreas. Neste livro, adotamos as seguintes definições:</p>
+<div id="tbl-ch13-termos" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch13-termos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;13.1: Reprodutibilidade, robustez e replicabilidade.
+</figcaption>
+<div aria-describedby="tbl-ch13-termos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 17%">
+<col style="width: 18%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Termo</th>
+<th>Mesmos dados?</th>
+<th>Mesma análise?</th>
+<th>Pergunta respondida</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reprodutibilidade</td>
+<td>Sim</td>
+<td>Sim</td>
+<td>Os resultados podem ser recalculados a partir dos dados e do código?</td>
+</tr>
+<tr class="even">
+<td>Robustez</td>
+<td>Sim</td>
+<td>Não</td>
+<td>As conclusões se mantêm com escolhas analíticas razoáveis diferentes?</td>
+</tr>
+<tr class="odd">
+<td>Replicabilidade</td>
+<td>Não</td>
+<td>Sim</td>
+<td>Um novo experimento, com novos dados, leva às mesmas conclusões?</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A reprodutibilidade é o requisito mais básico: se os resultados não podem nem ser recalculados a partir dos mesmos dados, não há como avaliar sua robustez nem compará-los com replicações. A replicabilidade, discutida no Capítulo 2 como a repetição de experimentos, depende do delineamento e da biologia; a reprodutibilidade depende sobretudo de como os dados e as análises são organizados — e está inteiramente sob o controle do pesquisador.</p>
+</section>
+<section id="organizando-o-projeto" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="organizando-o-projeto"><span class="header-section-number">13.4</span> Organizando o projeto</h2>
+<section id="uma-pasta-por-projeto" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="uma-pasta-por-projeto"><span class="header-section-number">13.4.1</span> Uma pasta por projeto</h3>
+<p>O ponto de partida é concentrar tudo o que um projeto precisa em uma única pasta: dados, scripts, resultados, figuras, manuscrito e documentação. A estrutura recomendada no Capítulo 3 é um bom modelo:</p>
+<pre class="text"><code>ensaio_fungicidas_manjericao/
+├── README.md               # o que é o projeto e como reproduzi-lo
+├── ensaio_fungicidas.Rproj # projeto do RStudio
+├── data/
+│   ├── raw/                # dados brutos: somente leitura
+│   └── processed/          # dados gerados pelos scripts
+├── R/                      # funções reutilizáveis
+├── scripts/                # 01_limpeza.R, 02_analise.R, ...
+├── figures/                # figuras geradas pelo código
+├── results/                # tabelas e saídas de modelos
+└── manuscript/             # relatório ou artigo em Quarto</code></pre>
+</section>
+<section id="projetos-do-rstudio-e-caminhos-relativos" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="projetos-do-rstudio-e-caminhos-relativos"><span class="header-section-number">13.4.2</span> Projetos do RStudio e caminhos relativos</h3>
+<p>Um <strong>projeto do RStudio</strong> (arquivo <code>.Rproj</code>) define a pasta do projeto como diretório de trabalho sempre que é aberto. Com isso, os scripts podem usar <strong>caminhos relativos</strong>, como <code>data/raw/severidade_2025.csv</code>, em vez de caminhos absolutos, como <code>C:/Users/maria/Documents/doutorado/dados/severidade_2025.csv</code>, que só funcionam no computador de quem os escreveu.</p>
+<p>O pacote <code>here</code> torna os caminhos relativos ainda mais robustos, pois sempre parte da raiz do projeto, mesmo quando o código é executado a partir de uma subpasta (como a pasta do manuscrito):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"severidade_2025.csv"</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Evite <code>setwd()</code> com caminhos absolutos no início dos scripts. Esse é um dos motivos mais comuns pelos quais um código que “funcionava” deixa de funcionar no computador de um colaborador.</p>
+</div>
+</div>
+</section>
+<section id="o-arquivo-readme" class="level3" data-number="13.4.3">
+<h3 data-number="13.4.3" class="anchored" data-anchor-id="o-arquivo-readme"><span class="header-section-number">13.4.3</span> O arquivo README</h3>
+<p>O <code>README</code> é a porta de entrada do projeto. Ele deve explicar, em poucas linhas, o objetivo do estudo, a origem dos dados, o que há em cada pasta, a ordem em que os scripts devem ser executados e os pacotes necessários. Um bom teste é perguntar: um colega que nunca viu o projeto conseguiria reproduzir os resultados apenas lendo o <code>README</code>?</p>
+</section>
+</section>
+<section id="scripts-em-vez-de-cliques" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="scripts-em-vez-de-cliques"><span class="header-section-number">13.5</span> Scripts em vez de cliques</h2>
+<p>Toda operação feita com o mouse — filtrar linhas em uma planilha, apagar um valor discrepante, copiar uma média para o texto, ajustar um eixo em um programa gráfico — é uma operação sem registro. Ela não pode ser revista, corrigida ou repetida automaticamente. Scripts, ao contrário, são o registro exato de cada passo.</p>
+<section id="uma-cadeia-de-scripts" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="uma-cadeia-de-scripts"><span class="header-section-number">13.5.1</span> Uma cadeia de scripts</h3>
+<p>Uma organização simples e eficaz divide a análise em scripts numerados, cada um com uma função clara, que leem arquivos de uma etapa e gravam arquivos para a seguinte:</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter13-pipeline" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter13-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-0dcf089b94b2ed5c2bab" style="width:100%;height:604px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0dcf089b94b2ed5c2bab">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Dados brutos<\/b><br/><font point-size=\"12\" color=\"#666666\">data/raw/ (somente leitura)<\/font><\/font>>, fillcolor = \"#f4f4f4\", color = \"#bbbbbb\"]\n  n2 [label = <<font color=\"#24301f\"><b>01_limpeza.R<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">corrige, recodifica, organiza<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n3 [label = <<font color=\"#24301f\"><b>Dados processados<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">data/processed/<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n4 [label = <<font color=\"#24301f\"><b>02_analise.R<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">ajusta modelos, estima efeitos<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n5 [label = <<font color=\"#24301f\"><b>Modelos, tabelas e figuras<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">results/ e figures/<\/font><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n6 [label = <<font color=\"#24301f\"><b>relatorio.qmd<\/b><br/><font point-size=\"12\" color=\"#6c4f9e\">texto + código + resultados<\/font><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n7 [label = <<font color=\"#24301f\"><b>Relatório ou artigo<\/b><br/><font point-size=\"12\" color=\"#c4473a\">HTML, Word ou PDF<\/font><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter13-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.1: Uma cadeia de análise reprodutível. Os dados brutos nunca são alterados; cada script lê os produtos da etapa anterior e grava os seus, e o relatório final é gerado a partir deles.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>Com essa estrutura, refazer toda a análise após uma correção nos dados brutos significa simplesmente executar os scripts de novo, na ordem.</p>
+</section>
+<section id="código-legível" class="level3" data-number="13.5.2">
+<h3 data-number="13.5.2" class="anchored" data-anchor-id="código-legível"><span class="header-section-number">13.5.2</span> Código legível</h3>
+<p>Código reprodutível também precisa ser compreensível. Algumas práticas simples fazem grande diferença:</p>
+<ul>
+<li>nomes de objetos e variáveis <strong>descritivos</strong> (<code>severidade_media</code>, e não <code>x2</code>);</li>
+<li><strong>comentários</strong> que explicam o <em>porquê</em> de cada decisão, e não apenas o <em>quê</em>;</li>
+<li>um estilo consistente (espaços, indentação, <code>snake_case</code>);</li>
+<li><strong>funções</strong> para operações repetidas, em vez de copiar e colar o mesmo bloco de código.</li>
+</ul>
+<p>O exemplo abaixo transforma em função um cálculo usado várias vezes neste livro, a eficácia de controle em relação à testemunha:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eficácia de controle (%) de um tratamento em relação à testemunha.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Usa as médias de severidade; valores negativos indicam mais doença que a testemunha.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>eficacia <span class="ot">&lt;-</span> <span class="cf">function</span>(sev_tratamento, sev_testemunha) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> (sev_testemunha <span class="sc">-</span> sev_tratamento) <span class="sc">/</span> sev_testemunha</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">eficacia</span>(<span class="at">sev_tratamento =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">22</span>, <span class="dv">31</span>), <span class="at">sev_testemunha =</span> <span class="dv">48</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 62.50000 54.16667 35.41667</code></pre>
+</div>
+</div>
+<p>Uma função documentada pode ser guardada na pasta <code>R/</code> e reutilizada em todos os scripts do projeto, garantindo que o cálculo seja sempre o mesmo.</p>
+</section>
+</section>
+<section id="documentos-dinâmicos-com-o-quarto" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="documentos-dinâmicos-com-o-quarto"><span class="header-section-number">13.6</span> Documentos dinâmicos com o Quarto</h2>
+<section id="texto-código-e-resultados-no-mesmo-documento" class="level3" data-number="13.6.1">
+<h3 data-number="13.6.1" class="anchored" data-anchor-id="texto-código-e-resultados-no-mesmo-documento"><span class="header-section-number">13.6.1</span> Texto, código e resultados no mesmo documento</h3>
+<p>O Quarto, usado para escrever este livro, permite combinar texto, código e resultados em um único documento. Ao renderizar o arquivo <code>.qmd</code>, o código é executado e suas saídas — tabelas, figuras, números — são inseridas automaticamente no documento final, que pode ser gerado em HTML, Word ou PDF.</p>
+<p>Um documento Quarto mínimo tem três partes: um cabeçalho com metadados, blocos de código e texto:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Ensaio de fungicidas – safra 2025"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/processed/severidade.csv"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(severity <span class="sc">~</span> block <span class="sc">+</span> treatment, <span class="at">data =</span> dados)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>A severidade média na testemunha foi de <span class="in">`r round(mean(dados$severity[dados$treatment == 'Testemunha']), 1)`</span>%.</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O Capítulo 12 mostrou como o código em linha elimina a transcrição manual de números. Quando os dados mudam, basta renderizar o documento novamente para que texto, tabelas e figuras sejam atualizados juntos.</p>
+</section>
+<section id="opções-dos-blocos-de-código" class="level3" data-number="13.6.2">
+<h3 data-number="13.6.2" class="anchored" data-anchor-id="opções-dos-blocos-de-código"><span class="header-section-number">13.6.2</span> Opções dos blocos de código</h3>
+<p>As opções no início de cada bloco controlam o que aparece no documento final. As mais usadas são:</p>
+<div id="tbl-ch13-opcoes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch13-opcoes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;13.2: Opções comuns dos blocos de código no Quarto.
+</figcaption>
+<div aria-describedby="tbl-ch13-opcoes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Opção</th>
+<th>Efeito</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>#| echo: false</code></td>
+<td>executa o código, mas não o mostra</td>
+</tr>
+<tr class="even">
+<td><code>#| eval: false</code></td>
+<td>mostra o código, mas não o executa</td>
+</tr>
+<tr class="odd">
+<td><code>#| include: false</code></td>
+<td>executa o código sem mostrar código nem saída</td>
+</tr>
+<tr class="even">
+<td><code>#| label: fig-...</code></td>
+<td>rotula uma figura para referência cruzada</td>
+</tr>
+<tr class="odd">
+<td><code>#| fig-cap: "..."</code></td>
+<td>define a legenda da figura</td>
+</tr>
+<tr class="even">
+<td><code>#| warning: false</code></td>
+<td>oculta avisos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="parâmetros" class="level3" data-number="13.6.3">
+<h3 data-number="13.6.3" class="anchored" data-anchor-id="parâmetros"><span class="header-section-number">13.6.3</span> Parâmetros</h3>
+<p>Documentos Quarto podem receber <strong>parâmetros</strong>, o que permite gerar o mesmo relatório para diferentes safras, locais ou experimentos sem duplicar o código. Por exemplo, um relatório com o parâmetro <code>safra</code> pode ser renderizado uma vez para cada ano:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render relatorio.qmd <span class="at">-P</span> safra:2024</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render relatorio.qmd <span class="at">-P</span> safra:2025</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="o-ambiente-computacional" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="o-ambiente-computacional"><span class="header-section-number">13.7</span> O ambiente computacional</h2>
+<section id="registrando-as-versões" class="level3" data-number="13.7.1">
+<h3 data-number="13.7.1" class="anchored" data-anchor-id="registrando-as-versões"><span class="header-section-number">13.7.1</span> Registrando as versões</h3>
+<p>Os resultados de uma análise podem depender da versão do R e dos pacotes usados: funções mudam, padrões são alterados e erros são corrigidos. Registrar o ambiente é, portanto, parte da reprodutibilidade. A função <code>sessionInfo()</code> informa a versão do R, o sistema operacional e as versões de todos os pacotes carregados. Por exemplo, os pacotes usados para gerar este capítulo foram:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pacotes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ggplot2"</span>, <span class="st">"emmeans"</span>, <span class="st">"patchwork"</span>, <span class="st">"DiagrammeR"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(pacotes, <span class="cf">function</span>(p) <span class="fu">as.character</span>(<span class="fu">packageVersion</span>(p)))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   ggplot2    emmeans  patchwork DiagrammeR 
+   "4.0.2"    "2.0.1"    "1.3.2"   "1.0.12" </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>R.version.string</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "R version 4.5.2 (2025-10-31 ucrt)"</code></pre>
+</div>
+</div>
+</section>
+<section id="ambientes-isolados-com-renv" class="level3" data-number="13.7.2">
+<h3 data-number="13.7.2" class="anchored" data-anchor-id="ambientes-isolados-com-renv"><span class="header-section-number">13.7.2</span> Ambientes isolados com renv</h3>
+<p>O pacote <code>renv</code> vai além de registrar as versões: ele cria uma biblioteca de pacotes própria para o projeto e grava as versões exatas em um arquivo (<code>renv.lock</code>). Outra pessoa, ou o mesmo pesquisador em outro computador, pode então restaurar exatamente o mesmo ambiente:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()       <span class="co"># cria o ambiente do projeto</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()   <span class="co"># registra as versões atuais em renv.lock</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()    <span class="co"># em outro computador: instala as mesmas versões</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="aleatoriedade-controlada" class="level3" data-number="13.7.3">
+<h3 data-number="13.7.3" class="anchored" data-anchor-id="aleatoriedade-controlada"><span class="header-section-number">13.7.3</span> Aleatoriedade controlada</h3>
+<p>Simulações, reamostragens (<em>bootstrap</em>), permutações e alguns algoritmos (como o <em>k</em>-médias) usam números aleatórios. Sem controle, cada execução dá um resultado ligeiramente diferente. A função <code>set.seed()</code> fixa o ponto de partida do gerador de números aleatórios, tornando os resultados reprodutíveis:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>amostra_1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="dv">5</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>amostra_2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="dv">5</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>amostra_1</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13 76 36 26 65</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(amostra_1, amostra_2)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Todos os dados simulados deste livro foram gerados dessa forma, e por isso qualquer leitor obtém exatamente os mesmos números e figuras.</p>
+</section>
+</section>
+<section id="controle-de-versões-com-git" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="controle-de-versões-com-git"><span class="header-section-number">13.8</span> Controle de versões com Git</h2>
+<section id="por-que-controlar-versões" class="level3" data-number="13.8.1">
+<h3 data-number="13.8.1" class="anchored" data-anchor-id="por-que-controlar-versões"><span class="header-section-number">13.8.1</span> Por que controlar versões</h3>
+<p>Projetos mudam: dados são corrigidos, análises são refeitas, textos são revisados por coautores. Sem controle de versões, o histórico vive em nomes de arquivos (<code>analise_v3_final_revisado.R</code>) e na memória das pessoas. O <strong>Git</strong> é um sistema que registra cada alteração nos arquivos do projeto, com data, autor e uma mensagem descritiva, e permite voltar a qualquer versão anterior.</p>
+</section>
+<section id="conceitos-básicos" class="level3" data-number="13.8.2">
+<h3 data-number="13.8.2" class="anchored" data-anchor-id="conceitos-básicos"><span class="header-section-number">13.8.2</span> Conceitos básicos</h3>
+<ul>
+<li><strong>repositório</strong>: a pasta do projeto sob controle do Git, com todo o seu histórico;</li>
+<li><strong>commit</strong>: um registro do estado dos arquivos em um momento, acompanhado de uma mensagem (“corrige unidade da produtividade no bloco 3”);</li>
+<li><strong>histórico</strong>: a sequência de commits, que mostra o que mudou, quando e por quê;</li>
+<li><strong>repositório remoto</strong>: uma cópia do repositório em um serviço como GitHub ou GitLab, que serve de cópia de segurança e facilita a colaboração;</li>
+<li><strong><code>.gitignore</code></strong>: lista de arquivos que não devem ser versionados, como arquivos temporários e saídas que podem ser regeneradas.</li>
+</ul>
+<p>O RStudio tem uma interface gráfica para o Git, e os pacotes <code>usethis</code> e <code>gert</code> permitem configurá-lo a partir do R:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_git</span>()      <span class="co"># transforma o projeto em um repositório Git</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_github</span>()   <span class="co"># cria um repositório remoto no GitHub</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Faça commits pequenos e frequentes, cada um com uma mensagem que explique o que mudou e por quê. Um histórico bem escrito é uma documentação do projeto.</p>
+</div>
+</div>
+</section>
+<section id="o-que-versionar" class="level3" data-number="13.8.3">
+<h3 data-number="13.8.3" class="anchored" data-anchor-id="o-que-versionar"><span class="header-section-number">13.8.3</span> O que versionar</h3>
+<p>Scripts, documentos Quarto, o <code>README</code>, o dicionário de dados e, em geral, os dados brutos pequenos devem ser versionados. Arquivos grandes, dados sensíveis e produtos que podem ser regenerados a partir do código (figuras, tabelas, documentos renderizados) geralmente ficam fora do controle de versões ou são guardados em outro lugar.</p>
+</section>
+</section>
+<section id="compartilhando-dados-e-código" class="level2" data-number="13.9">
+<h2 data-number="13.9" class="anchored" data-anchor-id="compartilhando-dados-e-código"><span class="header-section-number">13.9</span> Compartilhando dados e código</h2>
+<section id="repositórios-permanentes" class="level3" data-number="13.9.1">
+<h3 data-number="13.9.1" class="anchored" data-anchor-id="repositórios-permanentes"><span class="header-section-number">13.9.1</span> Repositórios permanentes</h3>
+<p>Disponibilizar dados e código permite que outras pessoas verifiquem, reutilizem e ampliem o trabalho. Para isso, eles devem estar em um <strong>repositório permanente</strong>, que atribui um identificador persistente (DOI) e garante que os arquivos continuem acessíveis. Exemplos incluem o Zenodo, o Figshare, o Open Science Framework (OSF), o Dryad e os repositórios institucionais. Um repositório no GitHub é ótimo para o desenvolvimento, mas não é, por si só, um arquivo permanente; o GitHub pode ser integrado ao Zenodo para gerar um DOI a cada versão publicada.</p>
+</section>
+<section id="princípios-fair" class="level3" data-number="13.9.2">
+<h3 data-number="13.9.2" class="anchored" data-anchor-id="princípios-fair"><span class="header-section-number">13.9.2</span> Princípios FAIR</h3>
+<p>Os dados compartilhados devem ser, na medida do possível, <strong>localizáveis, acessíveis, interoperáveis e reutilizáveis</strong> (princípios FAIR) <span class="citation" data-cites="wilkinson2016">(<a href="references.html#ref-wilkinson2016" role="doc-biblioref"><span class="nocase">Wilkinson et al.</span> 2016</a>)</span>. Na prática, isso significa: um identificador persistente; formatos abertos (CSV em vez de formatos proprietários); um dicionário de dados que descreva cada variável e suas unidades (Capítulo 3); e uma <strong>licença</strong> que diga como os dados e o código podem ser reutilizados (por exemplo, CC BY para dados e MIT ou GPL para código).</p>
+</section>
+<section id="o-que-compartilhar" class="level3" data-number="13.9.3">
+<h3 data-number="13.9.3" class="anchored" data-anchor-id="o-que-compartilhar"><span class="header-section-number">13.9.3</span> O que compartilhar</h3>
+<p>Um pacote de reprodutibilidade completo inclui:</p>
+<ul>
+<li>os dados brutos (ou, quando não puderem ser compartilhados, os dados processados e uma explicação);</li>
+<li>o dicionário de dados;</li>
+<li>todos os scripts, na ordem em que devem ser executados;</li>
+<li>o documento Quarto do relatório ou artigo, quando houver;</li>
+<li>o registro do ambiente computacional (<code>sessionInfo()</code> ou <code>renv.lock</code>);</li>
+<li>um <code>README</code> com instruções.</li>
+</ul>
+</section>
+</section>
+<section id="bom-o-suficiente-é-melhor-do-que-perfeito" class="level2" data-number="13.10">
+<h2 data-number="13.10" class="anchored" data-anchor-id="bom-o-suficiente-é-melhor-do-que-perfeito"><span class="header-section-number">13.10</span> “Bom o suficiente” é melhor do que perfeito</h2>
+<p>A reprodutibilidade não exige dominar todas as ferramentas deste capítulo de uma vez. Práticas simples, adotadas de forma consistente, já resolvem a maior parte dos problemas <span class="citation" data-cites="wilson2017">(<a href="references.html#ref-wilson2017" role="doc-biblioref">Wilson et al. 2017</a>)</span>. Uma progressão razoável é:</p>
+<ol type="1">
+<li>uma pasta por projeto, com dados brutos protegidos e um <code>README</code>;</li>
+<li>scripts para todas as etapas, sem edições manuais nos dados;</li>
+<li>relatórios em Quarto, com tabelas, figuras e números gerados pelo código;</li>
+<li>registro do ambiente e uso de <code>set.seed()</code>;</li>
+<li>controle de versões com Git;</li>
+<li>compartilhamento em repositório permanente, com DOI e licença.</li>
+</ol>
+<p>Cada degrau já representa um ganho real; não é preciso esperar dominar todos para começar.</p>
+</section>
+<section id="pesquisa-na-prática-tornando-reprodutível-um-ensaio-de-fungicidas" class="level2" data-number="13.11">
+<h2 data-number="13.11" class="anchored" data-anchor-id="pesquisa-na-prática-tornando-reprodutível-um-ensaio-de-fungicidas"><span class="header-section-number">13.11</span> Pesquisa na prática: tornando reprodutível um ensaio de fungicidas</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Do caderno de campo ao pacote reprodutível">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Do caderno de campo ao pacote reprodutível
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Retome um ensaio de fungicidas como o do míldio do manjericão discutido ao longo do livro <span class="citation" data-cites="mcgrath2020">(<a href="references.html#ref-mcgrath2020" role="doc-biblioref">McGrath 2020</a>)</span>. Os dados chegaram em uma planilha preenchida no campo, com abas por data de avaliação, células mescladas e algumas correções feitas à mão (Capítulo 3).</p>
+<p>Planeje como transformar esse material em um projeto reprodutível:</p>
+<ol type="1">
+<li>Que estrutura de pastas você criaria, e o que iria em cada uma?</li>
+<li>Onde ficaria a planilha original, e como você garantiria que ela não fosse alterada?</li>
+<li>Quais scripts seriam necessários, e o que cada um faria?</li>
+<li>Como as correções feitas à mão na planilha seriam registradas?</li>
+<li>Como você geraria a tabela e a figura de resultados do Capítulo 12 sem copiar números?</li>
+<li>O que você incluiria no <code>README</code> e no repositório público?</li>
+<li>O que aconteceria se um revisor pedisse para excluir um bloco da análise? Quanto tempo levaria para refazer tudo?</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="erros-comuns" class="level2" data-number="13.12">
+<h2 data-number="13.12" class="anchored" data-anchor-id="erros-comuns"><span class="header-section-number">13.12</span> Erros comuns</h2>
+<section id="editar-os-dados-brutos-à-mão" class="level3" data-number="13.12.1">
+<h3 data-number="13.12.1" class="anchored" data-anchor-id="editar-os-dados-brutos-à-mão"><span class="header-section-number">13.12.1</span> Editar os dados brutos à mão</h3>
+<p>Alterações sem registro não podem ser revistas nem repetidas.</p>
+</section>
+<section id="usar-caminhos-absolutos-e-setwd" class="level3" data-number="13.12.2">
+<h3 data-number="13.12.2" class="anchored" data-anchor-id="usar-caminhos-absolutos-e-setwd"><span class="header-section-number">13.12.2</span> Usar caminhos absolutos e <code>setwd()</code></h3>
+<p>O código deixa de funcionar em outro computador.</p>
+</section>
+<section id="copiar-números-da-saída-para-o-texto" class="level3" data-number="13.12.3">
+<h3 data-number="13.12.3" class="anchored" data-anchor-id="copiar-números-da-saída-para-o-texto"><span class="header-section-number">13.12.3</span> Copiar números da saída para o texto</h3>
+<p>Erros de transcrição são frequentes e difíceis de detectar.</p>
+</section>
+<section id="guardar-versões-em-nomes-de-arquivos" class="level3" data-number="13.12.4">
+<h3 data-number="13.12.4" class="anchored" data-anchor-id="guardar-versões-em-nomes-de-arquivos"><span class="header-section-number">13.12.4</span> Guardar versões em nomes de arquivos</h3>
+<p><code>analise_final_v3_revisado.R</code> não informa o que mudou nem por quê.</p>
+</section>
+<section id="não-registrar-as-versões-dos-pacotes" class="level3" data-number="13.12.5">
+<h3 data-number="13.12.5" class="anchored" data-anchor-id="não-registrar-as-versões-dos-pacotes"><span class="header-section-number">13.12.5</span> Não registrar as versões dos pacotes</h3>
+<p>Mudanças nos pacotes podem alterar resultados sem aviso.</p>
+</section>
+<section id="esquecer-de-fixar-a-semente-aleatória" class="level3" data-number="13.12.6">
+<h3 data-number="13.12.6" class="anchored" data-anchor-id="esquecer-de-fixar-a-semente-aleatória"><span class="header-section-number">13.12.6</span> Esquecer de fixar a semente aleatória</h3>
+<p>Simulações e reamostragens dão resultados diferentes a cada execução.</p>
+</section>
+<section id="compartilhar-apenas-o-resultado-final" class="level3" data-number="13.12.7">
+<h3 data-number="13.12.7" class="anchored" data-anchor-id="compartilhar-apenas-o-resultado-final"><span class="header-section-number">13.12.7</span> Compartilhar apenas o resultado final</h3>
+<p>Sem dados brutos, scripts e instruções, a análise não pode ser verificada.</p>
+</section>
+<section id="depender-de-um-único-computador" class="level3" data-number="13.12.8">
+<h3 data-number="13.12.8" class="anchored" data-anchor-id="depender-de-um-único-computador"><span class="header-section-number">13.12.8</span> Depender de um único computador</h3>
+<p>Sem cópia de segurança e controle de versões, um disco danificado pode significar a perda de todo o projeto.</p>
+</section>
+</section>
+<section id="um-fluxo-de-trabalho-para-a-pesquisa-reprodutível" class="level2" data-number="13.13">
+<h2 data-number="13.13" class="anchored" data-anchor-id="um-fluxo-de-trabalho-para-a-pesquisa-reprodutível"><span class="header-section-number">13.13</span> Um fluxo de trabalho para a pesquisa reprodutível</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter13-fluxo" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter13-fluxo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-4f0970ff32669d7f53b5" style="width:100%;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4f0970ff32669d7f53b5">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Criar o projeto (pasta, .Rproj, README)<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Guardar os dados brutos<br/>como somente leitura<\/b><\/font>>, fillcolor = \"#f4f4f4\", color = \"#bbbbbb\"]\n  n3 [label = <<font color=\"#24301f\"><b>Escrever scripts para cada etapa<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Gerar tabelas, figuras e<br/>texto com Quarto<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Registrar o ambiente e fixar sementes<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Versionar com Git<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n7 [label = <<font color=\"#24301f\"><b>Compartilhar em repositório permanente<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter13-fluxo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.2: Um fluxo de trabalho para a pesquisa reprodutível, do início do projeto ao compartilhamento.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="lista-de-verificação-da-reprodutibilidade" class="level2" data-number="13.14">
+<h2 data-number="13.14" class="anchored" data-anchor-id="lista-de-verificação-da-reprodutibilidade"><span class="header-section-number">13.14</span> Lista de verificação da reprodutibilidade</h2>
+<p>Antes de considerar uma análise concluída, pergunte:</p>
+<ol type="1">
+<li>Todo o projeto está em uma única pasta, com um <code>README</code>?</li>
+<li>Os dados brutos estão preservados e nunca são editados à mão?</li>
+<li>Todas as etapas, da limpeza às figuras, estão em scripts?</li>
+<li>Os scripts usam caminhos relativos?</li>
+<li>Os scripts podem ser executados do início ao fim, em uma sessão limpa do R, sem erros?</li>
+<li>Tabelas, figuras e números do texto são gerados pelo código?</li>
+<li>As versões do R e dos pacotes estão registradas?</li>
+<li>As sementes aleatórias estão fixadas?</li>
+<li>O projeto está sob controle de versões?</li>
+<li>Há um dicionário de dados?</li>
+<li>Dados e código estão disponíveis em um repositório permanente, com licença?</li>
+<li>Um colega conseguiria reproduzir os resultados sem ajuda?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="13.15">
+<h2 data-number="13.15" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">13.15</span> Resumo do capítulo</h2>
+<p>A reprodutibilidade — a capacidade de recalcular exatamente os mesmos resultados a partir dos mesmos dados e do mesmo código — é a base sobre a qual a robustez e a replicabilidade podem ser avaliadas, e está inteiramente sob o controle do pesquisador. Ela começa com a organização do projeto em uma única pasta, com dados brutos protegidos, caminhos relativos e um <code>README</code>. Scripts substituem operações manuais e registram cada decisão; funções e comentários tornam o código compreensível. Documentos Quarto integram texto, código e resultados, de modo que tabelas, figuras e números sejam atualizados automaticamente. O registro do ambiente computacional, o uso de sementes aleatórias e o controle de versões com Git garantem que os resultados possam ser recuperados ao longo do tempo. Por fim, o compartilhamento de dados e código em repositórios permanentes, segundo os princípios FAIR, permite que outros verifiquem e reutilizem o trabalho. Práticas simples, adotadas de forma consistente, já trazem a maior parte desses benefícios.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="13.16">
+<h2 data-number="13.16" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">13.16</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>reprodutibilidade;</li>
+<li>robustez;</li>
+<li>replicabilidade;</li>
+<li>projeto do RStudio;</li>
+<li>caminho relativo;</li>
+<li>README;</li>
+<li>cadeia de scripts;</li>
+<li>documento dinâmico;</li>
+<li>código em linha;</li>
+<li>parâmetros de um relatório;</li>
+<li>ambiente computacional;</li>
+<li>semente aleatória;</li>
+<li>controle de versões;</li>
+<li>commit;</li>
+<li>repositório permanente;</li>
+<li>DOI;</li>
+<li>princípios FAIR;</li>
+<li>licença de uso.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="13.17">
+<h2 data-number="13.17" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">13.17</span> Exercícios</h2>
+<section id="exercício-1.-diagnóstico-de-reprodutibilidade" class="level3" data-number="13.17.1">
+<h3 data-number="13.17.1" class="anchored" data-anchor-id="exercício-1.-diagnóstico-de-reprodutibilidade"><span class="header-section-number">13.17.1</span> Exercício 1. Diagnóstico de reprodutibilidade</h3>
+<p>Escolha um projeto seu (um capítulo de tese, um experimento ou um trabalho de disciplina) e aplique a lista de verificação deste capítulo. Quais itens já são atendidos? Quais seriam mais fáceis de implementar primeiro?</p>
+</section>
+<section id="exercício-2.-reorganizando-um-projeto" class="level3" data-number="13.17.2">
+<h3 data-number="13.17.2" class="anchored" data-anchor-id="exercício-2.-reorganizando-um-projeto"><span class="header-section-number">13.17.2</span> Exercício 2. Reorganizando um projeto</h3>
+<p>Crie um projeto do RStudio com a estrutura de pastas apresentada neste capítulo, coloque nele um conjunto de dados e escreva dois scripts: um de limpeza, que grave os dados processados, e um de análise, que gere uma tabela e uma figura. Escreva um <code>README</code> com as instruções para reproduzir tudo.</p>
+</section>
+<section id="exercício-3.-relatório-dinâmico" class="level3" data-number="13.17.3">
+<h3 data-number="13.17.3" class="anchored" data-anchor-id="exercício-3.-relatório-dinâmico"><span class="header-section-number">13.17.3</span> Exercício 3. Relatório dinâmico</h3>
+<p>Transforme a análise do Exercício 2 em um documento Quarto em que todos os números do texto sejam gerados por código em linha. Altere um valor dos dados brutos, renderize novamente e verifique o que muda.</p>
+</section>
+<section id="exercício-4.-sementes-e-simulações" class="level3" data-number="13.17.4">
+<h3 data-number="13.17.4" class="anchored" data-anchor-id="exercício-4.-sementes-e-simulações"><span class="header-section-number">13.17.4</span> Exercício 4. Sementes e simulações</h3>
+<p>Simule um ensaio com cinco tratamentos e quatro blocos, ajuste um modelo e estime os efeitos dos tratamentos. Execute o código duas vezes sem <code>set.seed()</code> e duas vezes com <code>set.seed()</code>. Compare os resultados e explique as diferenças.</p>
+</section>
+<section id="exercício-5.-avaliação-de-um-artigo-publicado" class="level3" data-number="13.17.5">
+<h3 data-number="13.17.5" class="anchored" data-anchor-id="exercício-5.-avaliação-de-um-artigo-publicado"><span class="header-section-number">13.17.5</span> Exercício 5. Avaliação de um artigo publicado</h3>
+<p>Escolha um artigo recente de Fitopatologia e verifique:</p>
+<ol type="1">
+<li>se os dados estão disponíveis, onde e em que formato;</li>
+<li>se o código está disponível;</li>
+<li>se as versões dos programas e pacotes são informadas;</li>
+<li>se há um identificador persistente (DOI) para os dados;</li>
+<li>se haveria como reproduzir uma das figuras do artigo.</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="13.18">
+<h2 data-number="13.18" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">13.18</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Uma análise que não pode ser reproduzida é uma afirmação; uma análise reprodutível é uma evidência que pode ser verificada.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da sua própria experiência.</p>
+</section>
+<section id="considerações-finais" class="level2" data-number="13.19">
+<h2 data-number="13.19" class="anchored" data-anchor-id="considerações-finais"><span class="header-section-number">13.19</span> Considerações finais</h2>
+<p>Este livro começou com uma questão biológica e terminou com um projeto reprodutível. Entre um e outro, procuramos mostrar que a análise de dados não é uma etapa isolada, aplicada no fim de um experimento, mas uma forma de raciocinar que acompanha toda a pesquisa: delinear estudos capazes de responder à questão, organizar os dados com cuidado, explorá-los antes de modelá-los, visualizar a evidência com honestidade, estimar efeitos com sua incerteza, escolher modelos adequados ao tipo de dado, comunicar os resultados com clareza e deixar cada passo registrado para que outros possam verificá-lo.</p>
+<p>Os métodos estatísticos continuarão evoluindo, e novos pacotes substituirão os que usamos aqui. Os princípios, porém, permanecem: começar pela biologia, mostrar os dados, quantificar a incerteza, distinguir evidência estatística de relevância biológica e trabalhar de forma transparente. São eles que transformam observações em conhecimento confiável sobre as doenças de plantas.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-mcgrath2020" class="csl-entry" role="listitem">
+McGrath, M. T. 2020. Efficacy of Conventional Fungicides for Downy Mildew in Field-Grown Sweet Basil in the United States. Plant Disease 104:2967–2972. <a href="https://doi.org/10.1094/PDIS-11-19-2382-RE">https://doi.org/10.1094/PDIS-11-19-2382-RE</a>.
+</div>
+<div id="ref-wilkinson2016" class="csl-entry" role="listitem">
+<span class="nocase">Wilkinson, M. D., Dumontier, M., Aalbersberg, Ij. J., Appleton, G., Axton, M., Baak, A., e others</span>. 2016. The <span>FAIR</span> Guiding Principles for scientific data management and stewardship. Scientific Data 3:160018. <a href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</a>.
+</div>
+<div id="ref-wilson2017" class="csl-entry" role="listitem">
+Wilson, G., Bryan, J., Cranston, K., Kitzes, J., Nederbragt, L., e Teal, T. K. 2017. Good enough practices in scientific computing. PLoS Computational Biology 13:e1005510. <a href="https://doi.org/10.1371/journal.pcbi.1005510">https://doi.org/10.1371/journal.pcbi.1005510</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter12.html" class="pagination-link" aria-label="Comunicação dos resultados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Referências">
+        <span class="nav-page-text">Referências</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

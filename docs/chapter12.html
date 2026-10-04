@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; Como os resultados científicos devem ser comunicados? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter13.html" rel="next">
+<link href="./chapter11.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">12.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-a-comunicação-importa" id="toc-por-que-a-comunicação-importa" class="nav-link" data-scroll-target="#por-que-a-comunicação-importa"><span class="header-section-number">12.2</span> Por que a comunicação importa</a></li>
+  <li><a href="#do-resultado-estatístico-à-mensagem-científica" id="toc-do-resultado-estatístico-à-mensagem-científica" class="nav-link" data-scroll-target="#do-resultado-estatístico-à-mensagem-científica"><span class="header-section-number">12.3</span> Do resultado estatístico à mensagem científica</a>
+  <ul class="collapse">
+  <li><a href="#qual-é-a-mensagem-principal" id="toc-qual-é-a-mensagem-principal" class="nav-link" data-scroll-target="#qual-é-a-mensagem-principal"><span class="header-section-number">12.3.1</span> Qual é a mensagem principal?</a></li>
+  <li><a href="#público-e-formato" id="toc-público-e-formato" class="nav-link" data-scroll-target="#público-e-formato"><span class="header-section-number">12.3.2</span> Público e formato</a></li>
+  </ul></li>
+  <li><a href="#relatando-os-métodos-estatísticos" id="toc-relatando-os-métodos-estatísticos" class="nav-link" data-scroll-target="#relatando-os-métodos-estatísticos"><span class="header-section-number">12.4</span> Relatando os métodos estatísticos</a></li>
+  <li><a href="#relatando-os-resultados" id="toc-relatando-os-resultados" class="nav-link" data-scroll-target="#relatando-os-resultados"><span class="header-section-number">12.5</span> Relatando os resultados</a>
+  <ul class="collapse">
+  <li><a href="#estimativas-incerteza-e-unidades" id="toc-estimativas-incerteza-e-unidades" class="nav-link" data-scroll-target="#estimativas-incerteza-e-unidades"><span class="header-section-number">12.5.1</span> Estimativas, incerteza e unidades</a></li>
+  <li><a href="#valores-p-como-e-quando" id="toc-valores-p-como-e-quando" class="nav-link" data-scroll-target="#valores-p-como-e-quando"><span class="header-section-number">12.5.2</span> Valores-P: como e quando</a></li>
+  <li><a href="#precisão-numérica-e-arredondamento" id="toc-precisão-numérica-e-arredondamento" class="nav-link" data-scroll-target="#precisão-numérica-e-arredondamento"><span class="header-section-number">12.5.3</span> Precisão numérica e arredondamento</a></li>
+  <li><a href="#linguagem" id="toc-linguagem" class="nav-link" data-scroll-target="#linguagem"><span class="header-section-number">12.5.4</span> Linguagem</a></li>
+  </ul></li>
+  <li><a href="#tabelas-figuras-ou-texto" id="toc-tabelas-figuras-ou-texto" class="nav-link" data-scroll-target="#tabelas-figuras-ou-texto"><span class="header-section-number">12.6</span> Tabelas, figuras ou texto?</a>
+  <ul class="collapse">
+  <li><a href="#quando-usar-cada-um" id="toc-quando-usar-cada-um" class="nav-link" data-scroll-target="#quando-usar-cada-um"><span class="header-section-number">12.6.1</span> Quando usar cada um</a></li>
+  <li><a href="#anatomia-de-uma-boa-tabela" id="toc-anatomia-de-uma-boa-tabela" class="nav-link" data-scroll-target="#anatomia-de-uma-boa-tabela"><span class="header-section-number">12.6.2</span> Anatomia de uma boa tabela</a></li>
+  <li><a href="#tabelas-a-partir-do-r" id="toc-tabelas-a-partir-do-r" class="nav-link" data-scroll-target="#tabelas-a-partir-do-r"><span class="header-section-number">12.6.3</span> Tabelas a partir do R</a></li>
+  </ul></li>
+  <li><a href="#figuras-de-resultados" id="toc-figuras-de-resultados" class="nav-link" data-scroll-target="#figuras-de-resultados"><span class="header-section-number">12.7</span> Figuras de resultados</a></li>
+  <li><a href="#escrevendo-a-interpretação" id="toc-escrevendo-a-interpretação" class="nav-link" data-scroll-target="#escrevendo-a-interpretação"><span class="header-section-number">12.8</span> Escrevendo a interpretação</a></li>
+  <li><a href="#relatórios-reprodutíveis" id="toc-relatórios-reprodutíveis" class="nav-link" data-scroll-target="#relatórios-reprodutíveis"><span class="header-section-number">12.9</span> Relatórios reprodutíveis</a>
+  <ul class="collapse">
+  <li><a href="#números-gerados-pelo-código" id="toc-números-gerados-pelo-código" class="nav-link" data-scroll-target="#números-gerados-pelo-código"><span class="header-section-number">12.9.1</span> Números gerados pelo código</a></li>
+  <li><a href="#material-suplementar-dados-e-código" id="toc-material-suplementar-dados-e-código" class="nav-link" data-scroll-target="#material-suplementar-dados-e-código"><span class="header-section-number">12.9.2</span> Material suplementar, dados e código</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática-redigindo-os-resultados-de-um-ensaio-de-fungicidas" id="toc-pesquisa-na-prática-redigindo-os-resultados-de-um-ensaio-de-fungicidas" class="nav-link" data-scroll-target="#pesquisa-na-prática-redigindo-os-resultados-de-um-ensaio-de-fungicidas"><span class="header-section-number">12.10</span> Pesquisa na prática: redigindo os resultados de um ensaio de fungicidas</a></li>
+  <li><a href="#erros-comuns" id="toc-erros-comuns" class="nav-link" data-scroll-target="#erros-comuns"><span class="header-section-number">12.11</span> Erros comuns</a>
+  <ul class="collapse">
+  <li><a href="#relatar-apenas-valores-p-ou-letras" id="toc-relatar-apenas-valores-p-ou-letras" class="nav-link" data-scroll-target="#relatar-apenas-valores-p-ou-letras"><span class="header-section-number">12.11.1</span> Relatar apenas valores-P ou letras</a></li>
+  <li><a href="#omitir-a-unidade-experimental-e-o-número-de-repetições" id="toc-omitir-a-unidade-experimental-e-o-número-de-repetições" class="nav-link" data-scroll-target="#omitir-a-unidade-experimental-e-o-número-de-repetições"><span class="header-section-number">12.11.2</span> Omitir a unidade experimental e o número de repetições</a></li>
+  <li><a href="#não-informar-o-que-as-barras-de-erro-representam" id="toc-não-informar-o-que-as-barras-de-erro-representam" class="nav-link" data-scroll-target="#não-informar-o-que-as-barras-de-erro-representam"><span class="header-section-number">12.11.3</span> Não informar o que as barras de erro representam</a></li>
+  <li><a href="#excesso-de-casas-decimais" id="toc-excesso-de-casas-decimais" class="nav-link" data-scroll-target="#excesso-de-casas-decimais"><span class="header-section-number">12.11.4</span> Excesso de casas decimais</a></li>
+  <li><a href="#repetir-os-mesmos-resultados-em-tabela-figura-e-texto" id="toc-repetir-os-mesmos-resultados-em-tabela-figura-e-texto" class="nav-link" data-scroll-target="#repetir-os-mesmos-resultados-em-tabela-figura-e-texto"><span class="header-section-number">12.11.5</span> Repetir os mesmos resultados em tabela, figura e texto</a></li>
+  <li><a href="#transcrever-números-à-mão" id="toc-transcrever-números-à-mão" class="nav-link" data-scroll-target="#transcrever-números-à-mão"><span class="header-section-number">12.11.6</span> Transcrever números à mão</a></li>
+  <li><a href="#linguagem-causal-sem-delineamento-que-a-justifique" id="toc-linguagem-causal-sem-delineamento-que-a-justifique" class="nav-link" data-scroll-target="#linguagem-causal-sem-delineamento-que-a-justifique"><span class="header-section-number">12.11.7</span> Linguagem causal sem delineamento que a justifique</a></li>
+  <li><a href="#confundir-não-significativo-com-sem-efeito" id="toc-confundir-não-significativo-com-sem-efeito" class="nav-link" data-scroll-target="#confundir-não-significativo-com-sem-efeito"><span class="header-section-number">12.11.8</span> Confundir “não significativo” com “sem efeito”</a></li>
+  <li><a href="#descrever-a-análise-planejada-em-vez-da-análise-feita" id="toc-descrever-a-análise-planejada-em-vez-da-análise-feita" class="nav-link" data-scroll-target="#descrever-a-análise-planejada-em-vez-da-análise-feita"><span class="header-section-number">12.11.9</span> Descrever a análise planejada em vez da análise feita</a></li>
+  <li><a href="#generalizar-além-das-condições-estudadas" id="toc-generalizar-além-das-condições-estudadas" class="nav-link" data-scroll-target="#generalizar-além-das-condições-estudadas"><span class="header-section-number">12.11.10</span> Generalizar além das condições estudadas</a></li>
+  </ul></li>
+  <li><a href="#um-fluxo-de-trabalho-para-comunicar-resultados" id="toc-um-fluxo-de-trabalho-para-comunicar-resultados" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-para-comunicar-resultados"><span class="header-section-number">12.12</span> Um fluxo de trabalho para comunicar resultados</a></li>
+  <li><a href="#lista-de-verificação-para-a-comunicação-de-resultados" id="toc-lista-de-verificação-para-a-comunicação-de-resultados" class="nav-link" data-scroll-target="#lista-de-verificação-para-a-comunicação-de-resultados"><span class="header-section-number">12.13</span> Lista de verificação para a comunicação de resultados</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">12.14</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">12.15</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">12.16</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-reescrevendo-resultados" id="toc-exercício-1.-reescrevendo-resultados" class="nav-link" data-scroll-target="#exercício-1.-reescrevendo-resultados"><span class="header-section-number">12.16.1</span> Exercício 1. Reescrevendo resultados</a></li>
+  <li><a href="#exercício-2.-parágrafo-de-métodos" id="toc-exercício-2.-parágrafo-de-métodos" class="nav-link" data-scroll-target="#exercício-2.-parágrafo-de-métodos"><span class="header-section-number">12.16.2</span> Exercício 2. Parágrafo de métodos</a></li>
+  <li><a href="#exercício-3.-da-saída-do-r-à-tabela" id="toc-exercício-3.-da-saída-do-r-à-tabela" class="nav-link" data-scroll-target="#exercício-3.-da-saída-do-r-à-tabela"><span class="header-section-number">12.16.3</span> Exercício 3. Da saída do R à tabela</a></li>
+  <li><a href="#exercício-4.-avaliação-de-um-artigo-publicado" id="toc-exercício-4.-avaliação-de-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-4.-avaliação-de-um-artigo-publicado"><span class="header-section-number">12.16.4</span> Exercício 4. Avaliação de um artigo publicado</a></li>
+  <li><a href="#exercício-5.-texto-reprodutível" id="toc-exercício-5.-texto-reprodutível" class="nav-link" data-scroll-target="#exercício-5.-texto-reprodutível"><span class="header-section-number">12.16.5</span> Exercício 5. Texto reprodutível</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">12.17</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">12.18</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Como os resultados científicos devem ser comunicados?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">12.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>transformar resultados estatísticos em mensagens científicas claras;</li>
+<li>descrever os métodos estatísticos com detalhe suficiente para que possam ser avaliados e reproduzidos;</li>
+<li>relatar estimativas com unidades, incerteza e precisão numérica adequada;</li>
+<li>usar valores-P de forma complementar, sem substituí-los por afirmações dicotômicas;</li>
+<li>decidir quando usar tabelas, figuras ou texto;</li>
+<li>construir tabelas e figuras de resultados diretamente a partir do R;</li>
+<li>redigir interpretações que distingam evidência estatística de relevância biológica;</li>
+<li>reconhecer e evitar erros comuns na comunicação de resultados.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-a-comunicação-importa" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="por-que-a-comunicação-importa"><span class="header-section-number">12.2</span> Por que a comunicação importa</h2>
+<p>Uma análise só cumpre seu propósito quando seus resultados chegam a outras pessoas de forma correta e compreensível. Revisores, editores, outros pesquisadores, extensionistas, produtores e gestores tomam decisões com base no que leem em artigos, relatórios e apresentações. Uma análise impecável comunicada de forma ambígua, incompleta ou exagerada produz conclusões erradas tanto quanto uma análise malfeita.</p>
+<p>Os capítulos anteriores mostraram como delinear estudos, organizar e explorar dados, construir figuras, raciocinar sobre incerteza e analisar diferentes tipos de dados. Este capítulo trata da etapa final: como transformar tudo isso em texto, tabelas e figuras que permitam ao leitor compreender o que foi feito, o que foi encontrado e quão confiáveis são as conclusões.</p>
+<p>Três princípios orientam o capítulo. Primeiro, <strong>a comunicação deve servir à questão biológica</strong>, e não aos procedimentos estatísticos. Segundo, <strong>a evidência deve ser mostrada, e não apenas declarada</strong>: estimativas, incerteza e dados, em vez de adjetivos e asteriscos. Terceiro, <strong>o relato deve ser reprodutível</strong>: outra pessoa deve conseguir entender exatamente como os resultados foram obtidos.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Comunicar resultados não é decorar a análise; é permitir que o leitor avalie a evidência e chegue às próprias conclusões.</p>
+</div>
+</div>
+</section>
+<section id="do-resultado-estatístico-à-mensagem-científica" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="do-resultado-estatístico-à-mensagem-científica"><span class="header-section-number">12.3</span> Do resultado estatístico à mensagem científica</h2>
+<section id="qual-é-a-mensagem-principal" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="qual-é-a-mensagem-principal"><span class="header-section-number">12.3.1</span> Qual é a mensagem principal?</h3>
+<p>Antes de escrever, identifique a mensagem principal de cada resultado em uma frase, em linguagem biológica. Compare:</p>
+<ul>
+<li>“O efeito do tratamento foi significativo (P &lt; 0,001).”</li>
+<li>“Todos os programas de fungicida reduziram a severidade em relação à testemunha, e o programa A foi o mais eficaz, com uma redução de cerca de 31 pontos percentuais.”</li>
+</ul>
+<p>A primeira frase descreve um procedimento; a segunda descreve um achado. Os números do procedimento continuam importantes, mas como apoio à mensagem, e não como a mensagem.</p>
+</section>
+<section id="público-e-formato" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="público-e-formato"><span class="header-section-number">12.3.2</span> Público e formato</h3>
+<p>A mesma análise pode ser comunicada de formas diferentes conforme o público. Em um artigo científico, os leitores esperam detalhes metodológicos completos, estimativas com incerteza e uma discussão das limitações. Em um relatório técnico ou boletim de extensão, a ênfase recai sobre a magnitude prática dos efeitos e as recomendações. Em uma apresentação oral, uma ou duas figuras bem planejadas valem mais do que tabelas extensas. Em todos os casos, porém, as estimativas e sua incerteza devem ser corretas e coerentes entre si.</p>
+</section>
+</section>
+<section id="relatando-os-métodos-estatísticos" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="relatando-os-métodos-estatísticos"><span class="header-section-number">12.4</span> Relatando os métodos estatísticos</h2>
+<p>A seção de métodos deve permitir que um leitor experiente avalie se a análise é adequada e, idealmente, a reproduza. Ela deve informar:</p>
+<ul>
+<li>o <strong>delineamento</strong> do estudo e a <strong>unidade experimental</strong>, incluindo o número de repetições e de subamostras (Capítulo 2);</li>
+<li>a <strong>variável resposta</strong> e como foi medida, com unidades;</li>
+<li>o <strong>modelo estatístico</strong>: tipo de modelo (linear, linear generalizado, não linear, misto), efeitos incluídos (tratamentos, blocos, interações, efeitos aleatórios) e, para MLGs, a distribuição e a função de ligação;</li>
+<li>como os <strong>pressupostos</strong> foram avaliados e o que foi feito quando não foram atendidos;</li>
+<li>as <strong>comparações</strong> de interesse (contrastes planejados, comparações com a testemunha, todas as comparações dois a dois) e o <strong>ajuste para multiplicidade</strong> usado;</li>
+<li>como foram tratados <strong>valores perdidos</strong> e <strong>observações excluídas</strong>, com justificativa;</li>
+<li>os <strong>programas e pacotes</strong> usados, com suas versões.</li>
+</ul>
+<p>Um parágrafo de métodos para o ensaio usado neste capítulo poderia ser:</p>
+<blockquote class="blockquote">
+<p>A severidade da doença (% da área foliar com sintomas) foi analisada com um modelo linear com efeitos fixos de bloco e de tratamento. Os pressupostos de normalidade e homogeneidade das variâncias foram avaliados por gráficos de resíduos. Os efeitos de cada programa de fungicida em relação à testemunha foram estimados como diferenças entre médias marginais, com intervalos de confiança de 95% ajustados pelo método de Dunnett. As análises foram feitas no R (versão 4.5.2) com o pacote emmeans (versão 2.0.1).</p>
+</blockquote>
+<p>Note que as versões no parágrafo acima não foram digitadas: foram inseridas automaticamente pelo código R no momento em que este capítulo foi gerado. Esse recurso é discutido adiante.</p>
+<p>As versões de todos os pacotes carregados podem ser obtidas com <code>sessionInfo()</code>, cuja saída é um bom candidato a material suplementar.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Descreva a análise que foi feita, e não a análise que se pretendia fazer. Se o modelo foi modificado depois de examinar os resíduos (por exemplo, trocando um modelo linear por um binomial negativo), relate isso e explique por quê.</p>
+</div>
+</div>
+</section>
+<section id="relatando-os-resultados" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="relatando-os-resultados"><span class="header-section-number">12.5</span> Relatando os resultados</h2>
+<section id="estimativas-incerteza-e-unidades" class="level3" data-number="12.5.1">
+<h3 data-number="12.5.1" class="anchored" data-anchor-id="estimativas-incerteza-e-unidades"><span class="header-section-number">12.5.1</span> Estimativas, incerteza e unidades</h3>
+<p>O núcleo de um resultado é uma <strong>estimativa com unidades e com sua incerteza</strong> (Capítulo 6). Para o ensaio simulado deste capítulo, os efeitos dos fungicidas em relação à testemunha são:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(severity <span class="sc">~</span> block <span class="sc">+</span> treatment, <span class="at">data =</span> ensaio)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(modelo, <span class="sc">~</span> treatment)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>efeitos <span class="ot">&lt;-</span> <span class="fu">confint</span>(<span class="fu">contrast</span>(emm, <span class="st">"trt.vs.ctrl"</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>efeitos</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast             estimate   SE df lower.CL upper.CL
+ Fung. A - Testemunha    -31.0 3.35 12    -40.4   -21.51
+ Fung. B - Testemunha    -26.3 3.35 12    -35.7   -16.81
+ Fung. C - Testemunha    -15.1 3.35 12    -24.6    -5.66
+ Fung. D - Testemunha    -22.8 3.35 12    -32.3   -13.33
+
+Results are averaged over the levels of: block 
+Confidence level used: 0.95 
+Conf-level adjustment: dunnettx method for 4 estimates </code></pre>
+</div>
+</div>
+<p>A partir dessa saída, uma frase de resultados informativa seria: “O programa A reduziu a severidade em 31 pontos percentuais em relação à testemunha (IC 95%: 21 a 40)”. Ela informa a direção (redução), a magnitude (31 pontos), a unidade (pontos percentuais), a comparação (em relação à testemunha) e a incerteza (o intervalo).</p>
+</section>
+<section id="valores-p-como-e-quando" class="level3" data-number="12.5.2">
+<h3 data-number="12.5.2" class="anchored" data-anchor-id="valores-p-como-e-quando"><span class="header-section-number">12.5.2</span> Valores-P: como e quando</h3>
+<p>Valores-P podem complementar as estimativas, mas não substituí-las. Quando relatados:</p>
+<ul>
+<li>informe o <strong>valor exato</strong> (P = 0,03), e não apenas “P &lt; 0,05” ou “n.s.”; para valores muito pequenos, “P &lt; 0,001” é suficiente;</li>
+<li>não use o valor-P como medida do tamanho do efeito;</li>
+<li>não interprete P &gt; 0,05 como evidência de ausência de efeito (Capítulo 6);</li>
+<li>evite asteriscos como única forma de comunicar a evidência.</li>
+</ul>
+</section>
+<section id="precisão-numérica-e-arredondamento" class="level3" data-number="12.5.3">
+<h3 data-number="12.5.3" class="anchored" data-anchor-id="precisão-numérica-e-arredondamento"><span class="header-section-number">12.5.3</span> Precisão numérica e arredondamento</h3>
+<p>O número de casas decimais deve refletir a precisão da medida e da estimativa, e não a capacidade da calculadora. Uma severidade média de 23,4719% sugere uma precisão inexistente quando as avaliações visuais variam em vários pontos percentuais. Regras práticas úteis:</p>
+<ul>
+<li>relate médias e efeitos com <strong>dois ou três algarismos significativos</strong>, coerentes com o erro padrão;</li>
+<li>relate estatísticas de teste com uma ou duas casas decimais e valores-P com dois algarismos significativos;</li>
+<li>use o <strong>mesmo número de casas decimais</strong> para grandezas comparáveis em uma tabela;</li>
+<li>arredonde apenas no final, nunca em etapas intermediárias dos cálculos.</li>
+</ul>
+</section>
+<section id="linguagem" class="level3" data-number="12.5.4">
+<h3 data-number="12.5.4" class="anchored" data-anchor-id="linguagem"><span class="header-section-number">12.5.4</span> Linguagem</h3>
+<p>A forma de escrever influencia o que o leitor conclui. Alguns cuidados:</p>
+<ul>
+<li><strong>“significativo”</strong> tem um sentido estatístico e um sentido comum (“importante”). Prefira “estatisticamente significativo” quando for esse o sentido, ou, melhor ainda, descreva a magnitude e a incerteza;</li>
+<li>evite <strong>“tendência à significância”</strong> ou “marginalmente significativo” para valores-P próximos de 0,05; descreva a estimativa e seu intervalo;</li>
+<li>use <strong>linguagem causal</strong> (“o fungicida reduziu”) apenas quando o delineamento a justificar; em estudos observacionais, prefira “esteve associado a” (Capítulo 6);</li>
+<li>não confunda <strong>“não houve diferença”</strong> com “não houve evidência de diferença”.</li>
+</ul>
+<div id="tbl-ch12-redacao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch12-redacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;12.1: Exemplos de redação de resultados.
+</figcaption>
+<div aria-describedby="tbl-ch12-redacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Em vez de</th>
+<th>Prefira</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>O tratamento foi significativo (P &lt; 0,05).</td>
+<td>O programa A reduziu a severidade em 31 p.p. (IC 95%: 21 a 40) em relação à testemunha.</td>
+</tr>
+<tr class="even">
+<td>Não houve diferença entre B e C (P = 0,08).</td>
+<td>A diferença entre B e C foi de 9 p.p., mas o intervalo (−1 a 19) é compatível tanto com nenhuma diferença quanto com uma diferença considerável.</td>
+</tr>
+<tr class="odd">
+<td>A severidade foi de 18,3472%.</td>
+<td>A severidade média foi de 18% (IC 95%: 15 a 22).</td>
+</tr>
+<tr class="even">
+<td>A temperatura causou o aumento da doença (levantamento).</td>
+<td>A doença foi maior em lavouras com temperaturas mais altas.</td>
+</tr>
+<tr class="odd">
+<td>Os resultados mostraram uma tendência à significância (P = 0,06).</td>
+<td>A estimativa foi de −8 p.p. (IC 95%: −16 a 0,4); os dados são compatíveis com efeitos desde nulos até moderados.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="tabelas-figuras-ou-texto" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="tabelas-figuras-ou-texto"><span class="header-section-number">12.6</span> Tabelas, figuras ou texto?</h2>
+<section id="quando-usar-cada-um" class="level3" data-number="12.6.1">
+<h3 data-number="12.6.1" class="anchored" data-anchor-id="quando-usar-cada-um"><span class="header-section-number">12.6.1</span> Quando usar cada um</h3>
+<p>Cada formato tem sua função:</p>
+<ul>
+<li><strong>texto</strong>: para um ou dois números importantes, que fazem parte de uma frase;</li>
+<li><strong>tabelas</strong>: quando os valores exatos importam e precisam ser consultados, ou quando há muitas grandezas diferentes (médias, intervalos, tamanhos de amostra) para vários grupos;</li>
+<li><strong>figuras</strong>: quando o padrão, a comparação ou a forma de uma relação importam mais do que os valores exatos (Capítulo 5).</li>
+</ul>
+<p>Os mesmos resultados não devem ser repetidos em tabela e em figura no corpo do texto; escolha o formato que comunica melhor e, se necessário, coloque o outro no material suplementar.</p>
+</section>
+<section id="anatomia-de-uma-boa-tabela" class="level3" data-number="12.6.2">
+<h3 data-number="12.6.2" class="anchored" data-anchor-id="anatomia-de-uma-boa-tabela"><span class="header-section-number">12.6.2</span> Anatomia de uma boa tabela</h3>
+<p>Uma boa tabela de resultados:</p>
+<ul>
+<li>tem um <strong>título</strong> que permite entendê-la sem ler o texto, informando o que é mostrado, a unidade e o tamanho da amostra;</li>
+<li>organiza as linhas em uma <strong>ordem lógica</strong> (testemunha primeiro, depois os tratamentos em ordem de dose ou de eficácia);</li>
+<li>coloca na mesma coluna grandezas <strong>comparáveis</strong>, com o mesmo número de casas decimais;</li>
+<li>mostra <strong>estimativas e intervalos</strong>, e não apenas médias com letras;</li>
+<li>explica em nota de rodapé as <strong>abreviações</strong> e o método de ajuste para multiplicidade;</li>
+<li>evita linhas verticais e bordas desnecessárias.</li>
+</ul>
+</section>
+<section id="tabelas-a-partir-do-r" class="level3" data-number="12.6.3">
+<h3 data-number="12.6.3" class="anchored" data-anchor-id="tabelas-a-partir-do-r"><span class="header-section-number">12.6.3</span> Tabelas a partir do R</h3>
+<p>Digitar números de uma saída do R em uma planilha ou em um editor de texto é uma fonte frequente de erros. Uma alternativa é construir a tabela diretamente a partir dos objetos da análise. O exemplo abaixo combina as médias marginais e os efeitos em relação à testemunha em uma única tabela:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>medias <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">confint</span>(emm))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>efe <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(efeitos)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Tratamento =</span> medias<span class="sc">$</span>treatment,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Severidade média (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f (%.1f a %.1f)"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                                   medias<span class="sc">$</span>emmean, medias<span class="sc">$</span>lower.CL, medias<span class="sc">$</span>upper.CL),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Efeito vs. testemunha (p.p.)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"—"</span>, <span class="fu">sprintf</span>(<span class="st">"%.1f (%.1f a %.1f)"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                                                  efe<span class="sc">$</span>estimate, efe<span class="sc">$</span>lower.CL, efe<span class="sc">$</span>upper.CL)),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tabela, <span class="at">align =</span> <span class="st">"lcc"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-ch12-resultados" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch12-resultados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;12.2: Severidade média da doença e efeito de cada programa de fungicida em relação à testemunha (ensaio simulado; quatro blocos). Valores entre parênteses: intervalos de confiança de 95%; os intervalos dos efeitos foram ajustados pelo método de Dunnett.
+</figcaption>
+<div aria-describedby="tbl-ch12-resultados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tratamento</th>
+<th style="text-align: center;">Severidade média (%)</th>
+<th style="text-align: center;">Efeito vs.&nbsp;testemunha (p.p.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Testemunha</td>
+<td style="text-align: center;">48.2 (43.0 a 53.3)</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fung. A</td>
+<td style="text-align: center;">17.2 (12.0 a 22.3)</td>
+<td style="text-align: center;">-31.0 (-40.4 a -21.5)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fung. B</td>
+<td style="text-align: center;">21.9 (16.7 a 27.0)</td>
+<td style="text-align: center;">-26.3 (-35.7 a -16.8)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fung. C</td>
+<td style="text-align: center;">33.0 (27.9 a 38.2)</td>
+<td style="text-align: center;">-15.1 (-24.6 a -5.7)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fung. D</td>
+<td style="text-align: center;">25.3 (20.2 a 30.5)</td>
+<td style="text-align: center;">-22.8 (-32.3 a -13.3)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Como a tabela é gerada pelo código, qualquer mudança nos dados ou no modelo é refletida automaticamente, sem risco de erro de transcrição. Pacotes como <code>gt</code> e <code>flextable</code> oferecem recursos adicionais de formatação e exportação para Word.</p>
+</section>
+</section>
+<section id="figuras-de-resultados" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="figuras-de-resultados"><span class="header-section-number">12.7</span> Figuras de resultados</h2>
+<p>Os princípios do Capítulo 5 aplicam-se integralmente às figuras de resultados: mostrar os dados sempre que possível, representar a incerteza, ordenar as categorias de forma significativa e escrever legendas autoexplicativas. Para comparações com uma testemunha, um gráfico de efeitos comunica diretamente a magnitude e a precisão de cada efeito (<a href="#fig-chapter12-efeitos" class="quarto-xref">Figura&nbsp;<span>12.1</span></a>).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>efe<span class="sc">$</span>tratamento <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">" - Testemunha"</span>, <span class="st">""</span>, efe<span class="sc">$</span>contrast)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>efe<span class="sc">$</span>tratamento <span class="ot">&lt;-</span> <span class="fu">reorder</span>(efe<span class="sc">$</span>tratamento, <span class="sc">-</span>efe<span class="sc">$</span>estimate)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(efe, <span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> tratamento, <span class="at">xmin =</span> lower.CL, <span class="at">xmax =</span> upper.CL)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>, <span class="at">size =</span> <span class="fl">0.6</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Diferença na severidade em relação à testemunha (pontos percentuais)"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-chapter12-efeitos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter12-efeitos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter12_files/figure-html/fig-chapter12-efeitos-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter12-efeitos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.1: Efeito de cada programa de fungicida sobre a severidade da doença em relação à testemunha (ensaio simulado; quatro blocos). Pontos: diferenças estimadas entre médias marginais; barras: intervalos de confiança de 95% ajustados pelo método de Dunnett. A linha vertical marca a ausência de efeito.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Para submissão, a figura deve ser salva nas dimensões e no formato exigidos pela revista (Capítulo 5):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/fig2_efeitos.pdf"</span>, <span class="at">width =</span> <span class="dv">17</span>, <span class="at">height =</span> <span class="dv">9</span>, <span class="at">units =</span> <span class="st">"cm"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="escrevendo-a-interpretação" class="level2" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="escrevendo-a-interpretação"><span class="header-section-number">12.8</span> Escrevendo a interpretação</h2>
+<p>A discussão de um trabalho conecta os resultados à questão biológica. Uma boa interpretação:</p>
+<ul>
+<li>começa pela <strong>resposta à questão</strong> que motivou o estudo;</li>
+<li>distingue <strong>evidência estatística</strong> de <strong>relevância biológica</strong>: um efeito pode ser claro, mas pequeno demais para importar, ou grande, mas estimado com pouca precisão (Capítulo 6);</li>
+<li>compara os resultados com <strong>estudos anteriores</strong>, explicando concordâncias e discordâncias;</li>
+<li>reconhece as <strong>limitações</strong> do delineamento e da análise: uma única safra, um único local, um isolado, poucas repetições;</li>
+<li>indica a <strong>população</strong> à qual as conclusões se aplicam e evita generalizações além dela;</li>
+<li>propõe <strong>hipóteses</strong> para estudos futuros quando os resultados forem exploratórios.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A discussão não é o lugar para transformar resultados não significativos em “tendências” nem para apresentar como confirmados padrões descobertos durante a exploração dos dados.</p>
+</div>
+</div>
+</section>
+<section id="relatórios-reprodutíveis" class="level2" data-number="12.9">
+<h2 data-number="12.9" class="anchored" data-anchor-id="relatórios-reprodutíveis"><span class="header-section-number">12.9</span> Relatórios reprodutíveis</h2>
+<section id="números-gerados-pelo-código" class="level3" data-number="12.9.1">
+<h3 data-number="12.9.1" class="anchored" data-anchor-id="números-gerados-pelo-código"><span class="header-section-number">12.9.1</span> Números gerados pelo código</h3>
+<p>Uma das fontes mais comuns de erro em artigos científicos é a transcrição manual de números da saída da análise para o texto. Em documentos Quarto, como este livro, é possível inserir resultados diretamente no texto com <strong>código R em linha</strong>. Por exemplo, o texto a seguir não contém nenhum número digitado à mão:</p>
+<blockquote class="blockquote">
+<p>O programa A reduziu a severidade em 31,0 pontos percentuais em relação à testemunha (IC 95%: 21,5 a 40,4).</p>
+</blockquote>
+<p>No arquivo-fonte, essa frase é escrita assim:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>O programa A reduziu a severidade em <span class="in">`r fmt(efe_A$estimate)`</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pontos percentuais em relação à testemunha (IC 95%: ...).</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Se os dados forem corrigidos ou o modelo for alterado, o texto é atualizado automaticamente na próxima renderização. O Capítulo 13 aprofunda esse e outros aspectos da pesquisa reprodutível.</p>
+</section>
+<section id="material-suplementar-dados-e-código" class="level3" data-number="12.9.2">
+<h3 data-number="12.9.2" class="anchored" data-anchor-id="material-suplementar-dados-e-código"><span class="header-section-number">12.9.2</span> Material suplementar, dados e código</h3>
+<p>Cada vez mais revistas exigem ou incentivam a disponibilização dos dados e do código usados nas análises. Mesmo quando não é obrigatório, publicar os dados organizados (Capítulo 3), o dicionário de dados e os scripts de análise em um repositório permanente (como Zenodo, Figshare, OSF ou o repositório institucional) permite que outros verifiquem, reutilizem e ampliem o trabalho, e aumenta a confiança nos resultados <span class="citation" data-cites="wilkinson2016">(<a href="references.html#ref-wilkinson2016" role="doc-biblioref"><span class="nocase">Wilkinson et al.</span> 2016</a>)</span>.</p>
+</section>
+</section>
+<section id="pesquisa-na-prática-redigindo-os-resultados-de-um-ensaio-de-fungicidas" class="level2" data-number="12.10">
+<h2 data-number="12.10" class="anchored" data-anchor-id="pesquisa-na-prática-redigindo-os-resultados-de-um-ensaio-de-fungicidas"><span class="header-section-number">12.10</span> Pesquisa na prática: redigindo os resultados de um ensaio de fungicidas</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Comunicando a eficácia de fungicidas">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Comunicando a eficácia de fungicidas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Retome um ensaio de campo como o do míldio do manjericão apresentado no Capítulo 1 <span class="citation" data-cites="mcgrath2020">(<a href="references.html#ref-mcgrath2020" role="doc-biblioref">McGrath 2020</a>)</span>: vários programas de fungicida e uma testemunha, em blocos casualizados, com a severidade avaliada no fim da safra. Usando as análises deste capítulo como modelo, prepare:</p>
+<ol type="1">
+<li>um <strong>parágrafo de métodos</strong> que informe o delineamento, a unidade experimental, o modelo, as comparações e o ajuste para multiplicidade;</li>
+<li>uma <strong>tabela</strong> com as médias e os efeitos em relação à testemunha, com intervalos de confiança;</li>
+<li>uma <strong>figura</strong> que mostre os efeitos e sua incerteza;</li>
+<li>um <strong>parágrafo de resultados</strong> em que cada afirmação venha acompanhada de uma estimativa com unidades e incerteza;</li>
+<li>um <strong>parágrafo de discussão</strong> que diga se as reduções observadas são relevantes para a produção comercial e quais limitações impedem generalizar os resultados.</li>
+</ol>
+<p>Em seguida, troque o texto com um colega e verifique: é possível entender o que foi feito e o que foi encontrado sem ver a saída do R?</p>
+</div>
+</div>
+</div>
+</section>
+<section id="erros-comuns" class="level2" data-number="12.11">
+<h2 data-number="12.11" class="anchored" data-anchor-id="erros-comuns"><span class="header-section-number">12.11</span> Erros comuns</h2>
+<section id="relatar-apenas-valores-p-ou-letras" class="level3" data-number="12.11.1">
+<h3 data-number="12.11.1" class="anchored" data-anchor-id="relatar-apenas-valores-p-ou-letras"><span class="header-section-number">12.11.1</span> Relatar apenas valores-P ou letras</h3>
+<p>O leitor não consegue avaliar a magnitude nem a precisão dos efeitos.</p>
+</section>
+<section id="omitir-a-unidade-experimental-e-o-número-de-repetições" class="level3" data-number="12.11.2">
+<h3 data-number="12.11.2" class="anchored" data-anchor-id="omitir-a-unidade-experimental-e-o-número-de-repetições"><span class="header-section-number">12.11.2</span> Omitir a unidade experimental e o número de repetições</h3>
+<p>Sem essa informação, não é possível avaliar a adequação da análise.</p>
+</section>
+<section id="não-informar-o-que-as-barras-de-erro-representam" class="level3" data-number="12.11.3">
+<h3 data-number="12.11.3" class="anchored" data-anchor-id="não-informar-o-que-as-barras-de-erro-representam"><span class="header-section-number">12.11.3</span> Não informar o que as barras de erro representam</h3>
+<p>Desvio padrão, erro padrão e intervalo de confiança têm significados muito diferentes (Capítulo 5).</p>
+</section>
+<section id="excesso-de-casas-decimais" class="level3" data-number="12.11.4">
+<h3 data-number="12.11.4" class="anchored" data-anchor-id="excesso-de-casas-decimais"><span class="header-section-number">12.11.4</span> Excesso de casas decimais</h3>
+<p>Números como 23,4719% sugerem uma precisão inexistente.</p>
+</section>
+<section id="repetir-os-mesmos-resultados-em-tabela-figura-e-texto" class="level3" data-number="12.11.5">
+<h3 data-number="12.11.5" class="anchored" data-anchor-id="repetir-os-mesmos-resultados-em-tabela-figura-e-texto"><span class="header-section-number">12.11.5</span> Repetir os mesmos resultados em tabela, figura e texto</h3>
+<p>A redundância ocupa espaço e dificulta a leitura.</p>
+</section>
+<section id="transcrever-números-à-mão" class="level3" data-number="12.11.6">
+<h3 data-number="12.11.6" class="anchored" data-anchor-id="transcrever-números-à-mão"><span class="header-section-number">12.11.6</span> Transcrever números à mão</h3>
+<p>Cópias manuais introduzem erros difíceis de detectar.</p>
+</section>
+<section id="linguagem-causal-sem-delineamento-que-a-justifique" class="level3" data-number="12.11.7">
+<h3 data-number="12.11.7" class="anchored" data-anchor-id="linguagem-causal-sem-delineamento-que-a-justifique"><span class="header-section-number">12.11.7</span> Linguagem causal sem delineamento que a justifique</h3>
+<p>Associações observacionais não são efeitos causais.</p>
+</section>
+<section id="confundir-não-significativo-com-sem-efeito" class="level3" data-number="12.11.8">
+<h3 data-number="12.11.8" class="anchored" data-anchor-id="confundir-não-significativo-com-sem-efeito"><span class="header-section-number">12.11.8</span> Confundir “não significativo” com “sem efeito”</h3>
+<p>A ausência de evidência não é evidência de ausência.</p>
+</section>
+<section id="descrever-a-análise-planejada-em-vez-da-análise-feita" class="level3" data-number="12.11.9">
+<h3 data-number="12.11.9" class="anchored" data-anchor-id="descrever-a-análise-planejada-em-vez-da-análise-feita"><span class="header-section-number">12.11.9</span> Descrever a análise planejada em vez da análise feita</h3>
+<p>Mudanças no modelo devem ser relatadas e justificadas.</p>
+</section>
+<section id="generalizar-além-das-condições-estudadas" class="level3" data-number="12.11.10">
+<h3 data-number="12.11.10" class="anchored" data-anchor-id="generalizar-além-das-condições-estudadas"><span class="header-section-number">12.11.10</span> Generalizar além das condições estudadas</h3>
+<p>Uma safra, um local ou um isolado não representam todas as condições.</p>
+</section>
+</section>
+<section id="um-fluxo-de-trabalho-para-comunicar-resultados" class="level2" data-number="12.12">
+<h2 data-number="12.12" class="anchored" data-anchor-id="um-fluxo-de-trabalho-para-comunicar-resultados"><span class="header-section-number">12.12</span> Um fluxo de trabalho para comunicar resultados</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter12-fluxo" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter12-fluxo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-d1af518fd217ba95c9e7" style="width:100%;height:524px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d1af518fd217ba95c9e7">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Mensagem principal de cada resultado<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Escolher o formato:<br/>texto, tabela ou figura<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Relatar estimativas,<br/>unidades e incerteza<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Descrever métodos com detalhe suficiente<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Interpretar: relevância<br/>biológica e limitações<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Disponibilizar dados e código<\/b><\/font>>, fillcolor = \"#f4f4f4\", color = \"#bbbbbb\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter12-fluxo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.2: Um fluxo de trabalho para comunicar resultados científicos.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="lista-de-verificação-para-a-comunicação-de-resultados" class="level2" data-number="12.13">
+<h2 data-number="12.13" class="anchored" data-anchor-id="lista-de-verificação-para-a-comunicação-de-resultados"><span class="header-section-number">12.13</span> Lista de verificação para a comunicação de resultados</h2>
+<p>Antes de submeter um manuscrito ou relatório, pergunte:</p>
+<ol type="1">
+<li>A questão biológica e a mensagem principal estão claras?</li>
+<li>O delineamento, a unidade experimental e o número de repetições estão descritos?</li>
+<li>O modelo estatístico, as comparações e o ajuste para multiplicidade estão descritos?</li>
+<li>Os programas e pacotes estão citados, com versões?</li>
+<li>Cada resultado principal tem uma estimativa com unidades e incerteza?</li>
+<li>Os valores-P, quando relatados, são exatos e complementares às estimativas?</li>
+<li>O número de casas decimais é coerente com a precisão?</li>
+<li>As figuras mostram os dados e informam o que as barras representam?</li>
+<li>As tabelas têm títulos autoexplicativos e notas de rodapé?</li>
+<li>O mesmo resultado não aparece repetido em tabela e figura?</li>
+<li>A linguagem causal é justificada pelo delineamento?</li>
+<li>A discussão distingue evidência estatística de relevância biológica?</li>
+<li>As limitações e o escopo das conclusões estão explícitos?</li>
+<li>Os números do texto foram gerados pelo código, ou conferidos com a saída da análise?</li>
+<li>Os dados e o código estão disponíveis?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="12.14">
+<h2 data-number="12.14" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">12.14</span> Resumo do capítulo</h2>
+<p>Comunicar resultados é a etapa em que uma análise se torna conhecimento compartilhado. Uma boa comunicação parte da questão biológica e transforma resultados estatísticos em mensagens científicas, sustentadas por estimativas com unidades e incerteza. Os métodos devem ser descritos com detalhe suficiente para serem avaliados e reproduzidos; os valores-P, quando usados, complementam as estimativas; e a precisão numérica deve refletir a precisão real das medidas. Tabelas, figuras e texto têm funções diferentes e devem ser escolhidos de acordo com o que precisa ser comunicado. Gerar tabelas, figuras e números diretamente a partir do código elimina erros de transcrição e torna o relato reprodutível. Por fim, a interpretação deve distinguir evidência estatística de relevância biológica e deixar claros as limitações e o escopo das conclusões.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="12.15">
+<h2 data-number="12.15" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">12.15</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>mensagem principal;</li>
+<li>relato de métodos estatísticos;</li>
+<li>estimativa com incerteza;</li>
+<li>precisão numérica;</li>
+<li>linguagem causal;</li>
+<li>tabela de resultados;</li>
+<li>gráfico de efeitos;</li>
+<li>código em linha;</li>
+<li>relatório reprodutível;</li>
+<li>material suplementar;</li>
+<li>dados abertos.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="12.16">
+<h2 data-number="12.16" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">12.16</span> Exercícios</h2>
+<section id="exercício-1.-reescrevendo-resultados" class="level3" data-number="12.16.1">
+<h3 data-number="12.16.1" class="anchored" data-anchor-id="exercício-1.-reescrevendo-resultados"><span class="header-section-number">12.16.1</span> Exercício 1. Reescrevendo resultados</h3>
+<p>Reescreva as frases abaixo de forma mais informativa, inventando valores plausíveis quando necessário:</p>
+<blockquote class="blockquote">
+<p>“O fungicida foi significativamente melhor que a testemunha (P &lt; 0,05).”</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“Não houve efeito da cultivar sobre a severidade (P = 0,12).”</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“A severidade média foi de 34,58219%.”</p>
+</blockquote>
+</section>
+<section id="exercício-2.-parágrafo-de-métodos" class="level3" data-number="12.16.2">
+<h3 data-number="12.16.2" class="anchored" data-anchor-id="exercício-2.-parágrafo-de-métodos"><span class="header-section-number">12.16.2</span> Exercício 2. Parágrafo de métodos</h3>
+<p>Escreva o parágrafo de métodos estatísticos de um experimento da sua área, informando o delineamento, a unidade experimental, o modelo, as comparações, o ajuste para multiplicidade e os programas usados.</p>
+</section>
+<section id="exercício-3.-da-saída-do-r-à-tabela" class="level3" data-number="12.16.3">
+<h3 data-number="12.16.3" class="anchored" data-anchor-id="exercício-3.-da-saída-do-r-à-tabela"><span class="header-section-number">12.16.3</span> Exercício 3. Da saída do R à tabela</h3>
+<p>Usando um conjunto de dados fornecido pelo professor, ajuste um modelo, obtenha as médias marginais e os contrastes de interesse com o <code>emmeans</code> e construa uma tabela de resultados diretamente no R, com título e nota de rodapé.</p>
+</section>
+<section id="exercício-4.-avaliação-de-um-artigo-publicado" class="level3" data-number="12.16.4">
+<h3 data-number="12.16.4" class="anchored" data-anchor-id="exercício-4.-avaliação-de-um-artigo-publicado"><span class="header-section-number">12.16.4</span> Exercício 4. Avaliação de um artigo publicado</h3>
+<p>Escolha um artigo recente de Fitopatologia e avalie:</p>
+<ol type="1">
+<li>se o delineamento e a unidade experimental estão descritos;</li>
+<li>se o modelo estatístico e o ajuste para multiplicidade estão descritos;</li>
+<li>se os resultados são relatados como estimativas com incerteza;</li>
+<li>se as figuras informam o que as barras de erro representam;</li>
+<li>se a linguagem causal é justificada;</li>
+<li>se os dados e o código estão disponíveis.</li>
+</ol>
+</section>
+<section id="exercício-5.-texto-reprodutível" class="level3" data-number="12.16.5">
+<h3 data-number="12.16.5" class="anchored" data-anchor-id="exercício-5.-texto-reprodutível"><span class="header-section-number">12.16.5</span> Exercício 5. Texto reprodutível</h3>
+<p>Em um documento Quarto, ajuste um modelo simples e escreva uma frase de resultados em que todos os números sejam inseridos com código R em linha. Altere um valor dos dados e renderize novamente para verificar que o texto se atualiza.</p>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="12.17">
+<h2 data-number="12.17" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">12.17</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Uma análise só está completa quando outra pessoa consegue entender o que foi feito, o que foi encontrado e quão confiáveis são as conclusões.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="12.18">
+<h2 data-number="12.18" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">12.18</span> Próximos passos</h2>
+<p>Comunicar bem os resultados depende de saber exatamente como foram obtidos. O Capítulo 13 integra os conceitos deste livro em um fluxo de trabalho de pesquisa reprodutível: organização de projetos, documentação das análises, relatórios dinâmicos com o Quarto e compartilhamento de dados e código.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-mcgrath2020" class="csl-entry" role="listitem">
+McGrath, M. T. 2020. Efficacy of Conventional Fungicides for Downy Mildew in Field-Grown Sweet Basil in the United States. Plant Disease 104:2967–2972. <a href="https://doi.org/10.1094/PDIS-11-19-2382-RE">https://doi.org/10.1094/PDIS-11-19-2382-RE</a>.
+</div>
+<div id="ref-wilkinson2016" class="csl-entry" role="listitem">
+<span class="nocase">Wilkinson, M. D., Dumontier, M., Aalbersberg, Ij. J., Appleton, G., Axton, M., Baak, A., e others</span>. 2016. The <span>FAIR</span> Guiding Principles for scientific data management and stewardship. Scientific Data 3:160018. <a href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter11.html" class="pagination-link" aria-label="Dados multivariados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter13.html" class="pagination-link" aria-label="Pesquisa reprodutível">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

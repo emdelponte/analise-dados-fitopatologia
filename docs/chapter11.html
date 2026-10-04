@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; Como exploramos dados multivariados? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter12.html" rel="next">
+<link href="./chapter10.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">11.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-dados-multivariados" id="toc-por-que-dados-multivariados" class="nav-link" data-scroll-target="#por-que-dados-multivariados"><span class="header-section-number">11.2</span> Por que dados multivariados?</a></li>
+  <li><a href="#da-questão-biológica-à-exploração-multivariada" id="toc-da-questão-biológica-à-exploração-multivariada" class="nav-link" data-scroll-target="#da-questão-biológica-à-exploração-multivariada"><span class="header-section-number">11.3</span> Da questão biológica à exploração multivariada</a>
+  <ul class="collapse">
+  <li><a href="#exploração-e-confirmação" id="toc-exploração-e-confirmação" class="nav-link" data-scroll-target="#exploração-e-confirmação"><span class="header-section-number">11.3.1</span> Exploração e confirmação</a></li>
+  </ul></li>
+  <li><a href="#organizando-dados-multivariados" id="toc-organizando-dados-multivariados" class="nav-link" data-scroll-target="#organizando-dados-multivariados"><span class="header-section-number">11.4</span> Organizando dados multivariados</a>
+  <ul class="collapse">
+  <li><a href="#a-matriz-de-dados" id="toc-a-matriz-de-dados" class="nav-link" data-scroll-target="#a-matriz-de-dados"><span class="header-section-number">11.4.1</span> A matriz de dados</a></li>
+  <li><a href="#muitas-variáveis-poucas-amostras" id="toc-muitas-variáveis-poucas-amostras" class="nav-link" data-scroll-target="#muitas-variáveis-poucas-amostras"><span class="header-section-number">11.4.2</span> Muitas variáveis, poucas amostras</a></li>
+  </ul></li>
+  <li><a href="#preparando-os-dados" id="toc-preparando-os-dados" class="nav-link" data-scroll-target="#preparando-os-dados"><span class="header-section-number">11.5</span> Preparando os dados</a>
+  <ul class="collapse">
+  <li><a href="#valores-perdidos-e-controle-de-qualidade" id="toc-valores-perdidos-e-controle-de-qualidade" class="nav-link" data-scroll-target="#valores-perdidos-e-controle-de-qualidade"><span class="header-section-number">11.5.1</span> Valores perdidos e controle de qualidade</a></li>
+  <li><a href="#transformação" id="toc-transformação" class="nav-link" data-scroll-target="#transformação"><span class="header-section-number">11.5.2</span> Transformação</a></li>
+  <li><a href="#centralização-e-padronização" id="toc-centralização-e-padronização" class="nav-link" data-scroll-target="#centralização-e-padronização"><span class="header-section-number">11.5.3</span> Centralização e padronização</a></li>
+  </ul></li>
+  <li><a href="#distância-e-similaridade" id="toc-distância-e-similaridade" class="nav-link" data-scroll-target="#distância-e-similaridade"><span class="header-section-number">11.6</span> Distância e similaridade</a>
+  <ul class="collapse">
+  <li><a href="#distância-euclidiana" id="toc-distância-euclidiana" class="nav-link" data-scroll-target="#distância-euclidiana"><span class="header-section-number">11.6.1</span> Distância euclidiana</a></li>
+  <li><a href="#distância-baseada-em-correlação" id="toc-distância-baseada-em-correlação" class="nav-link" data-scroll-target="#distância-baseada-em-correlação"><span class="header-section-number">11.6.2</span> Distância baseada em correlação</a></li>
+  <li><a href="#distâncias-para-dados-de-comunidades" id="toc-distâncias-para-dados-de-comunidades" class="nav-link" data-scroll-target="#distâncias-para-dados-de-comunidades"><span class="header-section-number">11.6.3</span> Distâncias para dados de comunidades</a></li>
+  <li><a href="#tipos-de-variáveis-misturados" id="toc-tipos-de-variáveis-misturados" class="nav-link" data-scroll-target="#tipos-de-variáveis-misturados"><span class="header-section-number">11.6.4</span> Tipos de variáveis misturados</a></li>
+  </ul></li>
+  <li><a href="#análise-de-componentes-principais" id="toc-análise-de-componentes-principais" class="nav-link" data-scroll-target="#análise-de-componentes-principais"><span class="header-section-number">11.7</span> Análise de componentes principais</a>
+  <ul class="collapse">
+  <li><a href="#a-ideia" id="toc-a-ideia" class="nav-link" data-scroll-target="#a-ideia"><span class="header-section-number">11.7.1</span> A ideia</a></li>
+  <li><a href="#um-exemplo-simples" id="toc-um-exemplo-simples" class="nav-link" data-scroll-target="#um-exemplo-simples"><span class="header-section-number">11.7.2</span> Um exemplo simples</a></li>
+  <li><a href="#ajustando-uma-acp-no-r" id="toc-ajustando-uma-acp-no-r" class="nav-link" data-scroll-target="#ajustando-uma-acp-no-r"><span class="header-section-number">11.7.3</span> Ajustando uma ACP no R</a></li>
+  <li><a href="#variância-explicada" id="toc-variância-explicada" class="nav-link" data-scroll-target="#variância-explicada"><span class="header-section-number">11.7.4</span> Variância explicada</a></li>
+  <li><a href="#escores-onde-estão-as-amostras" id="toc-escores-onde-estão-as-amostras" class="nav-link" data-scroll-target="#escores-onde-estão-as-amostras"><span class="header-section-number">11.7.5</span> Escores: onde estão as amostras?</a></li>
+  <li><a href="#cargas-quais-variáveis-importam" id="toc-cargas-quais-variáveis-importam" class="nav-link" data-scroll-target="#cargas-quais-variáveis-importam"><span class="header-section-number">11.7.6</span> Cargas: quais variáveis importam?</a></li>
+  <li><a href="#biplots" id="toc-biplots" class="nav-link" data-scroll-target="#biplots"><span class="header-section-number">11.7.7</span> Biplots</a></li>
+  <li><a href="#interpretando-uma-acp" id="toc-interpretando-uma-acp" class="nav-link" data-scroll-target="#interpretando-uma-acp"><span class="header-section-number">11.7.8</span> Interpretando uma ACP</a></li>
+  <li><a href="#outros-métodos-de-ordenação" id="toc-outros-métodos-de-ordenação" class="nav-link" data-scroll-target="#outros-métodos-de-ordenação"><span class="header-section-number">11.7.9</span> Outros métodos de ordenação</a></li>
+  </ul></li>
+  <li><a href="#agrupamento" id="toc-agrupamento" class="nav-link" data-scroll-target="#agrupamento"><span class="header-section-number">11.8</span> Agrupamento</a>
+  <ul class="collapse">
+  <li><a href="#a-ideia-1" id="toc-a-ideia-1" class="nav-link" data-scroll-target="#a-ideia-1"><span class="header-section-number">11.8.1</span> A ideia</a></li>
+  <li><a href="#agrupamento-hierárquico" id="toc-agrupamento-hierárquico" class="nav-link" data-scroll-target="#agrupamento-hierárquico"><span class="header-section-number">11.8.2</span> Agrupamento hierárquico</a></li>
+  <li><a href="#agrupamento-por-k-médias" id="toc-agrupamento-por-k-médias" class="nav-link" data-scroll-target="#agrupamento-por-k-médias"><span class="header-section-number">11.8.3</span> Agrupamento por <em>k</em>-médias</a></li>
+  <li><a href="#quantos-grupos" id="toc-quantos-grupos" class="nav-link" data-scroll-target="#quantos-grupos"><span class="header-section-number">11.8.4</span> Quantos grupos?</a></li>
+  <li><a href="#o-que-os-agrupamentos-mostram-e-o-que-não-mostram" id="toc-o-que-os-agrupamentos-mostram-e-o-que-não-mostram" class="nav-link" data-scroll-target="#o-que-os-agrupamentos-mostram-e-o-que-não-mostram"><span class="header-section-number">11.8.5</span> O que os agrupamentos mostram e o que não mostram</a></li>
+  </ul></li>
+  <li><a href="#mapas-de-calor" id="toc-mapas-de-calor" class="nav-link" data-scroll-target="#mapas-de-calor"><span class="header-section-number">11.9</span> Mapas de calor</a>
+  <ul class="collapse">
+  <li><a href="#lendo-um-mapa-de-calor" id="toc-lendo-um-mapa-de-calor" class="nav-link" data-scroll-target="#lendo-um-mapa-de-calor"><span class="header-section-number">11.9.1</span> Lendo um mapa de calor</a></li>
+  <li><a href="#construindo-um-mapa-de-calor" id="toc-construindo-um-mapa-de-calor" class="nav-link" data-scroll-target="#construindo-um-mapa-de-calor"><span class="header-section-number">11.9.2</span> Construindo um mapa de calor</a></li>
+  <li><a href="#padronizando-as-linhas" id="toc-padronizando-as-linhas" class="nav-link" data-scroll-target="#padronizando-as-linhas"><span class="header-section-number">11.9.3</span> Padronizando as linhas</a></li>
+  <li><a href="#cor" id="toc-cor" class="nav-link" data-scroll-target="#cor"><span class="header-section-number">11.9.4</span> Cor</a></li>
+  <li><a href="#o-que-os-mapas-de-calor-podem-esconder" id="toc-o-que-os-mapas-de-calor-podem-esconder" class="nav-link" data-scroll-target="#o-que-os-mapas-de-calor-podem-esconder"><span class="header-section-number">11.9.5</span> O que os mapas de calor podem esconder</a></li>
+  </ul></li>
+  <li><a href="#relações-entre-variáveis" id="toc-relações-entre-variáveis" class="nav-link" data-scroll-target="#relações-entre-variáveis"><span class="header-section-number">11.10</span> Relações entre variáveis</a></li>
+  <li><a href="#da-exploração-à-inferência" id="toc-da-exploração-à-inferência" class="nav-link" data-scroll-target="#da-exploração-à-inferência"><span class="header-section-number">11.11</span> Da exploração à inferência</a>
+  <ul class="collapse">
+  <li><a href="#testando-muitas-variáveis" id="toc-testando-muitas-variáveis" class="nav-link" data-scroll-target="#testando-muitas-variáveis"><span class="header-section-number">11.11.1</span> Testando muitas variáveis</a></li>
+  <li><a href="#controlando-as-falsas-descobertas" id="toc-controlando-as-falsas-descobertas" class="nav-link" data-scroll-target="#controlando-as-falsas-descobertas"><span class="header-section-number">11.11.2</span> Controlando as falsas descobertas</a></li>
+  <li><a href="#testando-diferenças-entre-grupos-no-espaço-multivariado" id="toc-testando-diferenças-entre-grupos-no-espaço-multivariado" class="nav-link" data-scroll-target="#testando-diferenças-entre-grupos-no-espaço-multivariado"><span class="header-section-number">11.11.3</span> Testando diferenças entre grupos no espaço multivariado</a></li>
+  <li><a href="#métodos-supervisionados" id="toc-métodos-supervisionados" class="nav-link" data-scroll-target="#métodos-supervisionados"><span class="header-section-number">11.11.4</span> Métodos supervisionados</a></li>
+  </ul></li>
+  <li><a href="#questões-de-delineamento-em-estudos-multivariados" id="toc-questões-de-delineamento-em-estudos-multivariados" class="nav-link" data-scroll-target="#questões-de-delineamento-em-estudos-multivariados"><span class="header-section-number">11.12</span> Questões de delineamento em estudos multivariados</a>
+  <ul class="collapse">
+  <li><a href="#repetição-biológica-e-técnica" id="toc-repetição-biológica-e-técnica" class="nav-link" data-scroll-target="#repetição-biológica-e-técnica"><span class="header-section-number">11.12.1</span> Repetição biológica e técnica</a></li>
+  <li><a href="#efeitos-de-lote" id="toc-efeitos-de-lote" class="nav-link" data-scroll-target="#efeitos-de-lote"><span class="header-section-number">11.12.2</span> Efeitos de lote</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática-expressão-de-genes-de-defesa-em-cultivares-resistentes-e-suscetíveis" id="toc-pesquisa-na-prática-expressão-de-genes-de-defesa-em-cultivares-resistentes-e-suscetíveis" class="nav-link" data-scroll-target="#pesquisa-na-prática-expressão-de-genes-de-defesa-em-cultivares-resistentes-e-suscetíveis"><span class="header-section-number">11.13</span> Pesquisa na prática: expressão de genes de defesa em cultivares resistentes e suscetíveis</a></li>
+  <li><a href="#um-fluxo-de-trabalho-prático-para-dados-multivariados" id="toc-um-fluxo-de-trabalho-prático-para-dados-multivariados" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-prático-para-dados-multivariados"><span class="header-section-number">11.14</span> Um fluxo de trabalho prático para dados multivariados</a></li>
+  <li><a href="#relatando-análises-multivariadas" id="toc-relatando-análises-multivariadas" class="nav-link" data-scroll-target="#relatando-análises-multivariadas"><span class="header-section-number">11.15</span> Relatando análises multivariadas</a>
+  <ul class="collapse">
+  <li><a href="#o-que-foi-medido" id="toc-o-que-foi-medido" class="nav-link" data-scroll-target="#o-que-foi-medido"><span class="header-section-number">11.15.1</span> O que foi medido?</a></li>
+  <li><a href="#como-os-dados-foram-preparados" id="toc-como-os-dados-foram-preparados" class="nav-link" data-scroll-target="#como-os-dados-foram-preparados"><span class="header-section-number">11.15.2</span> Como os dados foram preparados?</a></li>
+  <li><a href="#quais-métodos-foram-usados" id="toc-quais-métodos-foram-usados" class="nav-link" data-scroll-target="#quais-métodos-foram-usados"><span class="header-section-number">11.15.3</span> Quais métodos foram usados?</a></li>
+  <li><a href="#quanto-da-variação-foi-resumido" id="toc-quanto-da-variação-foi-resumido" class="nav-link" data-scroll-target="#quanto-da-variação-foi-resumido"><span class="header-section-number">11.15.4</span> Quanto da variação foi resumido?</a></li>
+  <li><a href="#quão-robustos-são-os-padrões" id="toc-quão-robustos-são-os-padrões" class="nav-link" data-scroll-target="#quão-robustos-são-os-padrões"><span class="header-section-number">11.15.5</span> Quão robustos são os padrões?</a></li>
+  <li><a href="#o-que-foi-testado" id="toc-o-que-foi-testado" class="nav-link" data-scroll-target="#o-que-foi-testado"><span class="header-section-number">11.15.6</span> O que foi testado?</a></li>
+  <li><a href="#interpretação-biológica" id="toc-interpretação-biológica" class="nav-link" data-scroll-target="#interpretação-biológica"><span class="header-section-number">11.15.7</span> Interpretação biológica</a></li>
+  </ul></li>
+  <li><a href="#erros-comuns" id="toc-erros-comuns" class="nav-link" data-scroll-target="#erros-comuns"><span class="header-section-number">11.16</span> Erros comuns</a>
+  <ul class="collapse">
+  <li><a href="#tratar-muitas-variáveis-como-muitas-repetições" id="toc-tratar-muitas-variáveis-como-muitas-repetições" class="nav-link" data-scroll-target="#tratar-muitas-variáveis-como-muitas-repetições"><span class="header-section-number">11.16.1</span> Tratar muitas variáveis como muitas repetições</a></li>
+  <li><a href="#não-padronizar-variáveis-medidas-em-unidades-diferentes" id="toc-não-padronizar-variáveis-medidas-em-unidades-diferentes" class="nav-link" data-scroll-target="#não-padronizar-variáveis-medidas-em-unidades-diferentes"><span class="header-section-number">11.16.2</span> Não padronizar variáveis medidas em unidades diferentes</a></li>
+  <li><a href="#não-informar-as-escolhas-de-transformação-e-padronização" id="toc-não-informar-as-escolhas-de-transformação-e-padronização" class="nav-link" data-scroll-target="#não-informar-as-escolhas-de-transformação-e-padronização"><span class="header-section-number">11.16.3</span> Não informar as escolhas de transformação e padronização</a></li>
+  <li><a href="#interpretar-a-separação-na-acp-como-um-teste-estatístico" id="toc-interpretar-a-separação-na-acp-como-um-teste-estatístico" class="nav-link" data-scroll-target="#interpretar-a-separação-na-acp-como-um-teste-estatístico"><span class="header-section-number">11.16.4</span> Interpretar a separação na ACP como um teste estatístico</a></li>
+  <li><a href="#ignorar-a-variância-explicada-pelos-componentes-mostrados" id="toc-ignorar-a-variância-explicada-pelos-componentes-mostrados" class="nav-link" data-scroll-target="#ignorar-a-variância-explicada-pelos-componentes-mostrados"><span class="header-section-number">11.16.5</span> Ignorar a variância explicada pelos componentes mostrados</a></li>
+  <li><a href="#tratar-agrupamentos-como-grupos-comprovados" id="toc-tratar-agrupamentos-como-grupos-comprovados" class="nav-link" data-scroll-target="#tratar-agrupamentos-como-grupos-comprovados"><span class="header-section-number">11.16.6</span> Tratar agrupamentos como grupos comprovados</a></li>
+  <li><a href="#testar-os-grupos-com-as-variáveis-usadas-para-criá-los" id="toc-testar-os-grupos-com-as-variáveis-usadas-para-criá-los" class="nav-link" data-scroll-target="#testar-os-grupos-com-as-variáveis-usadas-para-criá-los"><span class="header-section-number">11.16.7</span> Testar os grupos com as variáveis usadas para criá-los</a></li>
+  <li><a href="#ler-as-cores-do-mapa-de-calor-como-magnitudes-após-padronizar-as-linhas" id="toc-ler-as-cores-do-mapa-de-calor-como-magnitudes-após-padronizar-as-linhas" class="nav-link" data-scroll-target="#ler-as-cores-do-mapa-de-calor-como-magnitudes-após-padronizar-as-linhas"><span class="header-section-number">11.16.8</span> Ler as cores do mapa de calor como magnitudes após padronizar as linhas</a></li>
+  <li><a href="#usar-escalas-de-cor-vermelhoverde" id="toc-usar-escalas-de-cor-vermelhoverde" class="nav-link" data-scroll-target="#usar-escalas-de-cor-vermelhoverde"><span class="header-section-number">11.16.9</span> Usar escalas de cor vermelho–verde</a></li>
+  <li><a href="#ignorar-os-testes-múltiplos" id="toc-ignorar-os-testes-múltiplos" class="nav-link" data-scroll-target="#ignorar-os-testes-múltiplos"><span class="header-section-number">11.16.10</span> Ignorar os testes múltiplos</a></li>
+  <li><a href="#confundir-lote-com-tratamento" id="toc-confundir-lote-com-tratamento" class="nav-link" data-scroll-target="#confundir-lote-com-tratamento"><span class="header-section-number">11.16.11</span> Confundir lote com tratamento</a></li>
+  <li><a href="#confiar-na-separação-perfeita-obtida-por-métodos-supervisionados" id="toc-confiar-na-separação-perfeita-obtida-por-métodos-supervisionados" class="nav-link" data-scroll-target="#confiar-na-separação-perfeita-obtida-por-métodos-supervisionados"><span class="header-section-number">11.16.12</span> Confiar na separação perfeita obtida por métodos supervisionados</a></li>
+  </ul></li>
+  <li><a href="#lista-de-verificação-para-análises-multivariadas" id="toc-lista-de-verificação-para-análises-multivariadas" class="nav-link" data-scroll-target="#lista-de-verificação-para-análises-multivariadas"><span class="header-section-number">11.17</span> Lista de verificação para análises multivariadas</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">11.18</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">11.19</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">11.20</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-organizando-um-conjunto-de-dados-multivariados" id="toc-exercício-1.-organizando-um-conjunto-de-dados-multivariados" class="nav-link" data-scroll-target="#exercício-1.-organizando-um-conjunto-de-dados-multivariados"><span class="header-section-number">11.20.1</span> Exercício 1. Organizando um conjunto de dados multivariados</a></li>
+  <li><a href="#exercício-2.-padronizar-ou-não-padronizar" id="toc-exercício-2.-padronizar-ou-não-padronizar" class="nav-link" data-scroll-target="#exercício-2.-padronizar-ou-não-padronizar"><span class="header-section-number">11.20.2</span> Exercício 2. Padronizar ou não padronizar?</a></li>
+  <li><a href="#exercício-3.-interpretando-uma-acp" id="toc-exercício-3.-interpretando-uma-acp" class="nav-link" data-scroll-target="#exercício-3.-interpretando-uma-acp"><span class="header-section-number">11.20.3</span> Exercício 3. Interpretando uma ACP</a></li>
+  <li><a href="#exercício-4.-grupos-a-partir-de-ruído" id="toc-exercício-4.-grupos-a-partir-de-ruído" class="nav-link" data-scroll-target="#exercício-4.-grupos-a-partir-de-ruído"><span class="header-section-number">11.20.4</span> Exercício 4. Grupos a partir de ruído</a></li>
+  <li><a href="#exercício-5.-elaborando-um-mapa-de-calor" id="toc-exercício-5.-elaborando-um-mapa-de-calor" class="nav-link" data-scroll-target="#exercício-5.-elaborando-um-mapa-de-calor"><span class="header-section-number">11.20.5</span> Exercício 5. Elaborando um mapa de calor</a></li>
+  <li><a href="#exercício-6.-testes-múltiplos" id="toc-exercício-6.-testes-múltiplos" class="nav-link" data-scroll-target="#exercício-6.-testes-múltiplos"><span class="header-section-number">11.20.6</span> Exercício 6. Testes múltiplos</a></li>
+  <li><a href="#exercício-7.-avaliação-de-um-artigo-publicado" id="toc-exercício-7.-avaliação-de-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">11.20.7</span> Exercício 7. Avaliação de um artigo publicado</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">11.21</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">11.22</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Como exploramos dados multivariados?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">11.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>reconhecer questões de pesquisa e conjuntos de dados em que muitas variáveis são medidas em cada amostra;</li>
+<li>organizar dados multivariados como uma matriz de amostras por variáveis;</li>
+<li>preparar dados multivariados para a análise, incluindo transformação, centralização e padronização;</li>
+<li>explicar como se definem distâncias e similaridades entre amostras;</li>
+<li>realizar e interpretar a análise de componentes principais, incluindo escores, cargas e variância explicada;</li>
+<li>realizar e interpretar o agrupamento hierárquico e o agrupamento por <em>k</em>-médias;</li>
+<li>construir e ler mapas de calor;</li>
+<li>distinguir a busca exploratória de padrões da inferência confirmatória;</li>
+<li>reconhecer os problemas de testes múltiplos e de efeitos de lote em dados de alta dimensionalidade;</li>
+<li>comunicar resultados multivariados sem exagerá-los.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-dados-multivariados" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="por-que-dados-multivariados"><span class="header-section-number">11.2</span> Por que dados multivariados?</h2>
+<p>Os Capítulos 7 a 10 analisaram uma resposta de cada vez. Cada vez mais, os fitopatologistas medem muitas variáveis em cada amostra.</p>
+<p>Exemplos típicos incluem:</p>
+<ul>
+<li><strong>expressão gênica</strong>: a abundância de milhares de transcritos em plantas inoculadas e em plantas inoculadas apenas com o veículo (<em>mock</em>);</li>
+<li><strong>painéis moleculares direcionados</strong>: a expressão de um conjunto de genes relacionados à defesa medida por qPCR;</li>
+<li><strong>metabolômica e proteômica</strong>: centenas de compostos ou proteínas por amostra;</li>
+<li><strong>perfis fisiológicos</strong>: taxa fotossintética, condutância estomática, fluorescência da clorofila e atividades enzimáticas medidas nas mesmas plantas;</li>
+<li><strong>fenótipos de isolados</strong>: taxa de crescimento, esporulação, agressividade e sensibilidade a vários fungicidas para cada isolado;</li>
+<li><strong>comunidades microbianas</strong>: a abundância relativa de centenas de táxons em cada amostra de solo ou de folha;</li>
+<li><strong>dados espectrais</strong>: a reflectância em centenas de comprimentos de onda de folhas ou dosséis.</li>
+</ul>
+<p>Nesses conjuntos de dados, as perguntas muitas vezes não dizem respeito a uma única variável, mas a <strong>padrões entre muitas variáveis</strong>:</p>
+<ul>
+<li>Quais amostras se parecem entre si?</li>
+<li>Os tratamentos separam as amostras no espaço definido por todas as variáveis?</li>
+<li>Quais variáveis mudam juntas?</li>
+<li>Há grupos de amostras ou de variáveis que não foram previstos?</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Os métodos multivariados são, antes de tudo, ferramentas para <strong>enxergar a estrutura</strong> de dados complexos. Eles resumem e revelam padrões; não testam hipóteses por si sós nem estabelecem que os padrões são biologicamente reais.</p>
+</div>
+</div>
+</section>
+<section id="da-questão-biológica-à-exploração-multivariada" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="da-questão-biológica-à-exploração-multivariada"><span class="header-section-number">11.3</span> Da questão biológica à exploração multivariada</h2>
+<p>Considere um experimento que mede a expressão de genes relacionados à defesa em cultivares resistentes e suscetíveis, inoculadas ou não.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter11-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter11-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-e0781215b1797caf0bcb" style="width:100%;height:522px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0781215b1797caf0bcb">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 5, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">Cultivares resistentes e suscetíveis inoculadas<br/>diferem em sua resposta de defesa?<\/font><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Dados<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">Expressão de muitos genes em cada amostra<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Exploração<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">As amostras se agrupam por cultivar, por inoculação<br/>ou por nenhum dos dois? Quais genes separam as amostras?<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Padrões + incerteza<br/>sobre sua estabilidade<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Hipóteses para análises direcionadas<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Interpretação biológica<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter11-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11.1: Da questão biológica à exploração multivariada: o produto são padrões e hipóteses, e não uma única estimativa.
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="exploração-e-confirmação" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="exploração-e-confirmação"><span class="header-section-number">11.3.1</span> Exploração e confirmação</h3>
+<p>O Capítulo 4 distinguiu a análise exploratória da confirmatória. A distinção é especialmente importante aqui. Com muitas variáveis, alguns padrões aparecerão apenas por acaso, e os métodos multivariados sempre produzirão uma imagem. Os padrões encontrados na exploração tornam-se hipóteses a serem avaliadas com delineamentos e análises adequados, e não conclusões.</p>
+</section>
+</section>
+<section id="organizando-dados-multivariados" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="organizando-dados-multivariados"><span class="header-section-number">11.4</span> Organizando dados multivariados</h2>
+<section id="a-matriz-de-dados" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="a-matriz-de-dados"><span class="header-section-number">11.4.1</span> A matriz de dados</h3>
+<p>Os métodos multivariados operam sobre uma <strong>matriz de dados</strong> em que:</p>
+<ul>
+<li>cada <strong>linha</strong> é uma amostra (planta, parcela, isolado, folha);</li>
+<li>cada <strong>coluna</strong> é uma variável (gene, metabólito, característica, táxon);</li>
+<li>uma tabela separada de <strong>informações das amostras</strong> registra tratamentos, cultivares, blocos e outras variáveis do delineamento.</li>
+</ul>
+<pre class="text"><code>           gene1  gene2  gene3  ...  gene_p
+sample1     5.2    0.8    3.1   ...
+sample2     4.9    1.2    2.7   ...
+...
+sample_n</code></pre>
+<p>Esse formato largo difere do formato longo e organizado recomendado no Capítulo 3 para a maioria das análises. Ambos são úteis: o formato organizado é a melhor forma de guardar e documentar os dados, e a matriz larga é derivada dele para a análise multivariada.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> expr_long <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> gene, <span class="at">values_from =</span> expression) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">column_to_rownames</span>(<span class="st">"sample"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="muitas-variáveis-poucas-amostras" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="muitas-variáveis-poucas-amostras"><span class="header-section-number">11.4.2</span> Muitas variáveis, poucas amostras</h3>
+<p>Os conjuntos de dados multivariados em Fitopatologia frequentemente têm muito mais variáveis do que amostras: milhares de genes medidos em uma dúzia de plantas. Nessa situação:</p>
+<ul>
+<li>muitos padrões podem ser encontrados por acaso;</li>
+<li>métodos que estimam um parâmetro por variável tornam-se instáveis;</li>
+<li>a exploração visual e a redução de dimensionalidade são essenciais;</li>
+<li>o número de repetições biológicas continua determinando o quanto se pode concluir.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Medir milhares de variáveis não aumenta o número de repetições. Um experimento com três plantas por tratamento continua sendo um experimento com três repetições, não importa quantos genes sejam medidos em cada planta.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="preparando-os-dados" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="preparando-os-dados"><span class="header-section-number">11.5</span> Preparando os dados</h2>
+<section id="valores-perdidos-e-controle-de-qualidade" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="valores-perdidos-e-controle-de-qualidade"><span class="header-section-number">11.5.1</span> Valores perdidos e controle de qualidade</h3>
+<p>Antes de qualquer análise multivariada, verifique valores perdidos, amostras que falharam e variáveis sem variação. Muitos métodos multivariados não lidam diretamente com valores perdidos, e a forma como eles são removidos ou imputados pode afetar os resultados.</p>
+</section>
+<section id="transformação" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="transformação"><span class="header-section-number">11.5.2</span> Transformação</h3>
+<p>Muitas variáveis multivariadas são fortemente assimétricas à direita: níveis de expressão, abundâncias de metabólitos e contagens abrangem várias ordens de grandeza. Uma transformação logarítmica geralmente torna sua variação mais comparável e impede que algumas variáveis muito abundantes dominem a análise.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mat_log <span class="ot">&lt;-</span> <span class="fu">log2</span>(mat <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Para contagens de sequenciamento, métodos especializados de normalização e transformação levam em conta as diferenças de profundidade de sequenciamento entre as amostras.</p>
+</section>
+<section id="centralização-e-padronização" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="centralização-e-padronização"><span class="header-section-number">11.5.3</span> Centralização e padronização</h3>
+<p>Quando as variáveis são medidas em unidades diferentes, como taxa fotossintética (µmol m⁻² s⁻¹), teor de clorofila (unidades SPAD) e tamanho de lesão (mm), suas variâncias não são comparáveis. Sem padronização, as variáveis com maior variância numérica dominam a análise.</p>
+<p><strong>Padronizar</strong> cada variável para média zero e desvio padrão um dá a todas as variáveis o mesmo peso:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mat_scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(mat_log)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Padronizar ou não é uma decisão com consequências. Quando todas as variáveis estão na mesma escala e a magnitude de sua variação tem significado, como nos valores de expressão em log, a padronização pode ser desnecessária ou até indesejável, porque amplifica variáveis que quase não mudam.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Informe como os dados foram transformados, centralizados e padronizados. Escolhas diferentes podem produzir ordenações, agrupamentos e mapas de calor visivelmente diferentes a partir dos mesmos dados.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="distância-e-similaridade" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="distância-e-similaridade"><span class="header-section-number">11.6</span> Distância e similaridade</h2>
+<p>Muitos métodos multivariados se baseiam em uma medida de quão diferentes duas amostras são.</p>
+<section id="distância-euclidiana" class="level3" data-number="11.6.1">
+<h3 data-number="11.6.1" class="anchored" data-anchor-id="distância-euclidiana"><span class="header-section-number">11.6.1</span> Distância euclidiana</h3>
+<p>A distância em linha reta entre amostras no espaço definido pelas variáveis. É a distância natural para dados contínuos e adequadamente padronizados, e é a base da análise de componentes principais e do agrupamento por <em>k</em>-médias.</p>
+</section>
+<section id="distância-baseada-em-correlação" class="level3" data-number="11.6.2">
+<h3 data-number="11.6.2" class="anchored" data-anchor-id="distância-baseada-em-correlação"><span class="header-section-number">11.6.2</span> Distância baseada em correlação</h3>
+<p>Amostras ou variáveis são consideradas semelhantes se seus perfis sobem e descem juntos, independentemente de seus níveis absolutos. É comum no agrupamento de genes com padrões de expressão semelhantes.</p>
+</section>
+<section id="distâncias-para-dados-de-comunidades" class="level3" data-number="11.6.3">
+<h3 data-number="11.6.3" class="anchored" data-anchor-id="distâncias-para-dados-de-comunidades"><span class="header-section-number">11.6.3</span> Distâncias para dados de comunidades</h3>
+<p>Para abundâncias de táxons em comunidades microbianas, medidas como a dissimilaridade de Bray–Curtis são preferidas, porque não são influenciadas por ausências compartilhadas.</p>
+</section>
+<section id="tipos-de-variáveis-misturados" class="level3" data-number="11.6.4">
+<h3 data-number="11.6.4" class="anchored" data-anchor-id="tipos-de-variáveis-misturados"><span class="header-section-number">11.6.4</span> Tipos de variáveis misturados</h3>
+<p>Quando as variáveis incluem dados contínuos, categóricos e binários, como as características de isolados, a distância de Gower os combina em uma única medida.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>d_euc <span class="ot">&lt;-</span> <span class="fu">dist</span>(mat_scaled)                            <span class="co"># euclidiana</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d_cor <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">cor</span>(<span class="fu">t</span>(mat_scaled)))             <span class="co"># baseada em correlação</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: permute</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>d_bc <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(community, <span class="at">method =</span> <span class="st">"bray"</span>)          <span class="co"># Bray–Curtis</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="análise-de-componentes-principais" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="análise-de-componentes-principais"><span class="header-section-number">11.7</span> Análise de componentes principais</h2>
+<section id="a-ideia" class="level3" data-number="11.7.1">
+<h3 data-number="11.7.1" class="anchored" data-anchor-id="a-ideia"><span class="header-section-number">11.7.1</span> A ideia</h3>
+<p>Quando muitas variáveis estão correlacionadas, boa parte da variação entre as amostras pode ser descrita por poucas direções subjacentes. A análise de componentes principais (ACP, ou PCA na sigla em inglês) encontra essas direções:</p>
+<ul>
+<li>o <strong>primeiro componente principal</strong> (PC1) é a direção ao longo da qual as amostras mais variam;</li>
+<li>o <strong>segundo componente principal</strong> (PC2) é a direção de maior variação restante, perpendicular ao PC1;</li>
+<li>e assim por diante, até tantos componentes quantas forem as variáveis ou as amostras.</li>
+</ul>
+<p>Cada componente principal é uma combinação ponderada das variáveis originais. Projetar as amostras nos dois ou três primeiros componentes produz uma imagem de baixa dimensionalidade dos padrões dominantes nos dados.</p>
+<!--
+Ideia de figura (Ch11_fig2): duas variáveis correlacionadas com os eixos
+PC1 e PC2 desenhados, e os mesmos pontos rotacionados para PC1/PC2.
+-->
+</section>
+<section id="um-exemplo-simples" class="level3" data-number="11.7.2">
+<h3 data-number="11.7.2" class="anchored" data-anchor-id="um-exemplo-simples"><span class="header-section-number">11.7.2</span> Um exemplo simples</h3>
+<p>O código a seguir simula a expressão de 50 genes em 12 amostras de um delineamento dois por dois.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">606</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rep =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">inoculation =</span> <span class="fu">c</span>(<span class="st">"mock"</span>, <span class="st">"inoculated"</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">cultivar =</span> <span class="fu">c</span>(<span class="st">"susceptible"</span>, <span class="st">"resistant"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(samples)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> p, <span class="at">mean =</span> <span class="dv">6</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">nrow =</span> n,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">paste0</span>(<span class="st">"s"</span>, <span class="dv">1</span><span class="sc">:</span>n), <span class="fu">paste0</span>(<span class="st">"gene"</span>, <span class="dv">1</span><span class="sc">:</span>p)))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># os genes 1–10 respondem à inoculação, mais fortemente na cultivar resistente</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>effect <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(samples<span class="sc">$</span>inoculation <span class="sc">==</span> <span class="st">"inoculated"</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">ifelse</span>(samples<span class="sc">$</span>cultivar <span class="sc">==</span> <span class="st">"resistant"</span>, <span class="dv">3</span>, <span class="fl">1.5</span>), <span class="dv">0</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>mat[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="ot">&lt;-</span> mat[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">+</span> effect</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ajustando-uma-acp-no-r" class="level3" data-number="11.7.3">
+<h3 data-number="11.7.3" class="anchored" data-anchor-id="ajustando-uma-acp-no-r"><span class="header-section-number">11.7.3</span> Ajustando uma ACP no R</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(mat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1    PC2    PC3    PC4     PC5    PC6     PC7
+Standard deviation     3.0920 2.6772 2.5181 2.3173 2.03560 1.9710 1.93543
+Proportion of Variance 0.1912 0.1434 0.1268 0.1074 0.08287 0.0777 0.07492
+Cumulative Proportion  0.1912 0.3346 0.4614 0.5688 0.65164 0.7293 0.80426
+                           PC8     PC9    PC10    PC11     PC12
+Standard deviation     1.85453 1.56600 1.43408 1.35602 2.05e-15
+Proportion of Variance 0.06879 0.04905 0.04113 0.03678 0.00e+00
+Cumulative Proportion  0.87305 0.92209 0.96322 1.00000 1.00e+00</code></pre>
+</div>
+</div>
+</section>
+<section id="variância-explicada" class="level3" data-number="11.7.4">
+<h3 data-number="11.7.4" class="anchored" data-anchor-id="variância-explicada"><span class="header-section-number">11.7.4</span> Variância explicada</h3>
+<p>A proporção da variância total explicada por cada componente indica quanto da estrutura dos dados cada componente captura. Um <strong>gráfico de sedimentação</strong> (<em>scree plot</em>) mostra essas proporções em ordem decrescente.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>var_explained <span class="ot">&lt;-</span> pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(var_explained, <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Componente principal"</span>, <span class="at">ylab =</span> <span class="st">"Proporção da variância"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Em conjuntos de dados com muitas variáveis, é comum que PC1 e PC2 juntos expliquem uma parcela modesta da variância. Isso não significa que a análise falhou; significa que a variação está distribuída em muitas direções.</p>
+</section>
+<section id="escores-onde-estão-as-amostras" class="level3" data-number="11.7.5">
+<h3 data-number="11.7.5" class="anchored" data-anchor-id="escores-onde-estão-as-amostras"><span class="header-section-number">11.7.5</span> Escores: onde estão as amostras?</h3>
+<p>Os <strong>escores</strong> são as coordenadas das amostras nos componentes principais. Representá-los graficamente, coloridos pelas variáveis do delineamento, mostra se as amostras se agrupam por tratamento, por cultivar ou por outra coisa.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">cbind</span>(samples, <span class="fu">as.data.frame</span>(pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scores, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> inoculation, <span class="at">shape =</span> cultivar)) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">sprintf</span>(<span class="st">"PC1 (%.0f%%)"</span>, <span class="dv">100</span> <span class="sc">*</span> var_explained[<span class="dv">1</span>]),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">sprintf</span>(<span class="st">"PC2 (%.0f%%)"</span>, <span class="dv">100</span> <span class="sc">*</span> var_explained[<span class="dv">2</span>])</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cargas-quais-variáveis-importam" class="level3" data-number="11.7.6">
+<h3 data-number="11.7.6" class="anchored" data-anchor-id="cargas-quais-variáveis-importam"><span class="header-section-number">11.7.6</span> Cargas: quais variáveis importam?</h3>
+<p>As <strong>cargas</strong> (<em>loadings</em>) são os pesos de cada variável original em cada componente. Variáveis com grandes cargas positivas ou negativas no PC1 são as que mais contribuem para a separação das amostras ao longo do PC1.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>loadings <span class="ot">&lt;-</span> pca<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(loadings[<span class="fu">order</span>(<span class="sc">-</span><span class="fu">abs</span>(loadings[, <span class="st">"PC1"</span>])), ], <span class="dv">10</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              PC1          PC2
+gene5   0.2764629 -0.065783837
+gene1   0.2669092 -0.128121604
+gene4   0.2558371 -0.129158483
+gene6   0.2497328 -0.068759312
+gene25 -0.2362822 -0.149913113
+gene7   0.2355345  0.027272263
+gene8   0.2287761 -0.014442768
+gene48  0.2287524  0.119776907
+gene9   0.2278760  0.007877981
+gene10  0.2235339  0.073279846</code></pre>
+</div>
+</div>
+</section>
+<section id="biplots" class="level3" data-number="11.7.7">
+<h3 data-number="11.7.7" class="anchored" data-anchor-id="biplots"><span class="header-section-number">11.7.7</span> Biplots</h3>
+<p>Um <strong><em>biplot</em></strong> mostra juntos os escores das amostras e as cargas das variáveis, com as variáveis desenhadas como setas. Ele mostra quais variáveis estão associadas a quais grupos de amostras. Os <em>biplots</em> tornam-se ilegíveis com muitas variáveis; funcionam melhor com dezenas de variáveis, como características fisiológicas, do que com milhares de genes.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(pca)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretando-uma-acp" class="level3" data-number="11.7.8">
+<h3 data-number="11.7.8" class="anchored" data-anchor-id="interpretando-uma-acp"><span class="header-section-number">11.7.8</span> Interpretando uma ACP</h3>
+<p>Ao interpretar uma ACP, lembre-se de que:</p>
+<ul>
+<li>a ACP é <strong>não supervisionada</strong>: ela não sabe que tratamento cada amostra recebeu. Se os tratamentos se separam ao longo de um componente, o efeito do tratamento é uma das principais fontes de variação nos dados;</li>
+<li>a ausência de separação não significa que os tratamentos não têm efeito sobre nenhuma variável; significa que seu efeito não está entre as fontes dominantes de variação;</li>
+<li>o sinal de um componente é arbitrário; apenas as posições relativas importam;</li>
+<li>os eixos devem ser desenhados com a mesma escala, para que as distâncias não sejam distorcidas;</li>
+<li>a ACP descreve combinações lineares das variáveis e pode não captar estruturas não lineares.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Os primeiros componentes frequentemente refletem as maiores fontes de variação do experimento, e elas nem sempre são biológicas. Representar os escores da ACP coloridos por data de processamento, lote de extração ou corrida de sequenciamento é uma das formas mais eficazes de detectar problemas técnicos.</p>
+</div>
+</div>
+</section>
+<section id="outros-métodos-de-ordenação" class="level3" data-number="11.7.9">
+<h3 data-number="11.7.9" class="anchored" data-anchor-id="outros-métodos-de-ordenação"><span class="header-section-number">11.7.9</span> Outros métodos de ordenação</h3>
+<p>A ACP se baseia em distâncias euclidianas. Quando outra distância é mais adequada, outros métodos de ordenação representam as amostras em um espaço de baixa dimensionalidade:</p>
+<ul>
+<li>a <strong>análise de coordenadas principais</strong> (PCoA) funciona com qualquer distância, como a de Bray–Curtis para comunidades;</li>
+<li>o <strong>escalonamento multidimensional não métrico</strong> (NMDS) preserva a ordem das distâncias, e não seus valores.</li>
+</ul>
+<p>Esses métodos são comuns em estudos de comunidades microbianas.</p>
+</section>
+</section>
+<section id="agrupamento" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="agrupamento"><span class="header-section-number">11.8</span> Agrupamento</h2>
+<section id="a-ideia-1" class="level3" data-number="11.8.1">
+<h3 data-number="11.8.1" class="anchored" data-anchor-id="a-ideia-1"><span class="header-section-number">11.8.1</span> A ideia</h3>
+<p>Os métodos de agrupamento reúnem amostras (ou variáveis) de modo que os membros de um mesmo grupo sejam mais semelhantes entre si do que aos membros de outros grupos. Diferentemente da ACP, que mostra variação contínua, o agrupamento impõe grupos discretos.</p>
+</section>
+<section id="agrupamento-hierárquico" class="level3" data-number="11.8.2">
+<h3 data-number="11.8.2" class="anchored" data-anchor-id="agrupamento-hierárquico"><span class="header-section-number">11.8.2</span> Agrupamento hierárquico</h3>
+<p>O agrupamento hierárquico começa com cada amostra como um grupo e funde sucessivamente os grupos mais semelhantes. O resultado é um <strong>dendrograma</strong> que mostra a ordem e a distância em que os grupos foram fundidos.</p>
+<p>A forma como se definem as distâncias entre grupos, o <strong>método de ligação</strong>, afeta o resultado:</p>
+<ul>
+<li>a <strong>ligação completa</strong> usa a maior distância entre os membros;</li>
+<li>a <strong>ligação média</strong> usa a distância média;</li>
+<li>o <strong>método de Ward</strong> funde os grupos de modo a minimizar o aumento da variância dentro dos grupos e tende a produzir grupos compactos.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(<span class="fu">scale</span>(mat)), <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="at">k =</span> <span class="dv">2</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(groups, samples<span class="sc">$</span>inoculation)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      
+groups mock inoculated
+     1    6          1
+     2    0          5</code></pre>
+</div>
+</div>
+</section>
+<section id="agrupamento-por-k-médias" class="level3" data-number="11.8.3">
+<h3 data-number="11.8.3" class="anchored" data-anchor-id="agrupamento-por-k-médias"><span class="header-section-number">11.8.3</span> Agrupamento por <em>k</em>-médias</h3>
+<p>O método <em>k</em>-médias divide as amostras em um número especificado de grupos, <span class="math inline">\(k\)</span>, atribuindo cada amostra ao grupo com o centro mais próximo. O resultado depende de <span class="math inline">\(k\)</span> e das posições iniciais aleatórias, de modo que o algoritmo deve ser executado a partir de vários inícios.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(<span class="fu">scale</span>(mat), <span class="at">centers =</span> <span class="dv">2</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(km<span class="sc">$</span>cluster, samples<span class="sc">$</span>inoculation)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   
+    mock inoculated
+  1    0          6
+  2    6          0</code></pre>
+</div>
+</div>
+</section>
+<section id="quantos-grupos" class="level3" data-number="11.8.4">
+<h3 data-number="11.8.4" class="anchored" data-anchor-id="quantos-grupos"><span class="header-section-number">11.8.4</span> Quantos grupos?</h3>
+<p>Raramente existe um único número correto de grupos. Critérios como a soma de quadrados dentro dos grupos (o gráfico do “cotovelo”) e as larguras de silhueta podem orientar a escolha, mas o conhecimento biológico e o objetivo da análise importam mais.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'cluster' was built under R version 4.5.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sil <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(km<span class="sc">$</span>cluster, <span class="fu">dist</span>(<span class="fu">scale</span>(mat)))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sil)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Silhouette of 12 units in 2 clusters from silhouette.default(x = km$cluster, dist = dist(scale(mat))) :
+ Cluster sizes and average silhouette widths:
+         6          6 
+0.12918363 0.02333586 
+Individual silhouette widths:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-0.01024  0.01962  0.05549  0.07626  0.13146  0.17607 </code></pre>
+</div>
+</div>
+</section>
+<section id="o-que-os-agrupamentos-mostram-e-o-que-não-mostram" class="level3" data-number="11.8.5">
+<h3 data-number="11.8.5" class="anchored" data-anchor-id="o-que-os-agrupamentos-mostram-e-o-que-não-mostram"><span class="header-section-number">11.8.5</span> O que os agrupamentos mostram e o que não mostram</h3>
+<p>Os algoritmos de agrupamento sempre produzem grupos, mesmo a partir de dados sem nenhuma estrutura de grupos. Um dendrograma, portanto, não demonstra que existem grupos distintos.</p>
+<p>Perguntas úteis incluem:</p>
+<ul>
+<li>Os grupos são estáveis quando os dados são reamostrados ou o método é ligeiramente alterado?</li>
+<li>Eles correspondem a variáveis biológicas ou do delineamento conhecidas?</li>
+<li>São determinados por poucas variáveis ou por muitas?</li>
+<li>Poderiam refletir fatores técnicos, como o lote?</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Grupos encontrados em um conjunto de dados não são evidência independente de grupos biológicos. Não teste diferenças entre os grupos usando as mesmas variáveis usadas para defini-los.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="mapas-de-calor" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="mapas-de-calor"><span class="header-section-number">11.9</span> Mapas de calor</h2>
+<section id="lendo-um-mapa-de-calor" class="level3" data-number="11.9.1">
+<h3 data-number="11.9.1" class="anchored" data-anchor-id="lendo-um-mapa-de-calor"><span class="header-section-number">11.9.1</span> Lendo um mapa de calor</h3>
+<p>Um mapa de calor (<em>heatmap</em>) mostra a matriz de dados como uma grade de células coloridas, com as amostras em uma dimensão e as variáveis na outra. As linhas e colunas geralmente são reordenadas por agrupamento hierárquico, e dendrogramas são desenhados nas margens. Barras de anotação mostram variáveis do delineamento, como tratamento e cultivar.</p>
+<p>Os mapas de calor estão entre as figuras mais comuns na Fitopatologia molecular, porque mostram tanto as amostras quanto as variáveis que as distinguem.</p>
+</section>
+<section id="construindo-um-mapa-de-calor" class="level3" data-number="11.9.2">
+<h3 data-number="11.9.2" class="anchored" data-anchor-id="construindo-um-mapa-de-calor"><span class="header-section-number">11.9.2</span> Construindo um mapa de calor</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>annotation <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">inoculation =</span> samples<span class="sc">$</span>inoculation,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cultivar =</span> samples<span class="sc">$</span>cultivar,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">rownames</span>(mat)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(mat),</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"row"</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_col =</span> annotation,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"ward.D2"</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_rownames =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="padronizando-as-linhas" class="level3" data-number="11.9.3">
+<h3 data-number="11.9.3" class="anchored" data-anchor-id="padronizando-as-linhas"><span class="header-section-number">11.9.3</span> Padronizando as linhas</h3>
+<p>Quando cada linha é um gene, os valores frequentemente são padronizados dentro das linhas (escores z), para que as cores mostrem se cada gene está relativamente alto ou baixo em cada amostra. A padronização das linhas remove as diferenças de nível geral de expressão entre os genes; um gene expresso em níveis muito baixos pode parecer tão “induzido” quanto um gene muito expresso.</p>
+</section>
+<section id="cor" class="level3" data-number="11.9.4">
+<h3 data-number="11.9.4" class="anchored" data-anchor-id="cor"><span class="header-section-number">11.9.4</span> Cor</h3>
+<p>Os princípios do Capítulo 5 se aplicam:</p>
+<ul>
+<li>use uma paleta <strong>divergente</strong>, centrada em zero, para escores z ou <em>log fold changes</em>;</li>
+<li>use uma paleta <strong>sequencial</strong> para valores que apenas aumentam, como abundâncias;</li>
+<li>evite paletas vermelho–verde, que muitos leitores não conseguem distinguir;</li>
+<li>inclua uma legenda de cores com as unidades ou a padronização usada.</li>
+</ul>
+</section>
+<section id="o-que-os-mapas-de-calor-podem-esconder" class="level3" data-number="11.9.5">
+<h3 data-number="11.9.5" class="anchored" data-anchor-id="o-que-os-mapas-de-calor-podem-esconder"><span class="header-section-number">11.9.5</span> O que os mapas de calor podem esconder</h3>
+<p>Os mapas de calor enfatizam padrões, mas escondem magnitudes, incerteza e o número de repetições. O agrupamento produzirá blocos visualmente marcantes mesmo em dados aleatórios. Por isso, os mapas de calor são mais bem usados junto com as análises que quantificam as diferenças nas variáveis de interesse.</p>
+<!--
+Ideia de figura (Ch11_fig3): mapa de calor dos dados simulados, com e
+sem padronização das linhas, lado a lado.
+-->
+</section>
+</section>
+<section id="relações-entre-variáveis" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="relações-entre-variáveis"><span class="header-section-number">11.10</span> Relações entre variáveis</h2>
+<p>As matrizes de correlação resumem como as variáveis mudam juntas, estendendo as ideias do Capítulo 8 a muitas variáveis ao mesmo tempo. Elas podem revelar grupos de genes ou características que respondem juntos e redundâncias entre as variáveis medidas.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cor_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(mat_scaled)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_mat, <span class="at">show_rownames =</span> <span class="cn">FALSE</span>, <span class="at">show_colnames =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Com muitas variáveis e poucas amostras, muitas correlações parecerão fortes apenas por acaso, e as matrizes de correlação devem ser lidas como exploratórias.</p>
+</section>
+<section id="da-exploração-à-inferência" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="da-exploração-à-inferência"><span class="header-section-number">11.11</span> Da exploração à inferência</h2>
+<section id="testando-muitas-variáveis" class="level3" data-number="11.11.1">
+<h3 data-number="11.11.1" class="anchored" data-anchor-id="testando-muitas-variáveis"><span class="header-section-number">11.11.1</span> Testando muitas variáveis</h3>
+<p>Um passo comum depois da exploração é testar cada variável separadamente, por exemplo para identificar genes cuja expressão difere entre plantas inoculadas e plantas <em>mock</em>. Cada teste é uma comparação entre grupos como as dos Capítulos 7 e 10.</p>
+<p>Com milhares de testes, muitos valores-P pequenos ocorrem por acaso. Se 5.000 genes forem testados com nível de significância de 5% e nenhum responder de fato, cerca de 250 ainda parecerão significativos.</p>
+</section>
+<section id="controlando-as-falsas-descobertas" class="level3" data-number="11.11.2">
+<h3 data-number="11.11.2" class="anchored" data-anchor-id="controlando-as-falsas-descobertas"><span class="header-section-number">11.11.2</span> Controlando as falsas descobertas</h3>
+<p>A <strong>taxa de falsas descobertas</strong> (FDR) é a proporção esperada de falsos positivos entre as variáveis declaradas significativas. Ajustar os valores-P para controlar a FDR é prática-padrão em genômica.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># um teste t por gene: inoculadas x mock</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>p_values <span class="ot">&lt;-</span> <span class="fu">apply</span>(mat, <span class="dv">2</span>, <span class="cf">function</span>(g) <span class="fu">t.test</span>(g <span class="sc">~</span> samples<span class="sc">$</span>inoculation)<span class="sc">$</span>p.value)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(p_values <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>p_adj <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(p_values, <span class="at">method =</span> <span class="st">"BH"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(p_adj <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># genes significativos e seus log2 fold changes (inoculadas - mock)</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>lfc <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(mat[samples<span class="sc">$</span>inoculation <span class="sc">==</span> <span class="st">"inoculated"</span>, ]) <span class="sc">-</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colMeans</span>(mat[samples<span class="sc">$</span>inoculation <span class="sc">==</span> <span class="st">"mock"</span>, ])</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(lfc[p_adj <span class="sc">&lt;</span> <span class="fl">0.05</span>], <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>gene5 gene6 
+ 2.51  2.58 </code></pre>
+</div>
+</div>
+<p>Métodos especializados para dados de expressão gênica melhoram o teste de cada gene isoladamente ao compartilhar informação entre os genes, o que é particularmente valioso com poucas repetições.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Como nos capítulos anteriores, o número de variáveis significativas é menos informativo do que o tamanho das mudanças. Relate os tamanhos de efeito, como os <em>log fold changes</em>, junto com os valores-P ajustados.</p>
+</div>
+</div>
+</section>
+<section id="testando-diferenças-entre-grupos-no-espaço-multivariado" class="level3" data-number="11.11.3">
+<h3 data-number="11.11.3" class="anchored" data-anchor-id="testando-diferenças-entre-grupos-no-espaço-multivariado"><span class="header-section-number">11.11.3</span> Testando diferenças entre grupos no espaço multivariado</h3>
+<p>A análise de variância multivariada por permutação (PERMANOVA) testa se grupos de amostras diferem em sua posição no espaço multivariado, usando qualquer medida de distância. É muito usada em estudos de comunidades microbianas.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis2</span>(<span class="fu">dist</span>(mat_scaled) <span class="sc">~</span> cultivar <span class="sc">*</span> inoculation, <span class="at">data =</span> samples)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Permutation test for adonis under reduced model
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = dist(mat_scaled) ~ cultivar * inoculation, data = samples)
+         Df SumOfSqs      R2      F Pr(&gt;F)   
+Model     3   196.86 0.35793 1.4865  0.002 **
+Residual  8   353.14 0.64207                 
+Total    11   550.00 1.00000                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>A PERMANOVA é sensível tanto a diferenças de dispersão quanto a diferenças de posição. Um resultado significativo pode significar que os grupos diferem em sua variabilidade, e não em sua composição média, o que deve ser verificado separadamente.</p>
+</section>
+<section id="métodos-supervisionados" class="level3" data-number="11.11.4">
+<h3 data-number="11.11.4" class="anchored" data-anchor-id="métodos-supervisionados"><span class="header-section-number">11.11.4</span> Métodos supervisionados</h3>
+<p>Métodos como a análise discriminante e a análise discriminante por mínimos quadrados parciais (PLS-DA) encontram combinações de variáveis que melhor separam grupos predefinidos. Com muitas variáveis e poucas amostras, eles separam quase qualquer grupo, inclusive grupos aleatórios. Seus resultados só têm significado quando validados em amostras não usadas para ajustá-los.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um gráfico em que um método supervisionado separa perfeitamente os tratamentos não é evidência de efeito do tratamento. Pode mostrar apenas que o método tinha variáveis suficientes para separar qualquer coisa.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="questões-de-delineamento-em-estudos-multivariados" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="questões-de-delineamento-em-estudos-multivariados"><span class="header-section-number">11.12</span> Questões de delineamento em estudos multivariados</h2>
+<section id="repetição-biológica-e-técnica" class="level3" data-number="11.12.1">
+<h3 data-number="11.12.1" class="anchored" data-anchor-id="repetição-biológica-e-técnica"><span class="header-section-number">11.12.1</span> Repetição biológica e técnica</h3>
+<p>Os princípios do Capítulo 2 se aplicam integralmente. As repetições biológicas (plantas ou parcelas independentes) fornecem informação sobre a população; as repetições técnicas (extrações ou corridas repetidas da mesma amostra) fornecem informação sobre o erro de medida. Tratar repetições técnicas como biológicas infla a evidência aparente.</p>
+</section>
+<section id="efeitos-de-lote" class="level3" data-number="11.12.2">
+<h3 data-number="11.12.2" class="anchored" data-anchor-id="efeitos-de-lote"><span class="header-section-number">11.12.2</span> Efeitos de lote</h3>
+<p>As amostras são frequentemente processadas em lotes: dias de extração, placas, canaletas de sequenciamento. Os lotes podem introduzir diferenças sistemáticas maiores do que os efeitos biológicos de interesse.</p>
+<p>Quando os lotes coincidem com os tratamentos — por exemplo, todas as amostras inoculadas extraídas em um dia e todas as amostras <em>mock</em> em outro —, os efeitos do tratamento e do lote não podem ser separados por nenhuma análise.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Casualize as amostras entre os lotes e registre a informação de lote. Efeitos de lote equilibrados entre os tratamentos podem ser considerados na análise; efeitos de lote confundidos com os tratamentos, não.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="pesquisa-na-prática-expressão-de-genes-de-defesa-em-cultivares-resistentes-e-suscetíveis" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="pesquisa-na-prática-expressão-de-genes-de-defesa-em-cultivares-resistentes-e-suscetíveis"><span class="header-section-number">11.13</span> Pesquisa na prática: expressão de genes de defesa em cultivares resistentes e suscetíveis</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Plantas resistentes respondem de forma diferente à infecção?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Plantas resistentes respondem de forma diferente à infecção?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere um experimento em que folhas de uma cultivar resistente e de uma suscetível foram inoculadas com um patógeno ou inoculadas apenas com o veículo, com várias repetições biológicas por combinação, e a expressão de um painel de genes relacionados à defesa foi medida.</p>
+<p>A questão científica não é simplesmente:</p>
+<blockquote class="blockquote">
+<p>As amostras se agrupam por tratamento?</p>
+</blockquote>
+<p>Em vez disso, pergunte:</p>
+<ol type="1">
+<li>Qual é a unidade experimental, e quantas repetições biológicas havia?</li>
+<li>Como os valores de expressão foram normalizados, transformados e padronizados?</li>
+<li>Quais são as fontes dominantes de variação em uma ACP, e elas correspondem à cultivar, à inoculação ou ao lote de processamento?</li>
+<li>Quais genes mais contribuem para a separação das amostras?</li>
+<li>A resposta à inoculação é maior em uma cultivar do que na outra, e em quais genes?</li>
+<li>Qual é o tamanho das mudanças de expressão, e quantos genes continuam significativos depois de controlar a taxa de falsas descobertas?</li>
+<li>Quais padrões são robustos o suficiente para orientar experimentos direcionados de acompanhamento?</li>
+</ol>
+</div>
+</div>
+<!--
+Escolher um conjunto de dados real (por exemplo, um painel de qPCR ou dados
+publicados de RNA-seq) e substituir o exemplo simulado.
+-->
+</section>
+<section id="um-fluxo-de-trabalho-prático-para-dados-multivariados" class="level2" data-number="11.14">
+<h2 data-number="11.14" class="anchored" data-anchor-id="um-fluxo-de-trabalho-prático-para-dados-multivariados"><span class="header-section-number">11.14</span> Um fluxo de trabalho prático para dados multivariados</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter11-4" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter11-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-0146cdc725b471aeb94e" style="width:100%;height:872px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0146cdc725b471aeb94e">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 5, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Identificar as amostras, as variáveis<br/>e as variáveis do delineamento<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Organizar a matriz de dados e as<br/>informações das amostras<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Verificar qualidade,<br/>valores perdidos e lotes<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Transformar, centralizar e padronizar<\/b><br/><font point-size=\"12\" color=\"#1f8075\">e documentar as escolhas<\/font><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Explorar com ACP<\/b><br/><font point-size=\"12\" color=\"#c4473a\">escores, cargas, variância explicada<\/font><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Explorar com agrupamento<br/>e mapas de calor<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n8 [label = <<font color=\"#24301f\"><b>Verificar se os padrões refletem o delineamento,<br/>a biologia ou fatores técnicos<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n9 [label = <<font color=\"#24301f\"><b>Formular hipóteses<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n10 [label = <<font color=\"#24301f\"><b>Testar questões direcionadas<\/b><br/><font point-size=\"12\" color=\"#6c4f9e\">controlando os testes múltiplos<\/font><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n11 [label = <<font color=\"#24301f\"><b>Interpretar a importância biológica<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7 -> n8 -> n9 -> n10 -> n11\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter11-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11.2: Fluxo de trabalho para dados multivariados.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="relatando-análises-multivariadas" class="level2" data-number="11.15">
+<h2 data-number="11.15" class="anchored" data-anchor-id="relatando-análises-multivariadas"><span class="header-section-number">11.15</span> Relatando análises multivariadas</h2>
+<p>Uma boa descrição geralmente inclui:</p>
+<section id="o-que-foi-medido" class="level3" data-number="11.15.1">
+<h3 data-number="11.15.1" class="anchored" data-anchor-id="o-que-foi-medido"><span class="header-section-number">11.15.1</span> O que foi medido?</h3>
+<p>O número de amostras, o número de variáveis e o delineamento.</p>
+</section>
+<section id="como-os-dados-foram-preparados" class="level3" data-number="11.15.2">
+<h3 data-number="11.15.2" class="anchored" data-anchor-id="como-os-dados-foram-preparados"><span class="header-section-number">11.15.2</span> Como os dados foram preparados?</h3>
+<p>Normalização, transformação, tratamento dos valores perdidos, centralização e padronização.</p>
+</section>
+<section id="quais-métodos-foram-usados" class="level3" data-number="11.15.3">
+<h3 data-number="11.15.3" class="anchored" data-anchor-id="quais-métodos-foram-usados"><span class="header-section-number">11.15.3</span> Quais métodos foram usados?</h3>
+<p>Medida de distância, método de ordenação, algoritmo de agrupamento e método de ligação.</p>
+</section>
+<section id="quanto-da-variação-foi-resumido" class="level3" data-number="11.15.4">
+<h3 data-number="11.15.4" class="anchored" data-anchor-id="quanto-da-variação-foi-resumido"><span class="header-section-number">11.15.4</span> Quanto da variação foi resumido?</h3>
+<p>A proporção da variância explicada pelos componentes mostrados.</p>
+</section>
+<section id="quão-robustos-são-os-padrões" class="level3" data-number="11.15.5">
+<h3 data-number="11.15.5" class="anchored" data-anchor-id="quão-robustos-são-os-padrões"><span class="header-section-number">11.15.5</span> Quão robustos são os padrões?</h3>
+<p>Estabilidade dos agrupamentos e verificação de efeitos de lote.</p>
+</section>
+<section id="o-que-foi-testado" class="level3" data-number="11.15.6">
+<h3 data-number="11.15.6" class="anchored" data-anchor-id="o-que-foi-testado"><span class="header-section-number">11.15.6</span> O que foi testado?</h3>
+<p>Número de testes, método de ajuste e tamanhos de efeito.</p>
+</section>
+<section id="interpretação-biológica" class="level3" data-number="11.15.7">
+<h3 data-number="11.15.7" class="anchored" data-anchor-id="interpretação-biológica"><span class="header-section-number">11.15.7</span> Interpretação biológica</h3>
+<p>Quais padrões são interpretados biologicamente e quais são tratados como hipóteses.</p>
+<p>Em vez de:</p>
+<blockquote class="blockquote">
+<p>A ACP separou claramente os tratamentos, demonstrando uma forte resposta de defesa.</p>
+</blockquote>
+<p>prefira algo como:</p>
+<blockquote class="blockquote">
+<p>O PC1 (19% da variância) separou as amostras inoculadas das amostras <em>mock</em>, com as maiores cargas para os genes 1 a 10. A separação foi maior na cultivar resistente. Dos 50 genes testados (inoculadas <em>versus</em> <em>mock</em>, três repetições biológicas por combinação), 10 tiveram P &lt; 0,05, mas apenas 2 (genes 5 e 6) permaneceram significativos após o ajuste pela FDR, ambos com <em>log</em><sub>2</sub> <em>fold change</em> de cerca de 2,5.</p>
+</blockquote>
+<p>Esses números vêm das saídas da ACP e dos testes por gene apresentados neste capítulo. Eles também ilustram um ponto central: com apenas três repetições por grupo, o controle da taxa de falsas descobertas deixa poucos genes significativos, embora dez genes tenham sido simulados com respostas reais à inoculação.</p>
+</section>
+</section>
+<section id="erros-comuns" class="level2" data-number="11.16">
+<h2 data-number="11.16" class="anchored" data-anchor-id="erros-comuns"><span class="header-section-number">11.16</span> Erros comuns</h2>
+<section id="tratar-muitas-variáveis-como-muitas-repetições" class="level3" data-number="11.16.1">
+<h3 data-number="11.16.1" class="anchored" data-anchor-id="tratar-muitas-variáveis-como-muitas-repetições"><span class="header-section-number">11.16.1</span> Tratar muitas variáveis como muitas repetições</h3>
+<p>A repetição depende do número de amostras independentes.</p>
+</section>
+<section id="não-padronizar-variáveis-medidas-em-unidades-diferentes" class="level3" data-number="11.16.2">
+<h3 data-number="11.16.2" class="anchored" data-anchor-id="não-padronizar-variáveis-medidas-em-unidades-diferentes"><span class="header-section-number">11.16.2</span> Não padronizar variáveis medidas em unidades diferentes</h3>
+<p>As variáveis com maior variância numérica dominam.</p>
+</section>
+<section id="não-informar-as-escolhas-de-transformação-e-padronização" class="level3" data-number="11.16.3">
+<h3 data-number="11.16.3" class="anchored" data-anchor-id="não-informar-as-escolhas-de-transformação-e-padronização"><span class="header-section-number">11.16.3</span> Não informar as escolhas de transformação e padronização</h3>
+<p>Escolhas diferentes produzem imagens diferentes.</p>
+</section>
+<section id="interpretar-a-separação-na-acp-como-um-teste-estatístico" class="level3" data-number="11.16.4">
+<h3 data-number="11.16.4" class="anchored" data-anchor-id="interpretar-a-separação-na-acp-como-um-teste-estatístico"><span class="header-section-number">11.16.4</span> Interpretar a separação na ACP como um teste estatístico</h3>
+<p>A ACP descreve a variação; não a testa.</p>
+</section>
+<section id="ignorar-a-variância-explicada-pelos-componentes-mostrados" class="level3" data-number="11.16.5">
+<h3 data-number="11.16.5" class="anchored" data-anchor-id="ignorar-a-variância-explicada-pelos-componentes-mostrados"><span class="header-section-number">11.16.5</span> Ignorar a variância explicada pelos componentes mostrados</h3>
+<p>Dois componentes podem resumir apenas uma pequena parte dos dados.</p>
+</section>
+<section id="tratar-agrupamentos-como-grupos-comprovados" class="level3" data-number="11.16.6">
+<h3 data-number="11.16.6" class="anchored" data-anchor-id="tratar-agrupamentos-como-grupos-comprovados"><span class="header-section-number">11.16.6</span> Tratar agrupamentos como grupos comprovados</h3>
+<p>O agrupamento sempre encontra grupos.</p>
+</section>
+<section id="testar-os-grupos-com-as-variáveis-usadas-para-criá-los" class="level3" data-number="11.16.7">
+<h3 data-number="11.16.7" class="anchored" data-anchor-id="testar-os-grupos-com-as-variáveis-usadas-para-criá-los"><span class="header-section-number">11.16.7</span> Testar os grupos com as variáveis usadas para criá-los</h3>
+<p>O teste é circular.</p>
+</section>
+<section id="ler-as-cores-do-mapa-de-calor-como-magnitudes-após-padronizar-as-linhas" class="level3" data-number="11.16.8">
+<h3 data-number="11.16.8" class="anchored" data-anchor-id="ler-as-cores-do-mapa-de-calor-como-magnitudes-após-padronizar-as-linhas"><span class="header-section-number">11.16.8</span> Ler as cores do mapa de calor como magnitudes após padronizar as linhas</h3>
+<p>As cores após a padronização das linhas mostram níveis relativos, e não absolutos.</p>
+</section>
+<section id="usar-escalas-de-cor-vermelhoverde" class="level3" data-number="11.16.9">
+<h3 data-number="11.16.9" class="anchored" data-anchor-id="usar-escalas-de-cor-vermelhoverde"><span class="header-section-number">11.16.9</span> Usar escalas de cor vermelho–verde</h3>
+<p>Muitos leitores não conseguem distingui-las.</p>
+</section>
+<section id="ignorar-os-testes-múltiplos" class="level3" data-number="11.16.10">
+<h3 data-number="11.16.10" class="anchored" data-anchor-id="ignorar-os-testes-múltiplos"><span class="header-section-number">11.16.10</span> Ignorar os testes múltiplos</h3>
+<p>Muitas variáveis produzem muitos falsos positivos.</p>
+</section>
+<section id="confundir-lote-com-tratamento" class="level3" data-number="11.16.11">
+<h3 data-number="11.16.11" class="anchored" data-anchor-id="confundir-lote-com-tratamento"><span class="header-section-number">11.16.11</span> Confundir lote com tratamento</h3>
+<p>Nenhuma análise consegue separá-los depois.</p>
+</section>
+<section id="confiar-na-separação-perfeita-obtida-por-métodos-supervisionados" class="level3" data-number="11.16.12">
+<h3 data-number="11.16.12" class="anchored" data-anchor-id="confiar-na-separação-perfeita-obtida-por-métodos-supervisionados"><span class="header-section-number">11.16.12</span> Confiar na separação perfeita obtida por métodos supervisionados</h3>
+<p>Com muitas variáveis, qualquer agrupamento pode ser separado.</p>
+</section>
+</section>
+<section id="lista-de-verificação-para-análises-multivariadas" class="level2" data-number="11.17">
+<h2 data-number="11.17" class="anchored" data-anchor-id="lista-de-verificação-para-análises-multivariadas"><span class="header-section-number">11.17</span> Lista de verificação para análises multivariadas</h2>
+<p>Antes de interpretar uma análise multivariada, pergunte:</p>
+<ol type="1">
+<li>Que questão biológica está sendo abordada?</li>
+<li>Quais são as amostras e quais são as variáveis?</li>
+<li>Quantas repetições biológicas existem?</li>
+<li>As amostras foram processadas em lotes, e os lotes estão confundidos com os tratamentos?</li>
+<li>Como os valores perdidos foram tratados?</li>
+<li>Como os dados foram normalizados, transformados e padronizados?</li>
+<li>Qual medida de distância é adequada?</li>
+<li>Quanto da variância os componentes mostrados explicam?</li>
+<li>Quais variáveis determinam os padrões?</li>
+<li>Os padrões correspondem ao delineamento, à biologia ou a fatores técnicos?</li>
+<li>Os agrupamentos são estáveis?</li>
+<li>As linhas ou colunas do mapa de calor foram padronizadas, e como?</li>
+<li>Os testes múltiplos foram considerados?</li>
+<li>Os tamanhos de efeito são relatados junto com a significância?</li>
+<li>Quais conclusões são confirmadas e quais são hipóteses?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="11.18">
+<h2 data-number="11.18" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">11.18</span> Resumo do capítulo</h2>
+<p>Muitos estudos em Fitopatologia medem numerosas variáveis em cada amostra, da expressão gênica e dos perfis de metabólitos às características fisiológicas e às comunidades microbianas. Os métodos multivariados resumem esses dados e revelam estruturas que não podem ser vistas uma variável de cada vez. Seus resultados dependem de como os dados são organizados, transformados, centralizados e padronizados, e da medida de distância escolhida.</p>
+<p>A análise de componentes principais mostra as direções dominantes de variação entre as amostras por meio de escores, cargas e variância explicada. O agrupamento reúne amostras ou variáveis semelhantes, e os mapas de calor mostram toda a matriz de dados junto com esses agrupamentos. Esses métodos são exploratórios: sempre produzem uma imagem, e os padrões podem refletir o acaso, artefatos técnicos ou efeitos de lote, além da biologia. Passar da exploração à inferência exige testes direcionados com controle da taxa de falsas descobertas, atenção aos tamanhos de efeito e, sobretudo, delineamentos com repetição biológica adequada e casualização das amostras entre os lotes de processamento.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="11.19">
+<h2 data-number="11.19" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">11.19</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>dados multivariados;</li>
+<li>matriz de dados;</li>
+<li>dados de alta dimensionalidade;</li>
+<li>transformação;</li>
+<li>centralização;</li>
+<li>padronização;</li>
+<li>distância e similaridade;</li>
+<li>distância euclidiana;</li>
+<li>dissimilaridade de Bray–Curtis;</li>
+<li>análise de componentes principais;</li>
+<li>componente principal;</li>
+<li>variância explicada;</li>
+<li>gráfico de sedimentação;</li>
+<li>escores;</li>
+<li>cargas;</li>
+<li><em>biplot</em>;</li>
+<li>ordenação;</li>
+<li>agrupamento hierárquico;</li>
+<li>método de ligação;</li>
+<li>dendrograma;</li>
+<li>agrupamento por <em>k</em>-médias;</li>
+<li>silhueta;</li>
+<li>mapa de calor;</li>
+<li>padronização das linhas;</li>
+<li>taxa de falsas descobertas;</li>
+<li>PERMANOVA;</li>
+<li>métodos supervisionados e não supervisionados;</li>
+<li>efeito de lote;</li>
+<li>repetição biológica e técnica.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="11.20">
+<h2 data-number="11.20" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">11.20</span> Exercícios</h2>
+<section id="exercício-1.-organizando-um-conjunto-de-dados-multivariados" class="level3" data-number="11.20.1">
+<h3 data-number="11.20.1" class="anchored" data-anchor-id="exercício-1.-organizando-um-conjunto-de-dados-multivariados"><span class="header-section-number">11.20.1</span> Exercício 1. Organizando um conjunto de dados multivariados</h3>
+<p>Você recebe uma planilha em que cada linha contém um identificador de amostra, o nome de um gene e um valor de expressão.</p>
+<ol type="1">
+<li>descreva como convertê-la em uma matriz de amostras por genes;</li>
+<li>descreva a tabela separada de informações das amostras de que você precisaria;</li>
+<li>explique por que os dois formatos são úteis.</li>
+</ol>
+</section>
+<section id="exercício-2.-padronizar-ou-não-padronizar" class="level3" data-number="11.20.2">
+<h3 data-number="11.20.2" class="anchored" data-anchor-id="exercício-2.-padronizar-ou-não-padronizar"><span class="header-section-number">11.20.2</span> Exercício 2. Padronizar ou não padronizar?</h3>
+<p>Usando um conjunto de dados de características fisiológicas medidas em unidades diferentes:</p>
+<ol type="1">
+<li>faça uma ACP sem padronização;</li>
+<li>faça uma ACP com padronização;</li>
+<li>compare a variância explicada e as cargas;</li>
+<li>explique qual análise é mais adequada e por quê.</li>
+</ol>
+</section>
+<section id="exercício-3.-interpretando-uma-acp" class="level3" data-number="11.20.3">
+<h3 data-number="11.20.3" class="anchored" data-anchor-id="exercício-3.-interpretando-uma-acp"><span class="header-section-number">11.20.3</span> Exercício 3. Interpretando uma ACP</h3>
+<p>Usando os dados simulados de expressão gênica deste capítulo:</p>
+<ol type="1">
+<li>faça uma ACP;</li>
+<li>represente os escores coloridos pela inoculação e com formatos pela cultivar;</li>
+<li>relate a variância explicada pelo PC1 e pelo PC2;</li>
+<li>identifique os genes com as maiores cargas no PC1;</li>
+<li>descreva o padrão biológico sugerido pelo gráfico.</li>
+</ol>
+</section>
+<section id="exercício-4.-grupos-a-partir-de-ruído" class="level3" data-number="11.20.4">
+<h3 data-number="11.20.4" class="anchored" data-anchor-id="exercício-4.-grupos-a-partir-de-ruído"><span class="header-section-number">11.20.4</span> Exercício 4. Grupos a partir de ruído</h3>
+<p>Gere uma matriz de valores aleatórios sem nenhuma estrutura.</p>
+<ol type="1">
+<li>faça um agrupamento hierárquico e desenhe o dendrograma;</li>
+<li>desenhe um mapa de calor com agrupamento;</li>
+<li>descreva o que você vê;</li>
+<li>explique o que isso implica para a interpretação de agrupamentos em dados reais.</li>
+</ol>
+</section>
+<section id="exercício-5.-elaborando-um-mapa-de-calor" class="level3" data-number="11.20.5">
+<h3 data-number="11.20.5" class="anchored" data-anchor-id="exercício-5.-elaborando-um-mapa-de-calor"><span class="header-section-number">11.20.5</span> Exercício 5. Elaborando um mapa de calor</h3>
+<p>Usando os dados simulados, construa um mapa de calor com anotações das amostras. Compare versões com e sem padronização das linhas e com duas paletas de cores diferentes, e explique qual versão comunica melhor os resultados.</p>
+</section>
+<section id="exercício-6.-testes-múltiplos" class="level3" data-number="11.20.6">
+<h3 data-number="11.20.6" class="anchored" data-anchor-id="exercício-6.-testes-múltiplos"><span class="header-section-number">11.20.6</span> Exercício 6. Testes múltiplos</h3>
+<p>Teste cada gene do conjunto de dados simulado quanto à diferença entre amostras inoculadas e <em>mock</em>.</p>
+<ol type="1">
+<li>conte os genes com P &lt; 0,05;</li>
+<li>ajuste os valores-P para controlar a taxa de falsas descobertas;</li>
+<li>conte os genes que continuam significativos;</li>
+<li>relate os efeitos estimados dos genes significativos.</li>
+</ol>
+</section>
+<section id="exercício-7.-avaliação-de-um-artigo-publicado" class="level3" data-number="11.20.7">
+<h3 data-number="11.20.7" class="anchored" data-anchor-id="exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">11.20.7</span> Exercício 7. Avaliação de um artigo publicado</h3>
+<p>Escolha um artigo recente de Fitopatologia que use ACP, agrupamento ou mapas de calor.</p>
+<p>Identifique:</p>
+<ol type="1">
+<li>as amostras e as variáveis;</li>
+<li>o número de repetições biológicas;</li>
+<li>como os dados foram transformados e padronizados;</li>
+<li>se a variância explicada foi relatada;</li>
+<li>se os efeitos de lote foram considerados;</li>
+<li>se os agrupamentos foram tratados como hipóteses ou como conclusões;</li>
+<li>se os testes múltiplos foram considerados;</li>
+<li>se os tamanhos de efeito foram relatados.</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="11.21">
+<h2 data-number="11.21" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">11.21</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Os métodos multivariados sempre produzem uma imagem. A tarefa científica é decidir o que a imagem significa.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia molecular.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="11.22">
+<h2 data-number="11.22" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">11.22</span> Próximos passos</h2>
+<p>Os Capítulos 7 a 11 trataram da análise de diferentes tipos de dados. Uma análise só cumpre seu propósito quando seus resultados são comunicados com clareza a outras pessoas. O Capítulo 12 discute como preparar figuras, tabelas, resumos estatísticos e interpretações escritas que apresentem a evidência científica de forma exata e eficaz.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter10.html" class="pagination-link" aria-label="Dados categóricos e de contagem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter12.html" class="pagination-link" aria-label="Comunicação dos resultados">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

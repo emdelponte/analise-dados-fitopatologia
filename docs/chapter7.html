@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Como comparamos grupos? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter8.html" rel="next">
+<link href="./chapter6.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter7.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">7.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-comparar-grupos" id="toc-por-que-comparar-grupos" class="nav-link" data-scroll-target="#por-que-comparar-grupos"><span class="header-section-number">7.2</span> Por que comparar grupos?</a></li>
+  <li><a href="#da-questão-biológica-à-comparação-estatística" id="toc-da-questão-biológica-à-comparação-estatística" class="nav-link" data-scroll-target="#da-questão-biológica-à-comparação-estatística"><span class="header-section-number">7.3</span> Da questão biológica à comparação estatística</a>
+  <ul class="collapse">
+  <li><a href="#qual-é-o-estimando" id="toc-qual-é-o-estimando" class="nav-link" data-scroll-target="#qual-é-o-estimando"><span class="header-section-number">7.3.1</span> Qual é o estimando?</a></li>
+  </ul></li>
+  <li><a href="#olhando-os-dados-antes-de-comparar-médias" id="toc-olhando-os-dados-antes-de-comparar-médias" class="nav-link" data-scroll-target="#olhando-os-dados-antes-de-comparar-médias"><span class="header-section-number">7.4</span> Olhando os dados antes de comparar médias</a>
+  <ul class="collapse">
+  <li><a href="#mostre-as-observações-individuais" id="toc-mostre-as-observações-individuais" class="nav-link" data-scroll-target="#mostre-as-observações-individuais"><span class="header-section-number">7.4.1</span> Mostre as observações individuais</a></li>
+  <li><a href="#examine-as-distribuições-dos-grupos" id="toc-examine-as-distribuições-dos-grupos" class="nav-link" data-scroll-target="#examine-as-distribuições-dos-grupos"><span class="header-section-number">7.4.2</span> Examine as distribuições dos grupos</a></li>
+  <li><a href="#examine-a-variabilidade-entre-os-grupos" id="toc-examine-a-variabilidade-entre-os-grupos" class="nav-link" data-scroll-target="#examine-a-variabilidade-entre-os-grupos"><span class="header-section-number">7.4.3</span> Examine a variabilidade entre os grupos</a></li>
+  <li><a href="#identifique-observações-incomuns" id="toc-identifique-observações-incomuns" class="nav-link" data-scroll-target="#identifique-observações-incomuns"><span class="header-section-number">7.4.4</span> Identifique observações incomuns</a></li>
+  <li><a href="#verifique-a-estrutura-experimental" id="toc-verifique-a-estrutura-experimental" class="nav-link" data-scroll-target="#verifique-a-estrutura-experimental"><span class="header-section-number">7.4.5</span> Verifique a estrutura experimental</a></li>
+  <li><a href="#por-que-as-médias-sozinhas-são-insuficientes" id="toc-por-que-as-médias-sozinhas-são-insuficientes" class="nav-link" data-scroll-target="#por-que-as-médias-sozinhas-são-insuficientes"><span class="header-section-number">7.4.6</span> Por que as médias sozinhas são insuficientes</a></li>
+  </ul></li>
+  <li><a href="#comparando-dois-grupos-independentes" id="toc-comparando-dois-grupos-independentes" class="nav-link" data-scroll-target="#comparando-dois-grupos-independentes"><span class="header-section-number">7.5</span> Comparando dois grupos independentes</a>
+  <ul class="collapse">
+  <li><a href="#um-exemplo-simples" id="toc-um-exemplo-simples" class="nav-link" data-scroll-target="#um-exemplo-simples"><span class="header-section-number">7.5.1</span> Um exemplo simples</a></li>
+  <li><a href="#diferença-entre-médias" id="toc-diferença-entre-médias" class="nav-link" data-scroll-target="#diferença-entre-médias"><span class="header-section-number">7.5.2</span> Diferença entre médias</a></li>
+  <li><a href="#incerteza-da-diferença" id="toc-incerteza-da-diferença" class="nav-link" data-scroll-target="#incerteza-da-diferença"><span class="header-section-number">7.5.3</span> Incerteza da diferença</a></li>
+  <li><a href="#o-teste-t-para-amostras-independentes" id="toc-o-teste-t-para-amostras-independentes" class="nav-link" data-scroll-target="#o-teste-t-para-amostras-independentes"><span class="header-section-number">7.5.4</span> O teste t para amostras independentes</a></li>
+  <li><a href="#o-teste-t-de-welch" id="toc-o-teste-t-de-welch" class="nav-link" data-scroll-target="#o-teste-t-de-welch"><span class="header-section-number">7.5.5</span> O teste t de Welch</a></li>
+  <li><a href="#interpretando-o-resultado" id="toc-interpretando-o-resultado" class="nav-link" data-scroll-target="#interpretando-o-resultado"><span class="header-section-number">7.5.6</span> Interpretando o resultado</a></li>
+  </ul></li>
+  <li><a href="#observações-independentes-versus-pareadas" id="toc-observações-independentes-versus-pareadas" class="nav-link" data-scroll-target="#observações-independentes-versus-pareadas"><span class="header-section-number">7.6</span> Observações independentes versus pareadas</a>
+  <ul class="collapse">
+  <li><a href="#observações-independentes" id="toc-observações-independentes" class="nav-link" data-scroll-target="#observações-independentes"><span class="header-section-number">7.6.1</span> Observações independentes</a></li>
+  <li><a href="#observações-pareadas" id="toc-observações-pareadas" class="nav-link" data-scroll-target="#observações-pareadas"><span class="header-section-number">7.6.2</span> Observações pareadas</a></li>
+  <li><a href="#o-teste-t-pareado" id="toc-o-teste-t-pareado" class="nav-link" data-scroll-target="#o-teste-t-pareado"><span class="header-section-number">7.6.3</span> O teste t pareado</a></li>
+  </ul></li>
+  <li><a href="#comparando-mais-de-dois-grupos" id="toc-comparando-mais-de-dois-grupos" class="nav-link" data-scroll-target="#comparando-mais-de-dois-grupos"><span class="header-section-number">7.7</span> Comparando mais de dois grupos</a>
+  <ul class="collapse">
+  <li><a href="#por-que-não-fazer-muitos-testes-t" id="toc-por-que-não-fazer-muitos-testes-t" class="nav-link" data-scroll-target="#por-que-não-fazer-muitos-testes-t"><span class="header-section-number">7.7.1</span> Por que não fazer muitos testes t?</a></li>
+  <li><a href="#análise-de-variância" id="toc-análise-de-variância" class="nav-link" data-scroll-target="#análise-de-variância"><span class="header-section-number">7.7.2</span> Análise de variância</a></li>
+  <li><a href="#variação-dentro-e-entre-grupos" id="toc-variação-dentro-e-entre-grupos" class="nav-link" data-scroll-target="#variação-dentro-e-entre-grupos"><span class="header-section-number">7.7.3</span> Variação dentro e entre grupos</a></li>
+  <li><a href="#o-teste-f" id="toc-o-teste-f" class="nav-link" data-scroll-target="#o-teste-f"><span class="header-section-number">7.7.4</span> O teste F</a></li>
+  </ul></li>
+  <li><a href="#a-anova-como-modelo-linear" id="toc-a-anova-como-modelo-linear" class="nav-link" data-scroll-target="#a-anova-como-modelo-linear"><span class="header-section-number">7.8</span> A ANOVA como modelo linear</a>
+  <ul class="collapse">
+  <li><a href="#ajustando-o-modelo-no-r" id="toc-ajustando-o-modelo-no-r" class="nav-link" data-scroll-target="#ajustando-o-modelo-no-r"><span class="header-section-number">7.8.1</span> Ajustando o modelo no R</a></li>
+  <li><a href="#examinando-as-estimativas-do-modelo" id="toc-examinando-as-estimativas-do-modelo" class="nav-link" data-scroll-target="#examinando-as-estimativas-do-modelo"><span class="header-section-number">7.8.2</span> Examinando as estimativas do modelo</a></li>
+  </ul></li>
+  <li><a href="#o-que-o-teste-global-nos-diz" id="toc-o-que-o-teste-global-nos-diz" class="nav-link" data-scroll-target="#o-que-o-teste-global-nos-diz"><span class="header-section-number">7.9</span> O que o teste global nos diz?</a></li>
+  <li><a href="#contrastes-fazendo-perguntas-específicas" id="toc-contrastes-fazendo-perguntas-específicas" class="nav-link" data-scroll-target="#contrastes-fazendo-perguntas-específicas"><span class="header-section-number">7.10</span> Contrastes: fazendo perguntas específicas</a>
+  <ul class="collapse">
+  <li><a href="#contrastes-planejados" id="toc-contrastes-planejados" class="nav-link" data-scroll-target="#contrastes-planejados"><span class="header-section-number">7.10.1</span> Contrastes planejados</a></li>
+  <li><a href="#tratamento-versus-testemunha" id="toc-tratamento-versus-testemunha" class="nav-link" data-scroll-target="#tratamento-versus-testemunha"><span class="header-section-number">7.10.2</span> Tratamento versus testemunha</a></li>
+  <li><a href="#grupos-de-tratamentos" id="toc-grupos-de-tratamentos" class="nav-link" data-scroll-target="#grupos-de-tratamentos"><span class="header-section-number">7.10.3</span> Grupos de tratamentos</a></li>
+  </ul></li>
+  <li><a href="#comparações-múltiplas" id="toc-comparações-múltiplas" class="nav-link" data-scroll-target="#comparações-múltiplas"><span class="header-section-number">7.11</span> Comparações múltiplas</a>
+  <ul class="collapse">
+  <li><a href="#por-que-a-multiplicidade-importa" id="toc-por-que-a-multiplicidade-importa" class="nav-link" data-scroll-target="#por-que-a-multiplicidade-importa"><span class="header-section-number">7.11.1</span> Por que a multiplicidade importa</a></li>
+  <li><a href="#comparações-dois-a-dois" id="toc-comparações-dois-a-dois" class="nav-link" data-scroll-target="#comparações-dois-a-dois"><span class="header-section-number">7.11.2</span> Comparações dois a dois</a></li>
+  <li><a href="#comparações-de-tukey" id="toc-comparações-de-tukey" class="nav-link" data-scroll-target="#comparações-de-tukey"><span class="header-section-number">7.11.3</span> Comparações de Tukey</a></li>
+  <li><a href="#comparações-com-uma-testemunha" id="toc-comparações-com-uma-testemunha" class="nav-link" data-scroll-target="#comparações-com-uma-testemunha"><span class="header-section-number">7.11.4</span> Comparações com uma testemunha</a></li>
+  <li><a href="#métodos-de-ajuste" id="toc-métodos-de-ajuste" class="nav-link" data-scroll-target="#métodos-de-ajuste"><span class="header-section-number">7.11.5</span> Métodos de ajuste</a></li>
+  <li><a href="#apresentação-com-letras" id="toc-apresentação-com-letras" class="nav-link" data-scroll-target="#apresentação-com-letras"><span class="header-section-number">7.11.6</span> Apresentação com letras</a></li>
+  <li><a href="#o-que-as-letras-dizem-e-o-que-não-dizem" id="toc-o-que-as-letras-dizem-e-o-que-não-dizem" class="nav-link" data-scroll-target="#o-que-as-letras-dizem-e-o-que-não-dizem"><span class="header-section-number">7.11.7</span> O que as letras dizem — e o que não dizem</a></li>
+  </ul></li>
+  <li><a href="#das-letras-às-estimativas" id="toc-das-letras-às-estimativas" class="nav-link" data-scroll-target="#das-letras-às-estimativas"><span class="header-section-number">7.12</span> Das letras às estimativas</a>
+  <ul class="collapse">
+  <li><a href="#apresentação-convencional" id="toc-apresentação-convencional" class="nav-link" data-scroll-target="#apresentação-convencional"><span class="header-section-number">7.12.1</span> Apresentação convencional</a></li>
+  </ul></li>
+  <li><a href="#experimentos-fatoriais" id="toc-experimentos-fatoriais" class="nav-link" data-scroll-target="#experimentos-fatoriais"><span class="header-section-number">7.13</span> Experimentos fatoriais</a>
+  <ul class="collapse">
+  <li><a href="#efeitos-principais" id="toc-efeitos-principais" class="nav-link" data-scroll-target="#efeitos-principais"><span class="header-section-number">7.13.1</span> Efeitos principais</a></li>
+  <li><a href="#interações" id="toc-interações" class="nav-link" data-scroll-target="#interações"><span class="header-section-number">7.13.2</span> Interações</a></li>
+  <li><a href="#visualizando-interações" id="toc-visualizando-interações" class="nav-link" data-scroll-target="#visualizando-interações"><span class="header-section-number">7.13.3</span> Visualizando interações</a></li>
+  <li><a href="#ajustando-um-modelo-fatorial" id="toc-ajustando-um-modelo-fatorial" class="nav-link" data-scroll-target="#ajustando-um-modelo-fatorial"><span class="header-section-number">7.13.4</span> Ajustando um modelo fatorial</a></li>
+  <li><a href="#interpretando-uma-interação" id="toc-interpretando-uma-interação" class="nav-link" data-scroll-target="#interpretando-uma-interação"><span class="header-section-number">7.13.5</span> Interpretando uma interação</a></li>
+  </ul></li>
+  <li><a href="#blocos-e-comparações-entre-grupos" id="toc-blocos-e-comparações-entre-grupos" class="nav-link" data-scroll-target="#blocos-e-comparações-entre-grupos"><span class="header-section-number">7.14</span> Blocos e comparações entre grupos</a>
+  <ul class="collapse">
+  <li><a href="#por-que-os-blocos-pertencem-ao-modelo" id="toc-por-que-os-blocos-pertencem-ao-modelo" class="nav-link" data-scroll-target="#por-que-os-blocos-pertencem-ao-modelo"><span class="header-section-number">7.14.1</span> Por que os blocos pertencem ao modelo</a></li>
+  </ul></li>
+  <li><a href="#pressupostos-do-modelo" id="toc-pressupostos-do-modelo" class="nav-link" data-scroll-target="#pressupostos-do-modelo"><span class="header-section-number">7.15</span> Pressupostos do modelo</a>
+  <ul class="collapse">
+  <li><a href="#independência" id="toc-independência" class="nav-link" data-scroll-target="#independência"><span class="header-section-number">7.15.1</span> Independência</a></li>
+  <li><a href="#linearidade" id="toc-linearidade" class="nav-link" data-scroll-target="#linearidade"><span class="header-section-number">7.15.2</span> Linearidade</a></li>
+  <li><a href="#variância-constante" id="toc-variância-constante" class="nav-link" data-scroll-target="#variância-constante"><span class="header-section-number">7.15.3</span> Variância constante</a></li>
+  <li><a href="#distribuição-dos-resíduos" id="toc-distribuição-dos-resíduos" class="nav-link" data-scroll-target="#distribuição-dos-resíduos"><span class="header-section-number">7.15.4</span> Distribuição dos resíduos</a></li>
+  </ul></li>
+  <li><a href="#diagnóstico-do-modelo" id="toc-diagnóstico-do-modelo" class="nav-link" data-scroll-target="#diagnóstico-do-modelo"><span class="header-section-number">7.16</span> Diagnóstico do modelo</a>
+  <ul class="collapse">
+  <li><a href="#resíduos-versus-valores-ajustados" id="toc-resíduos-versus-valores-ajustados" class="nav-link" data-scroll-target="#resíduos-versus-valores-ajustados"><span class="header-section-number">7.16.1</span> Resíduos versus valores ajustados</a></li>
+  <li><a href="#gráficos-quantilquantil" id="toc-gráficos-quantilquantil" class="nav-link" data-scroll-target="#gráficos-quantilquantil"><span class="header-section-number">7.16.2</span> Gráficos quantil–quantil</a></li>
+  <li><a href="#observações-incomuns" id="toc-observações-incomuns" class="nav-link" data-scroll-target="#observações-incomuns"><span class="header-section-number">7.16.3</span> Observações incomuns</a></li>
+  <li><a href="#influência" id="toc-influência" class="nav-link" data-scroll-target="#influência"><span class="header-section-number">7.16.4</span> Influência</a></li>
+  </ul></li>
+  <li><a href="#e-se-os-pressupostos-não-forem-atendidos" id="toc-e-se-os-pressupostos-não-forem-atendidos" class="nav-link" data-scroll-target="#e-se-os-pressupostos-não-forem-atendidos"><span class="header-section-number">7.17</span> E se os pressupostos não forem atendidos?</a>
+  <ul class="collapse">
+  <li><a href="#primeiro-confira-os-dados" id="toc-primeiro-confira-os-dados" class="nav-link" data-scroll-target="#primeiro-confira-os-dados"><span class="header-section-number">7.17.1</span> Primeiro: confira os dados</a></li>
+  <li><a href="#transformações" id="toc-transformações" class="nav-link" data-scroll-target="#transformações"><span class="header-section-number">7.17.2</span> Transformações</a></li>
+  <li><a href="#os-dados-em-porcentagem-devem-sempre-ser-transformados" id="toc-os-dados-em-porcentagem-devem-sempre-ser-transformados" class="nav-link" data-scroll-target="#os-dados-em-porcentagem-devem-sempre-ser-transformados"><span class="header-section-number">7.17.3</span> Os dados em porcentagem devem sempre ser transformados?</a></li>
+  <li><a href="#quando-outro-modelo-é-mais-apropriado" id="toc-quando-outro-modelo-é-mais-apropriado" class="nav-link" data-scroll-target="#quando-outro-modelo-é-mais-apropriado"><span class="header-section-number">7.17.4</span> Quando outro modelo é mais apropriado</a></li>
+  </ul></li>
+  <li><a href="#uma-nota-sobre-os-testes-de-normalidade" id="toc-uma-nota-sobre-os-testes-de-normalidade" class="nav-link" data-scroll-target="#uma-nota-sobre-os-testes-de-normalidade"><span class="header-section-number">7.18</span> Uma nota sobre os testes de normalidade</a></li>
+  <li><a href="#médias-marginais-estimadas" id="toc-médias-marginais-estimadas" class="nav-link" data-scroll-target="#médias-marginais-estimadas"><span class="header-section-number">7.19</span> Médias marginais estimadas</a>
+  <ul class="collapse">
+  <li><a href="#médias-ajustadas-pelo-modelo" id="toc-médias-ajustadas-pelo-modelo" class="nav-link" data-scroll-target="#médias-ajustadas-pelo-modelo"><span class="header-section-number">7.19.1</span> Médias ajustadas pelo modelo</a></li>
+  <li><a href="#contrastes-dois-a-dois" id="toc-contrastes-dois-a-dois" class="nav-link" data-scroll-target="#contrastes-dois-a-dois"><span class="header-section-number">7.19.2</span> Contrastes dois a dois</a></li>
+  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">7.19.3</span> Intervalos de confiança</a></li>
+  <li><a href="#comparações-com-a-testemunha" id="toc-comparações-com-a-testemunha" class="nav-link" data-scroll-target="#comparações-com-a-testemunha"><span class="header-section-number">7.19.4</span> Comparações com a testemunha</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática-avaliando-tratamentos-de-manejo-da-doença" id="toc-pesquisa-na-prática-avaliando-tratamentos-de-manejo-da-doença" class="nav-link" data-scroll-target="#pesquisa-na-prática-avaliando-tratamentos-de-manejo-da-doença"><span class="header-section-number">7.20</span> Pesquisa na prática: avaliando tratamentos de manejo da doença</a></li>
+  <li><a href="#um-fluxo-de-trabalho-prático-para-comparar-grupos" id="toc-um-fluxo-de-trabalho-prático-para-comparar-grupos" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-prático-para-comparar-grupos"><span class="header-section-number">7.21</span> Um fluxo de trabalho prático para comparar grupos</a></li>
+  <li><a href="#relatando-comparações-entre-grupos" id="toc-relatando-comparações-entre-grupos" class="nav-link" data-scroll-target="#relatando-comparações-entre-grupos"><span class="header-section-number">7.22</span> Relatando comparações entre grupos</a>
+  <ul class="collapse">
+  <li><a href="#o-que-foi-comparado" id="toc-o-que-foi-comparado" class="nav-link" data-scroll-target="#o-que-foi-comparado"><span class="header-section-number">7.22.1</span> O que foi comparado?</a></li>
+  <li><a href="#direção-do-efeito" id="toc-direção-do-efeito" class="nav-link" data-scroll-target="#direção-do-efeito"><span class="header-section-number">7.22.2</span> Direção do efeito</a></li>
+  <li><a href="#magnitude-do-efeito" id="toc-magnitude-do-efeito" class="nav-link" data-scroll-target="#magnitude-do-efeito"><span class="header-section-number">7.22.3</span> Magnitude do efeito</a></li>
+  <li><a href="#incerteza" id="toc-incerteza" class="nav-link" data-scroll-target="#incerteza"><span class="header-section-number">7.22.4</span> Incerteza</a></li>
+  <li><a href="#evidência-estatística" id="toc-evidência-estatística" class="nav-link" data-scroll-target="#evidência-estatística"><span class="header-section-number">7.22.5</span> Evidência estatística</a></li>
+  <li><a href="#interpretação-biológica" id="toc-interpretação-biológica" class="nav-link" data-scroll-target="#interpretação-biológica"><span class="header-section-number">7.22.6</span> Interpretação biológica</a></li>
+  </ul></li>
+  <li><a href="#erros-comuns" id="toc-erros-comuns" class="nav-link" data-scroll-target="#erros-comuns"><span class="header-section-number">7.23</span> Erros comuns</a>
+  <ul class="collapse">
+  <li><a href="#relatar-apenas-valores-p" id="toc-relatar-apenas-valores-p" class="nav-link" data-scroll-target="#relatar-apenas-valores-p"><span class="header-section-number">7.23.1</span> Relatar apenas valores-P</a></li>
+  <li><a href="#relatar-apenas-as-letras-dos-tratamentos" id="toc-relatar-apenas-as-letras-dos-tratamentos" class="nav-link" data-scroll-target="#relatar-apenas-as-letras-dos-tratamentos"><span class="header-section-number">7.23.2</span> Relatar apenas as letras dos tratamentos</a></li>
+  <li><a href="#comparar-médias-sem-considerar-o-delineamento-experimental" id="toc-comparar-médias-sem-considerar-o-delineamento-experimental" class="nav-link" data-scroll-target="#comparar-médias-sem-considerar-o-delineamento-experimental"><span class="header-section-number">7.23.3</span> Comparar médias sem considerar o delineamento experimental</a></li>
+  <li><a href="#tratar-subamostras-como-repetições" id="toc-tratar-subamostras-como-repetições" class="nav-link" data-scroll-target="#tratar-subamostras-como-repetições"><span class="header-section-number">7.23.4</span> Tratar subamostras como repetições</a></li>
+  <li><a href="#fazer-vários-testes-t-em-vez-de-modelar-todos-os-grupos" id="toc-fazer-vários-testes-t-em-vez-de-modelar-todos-os-grupos" class="nav-link" data-scroll-target="#fazer-vários-testes-t-em-vez-de-modelar-todos-os-grupos"><span class="header-section-number">7.23.5</span> Fazer vários testes t em vez de modelar todos os grupos</a></li>
+  <li><a href="#interpretar-uma-anova-significativa-como-evidência-de-que-todos-os-tratamentos-diferem" id="toc-interpretar-uma-anova-significativa-como-evidência-de-que-todos-os-tratamentos-diferem" class="nav-link" data-scroll-target="#interpretar-uma-anova-significativa-como-evidência-de-que-todos-os-tratamentos-diferem"><span class="header-section-number">7.23.6</span> Interpretar uma ANOVA significativa como evidência de que todos os tratamentos diferem</a></li>
+  <li><a href="#ignorar-interações" id="toc-ignorar-interações" class="nav-link" data-scroll-target="#ignorar-interações"><span class="header-section-number">7.23.7</span> Ignorar interações</a></li>
+  <li><a href="#interpretar-efeitos-principais-apesar-de-interações-fortes" id="toc-interpretar-efeitos-principais-apesar-de-interações-fortes" class="nav-link" data-scroll-target="#interpretar-efeitos-principais-apesar-de-interações-fortes"><span class="header-section-number">7.23.8</span> Interpretar efeitos principais apesar de interações fortes</a></li>
+  <li><a href="#transformar-automaticamente-dados-em-porcentagem" id="toc-transformar-automaticamente-dados-em-porcentagem" class="nav-link" data-scroll-target="#transformar-automaticamente-dados-em-porcentagem"><span class="header-section-number">7.23.9</span> Transformar automaticamente dados em porcentagem</a></li>
+  <li><a href="#usar-testes-de-normalidade-como-regras-de-decisão" id="toc-usar-testes-de-normalidade-como-regras-de-decisão" class="nav-link" data-scroll-target="#usar-testes-de-normalidade-como-regras-de-decisão"><span class="header-section-number">7.23.10</span> Usar testes de normalidade como regras de decisão</a></li>
+  <li><a href="#relatar-médias-sem-incerteza" id="toc-relatar-médias-sem-incerteza" class="nav-link" data-scroll-target="#relatar-médias-sem-incerteza"><span class="header-section-number">7.23.11</span> Relatar médias sem incerteza</a></li>
+  <li><a href="#igualar-significância-estatística-a-importância-biológica" id="toc-igualar-significância-estatística-a-importância-biológica" class="nav-link" data-scroll-target="#igualar-significância-estatística-a-importância-biológica"><span class="header-section-number">7.23.12</span> Igualar significância estatística a importância biológica</a></li>
+  </ul></li>
+  <li><a href="#lista-de-verificação-para-comparações-entre-grupos" id="toc-lista-de-verificação-para-comparações-entre-grupos" class="nav-link" data-scroll-target="#lista-de-verificação-para-comparações-entre-grupos"><span class="header-section-number">7.24</span> Lista de verificação para comparações entre grupos</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">7.25</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">7.26</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">7.27</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-qual-é-a-comparação" id="toc-exercício-1.-qual-é-a-comparação" class="nav-link" data-scroll-target="#exercício-1.-qual-é-a-comparação"><span class="header-section-number">7.27.1</span> Exercício 1. Qual é a comparação?</a></li>
+  <li><a href="#exercício-2.-dois-grupos" id="toc-exercício-2.-dois-grupos" class="nav-link" data-scroll-target="#exercício-2.-dois-grupos"><span class="header-section-number">7.27.2</span> Exercício 2. Dois grupos</a></li>
+  <li><a href="#exercício-3.-vários-tratamentos" id="toc-exercício-3.-vários-tratamentos" class="nav-link" data-scroll-target="#exercício-3.-vários-tratamentos"><span class="header-section-number">7.27.3</span> Exercício 3. Vários tratamentos</a></li>
+  <li><a href="#exercício-4.-apresentação-com-letras" id="toc-exercício-4.-apresentação-com-letras" class="nav-link" data-scroll-target="#exercício-4.-apresentação-com-letras"><span class="header-section-number">7.27.4</span> Exercício 4. Apresentação com letras</a></li>
+  <li><a href="#exercício-5.-interação" id="toc-exercício-5.-interação" class="nav-link" data-scroll-target="#exercício-5.-interação"><span class="header-section-number">7.27.5</span> Exercício 5. Interação</a></li>
+  <li><a href="#exercício-6.-diagnóstico-do-modelo" id="toc-exercício-6.-diagnóstico-do-modelo" class="nav-link" data-scroll-target="#exercício-6.-diagnóstico-do-modelo"><span class="header-section-number">7.27.6</span> Exercício 6. Diagnóstico do modelo</a></li>
+  <li><a href="#exercício-7.-avaliação-de-um-artigo-publicado" id="toc-exercício-7.-avaliação-de-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">7.27.7</span> Exercício 7. Avaliação de um artigo publicado</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">7.28</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">7.29</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Como comparamos grupos?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">7.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>identificar questões de pesquisa que envolvem comparações entre grupos ou tratamentos;</li>
+<li>distinguir comparações independentes de comparações pareadas;</li>
+<li>estimar e interpretar diferenças entre médias de grupos;</li>
+<li>usar intervalos de confiança para quantificar a incerteza dos efeitos dos tratamentos;</li>
+<li>explicar a relação entre o teste <em>t</em>, a análise de variância e os modelos lineares;</li>
+<li>analisar experimentos com dois ou mais grupos;</li>
+<li>interpretar experimentos fatoriais e interações;</li>
+<li>distinguir comparações planejadas de comparações múltiplas <em>a posteriori</em>;</li>
+<li>avaliar os pressupostos dos modelos lineares;</li>
+<li>reconhecer quando transformações ou modelos alternativos podem ser necessários;</li>
+<li>comunicar comparações entre grupos usando estimativas, incerteza e gráficos adequados.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-comparar-grupos" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="por-que-comparar-grupos"><span class="header-section-number">7.2</span> Por que comparar grupos?</h2>
+<p>Muitos experimentos em Fitopatologia são construídos em torno de comparações.</p>
+<p>Questões típicas incluem:</p>
+<ul>
+<li>Um fungicida reduz a severidade da doença em relação a uma testemunha sem tratamento?</li>
+<li>As cultivares diferem em resistência?</li>
+<li>A inoculação altera uma resposta fisiológica?</li>
+<li>Diferentes tratamentos nutricionais afetam o desenvolvimento das lesões?</li>
+<li>A eficácia do tratamento depende da cultivar?</li>
+</ul>
+<p>Embora essas questões difiram biologicamente, elas compartilham uma estrutura estatística comum: uma resposta quantitativa é comparada entre grupos definidos por um ou mais fatores experimentais.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O objetivo principal de uma comparação entre grupos não é determinar se os grupos são “significativamente diferentes”. É estimar <strong>o quanto eles diferem e quão incerta é essa diferença</strong>.</p>
+</div>
+</div>
+</section>
+<section id="da-questão-biológica-à-comparação-estatística" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="da-questão-biológica-à-comparação-estatística"><span class="header-section-number">7.3</span> Da questão biológica à comparação estatística</h2>
+<p>Considere um experimento simples de manejo da doença.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter7-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-a7089e04967a49d6b7e2" style="width:100%;height:482px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a7089e04967a49d6b7e2">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">O tratamento reduz a doença?<\/font><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Resposta<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">Severidade da doença<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Grupos<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">Testemunha vs tratado<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Estimando<\/b><br/><font point-size=\"12\" color=\"#6c4f9e\">Diferença na severidade média<\/font><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Estimativa + incerteza<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Interpretação biológica<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.1: Da questão biológica à estimação de uma diferença entre grupos.
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="qual-é-o-estimando" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="qual-é-o-estimando"><span class="header-section-number">7.3.1</span> Qual é o estimando?</h3>
+<p>Suponha que a severidade média da doença seja <span class="math inline">\(\mu_C\)</span> na testemunha e <span class="math inline">\(\mu_T\)</span> no tratamento.</p>
+<p>Um estimando natural é a diferença:</p>
+<p><span class="math display">\[
+\Delta = \mu_T - \mu_C
+\]</span></p>
+<p>A estimativa correspondente obtida no experimento é:</p>
+<p><span class="math display">\[
+\hat{\Delta} = \bar{y}_T - \bar{y}_C
+\]</span></p>
+<p>A direção da subtração define o sinal do resultado. Com a convenção “tratamento menos testemunha”, valores negativos indicam redução da doença, e valores positivos, aumento. A convenção oposta é igualmente válida, desde que declarada. O importante é definir o contraste explicitamente, no texto e nas figuras, para que o leitor não precise adivinhá-lo.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sempre defina a direção de uma comparação. “O tratamento diferiu da testemunha em 15%” é ambíguo, a menos que a direção da subtração esteja clara.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="olhando-os-dados-antes-de-comparar-médias" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="olhando-os-dados-antes-de-comparar-médias"><span class="header-section-number">7.4</span> Olhando os dados antes de comparar médias</h2>
+<p>Antes de ajustar um modelo estatístico, examine as observações. Os princípios da análise exploratória (Capítulo 4) e da visualização (Capítulo 5) aplicam-se diretamente às comparações entre grupos.</p>
+<section id="mostre-as-observações-individuais" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="mostre-as-observações-individuais"><span class="header-section-number">7.4.1</span> Mostre as observações individuais</h3>
+<p>Com o número de repetições típico dos experimentos em Fitopatologia, cada observação pode ser mostrada. Um gráfico de pontos por tratamento revela imediatamente o número de unidades, a dispersão e os valores incomuns.</p>
+</section>
+<section id="examine-as-distribuições-dos-grupos" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="examine-as-distribuições-dos-grupos"><span class="header-section-number">7.4.2</span> Examine as distribuições dos grupos</h3>
+<p>Verifique se as observações de cada grupo são aproximadamente simétricas ou assimétricas, se há acúmulo de valores em zero ou em 100% e se algum grupo parece conter subgrupos distintos.</p>
+</section>
+<section id="examine-a-variabilidade-entre-os-grupos" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="examine-a-variabilidade-entre-os-grupos"><span class="header-section-number">7.4.3</span> Examine a variabilidade entre os grupos</h3>
+<p>Compare a dispersão dos grupos. Em dados de doença, a variabilidade frequentemente aumenta com a média: a testemunha, com mais doença, costuma ser mais variável que os tratamentos eficazes. Essa característica afeta a escolha do método.</p>
+</section>
+<section id="identifique-observações-incomuns" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="identifique-observações-incomuns"><span class="header-section-number">7.4.4</span> Identifique observações incomuns</h3>
+<p>Uma parcela com valor muito diferente das demais do mesmo tratamento deve ser conferida com os registros originais antes da análise.</p>
+</section>
+<section id="verifique-a-estrutura-experimental" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="verifique-a-estrutura-experimental"><span class="header-section-number">7.4.5</span> Verifique a estrutura experimental</h3>
+<p>Confirme o número de unidades experimentais por tratamento, a presença de blocos e a existência de subamostras. A análise deve refletir essa estrutura (Capítulo 2).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> severity)) <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter7_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="por-que-as-médias-sozinhas-são-insuficientes" class="level3" data-number="7.4.6">
+<h3 data-number="7.4.6" class="anchored" data-anchor-id="por-que-as-médias-sozinhas-são-insuficientes"><span class="header-section-number">7.4.6</span> Por que as médias sozinhas são insuficientes</h3>
+<p>Dois tratamentos podem ter médias semelhantes, mas diferir muito em:</p>
+<ul>
+<li>variabilidade;</li>
+<li>distribuição;</li>
+<li>tamanho da amostra;</li>
+<li>observações incomuns.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-chapter7-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter7_files/figure-html/fig-chapter7-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.2: As mesmas médias de tratamento podem surgir de distribuições de observações muito diferentes. Os quatro grupos simulados têm média de 30% de severidade (losango), mas diferem na variabilidade, na simetria e na presença de valores discrepantes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comparando-dois-grupos-independentes" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="comparando-dois-grupos-independentes"><span class="header-section-number">7.5</span> Comparando dois grupos independentes</h2>
+<section id="um-exemplo-simples" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="um-exemplo-simples"><span class="header-section-number">7.5.1</span> Um exemplo simples</h3>
+<p>Considere um ensaio de campo em que seis parcelas receberam um fungicida e seis parcelas foram mantidas sem tratamento, alocadas ao acaso. A severidade média foi de 38% na testemunha e de 24% nas parcelas tratadas. Os dados simulados usados neste capítulo (objeto <code>dois</code>) reproduzem esse exemplo.</p>
+</section>
+<section id="diferença-entre-médias" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="diferença-entre-médias"><span class="header-section-number">7.5.2</span> Diferença entre médias</h3>
+<p>A grandeza central é:</p>
+<p><span class="math display">\[
+\hat{\Delta} = \bar{y}_1 - \bar{y}_2
+\]</span></p>
+<p>No exemplo, com a convenção tratamento menos testemunha, <span class="math inline">\(\hat{\Delta} = 24 - 38 = -14\)</span> pontos percentuais.</p>
+</section>
+<section id="incerteza-da-diferença" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="incerteza-da-diferença"><span class="header-section-number">7.5.3</span> Incerteza da diferença</h3>
+<p>A diferença estimada tem seu próprio erro padrão, que depende da variabilidade dentro dos grupos e do número de unidades em cada um. A partir dele, calcula-se um intervalo de confiança para a diferença (Capítulo 6). No exemplo, o intervalo de confiança de 95% vai de −21,1 a −6,9 pontos percentuais (ver a saída do teste <em>t</em> abaixo): reduções entre cerca de 7 e 21 pontos são compatíveis com os dados.</p>
+</section>
+<section id="o-teste-t-para-amostras-independentes" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="o-teste-t-para-amostras-independentes"><span class="header-section-number">7.5.4</span> O teste t para amostras independentes</h3>
+<p>O teste <em>t</em> avalia uma comparação entre duas médias populacionais.</p>
+<p>Conceitualmente:</p>
+<p><span class="math display">\[
+t =
+\frac{\text{diferença estimada}}
+{\text{erro padrão da diferença}}
+\]</span></p>
+<p>Quanto maior a diferença em relação à sua incerteza, maior o valor absoluto de <span class="math inline">\(t\)</span> e menor o valor-P. Os detalhes do cálculo são feitos pelo programa; o importante é compreender que o teste compara o tamanho da diferença com a precisão com que ela foi estimada.</p>
+</section>
+<section id="o-teste-t-de-welch" class="level3" data-number="7.5.5">
+<h3 data-number="7.5.5" class="anchored" data-anchor-id="o-teste-t-de-welch"><span class="header-section-number">7.5.5</span> O teste t de Welch</h3>
+<p>O teste <em>t</em> clássico pressupõe que os dois grupos têm a mesma variância. A versão de Welch não faz esse pressuposto e ajusta o erro padrão e os graus de liberdade quando as variâncias diferem. Como variâncias desiguais são comuns em dados de doença, e como o teste de Welch perde muito pouco quando as variâncias são de fato iguais, ele é geralmente preferível a assumir automaticamente variâncias iguais. No R, <code>t.test()</code> usa a versão de Welch por padrão.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(severity <span class="sc">~</span> treatment, <span class="at">data =</span> dois)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  severity by treatment
+t = 4.4094, df = 10, p-value = 0.001316
+alternative hypothesis: true difference in means between group Testemunha and group Fungicida is not equal to 0
+95 percent confidence interval:
+  6.933797 21.099536
+sample estimates:
+mean in group Testemunha  mean in group Fungicida 
+                38.00000                 23.98333 </code></pre>
+</div>
+</div>
+</section>
+<section id="interpretando-o-resultado" class="level3" data-number="7.5.6">
+<h3 data-number="7.5.6" class="anchored" data-anchor-id="interpretando-o-resultado"><span class="header-section-number">7.5.6</span> Interpretando o resultado</h3>
+<p>Não pare em:</p>
+<blockquote class="blockquote">
+<p>P = 0,001</p>
+</blockquote>
+<p>Em vez disso, relate:</p>
+<blockquote class="blockquote">
+<p>A severidade média da doença foi 14,0 pontos percentuais menor no grupo tratado do que na testemunha (IC 95%: 6,9 a 21,1 pontos percentuais).</p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A diferença estimada e seu intervalo de confiança geralmente fornecem mais informação biológica do que o valor-P sozinho.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="observações-independentes-versus-pareadas" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="observações-independentes-versus-pareadas"><span class="header-section-number">7.6</span> Observações independentes versus pareadas</h2>
+<p>Nem todas as comparações entre dois grupos envolvem observações independentes.</p>
+<section id="observações-independentes" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="observações-independentes"><span class="header-section-number">7.6.1</span> Observações independentes</h3>
+<p>Exemplos:</p>
+<ul>
+<li>parcelas diferentes recebendo tratamentos diferentes;</li>
+<li>plantas diferentes atribuídas independentemente aos tratamentos;</li>
+<li>isolados diferentes atribuídos às condições experimentais.</li>
+</ul>
+</section>
+<section id="observações-pareadas" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="observações-pareadas"><span class="header-section-number">7.6.2</span> Observações pareadas</h3>
+<p>Exemplos:</p>
+<ul>
+<li>medidas antes e depois do tratamento na mesma unidade experimental;</li>
+<li>duas medidas obtidas em unidades experimentais emparelhadas;</li>
+<li>dois tratamentos avaliados em material naturalmente pareado, como as duas metades da mesma folha.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-chapter7-3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter7_files/figure-html/fig-chapter7-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.3: Estruturas experimentais independentes e pareadas (dados simulados). (A) Plantas diferentes em cada tratamento: as observações dos dois grupos não têm relação entre si. (B) A mesma planta medida antes e depois do tratamento: cada linha liga as duas medidas de uma unidade, e a análise se baseia nas diferenças dentro de cada par, o que remove a variação entre plantas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="o-teste-t-pareado" class="level3" data-number="7.6.3">
+<h3 data-number="7.6.3" class="anchored" data-anchor-id="o-teste-t-pareado"><span class="header-section-number">7.6.3</span> O teste t pareado</h3>
+<p>Para observações pareadas, a análise se concentra nas diferenças dentro de cada par:</p>
+<p><span class="math display">\[
+d_i = y_{i1} - y_{i2}
+\]</span></p>
+<p>e pergunta sobre a diferença média, <span class="math inline">\(\mu_d\)</span>. Como cada par compartilha as condições de uma mesma unidade, a variação entre unidades é removida da comparação, o que geralmente aumenta a precisão.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(before, after, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  before and after
+t = 9.7412, df = 7, p-value = 2.542e-05
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ 2.745048 4.504952
+sample estimates:
+mean difference 
+          3.625 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O pareamento é uma propriedade do delineamento do estudo. Ele não deve ser introduzido na análise apenas porque dois grupos têm o mesmo número de observações.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="comparando-mais-de-dois-grupos" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="comparando-mais-de-dois-grupos"><span class="header-section-number">7.7</span> Comparando mais de dois grupos</h2>
+<p>Experimentos em Fitopatologia frequentemente têm vários tratamentos.</p>
+<p>Exemplos incluem:</p>
+<ul>
+<li>vários fungicidas;</li>
+<li>várias cultivares;</li>
+<li>diferentes concentrações de inóculo;</li>
+<li>várias temperaturas;</li>
+<li>vários tratamentos nutricionais.</li>
+</ul>
+<section id="por-que-não-fazer-muitos-testes-t" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="por-que-não-fazer-muitos-testes-t"><span class="header-section-number">7.7.1</span> Por que não fazer muitos testes t?</h3>
+<p>Suponha que quatro tratamentos sejam comparados. Há seis comparações dois a dois possíveis. Se cada uma for testada com <span class="math inline">\(\alpha = 0{,}05\)</span>, a probabilidade de que pelo menos uma pareça significativa por acaso, mesmo sem nenhuma diferença real, é bem maior que 5% (Capítulo 6). Além disso, cada teste <em>t</em> usa apenas os dados de dois grupos para estimar a variabilidade, desperdiçando a informação dos demais. Um modelo que analisa todos os grupos juntos resolve os dois problemas.</p>
+</section>
+<section id="análise-de-variância" class="level3" data-number="7.7.2">
+<h3 data-number="7.7.2" class="anchored" data-anchor-id="análise-de-variância"><span class="header-section-number">7.7.2</span> Análise de variância</h3>
+<p>A análise de variância (ANOVA) fornece um arcabouço para avaliar simultaneamente a variação entre vários grupos.</p>
+</section>
+<section id="variação-dentro-e-entre-grupos" class="level3" data-number="7.7.3">
+<h3 data-number="7.7.3" class="anchored" data-anchor-id="variação-dentro-e-entre-grupos"><span class="header-section-number">7.7.3</span> Variação dentro e entre grupos</h3>
+<p>Conceitualmente, a ANOVA separa a variação em:</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter7-4" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-98b6d2ed6ed2cf695d4e" style="width:100%;height:220px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-98b6d2ed6ed2cf695d4e">{"x":{"diagram":"\ndigraph particao {\n  graph [rankdir = TB, nodesep = 0.5, ranksep = 0.45, bgcolor = \"transparent\"]\n  node  [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\",\n         fontsize = 15, height = 0.6, penwidth = 1.4, margin = \"0.25,0.08\"]\n  edge  [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2]\n\n  t [label = <<b>Variação total<\/b>>, width = 3.2,\n     fillcolor = \"#f4f4f4\", color = \"#5f7132\", penwidth = 2]\n  e [label = <<b>Variação entre grupos<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">explicada pelos tratamentos<\/font>>,\n     fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  d [label = <<b>Variação dentro dos grupos<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">residual (erro experimental)<\/font>>,\n     fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n\n  t -> e\n  t -> d\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.4: Partição conceitual da variabilidade em uma comparação entre grupos.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="o-teste-f" class="level3" data-number="7.7.4">
+<h3 data-number="7.7.4" class="anchored" data-anchor-id="o-teste-f"><span class="header-section-number">7.7.4</span> O teste F</h3>
+<p>Conceitualmente:</p>
+<p><span class="math display">\[
+F =
+\frac{\text{variação explicada pelos grupos}}
+{\text{variação não explicada}}
+\]</span></p>
+<p>Se os tratamentos não tivessem efeito, as médias dos grupos difeririam apenas pela variação casual, e as duas fontes de variação seriam de magnitude semelhante, com <span class="math inline">\(F\)</span> próximo de 1. Quando as médias diferem mais do que a variação dentro dos grupos faria esperar, <span class="math inline">\(F\)</span> aumenta e o valor-P diminui.</p>
+</section>
+</section>
+<section id="a-anova-como-modelo-linear" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="a-anova-como-modelo-linear"><span class="header-section-number">7.8</span> A ANOVA como modelo linear</h2>
+<p>Esta é uma transição conceitual importante.</p>
+<p>Uma ANOVA com um fator pode ser escrita como:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \varepsilon_i
+\]</span></p>
+<p>em que as variáveis <span class="math inline">\(x\)</span> indicam a qual grupo pertence cada observação. O mesmo arcabouço de modelo linear usado para comparar grupos será usado depois para estudar relações entre variáveis quantitativas.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O teste <em>t</em>, a ANOVA e a regressão linear não são procedimentos estatísticos sem relação entre si. São casos particulares do mesmo arcabouço geral do modelo linear.</p>
+</div>
+</div>
+<section id="ajustando-o-modelo-no-r" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="ajustando-o-modelo-no-r"><span class="header-section-number">7.8.1</span> Ajustando o modelo no R</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(severity <span class="sc">~</span> treatment, <span class="at">data =</span> data)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: severity
+          Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+treatment  4 2021.37  505.34  16.947 1.948e-05 ***
+Residuals 15  447.28   29.82                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="examinando-as-estimativas-do-modelo" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="examinando-as-estimativas-do-modelo"><span class="header-section-number">7.8.2</span> Examinando as estimativas do modelo</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = severity ~ treatment, data = data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-8.725 -3.050  0.850  3.100  8.475 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)        54.575      2.730  19.989 3.18e-12 ***
+treatmentFung. A  -28.550      3.861  -7.394 2.24e-06 ***
+treatmentFung. B  -25.250      3.861  -6.539 9.37e-06 ***
+treatmentFung. C  -18.800      3.861  -4.869 0.000204 ***
+treatmentFung. D  -22.750      3.861  -5.892 2.96e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.461 on 15 degrees of freedom
+Multiple R-squared:  0.8188,    Adjusted R-squared:  0.7705 
+F-statistic: 16.95 on 4 and 15 DF,  p-value: 1.948e-05</code></pre>
+</div>
+</div>
+<p>Na parametrização padrão do R, o intercepto é a média estimada do grupo de referência (o primeiro nível do fator, geralmente em ordem alfabética), e cada coeficiente de tratamento é a diferença entre a média daquele tratamento e a do grupo de referência. Se a testemunha for definida como nível de referência, os coeficientes passam a ser diretamente os efeitos dos tratamentos em relação a ela. Por isso, vale a pena definir o nível de referência de forma deliberada, por exemplo com <code>relevel()</code>.</p>
+</section>
+</section>
+<section id="o-que-o-teste-global-nos-diz" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="o-que-o-teste-global-nos-diz"><span class="header-section-number">7.9</span> O que o teste global nos diz?</h2>
+<p>Para vários tratamentos, a hipótese nula é:</p>
+<p><span class="math display">\[
+H_0:
+\mu_1 = \mu_2 = \cdots = \mu_k
+\]</span></p>
+<p>A alternativa é que pelo menos uma média populacional difere.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma ANOVA global significativa não nos diz quais tratamentos diferem nem qual é o tamanho dessas diferenças.</p>
+</div>
+</div>
+</section>
+<section id="contrastes-fazendo-perguntas-específicas" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="contrastes-fazendo-perguntas-específicas"><span class="header-section-number">7.10</span> Contrastes: fazendo perguntas específicas</h2>
+<p>Muitas vezes, a questão biológica é mais específica do que:</p>
+<blockquote class="blockquote">
+<p>Algum tratamento é diferente?</p>
+</blockquote>
+<p>Exemplos:</p>
+<ul>
+<li>Os fungicidas reduzem a doença em relação à testemunha?</li>
+<li>As cultivares resistentes diferem de um padrão suscetível?</li>
+<li>O aumento da dose produz uma resposta sistemática?</li>
+<li>Uma classe de tratamentos é mais eficaz que outra?</li>
+</ul>
+<section id="contrastes-planejados" class="level3" data-number="7.10.1">
+<h3 data-number="7.10.1" class="anchored" data-anchor-id="contrastes-planejados"><span class="header-section-number">7.10.1</span> Contrastes planejados</h3>
+<p>Um contraste representa uma comparação cientificamente definida entre médias de tratamentos. Formalmente, é uma combinação das médias com coeficientes que somam zero. A diferença entre dois tratamentos é o contraste mais simples (coeficientes +1 e −1); a comparação da média de dois fungicidas com a testemunha é outro (coeficientes +½, +½ e −1).</p>
+</section>
+<section id="tratamento-versus-testemunha" class="level3" data-number="7.10.2">
+<h3 data-number="7.10.2" class="anchored" data-anchor-id="tratamento-versus-testemunha"><span class="header-section-number">7.10.2</span> Tratamento versus testemunha</h3>
+<p>Quando o objetivo é comparar cada tratamento com uma testemunha comum, o número de comparações é igual ao número de tratamentos, e não ao de todos os pares possíveis. O procedimento de Dunnett ajusta esses contrastes para a multiplicidade, mantendo a atenção nas comparações que interessam.</p>
+</section>
+<section id="grupos-de-tratamentos" class="level3" data-number="7.10.3">
+<h3 data-number="7.10.3" class="anchored" data-anchor-id="grupos-de-tratamentos"><span class="header-section-number">7.10.3</span> Grupos de tratamentos</h3>
+<p>Às vezes, a questão envolve classes de tratamentos: fungicidas de sítio específico versus multissítios, cultivares resistentes versus suscetíveis, produtos biológicos versus químicos. Contrastes que comparam a média de uma classe com a de outra respondem diretamente a essas questões.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando as comparações decorrem diretamente da questão científica, defina-as antes de examinar os resultados, sempre que possível.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="comparações-múltiplas" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="comparações-múltiplas"><span class="header-section-number">7.11</span> Comparações múltiplas</h2>
+<section id="por-que-a-multiplicidade-importa" class="level3" data-number="7.11.1">
+<h3 data-number="7.11.1" class="anchored" data-anchor-id="por-que-a-multiplicidade-importa"><span class="header-section-number">7.11.1</span> Por que a multiplicidade importa</h3>
+<p>Quanto mais comparações são feitas, maior a oportunidade de surgirem diferenças aparentemente incomuns apenas por acaso.</p>
+</section>
+<section id="comparações-dois-a-dois" class="level3" data-number="7.11.2">
+<h3 data-number="7.11.2" class="anchored" data-anchor-id="comparações-dois-a-dois"><span class="header-section-number">7.11.2</span> Comparações dois a dois</h3>
+<p>Comparar todos os pares de tratamentos é útil quando não há uma estrutura prévia entre os tratamentos, como em uma avaliação de muitas cultivares. Com <span class="math inline">\(k\)</span> tratamentos, há <span class="math inline">\(k(k-1)/2\)</span> pares, e o número cresce rapidamente.</p>
+</section>
+<section id="comparações-de-tukey" class="level3" data-number="7.11.3">
+<h3 data-number="7.11.3" class="anchored" data-anchor-id="comparações-de-tukey"><span class="header-section-number">7.11.3</span> Comparações de Tukey</h3>
+<p>O procedimento de Tukey (diferença honestamente significativa, HSD) ajusta todos os intervalos de confiança e testes dois a dois para que a probabilidade de pelo menos um falso positivo em todo o conjunto de comparações permaneça no nível escolhido.</p>
+</section>
+<section id="comparações-com-uma-testemunha" class="level3" data-number="7.11.4">
+<h3 data-number="7.11.4" class="anchored" data-anchor-id="comparações-com-uma-testemunha"><span class="header-section-number">7.11.4</span> Comparações com uma testemunha</h3>
+<p>O procedimento de Dunnett faz o mesmo para o conjunto, menor, de comparações de cada tratamento com a testemunha. Como há menos comparações, ele é mais poderoso do que o de Tukey para essa finalidade.</p>
+</section>
+<section id="métodos-de-ajuste" class="level3" data-number="7.11.5">
+<h3 data-number="7.11.5" class="anchored" data-anchor-id="métodos-de-ajuste"><span class="header-section-number">7.11.5</span> Métodos de ajuste</h3>
+<p>Os principais métodos incluem:</p>
+<ul>
+<li>Tukey, para todas as comparações dois a dois;</li>
+<li>Dunnett, para comparações com uma testemunha;</li>
+<li>Bonferroni, simples e geral, porém conservador quando há muitas comparações;</li>
+<li>taxa de falsas descobertas (FDR), que controla a proporção esperada de falsos positivos entre os resultados declarados significativos, útil quando há muitos testes.</li>
+</ul>
+<p>Um tratamento matemático detalhado não é necessário aqui.</p>
+</section>
+<section id="apresentação-com-letras" class="level3" data-number="7.11.6">
+<h3 data-number="7.11.6" class="anchored" data-anchor-id="apresentação-com-letras"><span class="header-section-number">7.11.6</span> Apresentação com letras</h3>
+<p>Artigos de Fitopatologia frequentemente relatam resultados como:</p>
+<pre class="text"><code>Tratamento A    a
+Tratamento B    ab
+Tratamento C    b
+Tratamento D    c</code></pre>
+</section>
+<section id="o-que-as-letras-dizem-e-o-que-não-dizem" class="level3" data-number="7.11.7">
+<h3 data-number="7.11.7" class="anchored" data-anchor-id="o-que-as-letras-dizem-e-o-que-não-dizem"><span class="header-section-number">7.11.7</span> O que as letras dizem — e o que não dizem</h3>
+<p>Nessa apresentação, tratamentos que compartilham uma letra não diferiram significativamente segundo o procedimento usado, e tratamentos sem letras em comum diferiram. As letras resumem um conjunto de decisões dicotômicas. Elas não informam o tamanho das diferenças, sua incerteza nem se as diferenças são biologicamente relevantes. Duas médias com letras diferentes podem diferir por uma quantidade trivial, se estimadas com muita precisão, e duas médias com a mesma letra podem diferir muito, se estimadas com pouca precisão. Além disso, letras são frequentemente lidas como se definissem grupos homogêneos de tratamentos, o que não é verdade: no exemplo acima, A não difere de B, B não difere de C, mas A difere de C.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A apresentação com letras resume decisões estatísticas, mas esconde a magnitude e a incerteza das diferenças entre tratamentos. Sempre que possível, interprete-a junto com os efeitos estimados e os intervalos de confiança.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="das-letras-às-estimativas" class="level2" data-number="7.12">
+<h2 data-number="7.12" class="anchored" data-anchor-id="das-letras-às-estimativas"><span class="header-section-number">7.12</span> Das letras às estimativas</h2>
+<p>Esta seção resume a proposta central do capítulo: substituir, ou pelo menos complementar, a apresentação com letras por estimativas dos efeitos com sua incerteza.</p>
+<p>Compare:</p>
+<section id="apresentação-convencional" class="level3" data-number="7.12.1">
+<h3 data-number="7.12.1" class="anchored" data-anchor-id="apresentação-convencional"><span class="header-section-number">7.12.1</span> Apresentação convencional</h3>
+<p>Os números abaixo vêm do ensaio simulado deste capítulo (testemunha e quatro fungicidas em quatro blocos), analisado mais adiante com o <code>emmeans</code>.</p>
+<pre class="text"><code>Tratamento   Média (%)
+Fung. A      26,0 a
+Fung. B      29,3 ab
+Fung. D      31,8 ab
+Fung. C      35,8 b
+Testemunha   54,6 c</code></pre>
+<p>com uma figura baseada em estimação, que mostra o efeito de cada tratamento em relação à testemunha e seu intervalo de confiança (ajustado por Dunnett):</p>
+<pre class="text"><code>Efeito em relação à testemunha (pontos percentuais)
+
+Fung. A  ●──────            −28,6  (−34,4 a −22,7)
+Fung. B    ●──────          −25,2  (−31,1 a −19,4)
+Fung. D      ●──────        −22,8  (−28,6 a −16,9)
+Fung. C         ●──────     −18,8  (−24,6 a −13,0)
+         |         |         |
+        −40       −20        0</code></pre>
+<p>A figura mostra diretamente que todos os tratamentos reduziram a doença, que as reduções vão de cerca de 19 a 29 pontos percentuais, que a incerteza de cada estimativa é de aproximadamente ±6 pontos e que os intervalos se sobrepõem bastante, de modo que a diferença entre os tratamentos é muito menor, e mais incerta, do que a diferença entre qualquer tratamento e a testemunha.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-chapter7-5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter7_files/figure-html/fig-chapter7-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.5: Formas alternativas de apresentar as mesmas comparações entre tratamentos (ensaio simulado deste capítulo). (A) Médias com letras (Tukey): informam decisões estatísticas, mas não o tamanho nem a incerteza das diferenças. (B) Efeito de cada tratamento em relação à testemunha, com intervalo de confiança de 95% ajustado por Dunnett: mostra diretamente quanto cada tratamento reduziu a doença e com que precisão.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Discuta:</p>
+<ul>
+<li>Qual tratamento tem o melhor desempenho?</li>
+<li>Por quanto?</li>
+<li>Quão incerta é a diferença?</li>
+<li>A diferença é biologicamente relevante?</li>
+</ul>
+</section>
+</section>
+<section id="experimentos-fatoriais" class="level2" data-number="7.13">
+<h2 data-number="7.13" class="anchored" data-anchor-id="experimentos-fatoriais"><span class="header-section-number">7.13</span> Experimentos fatoriais</h2>
+<p>Muitos experimentos em Fitopatologia envolvem mais de um fator.</p>
+<p>Exemplos:</p>
+<pre class="text"><code>Cultivar × Fungicida
+Temperatura × Molhamento foliar
+Cultivar × Inoculação
+Silício × Patógeno
+Fungicida × Época de aplicação</code></pre>
+<section id="efeitos-principais" class="level3" data-number="7.13.1">
+<h3 data-number="7.13.1" class="anchored" data-anchor-id="efeitos-principais"><span class="header-section-number">7.13.1</span> Efeitos principais</h3>
+<p>Um efeito principal descreve o efeito médio de um fator ao longo dos níveis de outro fator.</p>
+</section>
+<section id="interações" class="level3" data-number="7.13.2">
+<h3 data-number="7.13.2" class="anchored" data-anchor-id="interações"><span class="header-section-number">7.13.2</span> Interações</h3>
+<p>Uma interação ocorre quando o efeito de um fator depende do nível de outro.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando uma interação é biologicamente relevante, a interpretação deve se concentrar nos efeitos condicionais, e não nos efeitos principais médios ao longo do fator com o qual ele interage.</p>
+</div>
+</div>
+</section>
+<section id="visualizando-interações" class="level3" data-number="7.13.3">
+<h3 data-number="7.13.3" class="anchored" data-anchor-id="visualizando-interações"><span class="header-section-number">7.13.3</span> Visualizando interações</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-chapter7-6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter7_files/figure-html/fig-chapter7-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.6: Exemplos conceituais de ausência e presença de interação entre dois fatores experimentais. (A) Sem interação: o fungicida reduz a severidade em 10 pontos percentuais nas duas cultivares, e as linhas são paralelas. (B) Com interação: o efeito do fungicida é de 5 pontos na cultivar A e de 25 pontos na cultivar B, e as linhas não são paralelas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Com os dados simulados do experimento fatorial (duas cultivares, com e sem fungicida, quatro repetições), o gráfico de interação mostra linhas claramente não paralelas:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fatorial,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> fungicide,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> severity,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">group =</span> cultivar,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">colour =</span> cultivar)) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"line"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Fungicida"</span>, <span class="at">y =</span> <span class="st">"Severidade (%)"</span>, <span class="at">colour =</span> <span class="st">"Cultivar"</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter7_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ajustando-um-modelo-fatorial" class="level3" data-number="7.13.4">
+<h3 data-number="7.13.4" class="anchored" data-anchor-id="ajustando-um-modelo-fatorial"><span class="header-section-number">7.13.4</span> Ajustando um modelo fatorial</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model_fat <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  severity <span class="sc">~</span> cultivar <span class="sc">*</span> fungicide,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> fatorial</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_fat)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: severity
+                   Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+cultivar            1 136.89  136.89  13.686 0.0030387 ** 
+fungicide           1 957.90  957.90  95.770 4.521e-07 ***
+cultivar:fungicide  1 213.16  213.16  21.312 0.0005938 ***
+Residuals          12 120.03   10.00                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>A linha <code>cultivar:fungicide</code> testa a interação. Os efeitos do fungicida dentro de cada cultivar, que são a informação relevante quando há interação, são obtidos com o <code>emmeans</code> (ver adiante):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>emm_fat <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(model_fat, <span class="sc">~</span> fungicide <span class="sc">|</span> cultivar)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(emm_fat, <span class="st">"revpairwise"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cultivar = A:
+ contrast  estimate   SE df t.ratio p.value
+ Com - Sem    -8.18 2.24 12  -3.656  0.0033
+
+cultivar = B:
+ contrast  estimate   SE df t.ratio p.value
+ Com - Sem   -22.77 2.24 12 -10.184 &lt;0.0001</code></pre>
+</div>
+</div>
+<p>Nos dados simulados, o fungicida reduziu a severidade em 8,2 pontos percentuais na cultivar A e em 22,8 pontos na cultivar B: o mesmo padrão descrito a seguir.</p>
+<p>A notação <code>*</code> inclui:</p>
+<pre class="text"><code>cultivar
++
+fungicide
++
+cultivar × fungicide</code></pre>
+</section>
+<section id="interpretando-uma-interação" class="level3" data-number="7.13.5">
+<h3 data-number="7.13.5" class="anchored" data-anchor-id="interpretando-uma-interação"><span class="header-section-number">7.13.5</span> Interpretando uma interação</h3>
+<p>Suponha que um fungicida reduza a severidade em 5 pontos percentuais na cultivar A e em 25 pontos percentuais na cultivar B. O efeito principal do fungicida, a média dos dois efeitos, seria uma redução de 15 pontos — um valor que não descreve nenhuma das duas cultivares. A informação biologicamente relevante é que o benefício do fungicida depende da cultivar: é pequeno na cultivar A, provavelmente mais resistente, e grande na cultivar B. Nesse caso, os efeitos do fungicida devem ser relatados separadamente para cada cultivar.</p>
+</section>
+</section>
+<section id="blocos-e-comparações-entre-grupos" class="level2" data-number="7.14">
+<h2 data-number="7.14" class="anchored" data-anchor-id="blocos-e-comparações-entre-grupos"><span class="header-section-number">7.14</span> Blocos e comparações entre grupos</h2>
+<p>Retome o delineamento em blocos casualizados apresentado no Capítulo 2.</p>
+<section id="por-que-os-blocos-pertencem-ao-modelo" class="level3" data-number="7.14.1">
+<h3 data-number="7.14.1" class="anchored" data-anchor-id="por-que-os-blocos-pertencem-ao-modelo"><span class="header-section-number">7.14.1</span> Por que os blocos pertencem ao modelo</h3>
+<p>Se os tratamentos foram casualizados dentro dos blocos, a análise deve refletir essa estrutura.</p>
+<p>Um modelo simples pode ser escrito como:</p>
+<p><span class="math display">\[
+y_{ij} =
+\mu +
+\tau_i +
+b_j +
+\varepsilon_{ij}
+\]</span></p>
+<p>em que:</p>
+<ul>
+<li><span class="math inline">\(\mu\)</span> é a média geral;</li>
+<li><span class="math inline">\(\tau_i\)</span> é o efeito do tratamento;</li>
+<li><span class="math inline">\(b_j\)</span> representa a variação entre blocos;</li>
+<li><span class="math inline">\(\varepsilon_{ij}\)</span> representa a variação residual.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  severity <span class="sc">~</span> block <span class="sc">+</span> treatment,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: severity
+          Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+block      3  345.97  115.32  13.659 0.0003555 ***
+treatment  4 2021.37  505.34  59.856 7.936e-08 ***
+Residuals 12  101.31    8.44                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Incluir o bloco no modelo remove a variação entre blocos do erro experimental, tornando as comparações entre tratamentos mais precisas. Em delineamentos mais complexos, como parcelas subdivididas ou experimentos repetidos em vários locais, os blocos e outras fontes de variação são frequentemente tratados como efeitos aleatórios em modelos mistos, um tema que vai além deste capítulo.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O modelo estatístico deve refletir a forma como o experimento foi delineado. Os blocos não são algo acrescentado na análise apenas para melhorar a significância estatística.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="pressupostos-do-modelo" class="level2" data-number="7.15">
+<h2 data-number="7.15" class="anchored" data-anchor-id="pressupostos-do-modelo"><span class="header-section-number">7.15</span> Pressupostos do modelo</h2>
+<p>A validade da inferência a partir de um modelo linear depende de pressupostos sobre a variação residual.</p>
+<section id="independência" class="level3" data-number="7.15.1">
+<h3 data-number="7.15.1" class="anchored" data-anchor-id="independência"><span class="header-section-number">7.15.1</span> Independência</h3>
+<p>A independência vem principalmente do delineamento do estudo: casualização, unidades experimentais bem definidas e ausência de pseudorrepetição.</p>
+</section>
+<section id="linearidade" class="level3" data-number="7.15.2">
+<h3 data-number="7.15.2" class="anchored" data-anchor-id="linearidade"><span class="header-section-number">7.15.2</span> Linearidade</h3>
+<p>Nas comparações entre grupos, o modelo deve representar adequadamente a estrutura sistemática dos tratamentos, incluindo blocos e interações relevantes.</p>
+</section>
+<section id="variância-constante" class="level3" data-number="7.15.3">
+<h3 data-number="7.15.3" class="anchored" data-anchor-id="variância-constante"><span class="header-section-number">7.15.3</span> Variância constante</h3>
+<p>A variabilidade residual deve ser razoavelmente semelhante entre os valores ajustados ou entre os grupos.</p>
+</section>
+<section id="distribuição-dos-resíduos" class="level3" data-number="7.15.4">
+<h3 data-number="7.15.4" class="anchored" data-anchor-id="distribuição-dos-resíduos"><span class="header-section-number">7.15.4</span> Distribuição dos resíduos</h3>
+<p>O pressuposto de normalidade diz respeito aos resíduos do modelo — e não necessariamente à variável resposta bruta.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Os pressupostos do modelo aplicam-se principalmente aos erros, ou resíduos, gerados pelo modelo, e não simplesmente à variável resposta observada.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="diagnóstico-do-modelo" class="level2" data-number="7.16">
+<h2 data-number="7.16" class="anchored" data-anchor-id="diagnóstico-do-modelo"><span class="header-section-number">7.16</span> Diagnóstico do modelo</h2>
+<section id="resíduos-versus-valores-ajustados" class="level3" data-number="7.16.1">
+<h3 data-number="7.16.1" class="anchored" data-anchor-id="resíduos-versus-valores-ajustados"><span class="header-section-number">7.16.1</span> Resíduos versus valores ajustados</h3>
+<p>Este gráfico deve mostrar uma nuvem de pontos sem padrão. Um formato de funil, com resíduos mais dispersos para valores ajustados maiores, indica variância que aumenta com a média, muito comum em dados de doença.</p>
+</section>
+<section id="gráficos-quantilquantil" class="level3" data-number="7.16.2">
+<h3 data-number="7.16.2" class="anchored" data-anchor-id="gráficos-quantilquantil"><span class="header-section-number">7.16.2</span> Gráficos quantil–quantil</h3>
+<p>O gráfico quantil–quantil compara os resíduos com o que seria esperado sob uma distribuição normal. Pontos próximos à linha indicam resíduos aproximadamente normais; curvaturas sistemáticas indicam assimetria ou caudas pesadas.</p>
+</section>
+<section id="observações-incomuns" class="level3" data-number="7.16.3">
+<h3 data-number="7.16.3" class="anchored" data-anchor-id="observações-incomuns"><span class="header-section-number">7.16.3</span> Observações incomuns</h3>
+<p>Resíduos muito grandes identificam observações que o modelo descreve mal. Elas devem ser conferidas com os registros originais.</p>
+</section>
+<section id="influência" class="level3" data-number="7.16.4">
+<h3 data-number="7.16.4" class="anchored" data-anchor-id="influência"><span class="header-section-number">7.16.4</span> Influência</h3>
+<p>Algumas observações têm influência desproporcional sobre as estimativas. Medidas como a distância de Cook ajudam a identificá-las. Uma observação influente não deve ser removida automaticamente, mas convém verificar se as conclusões mudam sem ela.</p>
+<p>Aplicados ao modelo com blocos ajustado aos dados simulados, os quatro gráficos de diagnóstico do R base são:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter7_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="720"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-chapter7-7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter7_files/figure-html/fig-chapter7-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.7: Gráficos de diagnóstico comuns para um modelo linear, a partir de um ensaio simulado com cinco tratamentos e seis blocos em que a variabilidade aumenta com a média. (A) Resíduos versus valores ajustados: o formato de funil indica variância não constante. (B) Gráfico quantil–quantil dos resíduos. (C) Escala–posição: confirma o aumento da dispersão com a média. (D) Distância de Cook: identifica observações com influência desproporcional sobre as estimativas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="e-se-os-pressupostos-não-forem-atendidos" class="level2" data-number="7.17">
+<h2 data-number="7.17" class="anchored" data-anchor-id="e-se-os-pressupostos-não-forem-atendidos"><span class="header-section-number">7.17</span> E se os pressupostos não forem atendidos?</h2>
+<section id="primeiro-confira-os-dados" class="level3" data-number="7.17.1">
+<h3 data-number="7.17.1" class="anchored" data-anchor-id="primeiro-confira-os-dados"><span class="header-section-number">7.17.1</span> Primeiro: confira os dados</h3>
+<p>Causas possíveis incluem:</p>
+<ul>
+<li>erros de digitação;</li>
+<li>unidades incorretas;</li>
+<li>unidades experimentais incomuns;</li>
+<li>fatores do delineamento omitidos;</li>
+<li>definição inadequada da resposta.</li>
+</ul>
+</section>
+<section id="transformações" class="level3" data-number="7.17.2">
+<h3 data-number="7.17.2" class="anchored" data-anchor-id="transformações"><span class="header-section-number">7.17.2</span> Transformações</h3>
+<p>Transformações comuns incluem <span class="math inline">\(\log(y)\)</span> e <span class="math inline">\(\sqrt{y}\)</span>. A transformação logarítmica é útil quando os efeitos são multiplicativos e a variabilidade cresce proporcionalmente à média, como em contagens de esporos ou quantidades de DNA. A raiz quadrada é às vezes usada para contagens. Uma transformação, porém, muda a escala em que os efeitos são estimados e interpretados: uma diferença na escala logarítmica corresponde a uma razão na escala original. A escolha deve considerar o significado biológico dos efeitos, e não apenas o comportamento dos resíduos.</p>
+</section>
+<section id="os-dados-em-porcentagem-devem-sempre-ser-transformados" class="level3" data-number="7.17.3">
+<h3 data-number="7.17.3" class="anchored" data-anchor-id="os-dados-em-porcentagem-devem-sempre-ser-transformados"><span class="header-section-number">7.17.3</span> Os dados em porcentagem devem sempre ser transformados?</h3>
+<p>Não.</p>
+<p>Durante décadas, recomendou-se transformar rotineiramente dados percentuais, por exemplo com a transformação arco-seno da raiz quadrada. Essa recomendação não deve ser aplicada automaticamente. Quando as porcentagens estão longe de 0 e 100% e os resíduos se comportam razoavelmente, a análise na escala original é adequada e tem a vantagem de produzir efeitos diretamente interpretáveis em pontos percentuais. Quando muitos valores estão próximos dos limites, ou quando a porcentagem é uma proporção de contagens (plantas doentes em plantas avaliadas), modelos próprios para proporções costumam ser mais apropriados do que transformações (Capítulo 10).</p>
+</section>
+<section id="quando-outro-modelo-é-mais-apropriado" class="level3" data-number="7.17.4">
+<h3 data-number="7.17.4" class="anchored" data-anchor-id="quando-outro-modelo-é-mais-apropriado"><span class="header-section-number">7.17.4</span> Quando outro modelo é mais apropriado</h3>
+<p>Algumas variáveis resposta exigem naturalmente outros modelos estatísticos:</p>
+<ul>
+<li>desfechos binários;</li>
+<li>proporções baseadas em contagens;</li>
+<li>contagens;</li>
+<li>notas ordinais.</li>
+</ul>
+<p>Esses casos são tratados no Capítulo 10.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A transformação não deve ser uma resposta automática a um teste de normalidade que falhou. A primeira pergunta é se o modelo estatístico representa adequadamente o processo que gerou os dados.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="uma-nota-sobre-os-testes-de-normalidade" class="level2" data-number="7.18">
+<h2 data-number="7.18" class="anchored" data-anchor-id="uma-nota-sobre-os-testes-de-normalidade"><span class="header-section-number">7.18</span> Uma nota sobre os testes de normalidade</h2>
+<p>Testes formais como o de Shapiro–Wilk são frequentemente usados como regras de decisão automáticas:</p>
+<pre class="text"><code>P &gt; 0,05 → usar ANOVA
+P &lt; 0,05 → transformar os dados</code></pre>
+<p>Essa abordagem é problemática. Com amostras grandes, os testes detectam desvios da normalidade triviais e irrelevantes para a inferência. Com as amostras pequenas típicas dos experimentos, têm pouco poder e deixam passar desvios importantes. Além disso, a ANOVA é razoavelmente robusta a desvios moderados da normalidade, especialmente com delineamentos balanceados, ao passo que a heterogeneidade de variâncias e a falta de independência costumam ser problemas mais sérios. Os gráficos de diagnóstico, interpretados com conhecimento do tipo de dado, são mais informativos do que um valor-P de um teste de normalidade.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não use um teste de normalidade como uma barreira mecânica para decidir se a ANOVA pode ser feita.</p>
+</div>
+</div>
+</section>
+<section id="médias-marginais-estimadas" class="level2" data-number="7.19">
+<h2 data-number="7.19" class="anchored" data-anchor-id="médias-marginais-estimadas"><span class="header-section-number">7.19</span> Médias marginais estimadas</h2>
+<p>Em delineamentos mais complexos, as médias aritméticas simples podem não representar as comparações implicadas pelo modelo estatístico.</p>
+<section id="médias-ajustadas-pelo-modelo" class="level3" data-number="7.19.1">
+<h3 data-number="7.19.1" class="anchored" data-anchor-id="médias-ajustadas-pelo-modelo"><span class="header-section-number">7.19.1</span> Médias ajustadas pelo modelo</h3>
+<p>As médias marginais estimadas (também chamadas médias de mínimos quadrados) são as médias dos tratamentos previstas pelo modelo, calculadas em média sobre os demais fatores de forma equilibrada. Em experimentos desbalanceados — por exemplo, com parcelas perdidas em alguns blocos —, elas corrigem as distorções que as médias aritméticas sofreriam. Em experimentos fatoriais, permitem obter médias e contrastes de um fator dentro de cada nível do outro.</p>
+</section>
+<section id="contrastes-dois-a-dois" class="level3" data-number="7.19.2">
+<h3 data-number="7.19.2" class="anchored" data-anchor-id="contrastes-dois-a-dois"><span class="header-section-number">7.19.2</span> Contrastes dois a dois</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(model, <span class="sc">~</span> treatment)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast             estimate   SE df t.ratio p.value
+ Testemunha - Fung. A    28.55 2.05 12  13.896 &lt;0.0001
+ Testemunha - Fung. B    25.25 2.05 12  12.290 &lt;0.0001
+ Testemunha - Fung. C    18.80 2.05 12   9.150 &lt;0.0001
+ Testemunha - Fung. D    22.75 2.05 12  11.073 &lt;0.0001
+ Fung. A - Fung. B       -3.30 2.05 12  -1.606  0.5207
+ Fung. A - Fung. C       -9.75 2.05 12  -4.745  0.0035
+ Fung. A - Fung. D       -5.80 2.05 12  -2.823  0.0921
+ Fung. B - Fung. C       -6.45 2.05 12  -3.139  0.0543
+ Fung. B - Fung. D       -2.50 2.05 12  -1.217  0.7425
+ Fung. C - Fung. D        3.95 2.05 12   1.923  0.3569
+
+Results are averaged over the levels of: block 
+P value adjustment: tukey method for comparing a family of 5 estimates </code></pre>
+</div>
+</div>
+</section>
+<section id="intervalos-de-confiança" class="level3" data-number="7.19.3">
+<h3 data-number="7.19.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">7.19.3</span> Intervalos de confiança</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(emm)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> treatment  emmean   SE df lower.CL upper.CL
+ Testemunha   54.6 1.45 12     51.4     57.7
+ Fung. A      26.0 1.45 12     22.9     29.2
+ Fung. B      29.3 1.45 12     26.2     32.5
+ Fung. C      35.8 1.45 12     32.6     38.9
+ Fung. D      31.8 1.45 12     28.7     35.0
+
+Results are averaged over the levels of: block 
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+</section>
+<section id="comparações-com-a-testemunha" class="level3" data-number="7.19.4">
+<h3 data-number="7.19.4" class="anchored" data-anchor-id="comparações-com-a-testemunha"><span class="header-section-number">7.19.4</span> Comparações com a testemunha</h3>
+<p>Quando a questão é o efeito de cada tratamento em relação à testemunha, o contraste <code>"trt.vs.ctrl"</code> aplica o ajuste de Dunnett e fornece diretamente as diferenças com seus intervalos de confiança:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>efeitos <span class="ot">&lt;-</span> <span class="fu">contrast</span>(emm, <span class="st">"trt.vs.ctrl"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(efeitos)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast             estimate   SE df lower.CL upper.CL
+ Fung. A - Testemunha    -28.6 2.05 12    -34.4    -22.7
+ Fung. B - Testemunha    -25.2 2.05 12    -31.1    -19.4
+ Fung. C - Testemunha    -18.8 2.05 12    -24.6    -13.0
+ Fung. D - Testemunha    -22.8 2.05 12    -28.6    -16.9
+
+Results are averaged over the levels of: block 
+Confidence level used: 0.95 
+Conf-level adjustment: dunnettx method for 4 estimates </code></pre>
+</div>
+</div>
+<p>Esses contrastes podem ser representados no gráfico de efeitos discutido na seção “Das letras às estimativas”:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>efeitos_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">confint</span>(efeitos))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(efeitos_df, <span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> contrast,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">xmin =</span> lower.CL, <span class="at">xmax =</span> upper.CL)) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>) <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Diferença em relação à testemunha (p.p.)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter7_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O pacote <code>emmeans</code> também permite obter efeitos condicionais em modelos com interação (<code>emmeans(model, ~ fungicide | cultivar)</code>, como feito acima para o experimento fatorial) e ajustes para multiplicidade. Esse fluxo de trabalho — ajustar o modelo, obter as médias marginais e estimar os contrastes de interesse com intervalos de confiança — será usado nos capítulos seguintes.</p>
+</section>
+</section>
+<section id="pesquisa-na-prática-avaliando-tratamentos-de-manejo-da-doença" class="level2" data-number="7.20">
+<h2 data-number="7.20" class="anchored" data-anchor-id="pesquisa-na-prática-avaliando-tratamentos-de-manejo-da-doença"><span class="header-section-number">7.20</span> Pesquisa na prática: avaliando tratamentos de manejo da doença</h2>
+<p>Retome os ensaios de fungicidas apresentados no Capítulo 1, como o do míldio do manjericão <span class="citation" data-cites="mcgrath2020">(<a href="references.html#ref-mcgrath2020" role="doc-biblioref">McGrath 2020</a>)</span>. Um experimento desse tipo — vários programas de fungicida e uma testemunha, em blocos casualizados — reúne quase todos os conceitos deste capítulo: blocos no modelo, contrastes com a testemunha, comparações entre tratamentos, multiplicidade e interpretação biológica.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Quais tratamentos reduzem a doença?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Quais tratamentos reduzem a doença?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere um experimento de campo que compara vários tratamentos de manejo da doença com uma testemunha sem tratamento.</p>
+<p>A questão científica não é simplesmente:</p>
+<blockquote class="blockquote">
+<p>Os tratamentos são significativamente diferentes?</p>
+</blockquote>
+<p>Em vez disso, pergunte:</p>
+<ol type="1">
+<li>Quanto cada tratamento reduz a doença em relação à testemunha?</li>
+<li>Quão incerta é cada redução estimada?</li>
+<li>Quais comparações foram planejadas cientificamente?</li>
+<li>As diferenças entre os tratamentos são grandes o suficiente para importar biologicamente?</li>
+<li>O desempenho dos tratamentos varia entre blocos ou condições experimentais?</li>
+</ol>
+<p>A análise deve, portanto, enfatizar <strong>os efeitos estimados dos tratamentos e sua incerteza</strong>, com os testes estatísticos fornecendo evidência complementar.</p>
+</div>
+</div>
+</section>
+<section id="um-fluxo-de-trabalho-prático-para-comparar-grupos" class="level2" data-number="7.21">
+<h2 data-number="7.21" class="anchored" data-anchor-id="um-fluxo-de-trabalho-prático-para-comparar-grupos"><span class="header-section-number">7.21</span> Um fluxo de trabalho prático para comparar grupos</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter7-8" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter7-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-7389bafa6783860a07dc" style="width:100%;height:650px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7389bafa6783860a07dc">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Identificar o delineamento experimental<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Definir a comparação (estimando)<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Visualizar as observações<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Ajustar o modelo estatístico<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Avaliar os pressupostos<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Estimar os contrastes<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n8 [label = <<font color=\"#24301f\"><b>Quantificar a incerteza<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n9 [label = <<font color=\"#24301f\"><b>Avaliar a evidência estatística<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n10 [label = <<font color=\"#24301f\"><b>Interpretar a importância biológica<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7 -> n8 -> n9 -> n10\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter7-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.8: Fluxo de trabalho para analisar experimentos que envolvem comparações entre grupos.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="relatando-comparações-entre-grupos" class="level2" data-number="7.22">
+<h2 data-number="7.22" class="anchored" data-anchor-id="relatando-comparações-entre-grupos"><span class="header-section-number">7.22</span> Relatando comparações entre grupos</h2>
+<p>Um bom enunciado de resultados geralmente inclui:</p>
+<section id="o-que-foi-comparado" class="level3" data-number="7.22.1">
+<h3 data-number="7.22.1" class="anchored" data-anchor-id="o-que-foi-comparado"><span class="header-section-number">7.22.1</span> O que foi comparado?</h3>
+<p>Os tratamentos ou grupos e a resposta, com o contraste definido explicitamente.</p>
+</section>
+<section id="direção-do-efeito" class="level3" data-number="7.22.2">
+<h3 data-number="7.22.2" class="anchored" data-anchor-id="direção-do-efeito"><span class="header-section-number">7.22.2</span> Direção do efeito</h3>
+<p>Se a resposta aumentou ou diminuiu.</p>
+</section>
+<section id="magnitude-do-efeito" class="level3" data-number="7.22.3">
+<h3 data-number="7.22.3" class="anchored" data-anchor-id="magnitude-do-efeito"><span class="header-section-number">7.22.3</span> Magnitude do efeito</h3>
+<p>O tamanho da diferença, em unidades da resposta e, se útil, em termos relativos.</p>
+</section>
+<section id="incerteza" class="level3" data-number="7.22.4">
+<h3 data-number="7.22.4" class="anchored" data-anchor-id="incerteza"><span class="header-section-number">7.22.4</span> Incerteza</h3>
+<p>O intervalo de confiança da diferença.</p>
+</section>
+<section id="evidência-estatística" class="level3" data-number="7.22.5">
+<h3 data-number="7.22.5" class="anchored" data-anchor-id="evidência-estatística"><span class="header-section-number">7.22.5</span> Evidência estatística</h3>
+<p>O valor-P ou o resultado do teste, como informação complementar.</p>
+</section>
+<section id="interpretação-biológica" class="level3" data-number="7.22.6">
+<h3 data-number="7.22.6" class="anchored" data-anchor-id="interpretação-biológica"><span class="header-section-number">7.22.6</span> Interpretação biológica</h3>
+<p>O que a diferença significa para o sistema estudado.</p>
+<p>Em vez de:</p>
+<blockquote class="blockquote">
+<p>Os tratamentos com fungicidas diferiram significativamente (P &lt; 0,05).</p>
+</blockquote>
+<p>prefira algo como:</p>
+<blockquote class="blockquote">
+<p>O Fungicida A reduziu a severidade média da doença em 28,6 pontos percentuais em relação à testemunha (IC 95% ajustado por Dunnett: 22,7 a 34,4 pontos percentuais), uma redução substancial nas condições do experimento.</p>
+</blockquote>
+</section>
+</section>
+<section id="erros-comuns" class="level2" data-number="7.23">
+<h2 data-number="7.23" class="anchored" data-anchor-id="erros-comuns"><span class="header-section-number">7.23</span> Erros comuns</h2>
+<section id="relatar-apenas-valores-p" class="level3" data-number="7.23.1">
+<h3 data-number="7.23.1" class="anchored" data-anchor-id="relatar-apenas-valores-p"><span class="header-section-number">7.23.1</span> Relatar apenas valores-P</h3>
+<p>O valor-P não informa o tamanho nem a precisão do efeito.</p>
+</section>
+<section id="relatar-apenas-as-letras-dos-tratamentos" class="level3" data-number="7.23.2">
+<h3 data-number="7.23.2" class="anchored" data-anchor-id="relatar-apenas-as-letras-dos-tratamentos"><span class="header-section-number">7.23.2</span> Relatar apenas as letras dos tratamentos</h3>
+<p>As letras escondem a magnitude e a incerteza das diferenças.</p>
+</section>
+<section id="comparar-médias-sem-considerar-o-delineamento-experimental" class="level3" data-number="7.23.3">
+<h3 data-number="7.23.3" class="anchored" data-anchor-id="comparar-médias-sem-considerar-o-delineamento-experimental"><span class="header-section-number">7.23.3</span> Comparar médias sem considerar o delineamento experimental</h3>
+<p>Ignorar blocos, parcelas subdivididas ou medidas repetidas leva a erros padrão incorretos.</p>
+</section>
+<section id="tratar-subamostras-como-repetições" class="level3" data-number="7.23.4">
+<h3 data-number="7.23.4" class="anchored" data-anchor-id="tratar-subamostras-como-repetições"><span class="header-section-number">7.23.4</span> Tratar subamostras como repetições</h3>
+<p>Folhas, lesões ou leituras repetidas não são unidades experimentais independentes (Capítulo 2).</p>
+</section>
+<section id="fazer-vários-testes-t-em-vez-de-modelar-todos-os-grupos" class="level3" data-number="7.23.5">
+<h3 data-number="7.23.5" class="anchored" data-anchor-id="fazer-vários-testes-t-em-vez-de-modelar-todos-os-grupos"><span class="header-section-number">7.23.5</span> Fazer vários testes t em vez de modelar todos os grupos</h3>
+<p>Isso aumenta os falsos positivos e desperdiça informação sobre a variabilidade.</p>
+</section>
+<section id="interpretar-uma-anova-significativa-como-evidência-de-que-todos-os-tratamentos-diferem" class="level3" data-number="7.23.6">
+<h3 data-number="7.23.6" class="anchored" data-anchor-id="interpretar-uma-anova-significativa-como-evidência-de-que-todos-os-tratamentos-diferem"><span class="header-section-number">7.23.6</span> Interpretar uma ANOVA significativa como evidência de que todos os tratamentos diferem</h3>
+<p>O teste global indica apenas que pelo menos uma média difere.</p>
+</section>
+<section id="ignorar-interações" class="level3" data-number="7.23.7">
+<h3 data-number="7.23.7" class="anchored" data-anchor-id="ignorar-interações"><span class="header-section-number">7.23.7</span> Ignorar interações</h3>
+<p>Quando os efeitos de um fator dependem de outro, efeitos médios podem ser enganosos.</p>
+</section>
+<section id="interpretar-efeitos-principais-apesar-de-interações-fortes" class="level3" data-number="7.23.8">
+<h3 data-number="7.23.8" class="anchored" data-anchor-id="interpretar-efeitos-principais-apesar-de-interações-fortes"><span class="header-section-number">7.23.8</span> Interpretar efeitos principais apesar de interações fortes</h3>
+<p>Na presença de interação forte, o efeito médio de um fator pode não descrever nenhuma das condições estudadas.</p>
+</section>
+<section id="transformar-automaticamente-dados-em-porcentagem" class="level3" data-number="7.23.9">
+<h3 data-number="7.23.9" class="anchored" data-anchor-id="transformar-automaticamente-dados-em-porcentagem"><span class="header-section-number">7.23.9</span> Transformar automaticamente dados em porcentagem</h3>
+<p>A transformação deve ser justificada pelo comportamento dos dados e pelo objetivo da análise.</p>
+</section>
+<section id="usar-testes-de-normalidade-como-regras-de-decisão" class="level3" data-number="7.23.10">
+<h3 data-number="7.23.10" class="anchored" data-anchor-id="usar-testes-de-normalidade-como-regras-de-decisão"><span class="header-section-number">7.23.10</span> Usar testes de normalidade como regras de decisão</h3>
+<p>Os gráficos de diagnóstico são mais informativos.</p>
+</section>
+<section id="relatar-médias-sem-incerteza" class="level3" data-number="7.23.11">
+<h3 data-number="7.23.11" class="anchored" data-anchor-id="relatar-médias-sem-incerteza"><span class="header-section-number">7.23.11</span> Relatar médias sem incerteza</h3>
+<p>Toda média ou diferença relatada deve vir acompanhada de uma medida de sua precisão.</p>
+</section>
+<section id="igualar-significância-estatística-a-importância-biológica" class="level3" data-number="7.23.12">
+<h3 data-number="7.23.12" class="anchored" data-anchor-id="igualar-significância-estatística-a-importância-biológica"><span class="header-section-number">7.23.12</span> Igualar significância estatística a importância biológica</h3>
+<p>Uma diferença significativa pode ser biologicamente trivial, e uma diferença não significativa pode ser importante, mas incerta (Capítulo 6).</p>
+</section>
+</section>
+<section id="lista-de-verificação-para-comparações-entre-grupos" class="level2" data-number="7.24">
+<h2 data-number="7.24" class="anchored" data-anchor-id="lista-de-verificação-para-comparações-entre-grupos"><span class="header-section-number">7.24</span> Lista de verificação para comparações entre grupos</h2>
+<p>Antes de interpretar uma comparação entre grupos, pergunte:</p>
+<ol type="1">
+<li>Que questão biológica está sendo abordada?</li>
+<li>Qual é a unidade experimental?</li>
+<li>Que fator define os grupos?</li>
+<li>Que variável resposta está sendo comparada?</li>
+<li>Qual é o estimando principal?</li>
+<li>As observações são independentes ou pareadas?</li>
+<li>O modelo reflete os blocos ou outras características do delineamento?</li>
+<li>As interações são relevantes?</li>
+<li>Os pressupostos do modelo são razoáveis?</li>
+<li>Qual é o efeito estimado?</li>
+<li>Quão incerta é a estimativa?</li>
+<li>Quais comparações foram planejadas?</li>
+<li>A multiplicidade foi considerada?</li>
+<li>O efeito é biologicamente relevante?</li>
+<li>A conclusão permanece dentro do escopo do experimento?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="7.25">
+<h2 data-number="7.25" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">7.25</span> Resumo do capítulo</h2>
+<p>As comparações entre grupos estão entre as análises mais comuns em Fitopatologia. Embora os testes <em>t</em> e a análise de variância sejam ferramentas estatísticas familiares, seu propósito vai além de determinar se um valor-P ultrapassa um limiar de significância. O objetivo central é estimar diferenças biologicamente relevantes entre tratamentos ou grupos e quantificar a incerteza associada a essas estimativas.</p>
+<p>O teste <em>t</em>, a ANOVA, a ANOVA fatorial e as comparações relacionadas podem ser compreendidos dentro do arcabouço geral do modelo linear. Essa perspectiva oferece uma base coerente para analisar delineamentos experimentais simples e complexos, enfatizando contrastes que respondem diretamente à questão biológica. Uma interpretação confiável também exige atenção ao delineamento experimental, aos pressupostos do modelo, às interações, à multiplicidade, à magnitude dos efeitos e à incerteza.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="7.26">
+<h2 data-number="7.26" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">7.26</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>comparação entre grupos;</li>
+<li>observações independentes;</li>
+<li>observações pareadas;</li>
+<li>diferença entre médias;</li>
+<li>teste <em>t</em>;</li>
+<li>teste <em>t</em> de Welch;</li>
+<li>análise de variância;</li>
+<li>teste F;</li>
+<li>modelo linear;</li>
+<li>fator;</li>
+<li>efeito principal;</li>
+<li>interação;</li>
+<li>contraste;</li>
+<li>comparação planejada;</li>
+<li>comparação dois a dois;</li>
+<li>comparações múltiplas;</li>
+<li>média marginal estimada;</li>
+<li>resíduo;</li>
+<li>homogeneidade de variâncias;</li>
+<li>diagnóstico do modelo;</li>
+<li>tamanho de efeito;</li>
+<li>intervalo de confiança.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="7.27">
+<h2 data-number="7.27" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">7.27</span> Exercícios</h2>
+<section id="exercício-1.-qual-é-a-comparação" class="level3" data-number="7.27.1">
+<h3 data-number="7.27.1" class="anchored" data-anchor-id="exercício-1.-qual-é-a-comparação"><span class="header-section-number">7.27.1</span> Exercício 1. Qual é a comparação?</h3>
+<p>Para cada questão biológica, identifique:</p>
+<ol type="1">
+<li>a variável resposta;</li>
+<li>os grupos comparados;</li>
+<li>a unidade experimental;</li>
+<li>o estimando adequado;</li>
+<li>a direção em que o contraste deve ser definido.</li>
+</ol>
+<p>Use questões como:</p>
+<ul>
+<li>Um fungicida reduz a severidade da doença?</li>
+<li>Uma cultivar resistente desenvolve menos doença que uma suscetível?</li>
+<li>A inoculação reduz a taxa fotossintética?</li>
+</ul>
+</section>
+<section id="exercício-2.-dois-grupos" class="level3" data-number="7.27.2">
+<h3 data-number="7.27.2" class="anchored" data-anchor-id="exercício-2.-dois-grupos"><span class="header-section-number">7.27.2</span> Exercício 2. Dois grupos</h3>
+<p>Usando um conjunto de dados fornecido pelo professor:</p>
+<ol type="1">
+<li>visualize as observações individuais;</li>
+<li>calcule a resposta média de cada grupo;</li>
+<li>estime a diferença entre as médias;</li>
+<li>calcule um intervalo de confiança;</li>
+<li>faça o teste <em>t</em> adequado;</li>
+<li>interprete o efeito biologicamente.</li>
+</ol>
+</section>
+<section id="exercício-3.-vários-tratamentos" class="level3" data-number="7.27.3">
+<h3 data-number="7.27.3" class="anchored" data-anchor-id="exercício-3.-vários-tratamentos"><span class="header-section-number">7.27.3</span> Exercício 3. Vários tratamentos</h3>
+<p>Analise um experimento que contenha uma testemunha e vários tratamentos.</p>
+<ol type="1">
+<li>visualize os dados;</li>
+<li>ajuste um modelo linear adequado;</li>
+<li>faça o teste global;</li>
+<li>estime os efeitos dos tratamentos em relação à testemunha;</li>
+<li>calcule os intervalos de confiança;</li>
+<li>compare esses resultados com uma apresentação convencional de comparações múltiplas.</li>
+</ol>
+</section>
+<section id="exercício-4.-apresentação-com-letras" class="level3" data-number="7.27.4">
+<h3 data-number="7.27.4" class="anchored" data-anchor-id="exercício-4.-apresentação-com-letras"><span class="header-section-number">7.27.4</span> Exercício 4. Apresentação com letras</h3>
+<p>Você recebe uma tabela de médias de tratamentos e letras de um procedimento de comparações múltiplas.</p>
+<p>Discuta:</p>
+<ol type="1">
+<li>Quais comparações podem ser inferidas a partir das letras?</li>
+<li>Que informação sobre a magnitude dos efeitos está faltando?</li>
+<li>Que informação sobre a incerteza está faltando?</li>
+<li>Como os resultados poderiam ser apresentados de forma mais informativa?</li>
+</ol>
+</section>
+<section id="exercício-5.-interação" class="level3" data-number="7.27.5">
+<h3 data-number="7.27.5" class="anchored" data-anchor-id="exercício-5.-interação"><span class="header-section-number">7.27.5</span> Exercício 5. Interação</h3>
+<p>Considere um experimento que avalia dois fungicidas em duas cultivares.</p>
+<p>Determine se os dados hipotéticos sugerem:</p>
+<ol type="1">
+<li>ausência de interação;</li>
+<li>interação quantitativa;</li>
+<li>respostas fortemente dependentes do tratamento.</li>
+</ol>
+<p>Desenhe um gráfico de interação e descreva a interpretação biológica.</p>
+</section>
+<section id="exercício-6.-diagnóstico-do-modelo" class="level3" data-number="7.27.6">
+<h3 data-number="7.27.6" class="anchored" data-anchor-id="exercício-6.-diagnóstico-do-modelo"><span class="header-section-number">7.27.6</span> Exercício 6. Diagnóstico do modelo</h3>
+<p>Ajuste um modelo linear ao conjunto de dados fornecido.</p>
+<p>Examine:</p>
+<ul>
+<li>os resíduos versus os valores ajustados;</li>
+<li>o gráfico quantil–quantil;</li>
+<li>a variabilidade residual;</li>
+<li>as observações incomuns.</li>
+</ul>
+<p>Discuta se o modelo parece adequado e que investigação adicional pode ser necessária.</p>
+</section>
+<section id="exercício-7.-avaliação-de-um-artigo-publicado" class="level3" data-number="7.27.7">
+<h3 data-number="7.27.7" class="anchored" data-anchor-id="exercício-7.-avaliação-de-um-artigo-publicado"><span class="header-section-number">7.27.7</span> Exercício 7. Avaliação de um artigo publicado</h3>
+<p>Escolha um artigo recente de Fitopatologia que compare tratamentos experimentais.</p>
+<p>Identifique:</p>
+<ol type="1">
+<li>o delineamento experimental;</li>
+<li>a unidade experimental;</li>
+<li>a variável resposta;</li>
+<li>o modelo estatístico;</li>
+<li>as comparações realizadas;</li>
+<li>se os tamanhos de efeito foram relatados;</li>
+<li>se a incerteza foi relatada;</li>
+<li>se foram usadas letras para os tratamentos;</li>
+<li>se a interpretação biológica é sustentada pelos efeitos estimados.</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="7.28">
+<h2 data-number="7.28" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">7.28</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>A questão não é simplesmente se os tratamentos diferem, mas o quanto diferem e se essa diferença importa biologicamente.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="7.29">
+<h2 data-number="7.29" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">7.29</span> Próximos passos</h2>
+<p>Muitas questões biológicas envolvem não comparações entre grupos discretos, mas relações entre variáveis quantitativas. A doença pode aumentar com a temperatura, a produtividade pode diminuir com o aumento da intensidade da doença, ou o crescimento do patógeno pode mudar com as condições ambientais. O Capítulo 8 estende o arcabouço do modelo linear apresentado aqui à análise de relações entre variáveis quantitativas.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-mcgrath2020" class="csl-entry" role="listitem">
+McGrath, M. T. 2020. Efficacy of Conventional Fungicides for Downy Mildew in Field-Grown Sweet Basil in the United States. Plant Disease 104:2967–2972. <a href="https://doi.org/10.1094/PDIS-11-19-2382-RE">https://doi.org/10.1094/PDIS-11-19-2382-RE</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter6.html" class="pagination-link" aria-label="Inferência estatística">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter8.html" class="pagination-link" aria-label="Relações entre variáveis">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Como delinear um estudo? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter3.html" rel="next">
+<link href="./chapter1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">2.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#por-que-o-delineamento-importa" id="toc-por-que-o-delineamento-importa" class="nav-link" data-scroll-target="#por-que-o-delineamento-importa"><span class="header-section-number">2.2</span> Por que o delineamento importa</a></li>
+  <li><a href="#da-questão-biológica-ao-estudo" id="toc-da-questão-biológica-ao-estudo" class="nav-link" data-scroll-target="#da-questão-biológica-ao-estudo"><span class="header-section-number">2.3</span> Da questão biológica ao estudo</a>
+  <ul class="collapse">
+  <li><a href="#questões-biológicas" id="toc-questões-biológicas" class="nav-link" data-scroll-target="#questões-biológicas"><span class="header-section-number">2.3.1</span> Questões biológicas</a></li>
+  <li><a href="#hipóteses-científicas" id="toc-hipóteses-científicas" class="nav-link" data-scroll-target="#hipóteses-científicas"><span class="header-section-number">2.3.2</span> Hipóteses científicas</a></li>
+  <li><a href="#predições-testáveis" id="toc-predições-testáveis" class="nav-link" data-scroll-target="#predições-testáveis"><span class="header-section-number">2.3.3</span> Predições testáveis</a></li>
+  <li><a href="#definições-operacionais" id="toc-definições-operacionais" class="nav-link" data-scroll-target="#definições-operacionais"><span class="header-section-number">2.3.4</span> Definições operacionais</a></li>
+  </ul></li>
+  <li><a href="#estudos-observacionais-e-experimentais" id="toc-estudos-observacionais-e-experimentais" class="nav-link" data-scroll-target="#estudos-observacionais-e-experimentais"><span class="header-section-number">2.4</span> Estudos observacionais e experimentais</a>
+  <ul class="collapse">
+  <li><a href="#estudos-observacionais" id="toc-estudos-observacionais" class="nav-link" data-scroll-target="#estudos-observacionais"><span class="header-section-number">2.4.1</span> Estudos observacionais</a></li>
+  <li><a href="#estudos-experimentais" id="toc-estudos-experimentais" class="nav-link" data-scroll-target="#estudos-experimentais"><span class="header-section-number">2.4.2</span> Estudos experimentais</a></li>
+  <li><a href="#o-que-cada-tipo-de-estudo-permite-concluir" id="toc-o-que-cada-tipo-de-estudo-permite-concluir" class="nav-link" data-scroll-target="#o-que-cada-tipo-de-estudo-permite-concluir"><span class="header-section-number">2.4.3</span> O que cada tipo de estudo permite concluir</a></li>
+  </ul></li>
+  <li><a href="#os-componentes-básicos-de-um-estudo" id="toc-os-componentes-básicos-de-um-estudo" class="nav-link" data-scroll-target="#os-componentes-básicos-de-um-estudo"><span class="header-section-number">2.5</span> Os componentes básicos de um estudo</a>
+  <ul class="collapse">
+  <li><a href="#fatores-e-tratamentos" id="toc-fatores-e-tratamentos" class="nav-link" data-scroll-target="#fatores-e-tratamentos"><span class="header-section-number">2.5.1</span> Fatores e tratamentos</a></li>
+  <li><a href="#variáveis-resposta" id="toc-variáveis-resposta" class="nav-link" data-scroll-target="#variáveis-resposta"><span class="header-section-number">2.5.2</span> Variáveis resposta</a></li>
+  <li><a href="#variáveis-explicativas-e-covariáveis" id="toc-variáveis-explicativas-e-covariáveis" class="nav-link" data-scroll-target="#variáveis-explicativas-e-covariáveis"><span class="header-section-number">2.5.3</span> Variáveis explicativas e covariáveis</a></li>
+  <li><a href="#testemunhas-e-condições-de-referência" id="toc-testemunhas-e-condições-de-referência" class="nav-link" data-scroll-target="#testemunhas-e-condições-de-referência"><span class="header-section-number">2.5.4</span> Testemunhas e condições de referência</a></li>
+  </ul></li>
+  <li><a href="#unidades-experimentais-e-unidades-amostrais" id="toc-unidades-experimentais-e-unidades-amostrais" class="nav-link" data-scroll-target="#unidades-experimentais-e-unidades-amostrais"><span class="header-section-number">2.6</span> Unidades experimentais e unidades amostrais</a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-uma-unidade-experimental" id="toc-o-que-é-uma-unidade-experimental" class="nav-link" data-scroll-target="#o-que-é-uma-unidade-experimental"><span class="header-section-number">2.6.1</span> O que é uma unidade experimental?</a></li>
+  <li><a href="#o-que-é-uma-unidade-amostral" id="toc-o-que-é-uma-unidade-amostral" class="nav-link" data-scroll-target="#o-que-é-uma-unidade-amostral"><span class="header-section-number">2.6.2</span> O que é uma unidade amostral?</a></li>
+  <li><a href="#hierarquias-de-observação" id="toc-hierarquias-de-observação" class="nav-link" data-scroll-target="#hierarquias-de-observação"><span class="header-section-number">2.6.3</span> Hierarquias de observação</a></li>
+  </ul></li>
+  <li><a href="#repetição" id="toc-repetição" class="nav-link" data-scroll-target="#repetição"><span class="header-section-number">2.7</span> Repetição</a>
+  <ul class="collapse">
+  <li><a href="#por-que-repetir" id="toc-por-que-repetir" class="nav-link" data-scroll-target="#por-que-repetir"><span class="header-section-number">2.7.1</span> Por que repetir?</a></li>
+  <li><a href="#repetição-verdadeira-e-subamostragem" id="toc-repetição-verdadeira-e-subamostragem" class="nav-link" data-scroll-target="#repetição-verdadeira-e-subamostragem"><span class="header-section-number">2.7.2</span> Repetição verdadeira e subamostragem</a></li>
+  <li><a href="#repetição-dentro-de-um-experimento" id="toc-repetição-dentro-de-um-experimento" class="nav-link" data-scroll-target="#repetição-dentro-de-um-experimento"><span class="header-section-number">2.7.3</span> Repetição dentro de um experimento</a></li>
+  <li><a href="#repetindo-um-experimento" id="toc-repetindo-um-experimento" class="nav-link" data-scroll-target="#repetindo-um-experimento"><span class="header-section-number">2.7.4</span> Repetindo um experimento</a></li>
+  <li><a href="#combinando-experimentos-repetidos" id="toc-combinando-experimentos-repetidos" class="nav-link" data-scroll-target="#combinando-experimentos-repetidos"><span class="header-section-number">2.7.5</span> Combinando experimentos repetidos</a></li>
+  </ul></li>
+  <li><a href="#casualização" id="toc-casualização" class="nav-link" data-scroll-target="#casualização"><span class="header-section-number">2.8</span> Casualização</a>
+  <ul class="collapse">
+  <li><a href="#por-que-a-casualização-é-essencial" id="toc-por-que-a-casualização-é-essencial" class="nav-link" data-scroll-target="#por-que-a-casualização-é-essencial"><span class="header-section-number">2.8.1</span> Por que a casualização é essencial</a></li>
+  <li><a href="#alocação-aleatória-dos-tratamentos" id="toc-alocação-aleatória-dos-tratamentos" class="nav-link" data-scroll-target="#alocação-aleatória-dos-tratamentos"><span class="header-section-number">2.8.2</span> Alocação aleatória dos tratamentos</a></li>
+  <li><a href="#ordem-aleatória-das-medições" id="toc-ordem-aleatória-das-medições" class="nav-link" data-scroll-target="#ordem-aleatória-das-medições"><span class="header-section-number">2.8.3</span> Ordem aleatória das medições</a></li>
+  </ul></li>
+  <li><a href="#bloqueamento" id="toc-bloqueamento" class="nav-link" data-scroll-target="#bloqueamento"><span class="header-section-number">2.9</span> Bloqueamento</a>
+  <ul class="collapse">
+  <li><a href="#por-que-usar-blocos" id="toc-por-que-usar-blocos" class="nav-link" data-scroll-target="#por-que-usar-blocos"><span class="header-section-number">2.9.1</span> Por que usar blocos?</a></li>
+  <li><a href="#blocos-em-experimentos-de-campo" id="toc-blocos-em-experimentos-de-campo" class="nav-link" data-scroll-target="#blocos-em-experimentos-de-campo"><span class="header-section-number">2.9.2</span> Blocos em experimentos de campo</a></li>
+  <li><a href="#blocos-em-casa-de-vegetação-e-laboratório" id="toc-blocos-em-casa-de-vegetação-e-laboratório" class="nav-link" data-scroll-target="#blocos-em-casa-de-vegetação-e-laboratório"><span class="header-section-number">2.9.3</span> Blocos em casa de vegetação e laboratório</a></li>
+  <li><a href="#bloco-não-é-repetição" id="toc-bloco-não-é-repetição" class="nav-link" data-scroll-target="#bloco-não-é-repetição"><span class="header-section-number">2.9.4</span> Bloco não é repetição</a></li>
+  </ul></li>
+  <li><a href="#delineamentos-experimentais-comuns-em-fitopatologia" id="toc-delineamentos-experimentais-comuns-em-fitopatologia" class="nav-link" data-scroll-target="#delineamentos-experimentais-comuns-em-fitopatologia"><span class="header-section-number">2.10</span> Delineamentos experimentais comuns em Fitopatologia</a>
+  <ul class="collapse">
+  <li><a href="#delineamento-inteiramente-casualizado" id="toc-delineamento-inteiramente-casualizado" class="nav-link" data-scroll-target="#delineamento-inteiramente-casualizado"><span class="header-section-number">2.10.1</span> Delineamento inteiramente casualizado</a></li>
+  <li><a href="#delineamento-em-blocos-casualizados" id="toc-delineamento-em-blocos-casualizados" class="nav-link" data-scroll-target="#delineamento-em-blocos-casualizados"><span class="header-section-number">2.10.2</span> Delineamento em blocos casualizados</a></li>
+  <li><a href="#experimentos-fatoriais" id="toc-experimentos-fatoriais" class="nav-link" data-scroll-target="#experimentos-fatoriais"><span class="header-section-number">2.10.3</span> Experimentos fatoriais</a></li>
+  <li><a href="#parcelas-subdivididas-e-delineamentos-hierárquicos" id="toc-parcelas-subdivididas-e-delineamentos-hierárquicos" class="nav-link" data-scroll-target="#parcelas-subdivididas-e-delineamentos-hierárquicos"><span class="header-section-number">2.10.4</span> Parcelas subdivididas e delineamentos hierárquicos</a></li>
+  <li><a href="#medidas-repetidas-no-tempo" id="toc-medidas-repetidas-no-tempo" class="nav-link" data-scroll-target="#medidas-repetidas-no-tempo"><span class="header-section-number">2.10.5</span> Medidas repetidas no tempo</a></li>
+  </ul></li>
+  <li><a href="#problemas-comuns-de-delineamento-em-fitopatologia" id="toc-problemas-comuns-de-delineamento-em-fitopatologia" class="nav-link" data-scroll-target="#problemas-comuns-de-delineamento-em-fitopatologia"><span class="header-section-number">2.11</span> Problemas comuns de delineamento em Fitopatologia</a>
+  <ul class="collapse">
+  <li><a href="#pseudorrepetição" id="toc-pseudorrepetição" class="nav-link" data-scroll-target="#pseudorrepetição"><span class="header-section-number">2.11.1</span> Pseudorrepetição</a></li>
+  <li><a href="#confundimento" id="toc-confundimento" class="nav-link" data-scroll-target="#confundimento"><span class="header-section-number">2.11.2</span> Confundimento</a></li>
+  <li><a href="#ausência-de-testemunha-adequada" id="toc-ausência-de-testemunha-adequada" class="nav-link" data-scroll-target="#ausência-de-testemunha-adequada"><span class="header-section-number">2.11.3</span> Ausência de testemunha adequada</a></li>
+  <li><a href="#unidades-experimentais-inadequadas-ou-pouco-claras" id="toc-unidades-experimentais-inadequadas-ou-pouco-claras" class="nav-link" data-scroll-target="#unidades-experimentais-inadequadas-ou-pouco-claras"><span class="header-section-number">2.11.4</span> Unidades experimentais inadequadas ou pouco claras</a></li>
+  <li><a href="#tratar-repetições-técnicas-como-repetições-biológicas" id="toc-tratar-repetições-técnicas-como-repetições-biológicas" class="nav-link" data-scroll-target="#tratar-repetições-técnicas-como-repetições-biológicas"><span class="header-section-number">2.11.5</span> Tratar repetições técnicas como repetições biológicas</a></li>
+  <li><a href="#implementação-desigual-dos-tratamentos" id="toc-implementação-desigual-dos-tratamentos" class="nav-link" data-scroll-target="#implementação-desigual-dos-tratamentos"><span class="header-section-number">2.11.6</span> Implementação desigual dos tratamentos</a></li>
+  <li><a href="#poucos-experimentos-independentes" id="toc-poucos-experimentos-independentes" class="nav-link" data-scroll-target="#poucos-experimentos-independentes"><span class="header-section-number">2.11.7</span> Poucos experimentos independentes</a></li>
+  <li><a href="#medir-o-que-é-conveniente-e-não-o-que-responde-à-questão" id="toc-medir-o-que-é-conveniente-e-não-o-que-responde-à-questão" class="nav-link" data-scroll-target="#medir-o-que-é-conveniente-e-não-o-que-responde-à-questão"><span class="header-section-number">2.11.8</span> Medir o que é conveniente, e não o que responde à questão</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática-revisitando-um-experimento-de-manejo-da-doença" id="toc-pesquisa-na-prática-revisitando-um-experimento-de-manejo-da-doença" class="nav-link" data-scroll-target="#pesquisa-na-prática-revisitando-um-experimento-de-manejo-da-doença"><span class="header-section-number">2.12</span> Pesquisa na prática: revisitando um experimento de manejo da doença</a></li>
+  <li><a href="#planejando-um-estudo-antes-de-coletar-dados" id="toc-planejando-um-estudo-antes-de-coletar-dados" class="nav-link" data-scroll-target="#planejando-um-estudo-antes-de-coletar-dados"><span class="header-section-number">2.13</span> Planejando um estudo antes de coletar dados</a>
+  <ul class="collapse">
+  <li><a href="#um-roteiro-prático-de-planejamento" id="toc-um-roteiro-prático-de-planejamento" class="nav-link" data-scroll-target="#um-roteiro-prático-de-planejamento"><span class="header-section-number">2.13.1</span> Um roteiro prático de planejamento</a></li>
+  </ul></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">2.14</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">2.15</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">2.16</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-identificando-os-componentes-de-um-estudo" id="toc-exercício-1.-identificando-os-componentes-de-um-estudo" class="nav-link" data-scroll-target="#exercício-1.-identificando-os-componentes-de-um-estudo"><span class="header-section-number">2.16.1</span> Exercício 1. Identificando os componentes de um estudo</a></li>
+  <li><a href="#exercício-2.-unidade-experimental-ou-unidade-amostral" id="toc-exercício-2.-unidade-experimental-ou-unidade-amostral" class="nav-link" data-scroll-target="#exercício-2.-unidade-experimental-ou-unidade-amostral"><span class="header-section-number">2.16.2</span> Exercício 2. Unidade experimental ou unidade amostral?</a></li>
+  <li><a href="#exercício-3.-detectando-problemas-de-delineamento" id="toc-exercício-3.-detectando-problemas-de-delineamento" class="nav-link" data-scroll-target="#exercício-3.-detectando-problemas-de-delineamento"><span class="header-section-number">2.16.3</span> Exercício 3. Detectando problemas de delineamento</a></li>
+  <li><a href="#exercício-4.-delineando-um-estudo" id="toc-exercício-4.-delineando-um-estudo" class="nav-link" data-scroll-target="#exercício-4.-delineando-um-estudo"><span class="header-section-number">2.16.4</span> Exercício 4. Delineando um estudo</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">2.17</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">2.18</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Como delinear um estudo?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">2.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>explicar por que o delineamento do estudo determina a força da evidência científica;</li>
+<li>distinguir estudos observacionais de estudos experimentais;</li>
+<li>traduzir uma questão biológica em uma hipótese científica e em predições testáveis;</li>
+<li>identificar fatores, tratamentos, variáveis resposta, unidades experimentais e unidades amostrais;</li>
+<li>explicar os papéis da repetição, da casualização e do bloqueamento;</li>
+<li>distinguir a repetição dentro de um experimento da repetição do experimento;</li>
+<li>reconhecer pseudorrepetição, confundimento, ausência de testemunhas e outros problemas comuns de delineamento;</li>
+<li>avaliar criticamente o delineamento de estudos em Fitopatologia.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="por-que-o-delineamento-importa" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="por-que-o-delineamento-importa"><span class="header-section-number">2.2</span> Por que o delineamento importa</h2>
+<p>A qualidade da evidência científica é determinada muito antes do início da análise de dados. Ela é determinada quando a questão biológica é formulada, quando os tratamentos ou grupos são definidos, quando as unidades experimentais são escolhidas, quando a repetição e a casualização são planejadas e quando as medidas são selecionadas. A análise estatística é essencial para quantificar padrões e incertezas, mas não consegue criar evidência confiável se o estudo não foi delineado para produzi-la.</p>
+<p>Esse ponto é particularmente importante na Fitopatologia, porque muitos estudos envolvem sistemas biológicos complexos. O desenvolvimento da doença depende do hospedeiro, do patógeno, do ambiente e das práticas de manejo. Esses fatores variam entre plantas, parcelas, lavouras, casas de vegetação, laboratórios, safras e regiões. Se essa variação não for considerada no delineamento, pode se tornar impossível determinar se as diferenças observadas são causadas pelo fator de interesse ou por fontes de variação não controladas.</p>
+<p>Por exemplo, suponha que um pesquisador queira avaliar se um fungicida reduz a severidade da doença. Se as parcelas tratadas forem colocadas em uma parte da lavoura e as não tratadas em outra, o efeito do tratamento pode ficar confundido com um gradiente de solo, diferenças de umidade, pressão de inóculo ou desenvolvimento do dossel. Mesmo que a análise produza um valor-P pequeno, a conclusão continua fraca, porque o delineamento não permite separar o efeito do fungicida de outras diferenças no campo.</p>
+<p>Da mesma forma, em um experimento em casa de vegetação, se todas as plantas de um tratamento forem colocadas em uma bancada e todas as de outro tratamento em outra bancada, os efeitos dos tratamentos podem ficar confundidos com diferenças de luz, temperatura, umidade ou circulação de ar entre as bancadas. Em um experimento em câmara de crescimento, se cada temperatura for representada por uma única câmara, o efeito da temperatura não pode ser separado do efeito da câmara. Em um experimento de laboratório, se muitos esporos ou colônias forem medidos na mesma placa de Petri, essas medidas não representam necessariamente repetições independentes, se a placa for a unidade à qual o tratamento foi aplicado.</p>
+<p>Esses exemplos ilustram um princípio central: a análise estatística não compensa um estudo mal delineado. Um modelo mais complexo, uma transformação diferente ou um teste mais sofisticado não conseguem reparar completamente problemas como confundimento, ausência de repetição verdadeira, unidades experimentais mal definidas, alocação tendenciosa dos tratamentos ou medidas inadequadas. Nesses casos, a fragilidade não é apenas analítica; ela está embutida na forma como a evidência foi produzida.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A análise estatística pode quantificar a incerteza, mas não pode salvar um estudo sem delineamento adequado, sem unidades experimentais válidas ou sem repetição verdadeira.</p>
+</div>
+</div>
+</section>
+<section id="da-questão-biológica-ao-estudo" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="da-questão-biológica-ao-estudo"><span class="header-section-number">2.3</span> Da questão biológica ao estudo</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter2-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter2-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-02e85a427068376e5766" style="width:100%;height:640px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-02e85a427068376e5766">{"x":{"diagram":"\ndigraph delineamento {\n  graph [rankdir = TB, nodesep = 0.9, ranksep = 0.32, bgcolor = \"transparent\"]\n  node  [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\",\n         fontsize = 15, width = 3.6, height = 0.62, penwidth = 1.4,\n         margin = \"0.25,0.10\"]\n  edge  [color = \"#3f6b2a\", arrowsize = 0.7, penwidth = 1.4,\n         fontname = \"Helvetica\", fontsize = 13]\n\n  q    [label = <<b>Questão biológica<\/b>>,\n        fillcolor = \"#f1f6ec\", color = \"#6f9a4f\", fontcolor = \"#24301f\"]\n  h    [label = <<b>Hipótese científica<\/b>>,\n        fillcolor = \"#f1f6ec\", color = \"#6f9a4f\", fontcolor = \"#24301f\"]\n  p    [label = <<b>Predições testáveis<\/b>>,\n        fillcolor = \"#f1f6ec\", color = \"#6f9a4f\", fontcolor = \"#24301f\"]\n  m    [label = <<b>O sistema pode ser manipulado?<\/b>>, width = 4.2,\n        fillcolor = \"#ecf2fa\", color = \"#3f6fa8\", fontcolor = \"#1d3557\"]\n  exp  [label = <<b>Estudo experimental<\/b>>, width = 2.6,\n        fillcolor = \"#f1f6ec\", color = \"#6f9a4f\", fontcolor = \"#24301f\"]\n  obs  [label = <<b>Estudo observacional<\/b>>, width = 2.6,\n        fillcolor = \"#ecf2fa\", color = \"#3f6fa8\", fontcolor = \"#1d3557\"]\n  col  [label = <<b>Planejar a coleta de dados<\/b>>,\n        fillcolor = \"#fdf6e3\", color = \"#d9a62e\", fontcolor = \"#8a5f00\"]\n  dat  [label = <<b>Dados<\/b>>,\n        fillcolor = \"#f3eff8\", color = \"#7b5ea7\", fontcolor = \"#4b2f73\"]\n\n  {rank = same; exp; obs}\n\n  q -> h -> p -> m\n  m -> exp [label = \"  Sim\", fontcolor = \"#3f6b2a\"]\n  m -> obs [label = \"  Não\", fontcolor = \"#3f6fa8\", color = \"#3f6fa8\"]\n  exp -> col\n  obs -> col [color = \"#3f6fa8\"]\n  col -> dat [color = \"#d9a62e\"]\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter2-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.1: Da questão biológica à evidência científica.
+</figcaption>
+</figure>
+</div>
+</div>
+<section id="questões-biológicas" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="questões-biológicas"><span class="header-section-number">2.3.1</span> Questões biológicas</h3>
+<p>Uma questão biológica expressa o que o pesquisador quer compreender sobre um patossistema. Ela pode surgir de observações de campo, de estudos anteriores, de resultados experimentais inesperados ou de problemas práticos de manejo. Nessa etapa, a questão deve ser formulada em termos biológicos, e não estatísticos.</p>
+<p>Por exemplo, um pesquisador pode perguntar:</p>
+<ul>
+<li>Por que a doença causa mais danos em algumas lavouras do que em outras?</li>
+<li>Um fungicida reduz a severidade da doença?</li>
+<li>Uma prática cultural reduz o inóculo inicial?</li>
+<li>Algumas cultivares são menos suscetíveis do que outras?</li>
+<li>A temperatura influencia a infecção?</li>
+<li>A infecção pelo patógeno altera a fisiologia da planta?</li>
+</ul>
+<p>Essas questões diferem em escopo, mas todas identificam um fenômeno biológico que exige explicação ou avaliação. Algumas tratam de causas; outras, de comparações, relações, mecanismos ou consequências. Uma boa questão biológica deve ser ampla o suficiente para ter relevância científica, mas específica o suficiente para orientar o estudo.</p>
+<p>Por exemplo, a questão: <strong>O manejo da doença funciona?</strong> é ampla demais. Uma versão mais útil seria: <strong>A aplicação de fungicida reduz a incidência de brusone do trigo em condições de campo?</strong> A questão revisada identifica a intervenção, a doença, a resposta de interesse e o contexto do estudo. Ela também começa a sugerir o tipo de estudo necessário.</p>
+<p>Da mesma forma, a questão: <strong>O clima afeta a doença?</strong> é biologicamente relevante, mas genérica demais. Uma questão mais precisa seria: <strong>Como a temperatura e a duração do molhamento foliar influenciam a infecção por um patógeno foliar?</strong> Essa versão identifica duas variáveis ambientais e as relaciona a um processo biológico específico: a infecção.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma questão biológica útil deixa claro qual sistema está sendo estudado, qual resposta interessa e qual comparação, relação ou mecanismo motiva o estudo.</p>
+</div>
+</div>
+</section>
+<section id="hipóteses-científicas" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="hipóteses-científicas"><span class="header-section-number">2.3.2</span> Hipóteses científicas</h3>
+<p>Uma hipótese científica é uma expectativa ou explicação com fundamento biológico. Ela propõe uma resposta possível à questão biológica e fornece o raciocínio que liga a questão às observações esperadas.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Questão biológica</th>
+<th>Hipótese científica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Um fungicida reduz a severidade da doença?</td>
+<td>Plantas tratadas com fungicida desenvolverão menos doença porque o produto suprime a infecção ou a colonização pelo patógeno.</td>
+</tr>
+<tr class="even">
+<td>As cultivares diferem em resistência?</td>
+<td>As cultivares diferem em resistência porque variam em características que limitam o estabelecimento do patógeno, a colonização ou o desenvolvimento de sintomas.</td>
+</tr>
+<tr class="odd">
+<td>A temperatura influencia a infecção?</td>
+<td>A eficiência de infecção aumenta dentro de uma faixa favorável de temperatura e diminui quando a temperatura está baixa ou alta demais para o desenvolvimento do patógeno.</td>
+</tr>
+<tr class="even">
+<td>A infecção altera a fisiologia da planta?</td>
+<td>Plantas infectadas apresentam menor atividade fotossintética porque a colonização pelo patógeno danifica o tecido foliar e perturba o metabolismo do hospedeiro.</td>
+</tr>
+</tbody>
+</table>
+<p>Uma hipótese científica é diferente de uma hipótese estatística. A hipótese científica é expressa em linguagem biológica e está ligada a mecanismos, processos ou efeitos esperados. Uma hipótese estatística, como a hipótese nula, é um enunciado analítico formal usado mais tarde para avaliar a evidência dos dados.</p>
+<p>Por exemplo, a hipótese científica: <strong>A aplicação de fungicida reduz a severidade da doença.</strong> pode ser representada estatisticamente como uma comparação entre a severidade média das parcelas tratadas e não tratadas. No entanto, a hipótese estatística não é a ideia científica em si. É apenas uma forma de avaliar a evidência relacionada a essa ideia.</p>
+<p>Vale notar que as hipóteses científicas pertencem ao raciocínio biológico do estudo, enquanto as hipóteses estatísticas pertencem ao arcabouço analítico usado para avaliar a evidência. Essa distinção é importante porque um estudo pode produzir evidência biológica útil mesmo quando o teste estatístico não é o componente central da investigação. No primeiro relato de uma doença, por exemplo, a hipótese diz respeito à identidade e à patogenicidade do organismo causal. A evidência pode vir de sintomas, isolamento, morfologia, sequências de DNA, análise filogenética, testes de patogenicidade e reisolamento. A lógica é biológica, mesmo quando alguns componentes são quantitativos.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Falseabilidade">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Falseabilidade
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma característica importante de uma boa hipótese é a falseabilidade. Uma hipótese é falseável quando faz predições que, em princípio, poderiam ser contrariadas pelas evidências. Por exemplo, a hipótese de que “um fungicida reduz a severidade da doença em condições de campo” pode ser testada comparando parcelas tratadas e não tratadas. Se as parcelas tratadas não apresentarem menor severidade em condições experimentais adequadas, a hipótese não é sustentada. Falseabilidade não significa que a hipótese seja falsa; significa que a hipótese é científica porque se expõe à possível contradição pelos dados. Nesse sentido, hipóteses não são meras declarações de crença. São expectativas estruturadas que ajudam os pesquisadores a delinear estudos, coletar dados relevantes e avaliar se as observações sustentam ou contestam uma explicação biológica.</p>
+</div>
+</div>
+</section>
+<section id="predições-testáveis" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="predições-testáveis"><span class="header-section-number">2.3.3</span> Predições testáveis</h3>
+<p>Uma hipótese torna-se útil para delinear um estudo quando é traduzida em predições: enunciados sobre o que deveria ser observado, sob condições especificadas, se a hipótese estiver correta. As predições ligam a explicação geral aos dados específicos que o estudo vai produzir.</p>
+<p>Por exemplo, a hipótese de que um fungicida reduz a doença porque suprime a infecção leva a predições como:</p>
+<ul>
+<li>parcelas pulverizadas com o fungicida terão menor severidade do que parcelas não tratadas nas mesmas condições;</li>
+<li>a diferença será maior quando a pressão da doença for alta do que quando for baixa;</li>
+<li>o efeito será mais forte quando o fungicida for aplicado antes da infecção do que após o aparecimento dos sintomas.</li>
+</ul>
+<p>Cada predição especifica uma comparação e as condições em que ela deve se verificar. A primeira sugere um ensaio de campo com parcelas tratadas e não tratadas; a segunda, repetir o ensaio em ambientes com diferentes pressões de doença; a terceira, comparar épocas de aplicação. Assim, as predições orientam a escolha de tratamentos, testemunhas, condições e medidas.</p>
+<p>Uma predição útil também especifica o que contaria como evidência contra a hipótese. Se parcelas tratadas e não tratadas apresentarem severidade semelhante em uma safra de alta pressão de doença e com aplicação adequada, a hipótese não é sustentada. Pensar com antecedência nos resultados que contradiriam a hipótese ajuda a garantir que o estudo seja capaz de produzir evidência informativa em qualquer direção.</p>
+</section>
+<section id="definições-operacionais" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="definições-operacionais"><span class="header-section-number">2.3.4</span> Definições operacionais</h3>
+<p>Muitos conceitos em Fitopatologia são abstratos: resistência, agressividade, controle da doença, infecção, tolerância ou suscetibilidade. Para serem estudados, precisam ser traduzidos em grandezas mensuráveis. Uma definição operacional estabelece exatamente como um conceito será observado ou medido em um estudo específico.</p>
+<div id="tbl-ch2-operational" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch2-operational-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2.1: Exemplos de definições operacionais de conceitos comuns em Fitopatologia.
+</figcaption>
+<div aria-describedby="tbl-ch2-operational-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Conceito</th>
+<th>Definições operacionais possíveis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Controle da doença</td>
+<td>Redução da severidade (% da área foliar afetada) em relação à testemunha na última avaliação</td>
+</tr>
+<tr class="even">
+<td>Resistência</td>
+<td>Número de lesões por cm² de folha, período latente ou severidade final após inoculação padronizada</td>
+</tr>
+<tr class="odd">
+<td>Agressividade</td>
+<td>Taxa de expansão das lesões (mm/dia) em uma cultivar suscetível</td>
+</tr>
+<tr class="even">
+<td>Infecção</td>
+<td>Presença de sintomas 14 dias após a inoculação, ou DNA do patógeno detectado por qPCR</td>
+</tr>
+<tr class="odd">
+<td>Perda de produtividade</td>
+<td>Diferença de produtividade comercial (kg/ha) entre parcelas protegidas e não protegidas</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Diferentes definições operacionais do mesmo conceito podem levar a conclusões diferentes. Uma cultivar pode ser resistente segundo o número de lesões, mas não segundo o tamanho das lesões; um fungicida pode reduzir a severidade sem aumentar a produtividade. As definições operacionais devem, portanto, ser escolhidas para representar a questão biológica da forma mais fiel possível e ser declaradas explicitamente, para que os leitores possam avaliá-las e reproduzi-las.</p>
+</section>
+</section>
+<section id="estudos-observacionais-e-experimentais" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="estudos-observacionais-e-experimentais"><span class="header-section-number">2.4</span> Estudos observacionais e experimentais</h2>
+<section id="estudos-observacionais" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="estudos-observacionais"><span class="header-section-number">2.4.1</span> Estudos observacionais</h3>
+<p>Em um estudo observacional, o pesquisador observa e registra as condições como elas ocorrem, sem atribuí-las deliberadamente às unidades estudadas. O pesquisador pode escolher onde, quando e o que observar, mas não controla quais unidades são expostas a quais condições.</p>
+<p>Estudos observacionais são comuns e valiosos em Fitopatologia. Exemplos incluem levantamentos que registram a prevalência de uma doença em lavouras e regiões, programas de monitoramento regional que acompanham a doença ao longo de vários anos, estudos que relacionam variáveis meteorológicas à intensidade da doença, levantamentos de populações de patógenos e de sua distribuição, questionários sobre práticas de manejo dos produtores e análises retrospectivas de bases de dados acumuladas por serviços de extensão ou programas de melhoramento.</p>
+<p>Esses estudos descrevem o mundo como ele é, muitas vezes em grandes áreas, ao longo de longos períodos e em condições reais de produção. Sua principal limitação é que as condições de interesse não são atribuídas pelo pesquisador. Lavouras pulverizadas com mais frequência também podem diferir em cultivar, data de semeadura, intensidade de manejo e localização, de modo que as diferenças na doença não podem ser atribuídas com segurança apenas às pulverizações.</p>
+</section>
+<section id="estudos-experimentais" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="estudos-experimentais"><span class="header-section-number">2.4.2</span> Estudos experimentais</h3>
+<p>Em um estudo experimental, o pesquisador impõe deliberadamente condições, chamadas tratamentos, às unidades experimentais e observa a resposta. Idealmente, os tratamentos são atribuídos por sorteio, de modo que as unidades que recebem tratamentos diferentes sejam comparáveis em todos os outros aspectos.</p>
+<p>Estudos experimentais em Fitopatologia incluem ensaios de eficácia de fungicidas, comparações de cultivares sob inoculação natural ou artificial, inoculações controladas com diferentes isolados ou concentrações de inóculo, experimentos em câmara de crescimento manipulando temperatura e molhamento foliar e estudos em casa de vegetação testando o efeito de nutrição, irrigação ou agentes de controle biológico sobre a doença.</p>
+<p>Como o pesquisador controla os tratamentos, os experimentos permitem separar o efeito do tratamento de outras fontes de variação. Sua principal limitação é que as condições controladas podem não representar a diversidade de condições da produção comercial. Um ranqueamento de cultivares obtido em câmara de crescimento com um único isolado pode não se confirmar no campo, sob inóculo natural.</p>
+</section>
+<section id="o-que-cada-tipo-de-estudo-permite-concluir" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="o-que-cada-tipo-de-estudo-permite-concluir"><span class="header-section-number">2.4.3</span> O que cada tipo de estudo permite concluir</h3>
+<p>Estudos observacionais são adequados para descrever padrões, estimar a frequência de uma doença, identificar associações, gerar hipóteses e estudar fenômenos que não podem ser manipulados, como o clima regional ou tendências de longo prazo. Associações encontradas em estudos observacionais podem refletir efeitos causais, mas também podem refletir variáveis de confundimento que influenciam tanto a suposta causa quanto a resposta.</p>
+<p>Estudos experimentais são mais adequados para avaliar efeitos causais de intervenções, porque a alocação aleatória dos tratamentos torna improvável que outras diferenças entre os grupos expliquem os resultados. Suas conclusões, porém, aplicam-se mais diretamente às condições em que o experimento foi conduzido. Generalizar para outros ambientes, safras ou sistemas de produção exige repetir o experimento nessas condições ou combinar evidências experimentais e observacionais.</p>
+<p>Na prática, as duas abordagens se complementam. Um levantamento pode revelar que a doença é mais severa em lavouras semeadas mais cedo; um experimento pode então testar se a data de semeadura afeta a doença em comparações controladas; e novos levantamentos podem avaliar se a mudança recomendada na data de semeadura reduz a doença em uma região.</p>
+<div id="tbl-ch2-observational-experimental" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch2-observational-experimental-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2.2: Comparação geral entre estudos observacionais e experimentais.
+</figcaption>
+<div aria-describedby="tbl-ch2-observational-experimental-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th>Estudo observacional</th>
+<th>Estudo experimental</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>O pesquisador manipula as condições</td>
+<td>Não</td>
+<td>Sim</td>
+</tr>
+<tr class="even">
+<td>Os tratamentos são impostos deliberadamente</td>
+<td>Não</td>
+<td>Geralmente</td>
+</tr>
+<tr class="odd">
+<td>Principal ponto forte</td>
+<td>Descreve padrões e associações</td>
+<td>Avalia efeitos em comparações controladas</td>
+</tr>
+<tr class="even">
+<td>Exemplos comuns em Fitopatologia</td>
+<td>Levantamentos, monitoramento, bases de dados regionais</td>
+<td>Ensaios de campo, ensaios em casa de vegetação, experimentos de laboratório</td>
+</tr>
+<tr class="odd">
+<td>Principal limitação</td>
+<td>Confundimento e inferência causal limitada</td>
+<td>Realismo ou capacidade de generalização podem ser limitados</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="os-componentes-básicos-de-um-estudo" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="os-componentes-básicos-de-um-estudo"><span class="header-section-number">2.5</span> Os componentes básicos de um estudo</h2>
+<section id="fatores-e-tratamentos" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="fatores-e-tratamentos"><span class="header-section-number">2.5.1</span> Fatores e tratamentos</h3>
+<p>Um <strong>fator</strong> é uma variável cujo efeito sobre a resposta está sendo estudado. Cada fator tem <strong>níveis</strong>, que são os valores ou categorias específicos comparados. Em um ensaio de fungicidas, o fator é o programa de fungicida, e os níveis podem ser a testemunha e três produtos. Em um estudo em câmara de crescimento, a temperatura é um fator com níveis como 15, 20, 25 e 30 °C.</p>
+<p>Um <strong>tratamento</strong> é a condição específica aplicada a uma unidade experimental. Quando o estudo tem um único fator, cada nível é um tratamento. Quando tem vários fatores, cada tratamento é uma combinação de níveis: um experimento com três cultivares e dois programas de fungicida tem seis tratamentos. Exemplos de fatores em Fitopatologia incluem fungicidas e suas doses ou épocas de aplicação, cultivares, inoculação (inoculado ou não inoculado), isolados, concentração de inóculo, temperatura, duração do molhamento e regimes de nutrição ou irrigação.</p>
+<p>Os tratamentos devem ser definidos com precisão: produto, dose, época, método de aplicação e número de aplicações, no caso de um fungicida; isolado, concentração de inóculo e método, no caso de uma inoculação. Tratamentos definidos de forma imprecisa não podem ser reproduzidos e tornam os resultados difíceis de interpretar.</p>
+</section>
+<section id="variáveis-resposta" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="variáveis-resposta"><span class="header-section-number">2.5.2</span> Variáveis resposta</h3>
+<p>Uma variável resposta é a grandeza medida para avaliar o efeito dos fatores. Incidência, severidade, número de lesões, tamanho das lesões, período latente, esporulação, biomassa do patógeno, produtividade e variáveis fisiológicas como a taxa fotossintética são respostas comuns.</p>
+<p>A <strong>resposta principal</strong> é a variável que responde mais diretamente à questão biológica e na qual se baseiam as conclusões principais. As <strong>respostas secundárias</strong> fornecem informações complementares. Em um ensaio de fungicidas cujo objetivo é proteger a produtividade, a produtividade pode ser a resposta principal, e a severidade e a incidência, respostas secundárias que ajudam a explicar os resultados de produtividade.</p>
+<p>A resposta deve representar a questão biológica. Um estudo que pretende reduzir perdas de produtividade, mas mede apenas a severidade no início da safra, não consegue mostrar se a produtividade foi protegida. Um estudo de resistência que mede apenas a incidência pode não detectar diferenças na velocidade de desenvolvimento das lesões. A escolha da resposta também envolve considerações práticas: precisão, custo, tempo necessário e possibilidade de que diferentes avaliadores façam a medida de forma consistente.</p>
+</section>
+<section id="variáveis-explicativas-e-covariáveis" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="variáveis-explicativas-e-covariáveis"><span class="header-section-number">2.5.3</span> Variáveis explicativas e covariáveis</h3>
+<p>Variáveis explicativas são as usadas para explicar a variação na resposta. Em experimentos, as principais variáveis explicativas são os fatores manipulados deliberadamente pelo pesquisador. Outras variáveis explicativas são medidas, e não manipuladas: doença inicial, altura das plantas, umidade do solo ou temperatura registrada durante o experimento.</p>
+<p>Variáveis medidas que não são de interesse principal, mas podem influenciar a resposta, são chamadas <strong>covariáveis</strong> ou variáveis de perturbação. Registrá-las permite que análises posteriores levem em conta parte da variação que causam, melhorando a precisão e ajudando a interpretar resultados inesperados. Por exemplo, registrar o nível inicial de doença em cada parcela antes da primeira aplicação de fungicida permite levar em conta diferenças entre parcelas que já existiam antes dos tratamentos. Como essas variáveis são usadas na análise é discutido em capítulos posteriores; na etapa de delineamento, a decisão-chave é identificá-las e registrá-las.</p>
+</section>
+<section id="testemunhas-e-condições-de-referência" class="level3" data-number="2.5.4">
+<h3 data-number="2.5.4" class="anchored" data-anchor-id="testemunhas-e-condições-de-referência"><span class="header-section-number">2.5.4</span> Testemunhas e condições de referência</h3>
+<p>Uma testemunha (ou controle) é uma condição de referência com a qual os tratamentos são comparados. Sem uma testemunha adequada, não há como saber o que teria acontecido sem o tratamento. Vários tipos de testemunha são comuns em Fitopatologia:</p>
+<ul>
+<li><strong>testemunhas sem tratamento</strong>, que não recebem fungicida nem prática de manejo e mostram o nível de doença na ausência da intervenção;</li>
+<li><strong>testemunhas não inoculadas</strong>, que mostram se ocorrem sintomas sem o patógeno e ajudam a detectar contaminação ou infecção natural;</li>
+<li><strong>padrões suscetíveis e resistentes</strong>, cultivares de resposta conhecida que confirmam se a pressão da doença foi adequada e servem de referência para novos genótipos;</li>
+<li><strong>controles positivos</strong>, tratamentos sabidamente eficazes, como um fungicida-padrão, com os quais novos produtos são comparados;</li>
+<li><strong>controles negativos</strong>, como água ou amostras em branco em ensaios de laboratório, que detectam resultados falso-positivos;</li>
+<li><strong>controles de procedimento</strong>, que recebem todas as manipulações exceto o componente ativo, como plantas pulverizadas com água e espalhante, ou plantas inoculadas apenas com o veículo (<em>mock</em>).</li>
+</ul>
+<p>A escolha da testemunha depende da questão. Para saber se um novo fungicida controla a doença, é necessária uma testemunha sem tratamento. Para saber se ele é melhor que a prática atual, também é necessário um fungicida-padrão. Para saber se os sintomas são causados pelo patógeno inoculado, testemunhas não inoculadas ou inoculadas apenas com o veículo são essenciais.</p>
+</section>
+</section>
+<section id="unidades-experimentais-e-unidades-amostrais" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="unidades-experimentais-e-unidades-amostrais"><span class="header-section-number">2.6</span> Unidades experimentais e unidades amostrais</h2>
+<section id="o-que-é-uma-unidade-experimental" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="o-que-é-uma-unidade-experimental"><span class="header-section-number">2.6.1</span> O que é uma unidade experimental?</h3>
+<p>A unidade experimental é a menor unidade à qual um tratamento é atribuído de forma independente. É a unidade que poderia, em princípio, ter recebido qualquer um dos tratamentos, e é o número dessas unidades que determina a repetição verdadeira do experimento.</p>
+<p>A unidade experimental depende de como o experimento é conduzido, e não do que é medido. Se cada placa de Petri recebe uma concentração de fungicida, a placa é a unidade experimental. Se cada vaso recebe uma concentração de inóculo, o vaso é a unidade experimental, mesmo que contenha cinco plantas. Se cada parcela é pulverizada com um fungicida, a parcela é a unidade experimental, mesmo que centenas de plantas sejam avaliadas. Se uma lavoura inteira recebe uma prática de manejo, a lavoura é a unidade experimental. Se uma temperatura é aplicada a uma câmara de crescimento inteira, a câmara é a unidade experimental para a temperatura, não importa quantas plantas contenha.</p>
+</section>
+<section id="o-que-é-uma-unidade-amostral" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="o-que-é-uma-unidade-amostral"><span class="header-section-number">2.6.2</span> O que é uma unidade amostral?</h3>
+<p>A unidade amostral é a unidade na qual as medidas são feitas. Ela pode coincidir com a unidade experimental, mas muitas vezes é menor: folhas dentro de uma planta, plantas dentro de uma parcela, lesões dentro de uma folha, colônias dentro de uma placa. Medir várias unidades amostrais dentro de cada unidade experimental chama-se <strong>subamostragem</strong>.</p>
+<p>A subamostragem é útil. Ela fornece uma estimativa mais precisa da resposta de cada unidade experimental e informação sobre a variabilidade dentro das unidades. No entanto, as subamostras não são repetições independentes do tratamento, porque compartilham as condições da mesma unidade experimental. Dez folhas de uma parcela pulverizada fornecem informação sobre aquela parcela, e não dez testes independentes do fungicida.</p>
+</section>
+<section id="hierarquias-de-observação" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="hierarquias-de-observação"><span class="header-section-number">2.6.3</span> Hierarquias de observação</h3>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter2-2" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter2-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-db8981e7aa44d73fe808" style="width:100%;height:520px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-db8981e7aa44d73fe808">{"x":{"diagram":"\ndigraph hierarquia {\n  graph [rankdir = TB, nodesep = 0.35, ranksep = 0.22, bgcolor = \"transparent\",\n         fontname = \"Helvetica\", fontsize = 16, labeljust = \"l\"]\n  node  [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\",\n         fontsize = 14, width = 2.5, height = 0.5, penwidth = 1.2,\n         fillcolor = \"#fafafa\", color = \"#cccccc\", fontcolor = \"#333333\"]\n  edge  [arrowsize = 0.6, penwidth = 1.1]\n\n  subgraph cluster_a {\n    label = <<b>A. Experimento de campo<\/b>>; fontcolor = \"#3f6b2a\"; color = \"transparent\"\n    a1 [label = \"Lavoura\"]\n    a2 [label = <<b>Parcela<\/b>>, fillcolor = \"#eef6e8\", color = \"#4f7d2f\", penwidth = 2.2, fontcolor = \"#2f5a1a\"]\n    a3 [label = \"Planta\"]\n    a4 [label = \"Folha\"]\n    a5 [label = \"Lesão\"]\n    a6 [label = <Medida<br/><font point-size=\"11\">(ex.: severidade)<\/font>>]\n    edge [color = \"#4f7d2f\"]\n    a1 -> a2 -> a3 -> a4 -> a5 -> a6\n  }\n\n  subgraph cluster_b {\n    label = <<b>B. Experimento em casa de vegetação<\/b>>; fontcolor = \"#1f5fa8\"; color = \"transparent\"\n    b1 [label = \"Compartimento\"]\n    b2 [label = \"Vaso\"]\n    b3 [label = <<b>Planta<\/b>>, fillcolor = \"#eaf2fb\", color = \"#1f5fa8\", penwidth = 2.2, fontcolor = \"#1d3557\"]\n    b4 [label = \"Folha\"]\n    b5 [label = \"Lesão\"]\n    b6 [label = <Medida<br/><font point-size=\"11\">(ex.: severidade)<\/font>>]\n    edge [color = \"#1f5fa8\"]\n    b1 -> b2 -> b3 -> b4 -> b5 -> b6\n  }\n\n  subgraph cluster_c {\n    label = <<b>C. Experimento de laboratório<\/b>>; fontcolor = \"#6c4f9e\"; color = \"transparent\"\n    c1 [label = <<b>Placa de Petri<\/b>>, fillcolor = \"#f2edf8\", color = \"#6c4f9e\", penwidth = 2.2, fontcolor = \"#4b2f73\"]\n    c2 [label = \"Colônia\"]\n    c3 [label = \"Esporo\"]\n    c4 [label = \"Estrutura microscópica\"]\n    c5 [label = <Medida<br/><font point-size=\"11\">(ex.: diâmetro, esporulação)<\/font>>]\n    edge [color = \"#6c4f9e\"]\n    c1 -> c2 -> c3 -> c4 -> c5\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter2-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.2: Exemplos de organização hierárquica em estudos de Fitopatologia. A unidade experimental varia com o delineamento e é determinada pelo nível em que os tratamentos são atribuídos de forma independente; os níveis destacados indicam a unidade experimental em cada exemplo. Medidas obtidas em níveis hierárquicos inferiores (por exemplo, plantas, folhas, lesões ou colônias) representam unidades amostrais e não devem ser confundidas com repetição verdadeira.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>As observações em Fitopatologia costumam estar organizadas em hierarquias: lavouras contêm parcelas, parcelas contêm plantas, plantas contêm folhas e folhas contêm lesões. Da mesma forma, câmaras de crescimento contêm bandejas, bandejas contêm vasos e vasos contêm plantas; incubadoras contêm placas de Petri, e placas contêm colônias.</p>
+<p>Identificar a hierarquia é a chave para identificar a unidade experimental. A regra é encontrar o nível em que os tratamentos foram atribuídos de forma independente. Os níveis acima dele costumam ser blocos ou ambientes; os níveis abaixo dele são unidades amostrais. A mesma hierarquia deve estar refletida na organização dos dados (Capítulo 3) e na análise estatística.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Fonte comum de confusão">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Aviso</span>Fonte comum de confusão
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Várias folhas medidas na mesma planta, várias lesões medidas na mesma folha ou várias colônias medidas na mesma placa de Petri não constituem, automaticamente, repetições independentes.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="repetição" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="repetição"><span class="header-section-number">2.7</span> Repetição</h2>
+<section id="por-que-repetir" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="por-que-repetir"><span class="header-section-number">2.7.1</span> Por que repetir?</h3>
+<p>Unidades biológicas diferem entre si. Mesmo sob o mesmo tratamento, plantas diferem em tamanho e vigor, parcelas diferem em solo e microclima, e inoculações diferem no número de esporos que chegam e germinam. Por causa dessa variabilidade natural, a resposta de uma única unidade não permite saber se uma diferença entre tratamentos é causada pelo tratamento ou por diferenças casuais entre unidades.</p>
+<p>A repetição — a aplicação de cada tratamento a várias unidades experimentais independentes — resolve esse problema. Ela permite estimar a variação entre unidades que recebem o mesmo tratamento, chamada erro experimental. Essa estimativa é a base para julgar se as diferenças entre tratamentos são maiores do que o esperado pela variabilidade natural. A repetição também aumenta a precisão, porque a média de várias unidades estima o efeito do tratamento com mais confiabilidade do que uma única unidade, e aumenta a robustez, porque os resultados não dependem das peculiaridades de uma unidade.</p>
+</section>
+<section id="repetição-verdadeira-e-subamostragem" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="repetição-verdadeira-e-subamostragem"><span class="header-section-number">2.7.2</span> Repetição verdadeira e subamostragem</h3>
+<p>Repetição verdadeira significa que cada repetição é uma unidade experimental independente que recebeu o tratamento separadamente. Subamostragem significa fazer várias medidas na mesma unidade experimental. Somente a repetição verdadeira fornece uma estimativa do erro experimental adequada para comparar tratamentos.</p>
+<p>Considere um experimento em casa de vegetação comparando dois isolados, com um vaso por isolado e dez plantas por vaso. O experimento tem dez medidas por isolado, mas apenas uma unidade experimental por isolado. Qualquer diferença entre os dois vasos — posição na bancada, irrigação ou inoculação — é indistinguível da diferença entre os isolados. Com cinco vasos por isolado e duas plantas por vaso, o mesmo número de plantas forneceria cinco repetições verdadeiras por isolado.</p>
+<div id="tbl-ch2-replication" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch2-replication-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;2.3: Unidades experimentais, unidades amostrais e repetição verdadeira em estudos típicos.
+</figcaption>
+<div aria-describedby="tbl-ch2-replication-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situação</th>
+<th>Unidade experimental</th>
+<th>Unidade amostral</th>
+<th>Repetições verdadeiras por tratamento</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>4 placas por dose de fungicida, 3 colônias medidas por placa</td>
+<td>Placa de Petri</td>
+<td>Colônia</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>6 vasos por isolado, 5 plantas por vaso</td>
+<td>Vaso</td>
+<td>Planta</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>4 parcelas por fungicida, 20 folhas avaliadas por parcela</td>
+<td>Parcela</td>
+<td>Folha</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>1 câmara por temperatura, 30 plantas por câmara</td>
+<td>Câmara</td>
+<td>Planta</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="repetição-dentro-de-um-experimento" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="repetição-dentro-de-um-experimento"><span class="header-section-number">2.7.3</span> Repetição dentro de um experimento</h3>
+<p>Dentro de um único experimento, a repetição consiste em atribuir cada tratamento a várias parcelas, plantas, vasos ou placas. O número de repetições necessário depende da variabilidade da resposta, do tamanho da diferença biologicamente importante e de restrições práticas. Ensaios de campo em Fitopatologia costumam usar de quatro a seis parcelas por tratamento; experimentos em casa de vegetação e laboratório frequentemente usam mais unidades, porque cada uma é mais barata. A relação entre o número de repetições e a capacidade de detectar efeitos é discutida no Capítulo 6.</p>
+</section>
+<section id="repetindo-um-experimento" class="level3" data-number="2.7.4">
+<h3 data-number="2.7.4" class="anchored" data-anchor-id="repetindo-um-experimento"><span class="header-section-number">2.7.4</span> Repetindo um experimento</h3>
+<p>A repetição dentro de um experimento leva em conta a variabilidade entre unidades nas condições daquele experimento. Ela não leva em conta a variação entre execuções, safras, locais ou anos. Um fungicida com bom desempenho em uma safra pode ter desempenho diferente em uma safra com outro clima ou outra pressão de doença; um experimento em câmara de crescimento pode dar resultados diferentes com um novo lote de inóculo ou outro conjunto de plantas.</p>
+<p>Por isso, os experimentos são frequentemente repetidos de forma independente: em diferentes safras ou anos, em diferentes locais ou como execuções separadas, com novas plantas e novo inóculo. Muitas revistas de Fitopatologia exigem que experimentos em ambiente controlado sejam conduzidos pelo menos duas vezes. A repetição do experimento mostra se os resultados são consistentes e amplia a gama de condições às quais as conclusões se aplicam.</p>
+</section>
+<section id="combinando-experimentos-repetidos" class="level3" data-number="2.7.5">
+<h3 data-number="2.7.5" class="anchored" data-anchor-id="combinando-experimentos-repetidos"><span class="header-section-number">2.7.5</span> Combinando experimentos repetidos</h3>
+<p>Quando um experimento é repetido, os resultados das diferentes execuções podem ser analisados em conjunto. Uma análise conjunta pode estimar o efeito médio do tratamento entre as execuções e avaliar se o efeito varia entre elas. Isso é apropriado quando os experimentos compartilham os mesmos tratamentos, a mesma resposta medida da mesma forma e delineamentos comparáveis. A variação entre execuções passa então a fazer parte da informação sobre o grau de generalidade dos resultados. Os métodos para combinar experimentos são apresentados em capítulos posteriores; na etapa de delineamento, o importante é planejar os experimentos repetidos de modo que possam ser combinados.</p>
+</section>
+</section>
+<section id="casualização" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="casualização"><span class="header-section-number">2.8</span> Casualização</h2>
+<section id="por-que-a-casualização-é-essencial" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="por-que-a-casualização-é-essencial"><span class="header-section-number">2.8.1</span> Por que a casualização é essencial</h3>
+<p>A casualização (ou aleatorização) é a atribuição dos tratamentos às unidades experimentais por um processo de sorteio, como um gerador de números aleatórios. Ela garante que nenhum fator sistemático, conhecido ou desconhecido, determine quais unidades recebem quais tratamentos. Sem casualização, as escolhas do pesquisador, mesmo inconscientes, podem associar tratamentos a unidades específicas: as plantas mais sadias, as parcelas mais próximas da estrada, as bancadas com melhor iluminação.</p>
+<p>A casualização protege contra esse tipo de viés sistemático. Ela não torna os grupos idênticos, mas faz com que as diferenças entre eles resultem do acaso, e não de uma causa oculta — e o acaso é justamente o que os métodos estatísticos são feitos para considerar. Nesse sentido, a casualização é o que torna válida a inferência estatística sobre os efeitos dos tratamentos.</p>
+</section>
+<section id="alocação-aleatória-dos-tratamentos" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="alocação-aleatória-dos-tratamentos"><span class="header-section-number">2.8.2</span> Alocação aleatória dos tratamentos</h3>
+<p>Em ensaios de campo, os tratamentos são sorteados entre as parcelas, geralmente dentro de blocos. Em casas de vegetação, os vasos são sorteados entre tratamentos e posições na bancada. Em laboratórios, placas ou frascos são sorteados entre tratamentos e posições na incubadora. Em câmaras de crescimento, a atribuição dos tratamentos às câmaras, e a posição das unidades dentro delas, também deve ser casualizada.</p>
+<p>A casualização deve ser feita com um método documentado, como uma tabela de números aleatórios ou um programa de computador, e o croqui resultante deve ser registrado. A escolha “ao acaso” feita à mão não é casualização verdadeira, porque as pessoas tendem a fazer escolhas sistemáticas sem perceber.</p>
+</section>
+<section id="ordem-aleatória-das-medições" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="ordem-aleatória-das-medições"><span class="header-section-number">2.8.3</span> Ordem aleatória das medições</h3>
+<p>A casualização também se aplica à ordem em que as unidades são processadas e medidas. Instrumentos podem sofrer deriva durante uma sessão, avaliadores podem ficar cansados ou mais experientes à medida que trabalham, e amostras processadas mais tarde podem ter ficado armazenadas por mais tempo. Se todas as unidades de um tratamento forem medidas primeiro e as de outro por último, esses efeitos ficam confundidos com o tratamento.</p>
+<p>Medir as unidades em ordem aleatória, ou em uma ordem equilibrada entre tratamentos, evita esses problemas. O mesmo princípio se aplica à posição das amostras em placas de qPCR e microplacas, onde efeitos de borda são comuns, e à ordem de processamento no laboratório. Sempre que possível, os avaliadores não devem saber qual tratamento cada unidade recebeu (avaliação cega), especialmente em estimativas visuais de doença.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter2-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter2-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter2_files/figure-html/fig-chapter2-3-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter2-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.3: Exemplo de alocação de quatro tratamentos (A–D) com quatro repetições em uma área com gradiente de fertilidade (fundo sombreado). (A) Sem casualização: cada tratamento ocupa uma coluna, e o efeito do tratamento fica confundido com o gradiente. (B) Blocos casualizados: cada coluna é um bloco perpendicular ao gradiente, e os tratamentos são sorteados dentro de cada bloco.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="bloqueamento" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="bloqueamento"><span class="header-section-number">2.9</span> Bloqueamento</h2>
+<section id="por-que-usar-blocos" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="por-que-usar-blocos"><span class="header-section-number">2.9.1</span> Por que usar blocos?</h3>
+<p>As unidades experimentais raramente são uniformes. Uma lavoura pode ter um gradiente de fertilidade ou de drenagem do solo; uma casa de vegetação pode ser mais quente junto às paredes; plantas inoculadas em dias diferentes podem receber inóculo de qualidade diferente. Quando essas fontes de variação são conhecidas ou suspeitas, podem ser controladas por meio do bloqueamento.</p>
+<p>Um bloco é um grupo de unidades experimentais que se espera serem semelhantes entre si. Cada bloco contém todos os tratamentos, sorteados dentro dele. Como os tratamentos são comparados dentro dos blocos, as diferenças entre blocos não afetam a comparação dos tratamentos, e a variação que causam pode ser separada do erro experimental. O resultado é uma comparação mais precisa dos tratamentos.</p>
+</section>
+<section id="blocos-em-experimentos-de-campo" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="blocos-em-experimentos-de-campo"><span class="header-section-number">2.9.2</span> Blocos em experimentos de campo</h3>
+<p>Em ensaios de campo, os blocos geralmente são grupos de parcelas adjacentes dispostos perpendicularmente a um gradiente conhecido ou suspeito, como declividade, tipo de solo, fertilidade, drenagem, distância de um quebra-vento ou distância de uma fonte de inóculo. As parcelas dentro de um bloco devem ser tão homogêneas quanto possível, enquanto os blocos podem diferir entre si. Se a direção do gradiente for desconhecida, blocos compactos e aproximadamente quadrados geralmente são preferíveis a blocos longos e estreitos.</p>
+</section>
+<section id="blocos-em-casa-de-vegetação-e-laboratório" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="blocos-em-casa-de-vegetação-e-laboratório"><span class="header-section-number">2.9.3</span> Blocos em casa de vegetação e laboratório</h3>
+<p>Em casas de vegetação e laboratórios, os blocos frequentemente correspondem a bancadas, prateleiras, bandejas, posições na incubadora, placas, dias de inoculação, avaliadores ou execuções do experimento. Se nem todas as unidades puderem ser inoculadas ou avaliadas no mesmo dia, cada dia pode se tornar um bloco contendo todos os tratamentos. Isso impede que diferenças entre dias sejam confundidas com diferenças entre tratamentos.</p>
+</section>
+<section id="bloco-não-é-repetição" class="level3" data-number="2.9.4">
+<h3 data-number="2.9.4" class="anchored" data-anchor-id="bloco-não-é-repetição"><span class="header-section-number">2.9.4</span> Bloco não é repetição</h3>
+<p>Blocos e repetições são frequentemente confundidos porque, no delineamento em blocos casualizados, cada tratamento aparece uma vez em cada bloco, e o número de blocos é igual ao número de repetições. Conceitualmente, porém, são coisas diferentes. A repetição refere-se ao número de unidades experimentais independentes que recebem cada tratamento. O bloqueamento refere-se ao agrupamento das unidades para controlar fontes conhecidas de variação. Um bloco que contém várias unidades do mesmo tratamento continua fornecendo repetições, e um experimento pode ter repetições sem ter blocos. O bloqueamento também não substitui a casualização: os tratamentos ainda precisam ser sorteados dentro de cada bloco.</p>
+</section>
+</section>
+<section id="delineamentos-experimentais-comuns-em-fitopatologia" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="delineamentos-experimentais-comuns-em-fitopatologia"><span class="header-section-number">2.10</span> Delineamentos experimentais comuns em Fitopatologia</h2>
+<section id="delineamento-inteiramente-casualizado" class="level3" data-number="2.10.1">
+<h3 data-number="2.10.1" class="anchored" data-anchor-id="delineamento-inteiramente-casualizado"><span class="header-section-number">2.10.1</span> Delineamento inteiramente casualizado</h3>
+<p>No delineamento inteiramente casualizado (DIC), os tratamentos são atribuídos às unidades experimentais inteiramente ao acaso, sem blocos. É o delineamento mais simples e é adequado quando as unidades experimentais são homogêneas, como placas de Petri em uma única incubadora ou vasos em uma câmara de crescimento com condições uniformes. Seus pontos fortes são a simplicidade e a flexibilidade, inclusive para números desiguais de repetições. Sua limitação é que qualquer heterogeneidade entre unidades aumenta o erro experimental, dificultando a detecção de diferenças entre tratamentos.</p>
+</section>
+<section id="delineamento-em-blocos-casualizados" class="level3" data-number="2.10.2">
+<h3 data-number="2.10.2" class="anchored" data-anchor-id="delineamento-em-blocos-casualizados"><span class="header-section-number">2.10.2</span> Delineamento em blocos casualizados</h3>
+<p>No delineamento em blocos casualizados (DBC), as unidades são agrupadas em blocos, cada bloco contém todos os tratamentos uma vez, e os tratamentos são sorteados independentemente dentro de cada bloco. É o delineamento mais comum em ensaios de campo e também é muito usado em casas de vegetação. Seu ponto forte é controlar a variação associada aos blocos, melhorando a precisão quando os blocos realmente diferem. Suas limitações são que os blocos precisam ser grandes o suficiente para conter todos os tratamentos, o que se torna difícil com muitos tratamentos, e que o delineamento é menos eficaz se a variação dentro dos blocos for grande.</p>
+</section>
+<section id="experimentos-fatoriais" class="level3" data-number="2.10.3">
+<h3 data-number="2.10.3" class="anchored" data-anchor-id="experimentos-fatoriais"><span class="header-section-number">2.10.3</span> Experimentos fatoriais</h3>
+<p>Experimentos fatoriais estudam dois ou mais fatores simultaneamente, com tratamentos formados pela combinação dos níveis de cada fator. Exemplos incluem cultivar × fungicida, temperatura × duração do molhamento, isolado × cultivar e inoculação × nutrição.</p>
+<p>Experimentos fatoriais são eficientes, porque cada unidade fornece informação sobre todos os fatores. Sobretudo, permitem estudar <strong>interações</strong>, situações em que o efeito de um fator depende do nível de outro. Um fungicida pode reduzir muito a doença em uma cultivar suscetível e ter pouco efeito em uma resistente; a infecção pode aumentar com a duração do molhamento a 25 °C, mas não a 10 °C. As interações estão frequentemente entre os resultados biologicamente mais informativos de um experimento e não podem ser detectadas estudando um fator de cada vez. Os tratamentos fatoriais podem ser dispostos em DIC ou em DBC.</p>
+</section>
+<section id="parcelas-subdivididas-e-delineamentos-hierárquicos" class="level3" data-number="2.10.4">
+<h3 data-number="2.10.4" class="anchored" data-anchor-id="parcelas-subdivididas-e-delineamentos-hierárquicos"><span class="header-section-number">2.10.4</span> Parcelas subdivididas e delineamentos hierárquicos</h3>
+<p>Em alguns experimentos, os fatores são aplicados a unidades de tamanhos diferentes. A irrigação ou o preparo do solo, por exemplo, podem ser praticáveis apenas em parcelas grandes, enquanto cultivares ou fungicidas podem ser aplicados a subparcelas dentro delas. Em um experimento em câmara de crescimento, a temperatura é aplicada a câmaras inteiras, enquanto os isolados podem ser atribuídos a vasos dentro de cada câmara. Esses delineamentos são chamados de parcelas subdivididas e, de modo mais geral, delineamentos hierárquicos ou aninhados.</p>
+<p>Esses delineamentos são práticos e comuns, mas têm duas unidades experimentais de tamanhos diferentes, cada uma com sua própria repetição e seu próprio erro experimental. As comparações do fator aplicado às unidades maiores costumam ser menos precisas, porque há menos delas. Reconhecer uma estrutura de parcelas subdivididas na etapa de delineamento é essencial, porque analisá-la como se todos os fatores tivessem sido aplicados às menores unidades superestima a repetição do fator da parcela principal.</p>
+</section>
+<section id="medidas-repetidas-no-tempo" class="level3" data-number="2.10.5">
+<h3 data-number="2.10.5" class="anchored" data-anchor-id="medidas-repetidas-no-tempo"><span class="header-section-number">2.10.5</span> Medidas repetidas no tempo</h3>
+<p>A doença é frequentemente avaliada várias vezes nas mesmas parcelas ou plantas para acompanhar seu desenvolvimento durante a safra ou após a inoculação. Essas avaliações repetidas não acrescentam unidades experimentais: são medidas sucessivas da mesma unidade, e avaliações da mesma unidade tendem a ser mais parecidas entre si do que avaliações de unidades diferentes.</p>
+<p>As medidas repetidas são valiosas porque descrevem como a doença se desenvolve, e não apenas seu nível final. Na análise, elas podem ser resumidas em um único valor por unidade ou modeladas levando em conta a dependência entre as avaliações da mesma unidade. Na etapa de delineamento, os pontos essenciais são definir as épocas de avaliação com antecedência, avaliar todas as unidades em cada época e registrar a qual unidade pertence cada avaliação.</p>
+</section>
+</section>
+<section id="problemas-comuns-de-delineamento-em-fitopatologia" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="problemas-comuns-de-delineamento-em-fitopatologia"><span class="header-section-number">2.11</span> Problemas comuns de delineamento em Fitopatologia</h2>
+<section id="pseudorrepetição" class="level3" data-number="2.11.1">
+<h3 data-number="2.11.1" class="anchored" data-anchor-id="pseudorrepetição"><span class="header-section-number">2.11.1</span> Pseudorrepetição</h3>
+<p>A pseudorrepetição ocorre quando subamostras ou medidas repetidas são tratadas como se fossem repetições independentes <span class="citation" data-cites="hurlbert1984">(<a href="references.html#ref-hurlbert1984" role="doc-biblioref">Hurlbert 1984</a>)</span>. Exemplos típicos incluem várias colônias medidas em uma única placa de Petri por tratamento, folhas da mesma planta analisadas como repetições separadas, todas as plantas de um tratamento cultivadas em uma única bandeja e leituras repetidas da mesma amostra tratadas como observações independentes. A pseudorrepetição infla o tamanho aparente da amostra e subestima o erro experimental, fazendo as diferenças entre tratamentos parecerem mais certas do que são.</p>
+</section>
+<section id="confundimento" class="level3" data-number="2.11.2">
+<h3 data-number="2.11.2" class="anchored" data-anchor-id="confundimento"><span class="header-section-number">2.11.2</span> Confundimento</h3>
+<p>O confundimento ocorre quando o efeito de um tratamento não pode ser separado do efeito de outra variável que difere entre os grupos de tratamento. Exemplos clássicos incluem uma câmara de crescimento por temperatura, de modo que temperatura e câmara ficam confundidas; cada cultivar cultivada em um único local, de modo que cultivar e local ficam confundidos; tratamentos aplicados ou inoculados em datas diferentes; e equipamentos específicos para cada tratamento, como um pulverizador diferente para cada produto. O confundimento não pode ser removido pela análise; deve ser evitado pelo delineamento, por meio de casualização, repetição das condições envolvidas e bloqueamento.</p>
+</section>
+<section id="ausência-de-testemunha-adequada" class="level3" data-number="2.11.3">
+<h3 data-number="2.11.3" class="anchored" data-anchor-id="ausência-de-testemunha-adequada"><span class="header-section-number">2.11.3</span> Ausência de testemunha adequada</h3>
+<p>Sem uma testemunha adequada, o efeito de um tratamento não pode ser avaliado. Um estudo mostrando que um agente de controle biológico reduziu a doença para 10% de severidade não é informativo sem saber a severidade das plantas não tratadas nas mesmas condições. Uma testemunha com pouca doença revela que a pressão da doença foi baixa demais para avaliar os tratamentos. Um teste de patogenicidade sem plantas não inoculadas não pode excluir a possibilidade de que os sintomas tenham sido causados por outra coisa.</p>
+</section>
+<section id="unidades-experimentais-inadequadas-ou-pouco-claras" class="level3" data-number="2.11.4">
+<h3 data-number="2.11.4" class="anchored" data-anchor-id="unidades-experimentais-inadequadas-ou-pouco-claras"><span class="header-section-number">2.11.4</span> Unidades experimentais inadequadas ou pouco claras</h3>
+<p>Muitos artigos publicados não informam explicitamente qual foi a unidade experimental, quantas unidades receberam cada tratamento ou como as subamostras foram tratadas. O leitor não consegue, então, determinar se a repetição foi adequada ou se a análise foi apropriada. Todo estudo deve informar claramente a unidade experimental, o número de repetições e as unidades amostrais medidas dentro de cada uma.</p>
+</section>
+<section id="tratar-repetições-técnicas-como-repetições-biológicas" class="level3" data-number="2.11.5">
+<h3 data-number="2.11.5" class="anchored" data-anchor-id="tratar-repetições-técnicas-como-repetições-biológicas"><span class="header-section-number">2.11.5</span> Tratar repetições técnicas como repetições biológicas</h3>
+<p>Em estudos moleculares e fisiológicos, distingue-se entre <strong>repetições biológicas</strong>, amostras independentes de plantas ou unidades diferentes, e <strong>repetições técnicas</strong>, medidas repetidas da mesma amostra, como vários poços de qPCR carregados com a mesma extração de RNA ou leituras repetidas da mesma folha com um instrumento. As repetições técnicas medem a precisão do procedimento de medida; somente as repetições biológicas medem a variabilidade biológica e podem sustentar conclusões sobre tratamentos.</p>
+</section>
+<section id="implementação-desigual-dos-tratamentos" class="level3" data-number="2.11.6">
+<h3 data-number="2.11.6" class="anchored" data-anchor-id="implementação-desigual-dos-tratamentos"><span class="header-section-number">2.11.6</span> Implementação desigual dos tratamentos</h3>
+<p>Os tratamentos devem diferir apenas no fator estudado. Surgem problemas quando os tratamentos são implementados com lotes de inóculo diferentes, por operadores diferentes, em datas diferentes, em câmaras diferentes ou com equipamentos de pulverização diferentes. Qualquer diferença desse tipo fica confundida com o tratamento. Os procedimentos devem ser padronizados e, quando não puderem ser idênticos, equilibrados entre os tratamentos — por exemplo, fazendo cada operador trabalhar com todos os tratamentos.</p>
+</section>
+<section id="poucos-experimentos-independentes" class="level3" data-number="2.11.7">
+<h3 data-number="2.11.7" class="anchored" data-anchor-id="poucos-experimentos-independentes"><span class="header-section-number">2.11.7</span> Poucos experimentos independentes</h3>
+<p>Um único experimento, mesmo bem repetido, reflete as condições de uma safra, um local, um lote de plantas ou uma execução. Seus resultados podem não se manter em outras condições. Afirmações amplas, como recomendar um programa de fungicidas ou classificar uma cultivar como resistente, exigem evidências de vários experimentos independentes. Por isso, muitas revistas exigem a repetição de experimentos em ambiente controlado, e recomendações de campo costumam se basear em ensaios conduzidos em vários anos ou locais.</p>
+</section>
+<section id="medir-o-que-é-conveniente-e-não-o-que-responde-à-questão" class="level3" data-number="2.11.8">
+<h3 data-number="2.11.8" class="anchored" data-anchor-id="medir-o-que-é-conveniente-e-não-o-que-responde-à-questão"><span class="header-section-number">2.11.8</span> Medir o que é conveniente, e não o que responde à questão</h3>
+<p>Às vezes, as respostas são escolhidas por serem fáceis de medir, e não por responderem à questão. A incidência é mais rápida de avaliar do que a severidade, e uma única avaliação final é mais barata do que várias, mas nenhuma delas pode capturar o efeito de interesse. Um estudo sobre proteção da produtividade que não mede a produtividade, ou um estudo de resistência que mede apenas se as plantas estão infectadas, pode produzir dados precisos que não respondem à questão biológica.</p>
+</section>
+</section>
+<section id="pesquisa-na-prática-revisitando-um-experimento-de-manejo-da-doença" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="pesquisa-na-prática-revisitando-um-experimento-de-manejo-da-doença"><span class="header-section-number">2.12</span> Pesquisa na prática: revisitando um experimento de manejo da doença</h2>
+<p>O estudo do míldio do manjericão apresentado no Capítulo 1 avaliou programas de fungicidas em experimentos de campo sob pressão natural da doença <span class="citation" data-cites="mcgrath2020">(<a href="references.html#ref-mcgrath2020" role="doc-biblioref">McGrath 2020</a>)</span>. Em vez de repetir sua descrição, vamos agora examiná-lo à luz dos conceitos apresentados neste capítulo. Responder às questões abaixo para qualquer estudo publicado é uma forma eficaz de avaliar a força de sua evidência.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: Eficácia de fungicidas em manjericão">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: Eficácia de fungicidas em manjericão
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><strong>Questão biológica</strong></p>
+<p>Aplicações de fungicidas reduzem o míldio do manjericão em condições de campo?</p>
+<p><strong>Questões sobre o delineamento</strong></p>
+<ol type="1">
+<li>Quais tratamentos foram comparados?</li>
+<li>Qual foi a testemunha sem tratamento?</li>
+<li>Qual foi a unidade experimental?</li>
+<li>Por que foram usados blocos?</li>
+<li>O que foi repetido?</li>
+<li>O que foi medido repetidamente?</li>
+<li>Por que os experimentos foram conduzidos em vários anos?</li>
+<li>Quais conclusões se aplicam a um único experimento e quais exigem evidências de vários experimentos?</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="planejando-um-estudo-antes-de-coletar-dados" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="planejando-um-estudo-antes-de-coletar-dados"><span class="header-section-number">2.13</span> Planejando um estudo antes de coletar dados</h2>
+<section id="um-roteiro-prático-de-planejamento" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="um-roteiro-prático-de-planejamento"><span class="header-section-number">2.13.1</span> Um roteiro prático de planejamento</h3>
+<p>As questões abaixo resumem as decisões discutidas neste capítulo. Respondê-las por escrito antes da coleta de dados, de preferência em um breve protocolo do estudo, ajuda a detectar problemas de delineamento enquanto ainda podem ser corrigidos.</p>
+<ol type="1">
+<li>Que questão biológica o estudo vai responder?</li>
+<li>Que hipótese científica está sendo avaliada?</li>
+<li>Que observações sustentariam ou contradiriam essa hipótese?</li>
+<li>O estudo é observacional ou experimental?</li>
+<li>Quais são os fatores, os tratamentos e as testemunhas?</li>
+<li>Qual é a unidade experimental ou observacional?</li>
+<li>Qual é a unidade amostral?</li>
+<li>Quais variáveis resposta serão medidas?</li>
+<li>Como as unidades serão repetidas?</li>
+<li>Como os tratamentos serão casualizados?</li>
+<li>É necessário usar blocos?</li>
+<li>O experimento será repetido de forma independente?</li>
+<li>Que fontes de viés ou confundimento são plausíveis?</li>
+<li>Como os dados serão registrados e documentados?</li>
+</ol>
+</section>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">2.14</span> Resumo do capítulo</h2>
+<p>Uma análise confiável começa com um estudo delineado para responder a uma questão biológica claramente definida. Um bom delineamento traduz a questão em uma hipótese falseável, em predições testáveis e em definições operacionais dos conceitos envolvidos. Estudos observacionais e experimentais fornecem formas diferentes de evidência: os observacionais descrevem padrões e associações em condições reais, enquanto os experimentos avaliam os efeitos de tratamentos impostos deliberadamente. Todo estudo é construído a partir de fatores, tratamentos, testemunhas e variáveis resposta, e a unidade experimental — a menor unidade à qual um tratamento é atribuído de forma independente — determina a repetição verdadeira. A repetição estima o erro experimental, a casualização protege contra o viés sistemático e o bloqueamento controla fontes conhecidas de variação. Subamostras, repetições técnicas e medidas repetidas não substituem a repetição verdadeira, e repetir o experimento de forma independente costuma ser necessário antes que conclusões mais amplas possam ser sustentadas. Problemas comuns como pseudorrepetição, confundimento e ausência de testemunhas adequadas não podem ser corrigidos pela análise estatística e devem ser evitados na etapa de delineamento.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="2.15">
+<h2 data-number="2.15" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">2.15</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>questão biológica;</li>
+<li>hipótese científica;</li>
+<li>predição;</li>
+<li>definição operacional;</li>
+<li>estudo observacional;</li>
+<li>estudo experimental;</li>
+<li>fator;</li>
+<li>tratamento;</li>
+<li>testemunha;</li>
+<li>variável resposta;</li>
+<li>variável explicativa;</li>
+<li>covariável;</li>
+<li>unidade experimental;</li>
+<li>unidade amostral;</li>
+<li>repetição;</li>
+<li>subamostragem;</li>
+<li>repetição do experimento;</li>
+<li>casualização;</li>
+<li>bloqueamento;</li>
+<li>interação;</li>
+<li>pseudorrepetição;</li>
+<li>confundimento.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="2.16">
+<h2 data-number="2.16" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">2.16</span> Exercícios</h2>
+<section id="exercício-1.-identificando-os-componentes-de-um-estudo" class="level3" data-number="2.16.1">
+<h3 data-number="2.16.1" class="anchored" data-anchor-id="exercício-1.-identificando-os-componentes-de-um-estudo"><span class="header-section-number">2.16.1</span> Exercício 1. Identificando os componentes de um estudo</h3>
+<p>Escolha um artigo fornecido pelo professor e responda:</p>
+<ol type="1">
+<li>Que questão biológica motivou o estudo?</li>
+<li>O estudo foi observacional ou experimental?</li>
+<li>Que condições, tratamentos ou grupos foram comparados?</li>
+<li>Qual foi a unidade experimental ou observacional?</li>
+<li>O que foi medido?</li>
+<li>Havia uma testemunha adequada?</li>
+<li>Como a repetição foi obtida?</li>
+<li>O estudo foi repetido de forma independente?</li>
+</ol>
+</section>
+<section id="exercício-2.-unidade-experimental-ou-unidade-amostral" class="level3" data-number="2.16.2">
+<h3 data-number="2.16.2" class="anchored" data-anchor-id="exercício-2.-unidade-experimental-ou-unidade-amostral"><span class="header-section-number">2.16.2</span> Exercício 2. Unidade experimental ou unidade amostral?</h3>
+<p>Para cada cenário, identifique a unidade experimental, a unidade amostral e o número de repetições verdadeiras por tratamento.</p>
+<ol type="1">
+<li>Quatro concentrações de fungicida são testadas <em>in vitro</em>. Cada concentração é adicionada a cinco placas de Petri, e o diâmetro de três colônias é medido em cada placa.</li>
+<li>Duas concentrações de inóculo são comparadas em casa de vegetação. Cada concentração é aplicada a seis vasos com quatro plantas cada, e a severidade é avaliada em todas as plantas.</li>
+<li>Três programas de fungicida e uma testemunha são comparados em um ensaio de campo com quatro blocos. Em cada parcela, a severidade é avaliada em 20 folhas.</li>
+<li>A expressão de um gene de defesa é comparada entre plantas inoculadas e plantas inoculadas apenas com o veículo (<em>mock</em>). Três plantas por tratamento são amostradas, o RNA é extraído de cada planta e cada extrato é analisado em três poços de qPCR.</li>
+<li>Três temperaturas são comparadas usando três câmaras de crescimento, uma por temperatura, cada uma com 30 plantas inoculadas.</li>
+</ol>
+</section>
+<section id="exercício-3.-detectando-problemas-de-delineamento" class="level3" data-number="2.16.3">
+<h3 data-number="2.16.3" class="anchored" data-anchor-id="exercício-3.-detectando-problemas-de-delineamento"><span class="header-section-number">2.16.3</span> Exercício 3. Detectando problemas de delineamento</h3>
+<p>Leia as breves descrições de estudos fornecidas e identifique problemas envolvendo:</p>
+<ul>
+<li>pseudorrepetição;</li>
+<li>confundimento;</li>
+<li>ausência de testemunhas;</li>
+<li>repetição inadequada;</li>
+<li>atribuição dos tratamentos pouco clara;</li>
+<li>conclusões inadequadas.</li>
+</ul>
+</section>
+<section id="exercício-4.-delineando-um-estudo" class="level3" data-number="2.16.4">
+<h3 data-number="2.16.4" class="anchored" data-anchor-id="exercício-4.-delineando-um-estudo"><span class="header-section-number">2.16.4</span> Exercício 4. Delineando um estudo</h3>
+<p>Escolha uma questão:</p>
+<ul>
+<li>Um fungicida reduz a severidade da doença?</li>
+<li>A resistência da cultivar reduz a infecção?</li>
+<li>A temperatura influencia o desenvolvimento das lesões?</li>
+<li>A inoculação altera as respostas fisiológicas da planta?</li>
+</ul>
+<p>Prepare um breve delineamento especificando:</p>
+<ol type="1">
+<li>a questão biológica;</li>
+<li>a hipótese;</li>
+<li>os tratamentos ou grupos;</li>
+<li>a testemunha;</li>
+<li>a unidade experimental;</li>
+<li>a variável resposta;</li>
+<li>a repetição;</li>
+<li>a casualização;</li>
+<li>o bloqueamento, se necessário;</li>
+<li>se e como o estudo deve ser repetido.</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="2.17">
+<h2 data-number="2.17" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">2.17</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Nenhum método estatístico compensa um estudo mal delineado, mas um estudo bem delineado muitas vezes pode ser analisado com métodos relativamente simples.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="2.18">
+<h2 data-number="2.18" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">2.18</span> Próximos passos</h2>
+<p>Um estudo bem delineado produz observações que precisam ser registradas de forma consistente, transparente e analisável. O próximo capítulo examina como os dados científicos devem ser estruturados, documentados, verificados e preparados para a exploração e a análise.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-hurlbert1984" class="csl-entry" role="listitem">
+Hurlbert, S. H. 1984. Pseudoreplication and the design of ecological field experiments. Ecological Monographs 54:187–211. <a href="https://doi.org/10.2307/1942661">https://doi.org/10.2307/1942661</a>.
+</div>
+<div id="ref-mcgrath2020" class="csl-entry" role="listitem">
+McGrath, M. T. 2020. Efficacy of Conventional Fungicides for Downy Mildew in Field-Grown Sweet Basil in the United States. Plant Disease 104:2967–2972. <a href="https://doi.org/10.1094/PDIS-11-19-2382-RE">https://doi.org/10.1094/PDIS-11-19-2382-RE</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter1.html" class="pagination-link" aria-label="Pesquisa em Fitopatologia">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter3.html" class="pagination-link" aria-label="Organização dos dados">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

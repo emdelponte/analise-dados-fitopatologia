@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Como tiramos conclusões científicas? – Análise e Visualização de Dados em Fitopatologia</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chapter7.html" rel="next">
+<link href="./chapter5.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-83f05a120baf2fc1bde2a4009a52b236.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-a80f51e399cada09c095df7ee7e40398.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+
+<script src="site_libs/grViz-binding-1.0.12/grViz.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter6.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boas-vindas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pesquisa em Fitopatologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Delineamento de estudos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Organização dos dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Análise exploratória</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter6.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Inferência estatística</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Relações entre variáveis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Respostas não lineares</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Dados categóricos e de contagem</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Dados multivariados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comunicação dos resultados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pesquisa reprodutível</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referências</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">6.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#das-observações-à-inferência" id="toc-das-observações-à-inferência" class="nav-link" data-scroll-target="#das-observações-à-inferência"><span class="header-section-number">6.2</span> Das observações à inferência</a></li>
+  <li><a href="#o-que-queremos-estimar" id="toc-o-que-queremos-estimar" class="nav-link" data-scroll-target="#o-que-queremos-estimar"><span class="header-section-number">6.3</span> O que queremos estimar?</a>
+  <ul class="collapse">
+  <li><a href="#a-questão-científica-vem-primeiro" id="toc-a-questão-científica-vem-primeiro" class="nav-link" data-scroll-target="#a-questão-científica-vem-primeiro"><span class="header-section-number">6.3.1</span> A questão científica vem primeiro</a></li>
+  <li><a href="#da-questão-biológica-ao-estimando" id="toc-da-questão-biológica-ao-estimando" class="nav-link" data-scroll-target="#da-questão-biológica-ao-estimando"><span class="header-section-number">6.3.2</span> Da questão biológica ao estimando</a></li>
+  <li><a href="#parâmetro-e-estimativa" id="toc-parâmetro-e-estimativa" class="nav-link" data-scroll-target="#parâmetro-e-estimativa"><span class="header-section-number">6.3.3</span> Parâmetro e estimativa</a></li>
+  </ul></li>
+  <li><a href="#população-e-amostra" id="toc-população-e-amostra" class="nav-link" data-scroll-target="#população-e-amostra"><span class="header-section-number">6.4</span> População e amostra</a>
+  <ul class="collapse">
+  <li><a href="#qual-é-a-população-de-interesse" id="toc-qual-é-a-população-de-interesse" class="nav-link" data-scroll-target="#qual-é-a-população-de-interesse"><span class="header-section-number">6.4.1</span> Qual é a população de interesse?</a></li>
+  <li><a href="#o-que-é-uma-amostra" id="toc-o-que-é-uma-amostra" class="nav-link" data-scroll-target="#o-que-é-uma-amostra"><span class="header-section-number">6.4.2</span> O que é uma amostra?</a></li>
+  <li><a href="#para-onde-podemos-generalizar" id="toc-para-onde-podemos-generalizar" class="nav-link" data-scroll-target="#para-onde-podemos-generalizar"><span class="header-section-number">6.4.3</span> Para onde podemos generalizar?</a></li>
+  </ul></li>
+  <li><a href="#por-que-as-estimativas-variam" id="toc-por-que-as-estimativas-variam" class="nav-link" data-scroll-target="#por-que-as-estimativas-variam"><span class="header-section-number">6.5</span> Por que as estimativas variam?</a>
+  <ul class="collapse">
+  <li><a href="#variação-amostral" id="toc-variação-amostral" class="nav-link" data-scroll-target="#variação-amostral"><span class="header-section-number">6.5.1</span> Variação amostral</a></li>
+  <li><a href="#distribuições-amostrais" id="toc-distribuições-amostrais" class="nav-link" data-scroll-target="#distribuições-amostrais"><span class="header-section-number">6.5.2</span> Distribuições amostrais</a></li>
+  <li><a href="#erro-padrão" id="toc-erro-padrão" class="nav-link" data-scroll-target="#erro-padrão"><span class="header-section-number">6.5.3</span> Erro padrão</a></li>
+  <li><a href="#desvio-padrão-versus-erro-padrão" id="toc-desvio-padrão-versus-erro-padrão" class="nav-link" data-scroll-target="#desvio-padrão-versus-erro-padrão"><span class="header-section-number">6.5.4</span> Desvio padrão versus erro padrão</a></li>
+  </ul></li>
+  <li><a href="#estimação-e-incerteza" id="toc-estimação-e-incerteza" class="nav-link" data-scroll-target="#estimação-e-incerteza"><span class="header-section-number">6.6</span> Estimação e incerteza</a>
+  <ul class="collapse">
+  <li><a href="#estimativas-pontuais" id="toc-estimativas-pontuais" class="nav-link" data-scroll-target="#estimativas-pontuais"><span class="header-section-number">6.6.1</span> Estimativas pontuais</a></li>
+  <li><a href="#estimativas-intervalares" id="toc-estimativas-intervalares" class="nav-link" data-scroll-target="#estimativas-intervalares"><span class="header-section-number">6.6.2</span> Estimativas intervalares</a></li>
+  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">6.6.3</span> Intervalos de confiança</a></li>
+  <li><a href="#precisão" id="toc-precisão" class="nav-link" data-scroll-target="#precisão"><span class="header-section-number">6.6.4</span> Precisão</a></li>
+  <li><a href="#visualizando-estimativas-e-incerteza" id="toc-visualizando-estimativas-e-incerteza" class="nav-link" data-scroll-target="#visualizando-estimativas-e-incerteza"><span class="header-section-number">6.6.5</span> Visualizando estimativas e incerteza</a></li>
+  </ul></li>
+  <li><a href="#tamanho-de-efeito" id="toc-tamanho-de-efeito" class="nav-link" data-scroll-target="#tamanho-de-efeito"><span class="header-section-number">6.7</span> Tamanho de efeito</a>
+  <ul class="collapse">
+  <li><a href="#qual-é-o-tamanho-do-efeito" id="toc-qual-é-o-tamanho-do-efeito" class="nav-link" data-scroll-target="#qual-é-o-tamanho-do-efeito"><span class="header-section-number">6.7.1</span> Qual é o tamanho do efeito?</a></li>
+  <li><a href="#efeitos-absolutos" id="toc-efeitos-absolutos" class="nav-link" data-scroll-target="#efeitos-absolutos"><span class="header-section-number">6.7.2</span> Efeitos absolutos</a></li>
+  <li><a href="#efeitos-relativos" id="toc-efeitos-relativos" class="nav-link" data-scroll-target="#efeitos-relativos"><span class="header-section-number">6.7.3</span> Efeitos relativos</a></li>
+  <li><a href="#efeitos-padronizados" id="toc-efeitos-padronizados" class="nav-link" data-scroll-target="#efeitos-padronizados"><span class="header-section-number">6.7.4</span> Efeitos padronizados</a></li>
+  <li><a href="#relevância-biológica" id="toc-relevância-biológica" class="nav-link" data-scroll-target="#relevância-biológica"><span class="header-section-number">6.7.5</span> Relevância biológica</a></li>
+  </ul></li>
+  <li><a href="#hipóteses-científicas-e-hipóteses-estatísticas" id="toc-hipóteses-científicas-e-hipóteses-estatísticas" class="nav-link" data-scroll-target="#hipóteses-científicas-e-hipóteses-estatísticas"><span class="header-section-number">6.8</span> Hipóteses científicas e hipóteses estatísticas</a>
+  <ul class="collapse">
+  <li><a href="#hipóteses-científicas" id="toc-hipóteses-científicas" class="nav-link" data-scroll-target="#hipóteses-científicas"><span class="header-section-number">6.8.1</span> Hipóteses científicas</a></li>
+  <li><a href="#hipóteses-estatísticas" id="toc-hipóteses-estatísticas" class="nav-link" data-scroll-target="#hipóteses-estatísticas"><span class="header-section-number">6.8.2</span> Hipóteses estatísticas</a></li>
+  <li><a href="#hipótese-nula" id="toc-hipótese-nula" class="nav-link" data-scroll-target="#hipótese-nula"><span class="header-section-number">6.8.3</span> Hipótese nula</a></li>
+  <li><a href="#hipótese-alternativa" id="toc-hipótese-alternativa" class="nav-link" data-scroll-target="#hipótese-alternativa"><span class="header-section-number">6.8.4</span> Hipótese alternativa</a></li>
+  </ul></li>
+  <li><a href="#teste-de-hipóteses" id="toc-teste-de-hipóteses" class="nav-link" data-scroll-target="#teste-de-hipóteses"><span class="header-section-number">6.9</span> Teste de hipóteses</a>
+  <ul class="collapse">
+  <li><a href="#a-lógica-de-um-teste-estatístico" id="toc-a-lógica-de-um-teste-estatístico" class="nav-link" data-scroll-target="#a-lógica-de-um-teste-estatístico"><span class="header-section-number">6.9.1</span> A lógica de um teste estatístico</a></li>
+  <li><a href="#estatísticas-de-teste" id="toc-estatísticas-de-teste" class="nav-link" data-scroll-target="#estatísticas-de-teste"><span class="header-section-number">6.9.2</span> Estatísticas de teste</a></li>
+  <li><a href="#o-valor-p" id="toc-o-valor-p" class="nav-link" data-scroll-target="#o-valor-p"><span class="header-section-number">6.9.3</span> O valor-P</a></li>
+  <li><a href="#o-que-um-valor-p-não-nos-diz" id="toc-o-que-um-valor-p-não-nos-diz" class="nav-link" data-scroll-target="#o-que-um-valor-p-não-nos-diz"><span class="header-section-number">6.9.4</span> O que um valor-P não nos diz</a></li>
+  <li><a href="#significância-estatística" id="toc-significância-estatística" class="nav-link" data-scroll-target="#significância-estatística"><span class="header-section-number">6.9.5</span> Significância estatística</a></li>
+  <li><a href="#o-problema-dos-limiares" id="toc-o-problema-dos-limiares" class="nav-link" data-scroll-target="#o-problema-dos-limiares"><span class="header-section-number">6.9.6</span> O problema dos limiares</a></li>
+  </ul></li>
+  <li><a href="#significância-estatística-versus-importância-biológica" id="toc-significância-estatística-versus-importância-biológica" class="nav-link" data-scroll-target="#significância-estatística-versus-importância-biológica"><span class="header-section-number">6.10</span> Significância estatística versus importância biológica</a>
+  <ul class="collapse">
+  <li><a href="#efeitos-pequenos-mas-estimados-com-precisão" id="toc-efeitos-pequenos-mas-estimados-com-precisão" class="nav-link" data-scroll-target="#efeitos-pequenos-mas-estimados-com-precisão"><span class="header-section-number">6.10.1</span> Efeitos pequenos, mas estimados com precisão</a></li>
+  <li><a href="#efeitos-grandes-mas-incertos" id="toc-efeitos-grandes-mas-incertos" class="nav-link" data-scroll-target="#efeitos-grandes-mas-incertos"><span class="header-section-number">6.10.2</span> Efeitos grandes, mas incertos</a></li>
+  <li><a href="#efeitos-grandes-e-estimados-com-precisão" id="toc-efeitos-grandes-e-estimados-com-precisão" class="nav-link" data-scroll-target="#efeitos-grandes-e-estimados-com-precisão"><span class="header-section-number">6.10.3</span> Efeitos grandes e estimados com precisão</a></li>
+  <li><a href="#efeitos-próximos-de-zero" id="toc-efeitos-próximos-de-zero" class="nav-link" data-scroll-target="#efeitos-próximos-de-zero"><span class="header-section-number">6.10.4</span> Efeitos próximos de zero</a></li>
+  </ul></li>
+  <li><a href="#erros-nas-decisões-estatísticas" id="toc-erros-nas-decisões-estatísticas" class="nav-link" data-scroll-target="#erros-nas-decisões-estatísticas"><span class="header-section-number">6.11</span> Erros nas decisões estatísticas</a>
+  <ul class="collapse">
+  <li><a href="#erro-do-tipo-i" id="toc-erro-do-tipo-i" class="nav-link" data-scroll-target="#erro-do-tipo-i"><span class="header-section-number">6.11.1</span> Erro do tipo I</a></li>
+  <li><a href="#erro-do-tipo-ii" id="toc-erro-do-tipo-ii" class="nav-link" data-scroll-target="#erro-do-tipo-ii"><span class="header-section-number">6.11.2</span> Erro do tipo II</a></li>
+  <li><a href="#por-que-não-significativo-não-significa-sem-efeito" id="toc-por-que-não-significativo-não-significa-sem-efeito" class="nav-link" data-scroll-target="#por-que-não-significativo-não-significa-sem-efeito"><span class="header-section-number">6.11.3</span> Por que “não significativo” não significa “sem efeito”</a></li>
+  </ul></li>
+  <li><a href="#poder-estatístico" id="toc-poder-estatístico" class="nav-link" data-scroll-target="#poder-estatístico"><span class="header-section-number">6.12</span> Poder estatístico</a>
+  <ul class="collapse">
+  <li><a href="#o-que-é-poder" id="toc-o-que-é-poder" class="nav-link" data-scroll-target="#o-que-é-poder"><span class="header-section-number">6.12.1</span> O que é poder?</a></li>
+  <li><a href="#o-que-determina-o-poder" id="toc-o-que-determina-o-poder" class="nav-link" data-scroll-target="#o-que-determina-o-poder"><span class="header-section-number">6.12.2</span> O que determina o poder?</a></li>
+  <li><a href="#tamanho-da-amostra" id="toc-tamanho-da-amostra" class="nav-link" data-scroll-target="#tamanho-da-amostra"><span class="header-section-number">6.12.3</span> Tamanho da amostra</a></li>
+  <li><a href="#planejando-o-tamanho-da-amostra" id="toc-planejando-o-tamanho-da-amostra" class="nav-link" data-scroll-target="#planejando-o-tamanho-da-amostra"><span class="header-section-number">6.12.4</span> Planejando o tamanho da amostra</a></li>
+  </ul></li>
+  <li><a href="#estimação-ou-teste" id="toc-estimação-ou-teste" class="nav-link" data-scroll-target="#estimação-ou-teste"><span class="header-section-number">6.13</span> Estimação ou teste?</a>
+  <ul class="collapse">
+  <li><a href="#raciocínio-com-a-estimação-em-primeiro-lugar" id="toc-raciocínio-com-a-estimação-em-primeiro-lugar" class="nav-link" data-scroll-target="#raciocínio-com-a-estimação-em-primeiro-lugar"><span class="header-section-number">6.13.1</span> Raciocínio com a estimação em primeiro lugar</a></li>
+  </ul></li>
+  <li><a href="#comparações-múltiplas-e-testes-múltiplos" id="toc-comparações-múltiplas-e-testes-múltiplos" class="nav-link" data-scroll-target="#comparações-múltiplas-e-testes-múltiplos"><span class="header-section-number">6.14</span> Comparações múltiplas e testes múltiplos</a>
+  <ul class="collapse">
+  <li><a href="#por-que-testes-múltiplos-importam" id="toc-por-que-testes-múltiplos-importam" class="nav-link" data-scroll-target="#por-que-testes-múltiplos-importam"><span class="header-section-number">6.14.1</span> Por que testes múltiplos importam</a></li>
+  <li><a href="#comparações-planejadas-versus-exploratórias" id="toc-comparações-planejadas-versus-exploratórias" class="nav-link" data-scroll-target="#comparações-planejadas-versus-exploratórias"><span class="header-section-number">6.14.2</span> Comparações planejadas versus exploratórias</a></li>
+  <li><a href="#ajuste-para-multiplicidade" id="toc-ajuste-para-multiplicidade" class="nav-link" data-scroll-target="#ajuste-para-multiplicidade"><span class="header-section-number">6.14.3</span> Ajuste para multiplicidade</a></li>
+  <li><a href="#evitando-a-busca-por-significância" id="toc-evitando-a-busca-por-significância" class="nav-link" data-scroll-target="#evitando-a-busca-por-significância"><span class="header-section-number">6.14.4</span> Evitando a busca por significância</a></li>
+  </ul></li>
+  <li><a href="#os-pressupostos-importam" id="toc-os-pressupostos-importam" class="nav-link" data-scroll-target="#os-pressupostos-importam"><span class="header-section-number">6.15</span> Os pressupostos importam</a>
+  <ul class="collapse">
+  <li><a href="#todo-método-estatístico-tem-pressupostos" id="toc-todo-método-estatístico-tem-pressupostos" class="nav-link" data-scroll-target="#todo-método-estatístico-tem-pressupostos"><span class="header-section-number">6.15.1</span> Todo método estatístico tem pressupostos</a></li>
+  <li><a href="#a-independência-começa-no-delineamento" id="toc-a-independência-começa-no-delineamento" class="nav-link" data-scroll-target="#a-independência-começa-no-delineamento"><span class="header-section-number">6.15.2</span> A independência começa no delineamento</a></li>
+  <li><a href="#os-pressupostos-do-modelo-devem-ser-verificados" id="toc-os-pressupostos-do-modelo-devem-ser-verificados" class="nav-link" data-scroll-target="#os-pressupostos-do-modelo-devem-ser-verificados"><span class="header-section-number">6.15.3</span> Os pressupostos do modelo devem ser verificados</a></li>
+  </ul></li>
+  <li><a href="#associação-predição-e-causalidade" id="toc-associação-predição-e-causalidade" class="nav-link" data-scroll-target="#associação-predição-e-causalidade"><span class="header-section-number">6.16</span> Associação, predição e causalidade</a>
+  <ul class="collapse">
+  <li><a href="#associação" id="toc-associação" class="nav-link" data-scroll-target="#associação"><span class="header-section-number">6.16.1</span> Associação</a></li>
+  <li><a href="#predição" id="toc-predição" class="nav-link" data-scroll-target="#predição"><span class="header-section-number">6.16.2</span> Predição</a></li>
+  <li><a href="#efeitos-causais" id="toc-efeitos-causais" class="nav-link" data-scroll-target="#efeitos-causais"><span class="header-section-number">6.16.3</span> Efeitos causais</a></li>
+  <li><a href="#o-que-o-delineamento-do-estudo-permite-concluir" id="toc-o-que-o-delineamento-do-estudo-permite-concluir" class="nav-link" data-scroll-target="#o-que-o-delineamento-do-estudo-permite-concluir"><span class="header-section-number">6.16.4</span> O que o delineamento do estudo permite concluir?</a></li>
+  </ul></li>
+  <li><a href="#pesquisa-na-prática-interpretando-o-efeito-de-um-tratamento" id="toc-pesquisa-na-prática-interpretando-o-efeito-de-um-tratamento" class="nav-link" data-scroll-target="#pesquisa-na-prática-interpretando-o-efeito-de-um-tratamento"><span class="header-section-number">6.17</span> Pesquisa na prática: interpretando o efeito de um tratamento</a></li>
+  <li><a href="#dos-resultados-estatísticos-às-conclusões-científicas" id="toc-dos-resultados-estatísticos-às-conclusões-científicas" class="nav-link" data-scroll-target="#dos-resultados-estatísticos-às-conclusões-científicas"><span class="header-section-number">6.18</span> Dos resultados estatísticos às conclusões científicas</a>
+  <ul class="collapse">
+  <li><a href="#igualar-p-005-a-importância-científica" id="toc-igualar-p-005-a-importância-científica" class="nav-link" data-scroll-target="#igualar-p-005-a-importância-científica"><span class="header-section-number">6.18.1</span> Igualar P &lt; 0,05 a importância científica</a></li>
+  <li><a href="#interpretar-p-005-como-prova-de-ausência-de-efeito" id="toc-interpretar-p-005-como-prova-de-ausência-de-efeito" class="nav-link" data-scroll-target="#interpretar-p-005-como-prova-de-ausência-de-efeito"><span class="header-section-number">6.18.2</span> Interpretar P &gt; 0,05 como prova de ausência de efeito</a></li>
+  <li><a href="#relatar-valores-p-sem-tamanhos-de-efeito" id="toc-relatar-valores-p-sem-tamanhos-de-efeito" class="nav-link" data-scroll-target="#relatar-valores-p-sem-tamanhos-de-efeito"><span class="header-section-number">6.18.3</span> Relatar valores-P sem tamanhos de efeito</a></li>
+  <li><a href="#ignorar-a-incerteza" id="toc-ignorar-a-incerteza" class="nav-link" data-scroll-target="#ignorar-a-incerteza"><span class="header-section-number">6.18.4</span> Ignorar a incerteza</a></li>
+  <li><a href="#confundir-desvio-padrão-e-erro-padrão" id="toc-confundir-desvio-padrão-e-erro-padrão" class="nav-link" data-scroll-target="#confundir-desvio-padrão-e-erro-padrão"><span class="header-section-number">6.18.5</span> Confundir desvio padrão e erro padrão</a></li>
+  <li><a href="#ignorar-a-unidade-experimental" id="toc-ignorar-a-unidade-experimental" class="nav-link" data-scroll-target="#ignorar-a-unidade-experimental"><span class="header-section-number">6.18.6</span> Ignorar a unidade experimental</a></li>
+  <li><a href="#tratar-associação-como-causalidade" id="toc-tratar-associação-como-causalidade" class="nav-link" data-scroll-target="#tratar-associação-como-causalidade"><span class="header-section-number">6.18.7</span> Tratar associação como causalidade</a></li>
+  <li><a href="#generalizar-além-da-população-estudada" id="toc-generalizar-além-da-população-estudada" class="nav-link" data-scroll-target="#generalizar-além-da-população-estudada"><span class="header-section-number">6.18.8</span> Generalizar além da população estudada</a></li>
+  <li><a href="#escolher-as-análises-depois-de-procurar-significância" id="toc-escolher-as-análises-depois-de-procurar-significância" class="nav-link" data-scroll-target="#escolher-as-análises-depois-de-procurar-significância"><span class="header-section-number">6.18.9</span> Escolher as análises depois de procurar significância</a></li>
+  <li><a href="#relatar-precisão-numérica-excessiva" id="toc-relatar-precisão-numérica-excessiva" class="nav-link" data-scroll-target="#relatar-precisão-numérica-excessiva"><span class="header-section-number">6.18.10</span> Relatar precisão numérica excessiva</a></li>
+  </ul></li>
+  <li><a href="#um-fluxo-de-trabalho-para-o-raciocínio-estatístico" id="toc-um-fluxo-de-trabalho-para-o-raciocínio-estatístico" class="nav-link" data-scroll-target="#um-fluxo-de-trabalho-para-o-raciocínio-estatístico"><span class="header-section-number">6.19</span> Um fluxo de trabalho para o raciocínio estatístico</a></li>
+  <li><a href="#lista-de-verificação-da-inferência-estatística" id="toc-lista-de-verificação-da-inferência-estatística" class="nav-link" data-scroll-target="#lista-de-verificação-da-inferência-estatística"><span class="header-section-number">6.20</span> Lista de verificação da inferência estatística</a></li>
+  <li><a href="#resumo-do-capítulo" id="toc-resumo-do-capítulo" class="nav-link" data-scroll-target="#resumo-do-capítulo"><span class="header-section-number">6.21</span> Resumo do capítulo</a></li>
+  <li><a href="#conceitos-chave" id="toc-conceitos-chave" class="nav-link" data-scroll-target="#conceitos-chave"><span class="header-section-number">6.22</span> Conceitos-chave</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">6.23</span> Exercícios</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1.-o-que-está-sendo-estimado" id="toc-exercício-1.-o-que-está-sendo-estimado" class="nav-link" data-scroll-target="#exercício-1.-o-que-está-sendo-estimado"><span class="header-section-number">6.23.1</span> Exercício 1. O que está sendo estimado?</a></li>
+  <li><a href="#exercício-2.-tamanho-de-efeito-ou-valor-p" id="toc-exercício-2.-tamanho-de-efeito-ou-valor-p" class="nav-link" data-scroll-target="#exercício-2.-tamanho-de-efeito-ou-valor-p"><span class="header-section-number">6.23.2</span> Exercício 2. Tamanho de efeito ou valor-P?</a></li>
+  <li><a href="#exercício-3.-interprete-um-intervalo-de-confiança" id="toc-exercício-3.-interprete-um-intervalo-de-confiança" class="nav-link" data-scroll-target="#exercício-3.-interprete-um-intervalo-de-confiança"><span class="header-section-number">6.23.3</span> Exercício 3. Interprete um intervalo de confiança</a></li>
+  <li><a href="#exercício-4.-o-que-há-de-errado-com-esta-conclusão" id="toc-exercício-4.-o-que-há-de-errado-com-esta-conclusão" class="nav-link" data-scroll-target="#exercício-4.-o-que-há-de-errado-com-esta-conclusão"><span class="header-section-number">6.23.4</span> Exercício 4. O que há de errado com esta conclusão?</a></li>
+  <li><a href="#exercício-5.-significância-estatística-versus-biológica" id="toc-exercício-5.-significância-estatística-versus-biológica" class="nav-link" data-scroll-target="#exercício-5.-significância-estatística-versus-biológica"><span class="header-section-number">6.23.5</span> Exercício 5. Significância estatística versus biológica</a></li>
+  <li><a href="#exercício-6.-lendo-um-artigo-publicado" id="toc-exercício-6.-lendo-um-artigo-publicado" class="nav-link" data-scroll-target="#exercício-6.-lendo-um-artigo-publicado"><span class="header-section-number">6.23.6</span> Exercício 6. Lendo um artigo publicado</a></li>
+  </ul></li>
+  <li><a href="#reflexão" id="toc-reflexão" class="nav-link" data-scroll-target="#reflexão"><span class="header-section-number">6.24</span> Reflexão</a></li>
+  <li><a href="#próximos-passos" id="toc-próximos-passos" class="nav-link" data-scroll-target="#próximos-passos"><span class="header-section-number">6.25</span> Próximos passos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Como tiramos conclusões científicas?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-de-aprendizagem" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">6.1</span> Objetivos de aprendizagem</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao concluir este capítulo, o leitor deverá ser capaz de:</p>
+<ul>
+<li>explicar a distinção entre população, amostra, parâmetro e estimativa;</li>
+<li>definir a grandeza de interesse científico antes de escolher um método estatístico;</li>
+<li>explicar a variabilidade amostral e a incerteza estatística;</li>
+<li>distinguir estimação de teste de hipóteses;</li>
+<li>interpretar tamanhos de efeito e intervalos de confiança;</li>
+<li>formular hipóteses científicas e estatísticas;</li>
+<li>explicar o significado e as limitações do valor-P;</li>
+<li>distinguir significância estatística de importância biológica;</li>
+<li>reconhecer os erros dos tipos I e II;</li>
+<li>compreender os papéis do poder estatístico e do tamanho da amostra;</li>
+<li>avaliar conclusões científicas com base na magnitude, na incerteza e na relevância biológica dos efeitos estimados.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="das-observações-à-inferência" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="das-observações-à-inferência"><span class="header-section-number">6.2</span> Das observações à inferência</h2>
+<p>Os capítulos anteriores trataram do delineamento de estudos, da organização dos dados, da exploração das observações e da visualização de padrões. Agora enfrentamos uma questão diferente: <strong>que conclusões podem ser razoavelmente tiradas dos dados?</strong></p>
+<p>Suponha que, em um ensaio de campo, as parcelas pulverizadas com um fungicida tenham tido severidade média de 40%, enquanto as parcelas não tratadas tiveram 60%. A diferença observada é de 20 pontos percentuais. Mas o pesquisador raramente se interessa apenas por essas parcelas específicas nessa safra específica. A verdadeira pergunta é sobre o fungicida: ele reduz a doença, e em quanto, em condições como as do ensaio? Se o ensaio tivesse sido conduzido em outras parcelas da mesma lavoura, com outras plantas, a diferença observada não teria sido exatamente 20 pontos percentuais. Poderia ter sido 14 ou 27.</p>
+<p>A diferença observada, portanto, não é o mesmo que o efeito subjacente do fungicida. É uma estimativa desse efeito, influenciada pela variabilidade natural das parcelas, das plantas e da doença. A <strong>inferência estatística</strong> é o raciocínio que liga o que foi observado ao que queremos saber. Ela responde a perguntas como: Qual é a nossa melhor estimativa do efeito? Com que precisão ele foi estimado? Quais tamanhos de efeito são compatíveis com os dados? Uma diferença desse tamanho poderia surgir plausivelmente se o tratamento não tivesse efeito?</p>
+<p>Este capítulo apresenta os conceitos em que esse raciocínio se baseia. Eles são comuns a todos os métodos estatísticos apresentados nos capítulos seguintes, das comparações entre grupos aos modelos não lineares.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A inferência estatística é o processo de usar os dados observados, junto com pressupostos sobre como esses dados foram gerados, para quantificar o que pode ser razoavelmente concluído além das próprias observações.</p>
+</div>
+</div>
+</section>
+<section id="o-que-queremos-estimar" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="o-que-queremos-estimar"><span class="header-section-number">6.3</span> O que queremos estimar?</h2>
+<section id="a-questão-científica-vem-primeiro" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="a-questão-científica-vem-primeiro"><span class="header-section-number">6.3.1</span> A questão científica vem primeiro</h3>
+<p>Um ponto de partida comum na análise de dados é perguntar: “Que teste estatístico devo usar?” Essa pergunta vem cedo demais. Antes de escolher um método, o pesquisador precisa decidir que grandeza responderia à questão biológica.</p>
+<p>Considere a questão: Um fungicida reduz a doença? Várias grandezas poderiam respondê-la:</p>
+<ul>
+<li>a diferença na severidade média entre parcelas tratadas e não tratadas na última avaliação;</li>
+<li>a redução relativa da severidade, expressa como porcentagem da testemunha;</li>
+<li>a diferença na incidência da doença em um estádio fenológico específico;</li>
+<li>a diferença na taxa de progresso da doença durante a safra;</li>
+<li>a diferença de produtividade entre parcelas tratadas e não tratadas.</li>
+</ul>
+<p>Cada uma dessas grandezas responde a uma pergunta ligeiramente diferente, e cada uma pode levar a uma conclusão diferente. Um fungicida pode reduzir muito a severidade final e ter pouco efeito sobre a produtividade, ou pode atrasar a epidemia sem mudar seu nível final. Escolher a grandeza de interesse é uma decisão científica, e não estatística.</p>
+</section>
+<section id="da-questão-biológica-ao-estimando" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="da-questão-biológica-ao-estimando"><span class="header-section-number">6.3.2</span> Da questão biológica ao estimando</h3>
+<p>A grandeza que um estudo pretende conhecer é chamada <strong>estimando</strong>. Defini-lo com precisão é a ponte entre a questão biológica e a análise estatística. Exemplos de estimandos em Fitopatologia incluem:</p>
+<ul>
+<li>a severidade média de uma cultivar em determinadas condições;</li>
+<li>a diferença entre a severidade média de parcelas tratadas e não tratadas;</li>
+<li>a redução relativa da doença causada por um tratamento;</li>
+<li>a inclinação que relaciona a produtividade à severidade da doença;</li>
+<li>a chance de infecção de plantas expostas a determinada duração de molhamento em relação a plantas expostas a uma duração menor;</li>
+<li>a temperatura em que a infecção é máxima.</li>
+</ul>
+<p>Um estimando bem definido especifica o que é comparado, em que unidades, em que momento e em que condições. “O efeito do fungicida” é vago; “a diferença na severidade média (pontos percentuais) entre parcelas pulverizadas com o fungicida A e parcelas não tratadas na última avaliação, sob infecção natural na região-alvo” é um estimando.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de perguntar <strong>“Que teste estatístico devo usar?”</strong>, pergunte <strong>“Que grandeza eu quero estimar?”</strong></p>
+</div>
+</div>
+</section>
+<section id="parâmetro-e-estimativa" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="parâmetro-e-estimativa"><span class="header-section-number">6.3.3</span> Parâmetro e estimativa</h3>
+<p>O valor verdadeiro do estimando, que só seria conhecido se pudéssemos observar todas as unidades em todas as condições relevantes, é chamado <strong>parâmetro</strong>. Ele é fixo, mas desconhecido: por exemplo, a redução média verdadeira da severidade que o fungicida produziria em todas as parcelas que poderiam ter sido usadas no ensaio. O valor calculado a partir dos dados é uma <strong>estimativa</strong> do parâmetro: por exemplo, a diferença observada de 20 pontos percentuais.</p>
+<p>A distinção é central para a inferência. O parâmetro descreve a realidade biológica que queremos compreender; a estimativa é nossa melhor aproximação, obtida a partir de dados limitados. As estimativas variam de estudo para estudo; o parâmetro, não. Os métodos estatísticos quantificam o quanto a estimativa provavelmente se afasta do parâmetro.</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter6-1" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter6-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-74cd451ba3d77c0efab3" style="width:100%;height:440px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-74cd451ba3d77c0efab3">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><br/><font point-size=\"12\" color=\"#1f5fa8\">O fungicida reduz a doença?<\/font><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Estimando<\/b><br/><font point-size=\"12\" color=\"#4f7d2f\">o que queremos conhecer (parâmetro)<\/font><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Dados observados<\/b><br/><font point-size=\"12\" color=\"#9a6b00\">amostra de unidades experimentais<\/font><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Estimativa<\/b><br/><font point-size=\"12\" color=\"#6c4f9e\">valor calculado + incerteza<\/font><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Interpretação científica<\/b><br/><font point-size=\"12\" color=\"#1f8075\">magnitude, precisão e relevância biológica<\/font><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n1 -> n2 -> n3 -> n4 -> n5\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter6-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.1: Da questão biológica ao estimando, aos dados observados, à estimativa e à interpretação científica.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="população-e-amostra" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="população-e-amostra"><span class="header-section-number">6.4</span> População e amostra</h2>
+<section id="qual-é-a-população-de-interesse" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="qual-é-a-população-de-interesse"><span class="header-section-number">6.4.1</span> Qual é a população de interesse?</h3>
+<p>Em estatística, uma <strong>população</strong> é o conjunto de todas as unidades, ou de todas as observações possíveis, sobre as quais se quer tirar conclusões. Em Fitopatologia, a população raramente significa todas as plantas do mundo. Pode ser:</p>
+<ul>
+<li>plantas de uma cultivar cultivadas em condições definidas de casa de vegetação;</li>
+<li>parcelas em lavouras de uma região produtora-alvo;</li>
+<li>o conjunto de ambientes (safras e locais) em que um fungicida seria usado;</li>
+<li>isolados de uma população do patógeno em um país;</li>
+<li>lavouras comerciais de uma cultura em um estado em determinado ano.</li>
+</ul>
+<p>Definir a população faz parte de definir o estimando. Os mesmos dados podem sustentar conclusões sobre uma população e não sobre outra.</p>
+</section>
+<section id="o-que-é-uma-amostra" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="o-que-é-uma-amostra"><span class="header-section-number">6.4.2</span> O que é uma amostra?</h3>
+<p>Uma <strong>amostra</strong> é o conjunto de unidades efetivamente observadas: as parcelas do ensaio, as plantas inoculadas, os isolados coletados, as lavouras visitadas. A inferência é o uso da amostra para aprender sobre a população. Para que seja válida, a amostra precisa representar a população de forma conhecida. Em levantamentos, isso é obtido por amostragem aleatória ou sistemática das unidades da população. Em experimentos, a alocação aleatória dos tratamentos às unidades garante que os grupos de tratamento sejam comparáveis, de modo que as diferenças entre grupos possam ser atribuídas aos tratamentos.</p>
+</section>
+<section id="para-onde-podemos-generalizar" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="para-onde-podemos-generalizar"><span class="header-section-number">6.4.3</span> Para onde podemos generalizar?</h3>
+<p>A população para a qual as conclusões podem ser estendidas é determinada pelo delineamento do estudo (Capítulo 2). Um experimento bem casualizado conduzido em uma lavoura em uma safra sustenta conclusões sobre o efeito do tratamento naquela lavoura e naquela safra. Estendê-las a outras lavouras, cultivares ou safras exige repetir o experimento nessas condições ou supor que o efeito é semelhante — um pressuposto biológico, e não estatístico.</p>
+<p>Da mesma forma, um experimento em casa de vegetação com um único isolado sustenta conclusões sobre aquele isolado em condições de casa de vegetação. Um levantamento de lavouras escolhidas por conveniência à beira das estradas pode não representar todas as lavouras de uma região. A casualização dentro de um experimento garante comparações válidas entre tratamentos, mas não garante, por si só, que os resultados se apliquem a todos os ambientes.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O escopo da inferência é determinado principalmente por como o estudo foi delineado e por como as unidades experimentais ou observacionais foram obtidas — e não apenas pelo modelo estatístico.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="por-que-as-estimativas-variam" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="por-que-as-estimativas-variam"><span class="header-section-number">6.5</span> Por que as estimativas variam?</h2>
+<section id="variação-amostral" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="variação-amostral"><span class="header-section-number">6.5.1</span> Variação amostral</h3>
+<p>Imagine que o ensaio de fungicida pudesse ser repetido muitas vezes, cada vez com um novo conjunto de parcelas da mesma lavoura e da mesma safra. Mesmo que o fungicida tivesse exatamente o mesmo efeito todas as vezes, a diferença observada entre parcelas tratadas e não tratadas variaria: 20 pontos em um ensaio, 15 em outro, 26 em um terceiro. Essa variação surge porque cada ensaio usa parcelas diferentes, que diferem em solo, microclima e inóculo, e plantas diferentes, que diferem em suscetibilidade.</p>
+<p>Essa variação entre as estimativas que seriam obtidas a partir de amostras diferentes é chamada <strong>variação amostral</strong>. Ela afeta toda grandeza estimada: médias, diferenças, proporções, inclinações e correlações. É o motivo pelo qual um único estudo raramente fornece uma resposta definitiva e pelo qual as estimativas sempre devem vir acompanhadas de uma medida de sua incerteza.</p>
+</section>
+<section id="distribuições-amostrais" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="distribuições-amostrais"><span class="header-section-number">6.5.2</span> Distribuições amostrais</h3>
+<p>Se pudéssemos registrar as estimativas de muitas repetições hipotéticas de um estudo, sua distribuição seria chamada <strong>distribuição amostral</strong> da estimativa. Ela descreve o quanto a estimativa varia de amostra para amostra e se tende a estar centrada no valor verdadeiro.</p>
+<p>Na prática, um estudo é conduzido uma única vez, e a distribuição amostral não pode ser observada diretamente. A teoria estatística, porém, permite inferir sua forma e sua dispersão a partir de uma única amostra, sob pressupostos sobre como os dados foram gerados. Dois fatos gerais são úteis. Primeiro, estimativas baseadas em mais observações independentes variam menos. Segundo, estimativas baseadas em observações mais variáveis variam mais. Esses dois fatos fundamentam os conceitos de erro padrão, intervalos de confiança e poder estatístico.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter6-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter6_files/figure-html/fig-chapter6-2-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter6-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.2: Amostras repetidas produzem estimativas diferentes da mesma grandeza subjacente. Vinte repetições simuladas do mesmo ensaio (seis parcelas por tratamento), em que o efeito verdadeiro do fungicida é uma redução de 20 pontos percentuais (linha tracejada). Cada ponto é a diferença estimada em um ensaio, com seu intervalo de confiança de 95%; os intervalos em laranja não contêm o valor verdadeiro.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="erro-padrão" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="erro-padrão"><span class="header-section-number">6.5.3</span> Erro padrão</h3>
+<p>O <strong>erro padrão</strong> (EP) é o desvio padrão da distribuição amostral de uma estimativa. Em outras palavras, mede o quanto a estimativa variaria tipicamente de uma repetição do estudo para outra. É a medida básica da incerteza de uma estimativa.</p>
+<p>Para uma média calculada a partir de <span class="math inline">\(n\)</span> observações independentes com desvio padrão <span class="math inline">\(s\)</span>, o erro padrão é aproximadamente:</p>
+<p><span class="math display">\[
+EP = \frac{s}{\sqrt{n}}
+\]</span></p>
+<p>O erro padrão diminui à medida que aumenta o número de observações independentes, mas devagar: para reduzi-lo à metade, são necessárias quatro vezes mais observações. Toda estimativa, inclusive diferenças, inclinações e proporções, tem seu próprio erro padrão.</p>
+</section>
+<section id="desvio-padrão-versus-erro-padrão" class="level3" data-number="6.5.4">
+<h3 data-number="6.5.4" class="anchored" data-anchor-id="desvio-padrão-versus-erro-padrão"><span class="header-section-number">6.5.4</span> Desvio padrão versus erro padrão</h3>
+<p>O desvio padrão e o erro padrão são frequentemente confundidos, em parte porque ambos são usados para desenhar barras de erro (Capítulo 5). O <strong>desvio padrão</strong> descreve a variação entre observações individuais: o quanto as parcelas diferem umas das outras. Ele não diminui com mais observações, porque reflete a variabilidade natural do sistema. O <strong>erro padrão</strong> descreve a incerteza de uma estimativa: com que precisão uma média ou diferença é conhecida. Ele diminui à medida que mais observações independentes são coletadas.</p>
+<p>A escolha entre os dois depende da mensagem. Para descrever o quanto parcelas ou plantas são variáveis, relate o desvio padrão. Para descrever com que precisão a média ou o efeito de um tratamento foi estimado, relate o erro padrão ou, de preferência, um intervalo de confiança.</p>
+<div id="tbl-ch6-sd-se" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch6-sd-se-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.1: Distinção entre desvio padrão e erro padrão.
+</figcaption>
+<div aria-describedby="tbl-ch6-sd-se-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Grandeza</th>
+<th>O que descreve?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Desvio padrão</td>
+<td>Variação entre observações</td>
+</tr>
+<tr class="even">
+<td>Erro padrão</td>
+<td>Incerteza de uma grandeza estimada</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="estimação-e-incerteza" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="estimação-e-incerteza"><span class="header-section-number">6.6</span> Estimação e incerteza</h2>
+<section id="estimativas-pontuais" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="estimativas-pontuais"><span class="header-section-number">6.6.1</span> Estimativas pontuais</h3>
+<p>Uma <strong>estimativa pontual</strong> é um único valor calculado a partir dos dados como a melhor estimativa do parâmetro: uma severidade média, uma diferença entre médias de tratamentos, uma redução relativa, uma inclinação, uma proporção de plantas infectadas ou uma razão de riscos. As estimativas pontuais respondem à pergunta “quanto?”, mas, sozinhas, nada dizem sobre a confiabilidade da resposta.</p>
+</section>
+<section id="estimativas-intervalares" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="estimativas-intervalares"><span class="header-section-number">6.6.2</span> Estimativas intervalares</h3>
+<p>Uma <strong>estimativa intervalar</strong> fornece uma faixa de valores plausíveis para o parâmetro, junto com a estimativa pontual. Ela comunica tanto a magnitude do efeito quanto a incerteza sobre ele. A estimativa intervalar mais comum é o intervalo de confiança.</p>
+</section>
+<section id="intervalos-de-confiança" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">6.6.3</span> Intervalos de confiança</h3>
+<p>Um intervalo de confiança de 95% é construído por um procedimento que, se o estudo fosse repetido muitas vezes, produziria intervalos contendo o parâmetro verdadeiro em cerca de 95% das repetições. Para um único intervalo calculado a partir dos dados disponíveis, o parâmetro está dentro ou fora; não sabemos qual. Por isso, não é correto dizer que há 95% de probabilidade de o valor verdadeiro estar dentro deste intervalo específico.</p>
+<p>Uma interpretação prática é que o intervalo de confiança contém os valores do parâmetro razoavelmente compatíveis com os dados, dado o modelo estatístico. Valores próximos ao centro do intervalo são os mais compatíveis; valores próximos aos limites, menos; valores muito fora do intervalo são pouco compatíveis com os dados. Por exemplo, se um fungicida reduziu a severidade em 20 pontos percentuais, com intervalo de confiança de 95% de 10 a 30 pontos, então reduções entre cerca de 10 e 30 pontos são compatíveis com os dados, enquanto uma redução zero, ou de 40 pontos, não é.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um intervalo de confiança deve ser interpretado junto com o efeito estimado. Ele comunica a faixa de tamanhos de efeito razoavelmente compatíveis com os dados e com o modelo estatístico.</p>
+</div>
+</div>
+</section>
+<section id="precisão" class="level3" data-number="6.6.4">
+<h3 data-number="6.6.4" class="anchored" data-anchor-id="precisão"><span class="header-section-number">6.6.4</span> Precisão</h3>
+<p>A largura de um intervalo de confiança reflete a <strong>precisão</strong> da estimativa. Um intervalo estreito indica uma estimativa precisa; um intervalo largo indica que os dados são compatíveis com uma ampla faixa de efeitos. A precisão aumenta com o número de unidades experimentais independentes e diminui com a variabilidade entre elas. Um bom delineamento aumenta a precisão sem aumentar o número de unidades: o bloqueamento, por exemplo, remove fontes conhecidas de variação da comparação entre tratamentos (Capítulo 2).</p>
+<p>Precisão não é o mesmo que exatidão. Uma estimativa pode ser precisa, mas enviesada, como quando as parcelas não tratadas são sistematicamente colocadas na parte mais úmida da lavoura. Os métodos estatísticos quantificam a precisão; somente um bom delineamento protege contra o viés.</p>
+</section>
+<section id="visualizando-estimativas-e-incerteza" class="level3" data-number="6.6.5">
+<h3 data-number="6.6.5" class="anchored" data-anchor-id="visualizando-estimativas-e-incerteza"><span class="header-section-number">6.6.5</span> Visualizando estimativas e incerteza</h3>
+<p>Estimativas e seus intervalos de confiança são mostrados de forma eficaz como pontos com linhas horizontais ou verticais representando os intervalos (Capítulo 5). Quando a conclusão principal diz respeito a diferenças entre tratamentos, as próprias diferenças, com seus intervalos, podem ser representadas em relação a uma linha de referência no zero. Esses gráficos tornam fácil ver de uma vez a direção, a magnitude e a precisão de cada efeito.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter6-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter6-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter6_files/figure-html/fig-chapter6-3-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter6-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.3: O mesmo efeito estimado pode ter diferentes níveis de incerteza. A redução estimada é de 20 pontos percentuais nos três ensaios hipotéticos, mas a precisão aumenta com o número de parcelas por tratamento (desvio padrão de 8 pontos percentuais entre parcelas). Com três parcelas, os dados são compatíveis desde efeitos desprezíveis até reduções muito grandes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="tamanho-de-efeito" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="tamanho-de-efeito"><span class="header-section-number">6.7</span> Tamanho de efeito</h2>
+<section id="qual-é-o-tamanho-do-efeito" class="level3" data-number="6.7.1">
+<h3 data-number="6.7.1" class="anchored" data-anchor-id="qual-é-o-tamanho-do-efeito"><span class="header-section-number">6.7.1</span> Qual é o tamanho do efeito?</h3>
+<p>Um <strong>tamanho de efeito</strong> é uma medida quantitativa da magnitude de um efeito: o quanto um tratamento reduz a doença, o quanto a produtividade diminui por unidade de severidade, com que intensidade a infecção depende da temperatura. Os tamanhos de efeito respondem à pergunta que mais interessa aos pesquisadores e aos usuários da pesquisa: qual é o tamanho do efeito?</p>
+<p>Grande parte da comunicação científica tem se concentrado, em vez disso, em saber se um efeito é “estatisticamente significativo”. Essa mudança de ênfase — da existência de um efeito para sua magnitude e precisão — é uma das mensagens centrais deste capítulo.</p>
+</section>
+<section id="efeitos-absolutos" class="level3" data-number="6.7.2">
+<h3 data-number="6.7.2" class="anchored" data-anchor-id="efeitos-absolutos"><span class="header-section-number">6.7.2</span> Efeitos absolutos</h3>
+<p>Um efeito absoluto é a diferença entre grupos expressa nas unidades da resposta. Se as parcelas não tratadas tiveram 40% de severidade e as tratadas 25%, o efeito absoluto é uma redução de 15 pontos percentuais. Se a produtividade foi de 3200 kg/ha nas parcelas tratadas e de 2800 kg/ha nas não tratadas, o efeito absoluto é de 400 kg/ha. Efeitos absolutos são diretamente interpretáveis e costumam ser o que importa para decisões econômicas.</p>
+<p>Para variáveis expressas em porcentagem, a diferença deve ser expressa em <strong>pontos percentuais</strong>, e não como porcentagem, para evitar confusão: uma mudança de 40% para 25% de severidade é uma redução de 15 pontos percentuais.</p>
+</section>
+<section id="efeitos-relativos" class="level3" data-number="6.7.3">
+<h3 data-number="6.7.3" class="anchored" data-anchor-id="efeitos-relativos"><span class="header-section-number">6.7.3</span> Efeitos relativos</h3>
+<p>Um efeito relativo expressa a diferença como proporção de um valor de referência, geralmente a testemunha. A redução de 40% para 25% de severidade corresponde a uma redução relativa de 15/40 = 37,5%. Na Fitopatologia, os efeitos relativos são muito usados como medidas de eficácia de fungicidas ou de controle da doença.</p>
+<p>Os efeitos relativos são úteis para comparar efeitos entre situações com diferentes níveis de doença, mas podem ser enganosos quando o valor de referência é pequeno. Uma redução de 2% para 1% de severidade é uma redução relativa de 50%, mas de apenas um ponto percentual em termos absolutos, o que pode não ter nenhuma importância prática. Relatar efeitos absolutos e relativos fornece o quadro mais completo.</p>
+</section>
+<section id="efeitos-padronizados" class="level3" data-number="6.7.4">
+<h3 data-number="6.7.4" class="anchored" data-anchor-id="efeitos-padronizados"><span class="header-section-number">6.7.4</span> Efeitos padronizados</h3>
+<p>Efeitos padronizados expressam uma diferença em relação à variabilidade das observações, por exemplo a diferença entre médias dividida pelo desvio padrão. Não têm unidades e são usados principalmente para comparar efeitos medidos em escalas diferentes, como em meta-análises ou cálculos de poder. Como dependem da variabilidade de um estudo específico, os efeitos padronizados são menos diretamente interpretáveis em termos biológicos, e efeitos absolutos ou relativos em unidades naturais são geralmente preferidos ao relatar resultados.</p>
+</section>
+<section id="relevância-biológica" class="level3" data-number="6.7.5">
+<h3 data-number="6.7.5" class="anchored" data-anchor-id="relevância-biológica"><span class="header-section-number">6.7.5</span> Relevância biológica</h3>
+<p>Se um efeito é importante depende de suas consequências, que só podem ser julgadas com conhecimento biológico e prático. Um fungicida que reduz a severidade em 5 pontos percentuais pode ser irrelevante se a produtividade não for afetada, ou valioso se a cultura tiver alto valor de mercado e a doença causar perdas diretas de qualidade. Um aumento de um dia no período latente pode ser trivial em um único ciclo, mas substancial ao longo de uma epidemia policíclica. Uma diferença de resistência entre cultivares pode importar para o melhoramento, mesmo que seja pequena demais para importar para o manejo.</p>
+<p>Os pesquisadores devem definir, idealmente antes de coletar os dados, o menor efeito que seria biológica ou economicamente relevante. Esse limiar fornece o contexto para interpretar as estimativas e seus intervalos de confiança.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A evidência estatística trata da incerteza. A importância biológica diz respeito à magnitude e às consequências de um efeito. São perguntas relacionadas, mas não são a mesma pergunta.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="hipóteses-científicas-e-hipóteses-estatísticas" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="hipóteses-científicas-e-hipóteses-estatísticas"><span class="header-section-number">6.8</span> Hipóteses científicas e hipóteses estatísticas</h2>
+<section id="hipóteses-científicas" class="level3" data-number="6.8.1">
+<h3 data-number="6.8.1" class="anchored" data-anchor-id="hipóteses-científicas"><span class="header-section-number">6.8.1</span> Hipóteses científicas</h3>
+<p>Como discutido no Capítulo 2, uma hipótese científica é uma proposição biológica que oferece uma explicação ou expectativa: um fungicida reduz a doença porque inibe a germinação dos esporos; uma cultivar tem menos doença porque possui um gene de resistência; a infecção aumenta com a duração do molhamento porque o patógeno precisa de água livre para germinar e penetrar. As hipóteses científicas são avaliadas por meio das predições que geram.</p>
+</section>
+<section id="hipóteses-estatísticas" class="level3" data-number="6.8.2">
+<h3 data-number="6.8.2" class="anchored" data-anchor-id="hipóteses-estatísticas"><span class="header-section-number">6.8.2</span> Hipóteses estatísticas</h3>
+<p>Uma hipótese estatística é um enunciado preciso sobre o valor de um parâmetro em um modelo estatístico. Ela traduz uma predição da hipótese científica em uma forma que pode ser avaliada com dados. Por exemplo, a predição de que parcelas tratadas terão menos doença que parcelas não tratadas pode ser traduzida em um enunciado sobre a diferença entre as severidades médias dos dois grupos.</p>
+</section>
+<section id="hipótese-nula" class="level3" data-number="6.8.3">
+<h3 data-number="6.8.3" class="anchored" data-anchor-id="hipótese-nula"><span class="header-section-number">6.8.3</span> Hipótese nula</h3>
+<p>A <strong>hipótese nula</strong>, <span class="math inline">\(H_0\)</span>, geralmente afirma que não há efeito ou diferença: a severidade média das parcelas tratadas é igual à das não tratadas, ou a inclinação que relaciona doença e produtividade é zero. A hipótese nula não é necessariamente aquilo em que o pesquisador acredita; é um modelo de referência com o qual os dados são comparados.</p>
+</section>
+<section id="hipótese-alternativa" class="level3" data-number="6.8.4">
+<h3 data-number="6.8.4" class="anchored" data-anchor-id="hipótese-alternativa"><span class="header-section-number">6.8.4</span> Hipótese alternativa</h3>
+<p>A <strong>hipótese alternativa</strong>, <span class="math inline">\(H_A\)</span>, afirma o que se considera caso a hipótese nula não seja sustentada, geralmente que existe uma diferença ou um efeito. Ela pode ser bilateral (as médias diferem, em qualquer direção) ou unilateral (a média tratada é menor).</p>
+<p>Para uma comparação entre duas médias populacionais:</p>
+<p><span class="math display">\[
+H_0: \mu_1 - \mu_2 = 0
+\]</span></p>
+<p><span class="math display">\[
+H_A: \mu_1 - \mu_2 \neq 0
+\]</span></p>
+<p>Essa é uma representação estatística de uma comparação científica, e não a própria hipótese científica. Rejeitar <span class="math inline">\(H_0\)</span> indica que os dados não são compatíveis com uma diferença zero sob o modelo; não demonstra o mecanismo biológico proposto pela hipótese científica, nem diz qual é o tamanho da diferença.</p>
+</section>
+</section>
+<section id="teste-de-hipóteses" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="teste-de-hipóteses"><span class="header-section-number">6.9</span> Teste de hipóteses</h2>
+<section id="a-lógica-de-um-teste-estatístico" class="level3" data-number="6.9.1">
+<h3 data-number="6.9.1" class="anchored" data-anchor-id="a-lógica-de-um-teste-estatístico"><span class="header-section-number">6.9.1</span> A lógica de um teste estatístico</h3>
+<p>Um teste estatístico segue uma lógica indireta. Começa supondo que a hipótese nula é verdadeira, junto com os demais pressupostos do modelo estatístico. Em seguida, pergunta quão compatíveis os dados observados são com esse modelo. Se dados como os observados seriam muito incomuns sob o modelo nulo, isso é tomado como evidência contra ele. Se seriam comuns, os dados fornecem pouca evidência contra o modelo nulo — o que não significa que a hipótese nula seja verdadeira.</p>
+</section>
+<section id="estatísticas-de-teste" class="level3" data-number="6.9.2">
+<h3 data-number="6.9.2" class="anchored" data-anchor-id="estatísticas-de-teste"><span class="header-section-number">6.9.2</span> Estatísticas de teste</h3>
+<p>Uma estatística de teste é um número calculado a partir dos dados que resume o quanto as observações se afastam do que a hipótese nula prevê, em relação à incerteza da estimativa. Muitas estatísticas de teste têm a forma geral:</p>
+<p><span class="math display">\[
+\text{estatística de teste} = \frac{\text{estimativa} - \text{valor sob } H_0}{\text{erro padrão da estimativa}}
+\]</span></p>
+<p>A estatística <span class="math inline">\(t\)</span> usada para comparar duas médias, por exemplo, é a diferença observada dividida pelo seu erro padrão. Valores grandes, positivos ou negativos, indicam que a estimativa está longe do valor nulo em relação à sua incerteza.</p>
+</section>
+<section id="o-valor-p" class="level3" data-number="6.9.3">
+<h3 data-number="6.9.3" class="anchored" data-anchor-id="o-valor-p"><span class="header-section-number">6.9.3</span> O valor-P</h3>
+<p>O <strong>valor-P</strong> é a probabilidade, calculada supondo que o modelo nulo seja verdadeiro, de obter uma estatística de teste pelo menos tão extrema quanto a observada. Valores-P pequenos indicam que os dados observados seriam incomuns se o modelo nulo fosse verdadeiro; valores-P grandes indicam que não seriam incomuns.</p>
+<p>O valor-P depende tanto do tamanho do efeito quanto da sua precisão. Um efeito pequeno estimado com muita precisão, a partir de muitas observações, pode produzir um valor-P muito pequeno; um efeito grande estimado com pouca precisão pode produzir um valor-P grande.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um valor-P mede a compatibilidade dos dados observados, ou de dados mais extremos, com um modelo estatístico especificado que inclui a hipótese nula. Ele não é a probabilidade de a hipótese nula ser verdadeira.</p>
+</div>
+</div>
+</section>
+<section id="o-que-um-valor-p-não-nos-diz" class="level3" data-number="6.9.4">
+<h3 data-number="6.9.4" class="anchored" data-anchor-id="o-que-um-valor-p-não-nos-diz"><span class="header-section-number">6.9.4</span> O que um valor-P não nos diz</h3>
+<p>Um valor-P <strong>não</strong> nos diz diretamente:</p>
+<ul>
+<li>a probabilidade de a hipótese ser verdadeira;</li>
+<li>a probabilidade de os resultados terem ocorrido “por acaso”;</li>
+<li>a magnitude do efeito biológico;</li>
+<li>se o efeito é cientificamente importante;</li>
+<li>se o experimento foi bem delineado;</li>
+<li>se os resultados serão reprodutíveis.</li>
+</ul>
+<p>Essas limitações foram enfatizadas em uma declaração da Associação Americana de Estatística (ASA) sobre valores-P <span class="citation" data-cites="wasserstein2016">(<a href="references.html#ref-wasserstein2016" role="doc-biblioref">Wasserstein e Lazar 2016</a>)</span>.</p>
+</section>
+<section id="significância-estatística" class="level3" data-number="6.9.5">
+<h3 data-number="6.9.5" class="anchored" data-anchor-id="significância-estatística"><span class="header-section-number">6.9.5</span> Significância estatística</h3>
+<p>Na prática convencional, um resultado é chamado “estatisticamente significativo” quando o valor-P é menor que um limiar preestabelecido, chamado nível de significância, <span class="math inline">\(\alpha\)</span>. O limiar mais comum é <span class="math inline">\(\alpha = 0{,}05\)</span>. Essa convenção foi popularizada no início do século XX como um guia aproximado de quais resultados mereciam mais atenção, e não como uma regra para decidir o que é verdadeiro. Com o tempo, porém, o limiar passou a ser tratado como uma fronteira entre resultados que “funcionam” e resultados que “não funcionam”.</p>
+</section>
+<section id="o-problema-dos-limiares" class="level3" data-number="6.9.6">
+<h3 data-number="6.9.6" class="anchored" data-anchor-id="o-problema-dos-limiares"><span class="header-section-number">6.9.6</span> O problema dos limiares</h3>
+<p>A evidência não muda bruscamente em um valor arbitrário. Considere dois experimentos:</p>
+<pre class="text"><code>P = 0,049  → "significativo"
+P = 0,051  → "não significativo"</code></pre>
+<p>Os dois resultados fornecem evidências praticamente idênticas, mas a dicotomia leva a conclusões opostas. Tratar os limiares como decisivos incentiva a exagerar resultados logo abaixo de 0,05, descartar resultados logo acima e escolher análises que produzam valores-P abaixo dele. Por isso, muitos estatísticos recomendam relatar os valores-P exatos, interpretá-los como uma medida contínua de compatibilidade com o modelo nulo e concentrar-se nos tamanhos de efeito e em seus intervalos de confiança <span class="citation" data-cites="wasserstein2016 amrhein2019">(<a href="references.html#ref-amrhein2019" role="doc-biblioref">Amrhein et al. 2019</a>; <a href="references.html#ref-wasserstein2016" role="doc-biblioref">Wasserstein e Lazar 2016</a>)</span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As conclusões científicas não devem mudar bruscamente porque um valor-P ficou logo acima ou logo abaixo de um limiar arbitrário.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="significância-estatística-versus-importância-biológica" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="significância-estatística-versus-importância-biológica"><span class="header-section-number">6.10</span> Significância estatística versus importância biológica</h2>
+<p>Essa distinção é particularmente importante nas ciências biológicas aplicadas.</p>
+<p>A significância estatística diz respeito a se os dados são compatíveis com a ausência de efeito. A importância biológica diz respeito a se o efeito é grande o suficiente para importar. São dimensões independentes: um efeito pode ser estatisticamente detectável, mas biologicamente trivial, ou biologicamente grande, mas estimado com imprecisão demais para conclusões firmes. Considerar juntos a estimativa, seu intervalo de confiança e o menor efeito biologicamente relevante leva a quatro situações típicas.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-chapter6-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter6-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter6_files/figure-html/fig-chapter6-4-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter6-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.4: A evidência estatística e a importância biológica representam dimensões diferentes da interpretação científica. Quatro situações descritas no texto: cada ponto é um efeito estimado com seu intervalo de confiança de 95%. A faixa sombreada indica reduções maiores que 10 pontos percentuais, consideradas aqui biologicamente relevantes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="efeitos-pequenos-mas-estimados-com-precisão" class="level3" data-number="6.10.1">
+<h3 data-number="6.10.1" class="anchored" data-anchor-id="efeitos-pequenos-mas-estimados-com-precisão"><span class="header-section-number">6.10.1</span> Efeitos pequenos, mas estimados com precisão</h3>
+<p>Um levantamento de milhares de lavouras constata que um sistema de preparo do solo está associado a 1 ponto percentual a menos de doença, com intervalo de confiança de 0,6 a 1,4 ponto e P &lt; 0,001. O efeito é claramente diferente de zero, mas todo o intervalo está abaixo de qualquer efeito relevante para o manejo da doença. A evidência é forte; o efeito é pequeno.</p>
+</section>
+<section id="efeitos-grandes-mas-incertos" class="level3" data-number="6.10.2">
+<h3 data-number="6.10.2" class="anchored" data-anchor-id="efeitos-grandes-mas-incertos"><span class="header-section-number">6.10.2</span> Efeitos grandes, mas incertos</h3>
+<p>Um pequeno experimento em casa de vegetação constata que um agente de controle biológico reduziu a severidade em 30 pontos percentuais, com intervalo de confiança de −5 a 65 pontos e P = 0,09. O efeito estimado é grande, mas os dados são compatíveis com qualquer coisa, desde nenhum efeito (ou um leve aumento) até uma redução muito grande. A conclusão adequada não é que o agente “não funciona”, mas que a evidência é inconclusiva e que é necessário um experimento maior ou repetido.</p>
+</section>
+<section id="efeitos-grandes-e-estimados-com-precisão" class="level3" data-number="6.10.3">
+<h3 data-number="6.10.3" class="anchored" data-anchor-id="efeitos-grandes-e-estimados-com-precisão"><span class="header-section-number">6.10.3</span> Efeitos grandes e estimados com precisão</h3>
+<p>Um ensaio de campo bem repetido constata que um fungicida reduziu a severidade em 25 pontos percentuais, com intervalo de confiança de 19 a 31 pontos. Todo o intervalo está na faixa de efeitos biologicamente relevantes. Essa é a situação mais forte: o efeito está claramente presente e é claramente importante.</p>
+</section>
+<section id="efeitos-próximos-de-zero" class="level3" data-number="6.10.4">
+<h3 data-number="6.10.4" class="anchored" data-anchor-id="efeitos-próximos-de-zero"><span class="header-section-number">6.10.4</span> Efeitos próximos de zero</h3>
+<p>Um ensaio bem repetido encontra uma diferença de 0,5 ponto percentual entre dois fungicidas, com intervalo de confiança de −2 a 3 pontos. Os dados são compatíveis com ausência de diferença, e também com pequenas diferenças em qualquer direção, mas não com nenhuma diferença grande o suficiente para importar. Aqui, um resultado “não significativo” fornece evidência útil de que os dois produtos têm desempenho semelhante, porque o intervalo é estreito. Essa conclusão só é possível porque a estimativa é precisa.</p>
+</section>
+</section>
+<section id="erros-nas-decisões-estatísticas" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="erros-nas-decisões-estatísticas"><span class="header-section-number">6.11</span> Erros nas decisões estatísticas</h2>
+<p>Quando um teste é usado para tomar uma decisão — rejeitar ou não rejeitar a hipótese nula —, dois tipos de erro são possíveis.</p>
+<section id="erro-do-tipo-i" class="level3" data-number="6.11.1">
+<h3 data-number="6.11.1" class="anchored" data-anchor-id="erro-do-tipo-i"><span class="header-section-number">6.11.1</span> Erro do tipo I</h3>
+<p>O <strong>erro do tipo I</strong> ocorre quando a hipótese nula é rejeitada embora seja verdadeira: concluir que um fungicida reduz a doença quando, na verdade, ele não tem efeito. A probabilidade de um erro do tipo I, quando a hipótese nula é verdadeira, é igual ao nível de significância <span class="math inline">\(\alpha\)</span>. Com <span class="math inline">\(\alpha = 0{,}05\)</span>, cerca de 1 em cada 20 testes de hipóteses nulas verdadeiras produzirá um resultado “significativo”.</p>
+</section>
+<section id="erro-do-tipo-ii" class="level3" data-number="6.11.2">
+<h3 data-number="6.11.2" class="anchored" data-anchor-id="erro-do-tipo-ii"><span class="header-section-number">6.11.2</span> Erro do tipo II</h3>
+<p>O <strong>erro do tipo II</strong> ocorre quando a hipótese nula não é rejeitada embora exista um efeito relevante: concluir que não há evidência de efeito do fungicida quando ele, na verdade, reduz a doença. A probabilidade de um erro do tipo II, denotada <span class="math inline">\(\beta\)</span>, depende do tamanho do efeito verdadeiro, da variabilidade dos dados e do número de unidades experimentais independentes. Experimentos pequenos e com poucas repetições têm alta probabilidade de erros do tipo II.</p>
+<div id="tbl-ch6-errors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch6-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.2: Resultados possíveis de um teste convencional de significância da hipótese nula.
+</figcaption>
+<div aria-describedby="tbl-ch6-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Realidade</th>
+<th>Rejeitar <span class="math inline">\(H_0\)</span></th>
+<th>Não rejeitar <span class="math inline">\(H_0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H_0\)</span> verdadeira</td>
+<td>Erro do tipo I</td>
+<td>Decisão correta</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(H_0\)</span> falsa</td>
+<td>Decisão correta</td>
+<td>Erro do tipo II</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="por-que-não-significativo-não-significa-sem-efeito" class="level3" data-number="6.11.3">
+<h3 data-number="6.11.3" class="anchored" data-anchor-id="por-que-não-significativo-não-significa-sem-efeito"><span class="header-section-number">6.11.3</span> Por que “não significativo” não significa “sem efeito”</h3>
+<p>Um valor-P maior que 0,05 significa que os dados são compatíveis com ausência de efeito. Não significa que os dados mostram que não há efeito. Os mesmos dados podem ser igualmente compatíveis com um efeito substancial. Essa é a diferença entre <strong>ausência de evidência</strong> e <strong>evidência de ausência</strong>.</p>
+<p>O intervalo de confiança revela qual situação se aplica. Se for estreito e contiver apenas efeitos biologicamente desprezíveis, os dados fornecem evidência de que qualquer efeito é pequeno. Se for largo e incluir tanto o zero quanto efeitos grandes, o estudo é simplesmente inconclusivo. Concluir que “os tratamentos não diferiram” apenas com base em um valor-P acima de 0,05 é um dos erros mais comuns na literatura científica <span class="citation" data-cites="amrhein2019">(<a href="references.html#ref-amrhein2019" role="doc-biblioref">Amrhein et al. 2019</a>)</span>.</p>
+</section>
+</section>
+<section id="poder-estatístico" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="poder-estatístico"><span class="header-section-number">6.12</span> Poder estatístico</h2>
+<section id="o-que-é-poder" class="level3" data-number="6.12.1">
+<h3 data-number="6.12.1" class="anchored" data-anchor-id="o-que-é-poder"><span class="header-section-number">6.12.1</span> O que é poder?</h3>
+<p>O <strong>poder estatístico</strong> é a probabilidade de um estudo detectar um efeito de determinado tamanho — isto é, produzir um resultado estatisticamente significativo — se esse efeito realmente existir. É igual a <span class="math inline">\(1 - \beta\)</span>. Um poder de 0,80 significa que, se o efeito verdadeiro for tão grande quanto o suposto, 80% das repetições do estudo o detectariam, e 20% não.</p>
+<p>O poder é uma propriedade do delineamento do estudo para um tamanho de efeito especificado, e não do resultado. Ele é mais útil no planejamento, para determinar se a repetição planejada é suficiente para detectar efeitos de interesse prático.</p>
+</section>
+<section id="o-que-determina-o-poder" class="level3" data-number="6.12.2">
+<h3 data-number="6.12.2" class="anchored" data-anchor-id="o-que-determina-o-poder"><span class="header-section-number">6.12.2</span> O que determina o poder?</h3>
+<p>Conceitualmente, o poder estatístico depende:</p>
+<ul>
+<li>da magnitude do efeito;</li>
+<li>da variabilidade entre as observações;</li>
+<li>do tamanho da amostra;</li>
+<li>do delineamento estatístico;</li>
+<li>do critério usado para a evidência estatística.</li>
+</ul>
+<p>Efeitos maiores, menos variabilidade, mais unidades experimentais independentes, delineamentos que removem fontes conhecidas de variação (como o bloqueamento) e limiares menos rigorosos aumentam o poder.</p>
+</section>
+<section id="tamanho-da-amostra" class="level3" data-number="6.12.3">
+<h3 data-number="6.12.3" class="anchored" data-anchor-id="tamanho-da-amostra"><span class="header-section-number">6.12.3</span> Tamanho da amostra</h3>
+<p>No contexto do poder, tamanho da amostra significa o número de <strong>unidades experimentais independentes</strong>, e não o número de medidas. Avaliar 50 folhas em cada uma de quatro parcelas não fornece o poder de 200 parcelas, porque as folhas são subamostras (Capítulo 2). As subamostras melhoram a precisão do valor de cada parcela, mas somente mais parcelas, vasos, placas ou execuções aumentam o número de unidades independentes. Uma amostra maior também não torna um estudo bom por si só: um estudo grande, mas enviesado, produz estimativas precisas da grandeza errada.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Aumentar o número de subamostras não compensa ter poucas unidades experimentais independentes.</p>
+</div>
+</div>
+</section>
+<section id="planejando-o-tamanho-da-amostra" class="level3" data-number="6.12.4">
+<h3 data-number="6.12.4" class="anchored" data-anchor-id="planejando-o-tamanho-da-amostra"><span class="header-section-number">6.12.4</span> Planejando o tamanho da amostra</h3>
+<p>Planejar o tamanho da amostra exige três informações: o menor efeito que seria biologicamente relevante, uma estimativa da variabilidade entre unidades experimentais (de estudos anteriores ou experimentos-piloto) e o poder ou a precisão desejados. Com elas, o número de repetições necessário pode ser calculado ou estimado por simulação. Alternativamente, o tamanho da amostra pode ser planejado para obter um intervalo de confiança com a largura desejada.</p>
+<p>Esse planejamento frequentemente revela que experimentos típicos, com três ou quatro repetições, só conseguem detectar efeitos grandes. Isso não é motivo para evitar experimentos, mas é motivo para interpretar com cautela resultados não significativos de experimentos pequenos e para repetir os experimentos quando efeitos de tamanho moderado importam.</p>
+</section>
+</section>
+<section id="estimação-ou-teste" class="level2" data-number="6.13">
+<h2 data-number="6.13" class="anchored" data-anchor-id="estimação-ou-teste"><span class="header-section-number">6.13</span> Estimação ou teste?</h2>
+<p>Teste de hipóteses e estimação são complementares, e não mutuamente exclusivos. Um teste responde a uma pergunta restrita: os dados são compatíveis com o modelo nulo? A estimação responde a perguntas mais amplas: qual é o tamanho do efeito, e com que precisão ele é conhecido? Na maioria dos estudos de Fitopatologia, o segundo conjunto de perguntas está mais próximo do que os pesquisadores e os usuários da pesquisa precisam saber. Um produtor que escolhe um fungicida quer saber quanto de doença ele controla, e não apenas se controla alguma doença.</p>
+<p>Por isso, a estimação deve geralmente ser a abordagem principal, com os testes fornecendo informação complementar. Um intervalo de confiança contém a informação de um teste — já que um intervalo que exclui o zero corresponde a um resultado significativo no nível correspondente — e muito mais.</p>
+<section id="raciocínio-com-a-estimação-em-primeiro-lugar" class="level3" data-number="6.13.1">
+<h3 data-number="6.13.1" class="anchored" data-anchor-id="raciocínio-com-a-estimação-em-primeiro-lugar"><span class="header-section-number">6.13.1</span> Raciocínio com a estimação em primeiro lugar</h3>
+<p>Uma sequência útil é:</p>
+<pre class="text"><code>Qual é o efeito estimado?
+  ↓
+Quão incerta é a estimativa?
+  ↓
+Que tamanhos de efeito são compatíveis com os dados?
+  ↓
+A magnitude é biologicamente relevante?
+  ↓
+O que o teste estatístico acrescenta a essa interpretação?</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sempre que possível, relate o efeito estimado e sua incerteza, em vez de apresentar apenas um valor-P.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="comparações-múltiplas-e-testes-múltiplos" class="level2" data-number="6.14">
+<h2 data-number="6.14" class="anchored" data-anchor-id="comparações-múltiplas-e-testes-múltiplos"><span class="header-section-number">6.14</span> Comparações múltiplas e testes múltiplos</h2>
+<section id="por-que-testes-múltiplos-importam" class="level3" data-number="6.14.1">
+<h3 data-number="6.14.1" class="anchored" data-anchor-id="por-que-testes-múltiplos-importam"><span class="header-section-number">6.14.1</span> Por que testes múltiplos importam</h3>
+<p>Cada teste conduzido com <span class="math inline">\(\alpha = 0{,}05\)</span> tem 5% de probabilidade de produzir um resultado significativo quando não existe efeito. Quando muitos testes são realizados, os falsos positivos se acumulam. Um experimento comparando dez programas de fungicida envolve 45 comparações dois a dois; se nenhum programa diferisse de nenhum outro, ainda assim se esperaria que cerca de duas dessas comparações parecessem significativas. Estudos que medem muitas respostas (diversas variáveis de doença, componentes da produção ou milhares de genes) enfrentam o mesmo problema em escala maior.</p>
+</section>
+<section id="comparações-planejadas-versus-exploratórias" class="level3" data-number="6.14.2">
+<h3 data-number="6.14.2" class="anchored" data-anchor-id="comparações-planejadas-versus-exploratórias"><span class="header-section-number">6.14.2</span> Comparações planejadas versus exploratórias</h3>
+<p>Comparações planejadas antes de os dados serem vistos, porque correspondem diretamente às questões que motivaram o estudo — como cada fungicida versus a testemunha —, têm um status diferente das comparações escolhidas depois de olhar os dados. As primeiras são testes de hipóteses predefinidas; as segundas são exploratórias e devem ser interpretadas como geradoras de hipóteses, e não como confirmação (Capítulo 4). Um pequeno número de comparações planejadas é preferível a todas as comparações possíveis.</p>
+</section>
+<section id="ajuste-para-multiplicidade" class="level3" data-number="6.14.3">
+<h3 data-number="6.14.3" class="anchored" data-anchor-id="ajuste-para-multiplicidade"><span class="header-section-number">6.14.3</span> Ajuste para multiplicidade</h3>
+<p>Vários procedimentos ajustam os testes ou os intervalos de confiança para controlar a taxa global de falsos positivos quando muitas comparações são feitas. Exemplos comuns incluem o procedimento de Tukey para todas as comparações dois a dois entre médias, o procedimento de Dunnett para comparações de vários tratamentos com uma testemunha, a correção de Bonferroni para um conjunto de testes e procedimentos que controlam a taxa de falsas descobertas (FDR), muito usados em estudos genômicos. Esses métodos são aplicados em capítulos posteriores. Aqui, o ponto essencial é que o número de testes afeta a forma como os resultados devem ser interpretados.</p>
+</section>
+<section id="evitando-a-busca-por-significância" class="level3" data-number="6.14.4">
+<h3 data-number="6.14.4" class="anchored" data-anchor-id="evitando-a-busca-por-significância"><span class="header-section-number">6.14.4</span> Evitando a busca por significância</h3>
+<p>A análise de dados envolve muitas escolhas: quais observações incluir, qual resposta analisar, que transformação aplicar, que covariáveis incluir, que modelo usar. Quando essas escolhas são feitas depois de ver quais opções produzem resultados significativos, os valores-P relatados perdem o sentido, mesmo que nenhuma escolha isolada pareça irrazoável. Essa prática é chamada <em>P-hacking</em>, e a flexibilidade que a permite é às vezes chamada de graus de liberdade do pesquisador <span class="citation" data-cites="simmons2011">(<a href="references.html#ref-simmons2011" role="doc-biblioref">Simmons et al. 2011</a>)</span>.</p>
+<p>Os remédios são simples: definir as questões, respostas e análises principais antes de coletar os dados; relatar todas as análises realizadas, e não apenas as que produziram resultados significativos; e distinguir claramente as análises confirmatórias das exploratórias.</p>
+</section>
+</section>
+<section id="os-pressupostos-importam" class="level2" data-number="6.15">
+<h2 data-number="6.15" class="anchored" data-anchor-id="os-pressupostos-importam"><span class="header-section-number">6.15</span> Os pressupostos importam</h2>
+<section id="todo-método-estatístico-tem-pressupostos" class="level3" data-number="6.15.1">
+<h3 data-number="6.15.1" class="anchored" data-anchor-id="todo-método-estatístico-tem-pressupostos"><span class="header-section-number">6.15.1</span> Todo método estatístico tem pressupostos</h3>
+<p>Todo método estatístico se baseia em um modelo de como os dados foram gerados, e todo modelo tem pressupostos. Pressupostos comuns incluem a independência das observações, uma distribuição específica da resposta ou dos resíduos (como a distribuição normal), variância constante entre grupos ou ao longo da faixa de um preditor e uma forma específica de relação (como a linearidade). Erros padrão, intervalos de confiança e valores-P só são válidos na medida em que esses pressupostos sejam razoáveis.</p>
+</section>
+<section id="a-independência-começa-no-delineamento" class="level3" data-number="6.15.2">
+<h3 data-number="6.15.2" class="anchored" data-anchor-id="a-independência-começa-no-delineamento"><span class="header-section-number">6.15.2</span> A independência começa no delineamento</h3>
+<p>De todos os pressupostos, a independência é o mais importante e o menos passível de correção posterior. As observações são independentes quando conhecer o valor de uma nada diz sobre o valor de outra, além do que o modelo já considera. Folhas da mesma planta, plantas do mesmo vaso e avaliações repetidas da mesma parcela não são independentes. Tratá-las como independentes infla o tamanho aparente da amostra, produz erros padrão pequenos demais e valores-P pequenos demais. A independência é determinada pelo delineamento do estudo e pela unidade experimental (Capítulo 2), e a análise deve respeitá-los.</p>
+</section>
+<section id="os-pressupostos-do-modelo-devem-ser-verificados" class="level3" data-number="6.15.3">
+<h3 data-number="6.15.3" class="anchored" data-anchor-id="os-pressupostos-do-modelo-devem-ser-verificados"><span class="header-section-number">6.15.3</span> Os pressupostos do modelo devem ser verificados</h3>
+<p>Outros pressupostos, como a distribuição dos resíduos e a constância da variância, podem e devem ser verificados com gráficos e diagnósticos depois do ajuste do modelo. Dados de doença frequentemente os violam: contagens são assimétricas, proporções são limitadas entre 0 e 1 e a variabilidade muitas vezes aumenta com a média. Quando os pressupostos são violados, as alternativas incluem transformar a resposta ou, de preferência, usar modelos próprios para o tipo de dado, como os modelos lineares generalizados para contagens e proporções. Essas ferramentas são apresentadas nos Capítulos 7 a 10.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Os pressupostos estatísticos descrevem como os dados são representados por um modelo. Devem ser avaliados, e não aceitos automaticamente.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="associação-predição-e-causalidade" class="level2" data-number="6.16">
+<h2 data-number="6.16" class="anchored" data-anchor-id="associação-predição-e-causalidade"><span class="header-section-number">6.16</span> Associação, predição e causalidade</h2>
+<section id="associação" class="level3" data-number="6.16.1">
+<h3 data-number="6.16.1" class="anchored" data-anchor-id="associação"><span class="header-section-number">6.16.1</span> Associação</h3>
+<p>Duas variáveis estão associadas quando seus valores tendem a variar juntos: lavouras com mais chuva têm mais doença, plantas com mais lesões têm menores taxas fotossintéticas. As associações podem ser descritas por coeficientes de correlação, inclinações de regressão ou diferenças entre grupos. Uma associação, por mais forte que seja, não indica por si só por que as variáveis variam juntas.</p>
+</section>
+<section id="predição" class="level3" data-number="6.16.2">
+<h3 data-number="6.16.2" class="anchored" data-anchor-id="predição"><span class="header-section-number">6.16.2</span> Predição</h3>
+<p>A predição usa valores conhecidos de algumas variáveis para antecipar os valores de outra: prever a doença a partir do clima, estimar a perda de produtividade a partir da severidade, prever o risco de uma epidemia a partir de observações no início da safra. Um bom modelo preditivo precisa de uma associação estável, não necessariamente causal. As predições só são confiáveis dentro da faixa de condições representada nos dados usados para construir o modelo.</p>
+</section>
+<section id="efeitos-causais" class="level3" data-number="6.16.3">
+<h3 data-number="6.16.3" class="anchored" data-anchor-id="efeitos-causais"><span class="header-section-number">6.16.3</span> Efeitos causais</h3>
+<p>Um efeito causal é a mudança em uma resposta que resultaria de intervir em uma variável: o que aconteceria com a doença se uma lavoura fosse pulverizada em vez de não ser. As questões causais são o cerne da maioria dos experimentos em Fitopatologia.</p>
+<p>Associações podem surgir sem causalidade. Lavouras manejadas por produtores mais experientes podem ter menos doença e maior produtividade, de modo que doença e produtividade estão associadas em parte porque ambas dependem do manejo. Variáveis que influenciam tanto a suposta causa quanto a resposta são chamadas <strong>variáveis de confundimento</strong>. Em um experimento casualizado, a alocação aleatória dos tratamentos torna improvável que as variáveis de confundimento difiram sistematicamente entre os grupos, e é por isso que os experimentos sustentam conclusões causais, sob os pressupostos do delineamento. Dados observacionais também podem contribuir para a compreensão causal, mas exigem muito mais cuidado: conhecimento das possíveis variáveis de confundimento, sua medida e uma análise adequada.</p>
+</section>
+<section id="o-que-o-delineamento-do-estudo-permite-concluir" class="level3" data-number="6.16.4">
+<h3 data-number="6.16.4" class="anchored" data-anchor-id="o-que-o-delineamento-do-estudo-permite-concluir"><span class="header-section-number">6.16.4</span> O que o delineamento do estudo permite concluir?</h3>
+<p>O tipo de conclusão que um estudo pode sustentar depende principalmente do seu delineamento, e não do método estatístico. O mesmo modelo de regressão aplicado a dados de um experimento casualizado e a dados de um levantamento estima um efeito causal no primeiro caso e uma associação no segundo. As conclusões devem corresponder ao delineamento: experimentos justificam afirmações sobre efeitos nas condições estudadas; estudos observacionais justificam afirmações sobre associações e padrões e só sustentam afirmações causais com evidências e pressupostos adicionais (Capítulo 2).</p>
+<div id="tbl-ch6-conclusions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch6-conclusions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.3: Três tipos de conclusão e os delineamentos que as sustentam.
+</figcaption>
+<div aria-describedby="tbl-ch6-conclusions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 35%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo de conclusão</th>
+<th>Pergunta respondida</th>
+<th>Delineamento típico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Associação</td>
+<td>As variáveis variam juntas?</td>
+<td>Observacional ou experimental</td>
+</tr>
+<tr class="even">
+<td>Predição</td>
+<td>Uma variável permite antecipar outra?</td>
+<td>Qualquer um, se a associação for estável</td>
+</tr>
+<tr class="odd">
+<td>Efeito causal</td>
+<td>O que acontece se intervirmos?</td>
+<td>Experimento casualizado, ou observacional com pressupostos fortes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="pesquisa-na-prática-interpretando-o-efeito-de-um-tratamento" class="level2" data-number="6.17">
+<h2 data-number="6.17" class="anchored" data-anchor-id="pesquisa-na-prática-interpretando-o-efeito-de-um-tratamento"><span class="header-section-number">6.17</span> Pesquisa na prática: interpretando o efeito de um tratamento</h2>
+<p>Considere um experimento de campo como os ensaios de fungicidas apresentados no Capítulo 1, com uma testemunha e um programa de fungicida em blocos casualizados com seis blocos. Os valores a seguir são hipotéticos, mas típicos:</p>
+<div id="tbl-ch6-example" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ch6-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.4: Resultados hipotéticos de um ensaio de fungicida.
+</figcaption>
+<div aria-describedby="tbl-ch6-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Grandeza</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Severidade média, testemunha</td>
+<td>60%</td>
+</tr>
+<tr class="even">
+<td>Severidade média, fungicida</td>
+<td>40%</td>
+</tr>
+<tr class="odd">
+<td>Diferença estimada (fungicida − testemunha)</td>
+<td>−20 pontos percentuais</td>
+</tr>
+<tr class="even">
+<td>Intervalo de confiança de 95% para a diferença</td>
+<td>−30 a −10 pontos percentuais</td>
+</tr>
+<tr class="odd">
+<td>Redução relativa</td>
+<td>33%</td>
+</tr>
+<tr class="even">
+<td>Valor-P</td>
+<td>0,002</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Cada grandeza tem um significado específico. As <strong>médias</strong> descrevem a severidade média observada em cada tratamento. A <strong>diferença estimada</strong> é a melhor estimativa do efeito do fungicida: uma redução de 20 pontos percentuais. O <strong>intervalo de confiança</strong> indica que reduções entre cerca de 10 e 30 pontos são compatíveis com os dados; os dados não são compatíveis com ausência de efeito, nem com reduções tão grandes quanto 40 pontos. A <strong>redução relativa</strong> expressa o efeito como um terço da doença nas parcelas não tratadas. O <strong>valor-P</strong> indica que uma diferença desse tamanho seria muito incomum se o fungicida não tivesse efeito.</p>
+<p>Se o efeito é importante depende do que se sabe sobre o sistema. Se as perdas de produtividade começam com severidades acima de 30%, os dois tratamentos continuam acima desse nível, e uma redução de 20 pontos pode não ser suficiente para proteger a produtividade, mesmo sendo estatisticamente clara. Se a meta for manter a doença abaixo de 50%, o fungicida pode ser suficiente. Os resultados estatísticos são os mesmos nos dois casos; a conclusão biológica é diferente.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pesquisa revisitada: O tratamento reduz a doença?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Pesquisa revisitada: O tratamento reduz a doença?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere um experimento que compara a severidade da doença entre uma testemunha e um tratamento de manejo da doença.</p>
+<p>Suponha que a análise forneça:</p>
+<ul>
+<li>a severidade média de cada tratamento;</li>
+<li>a diferença estimada entre os tratamentos;</li>
+<li>um intervalo de confiança para essa diferença;</li>
+<li>um valor-P.</li>
+</ul>
+<p>Faça quatro perguntas separadas:</p>
+<ol type="1">
+<li><strong>Direção:</strong> a doença foi maior ou menor com o tratamento?</li>
+<li><strong>Magnitude:</strong> qual foi o tamanho do efeito estimado do tratamento?</li>
+<li><strong>Precisão:</strong> quão incerta foi essa estimativa?</li>
+<li><strong>Relevância biológica:</strong> a redução estimada é grande o suficiente para importar?</li>
+</ol>
+<p>Somente depois de responder a essas perguntas o valor-P deve ser considerado, como informação adicional sobre a compatibilidade estatística com o modelo nulo.</p>
+</div>
+</div>
+</section>
+<section id="dos-resultados-estatísticos-às-conclusões-científicas" class="level2" data-number="6.18">
+<h2 data-number="6.18" class="anchored" data-anchor-id="dos-resultados-estatísticos-às-conclusões-científicas"><span class="header-section-number">6.18</span> Dos resultados estatísticos às conclusões científicas</h2>
+<p>Uma análise estatística produz estimativas, intervalos e valores-P. Uma conclusão científica é algo mais: uma afirmação sobre o sistema biológico, sustentada por evidências e qualificada por suas limitações. Construir uma conclusão exige reunir todos os elementos discutidos neste livro até aqui.</p>
+<p>Uma conclusão científica deve integrar:</p>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter6-5" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter6-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-41af8666809eaa331802" style="width:100%;height:330px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-41af8666809eaa331802">{"x":{"diagram":"digraph conv {\n  graph [rankdir = LR, nodesep = 0.12, ranksep = 1.0, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 14, width = 2.6, height = 0.5, penwidth = 1.4, margin = \"0.15,0.06\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2]\n  c1 [label = <<font color=\"#24301f\"><b>Delineamento do estudo<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  c2 [label = <<font color=\"#24301f\"><b>Dados observados<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  c3 [label = <<font color=\"#24301f\"><b>Efeito estimado<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  c4 [label = <<font color=\"#24301f\"><b>Incerteza<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  c5 [label = <<font color=\"#24301f\"><b>Evidência estatística<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  c6 [label = <<font color=\"#24301f\"><b>Conhecimento biológico<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  {rank = same; c1; c2; c3; c4; c5; c6}\n  r [label = <<font color=\"#24301f\"><b>Interpretação<br/>científica<\/b><\/font>>, fillcolor = \"#f4f4f4\", color = \"#5f7132\", width = 2.4, height = 1, penwidth = 2]\n  c1 -> r\n  c2 -> r\n  c3 -> r\n  c4 -> r\n  c5 -> r\n  c6 -> r\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter6-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.5: Componentes que contribuem para uma conclusão científica.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>O delineamento determina que tipo de conclusão é possível e a que população ela se aplica. Os dados observados, explorados e visualizados, mostram o que aconteceu. O efeito estimado e sua incerteza quantificam o que foi aprendido. A evidência estatística indica quão compatíveis os dados são com modelos alternativos. O conhecimento biológico determina se o efeito importa e como ele se encaixa no que já se sabe. Uma conclusão que omite qualquer desses elementos está incompleta.</p>
+<p>Boas conclusões também são adequadamente modestas. Um único experimento raramente estabelece um fato geral. Informar claramente as condições em que os resultados foram obtidos, a precisão das estimativas e o que permanece incerto ajuda o leitor a julgar até onde as conclusões podem ser estendidas. ## Erros comuns na inferência estatística</p>
+<section id="igualar-p-005-a-importância-científica" class="level3" data-number="6.18.1">
+<h3 data-number="6.18.1" class="anchored" data-anchor-id="igualar-p-005-a-importância-científica"><span class="header-section-number">6.18.1</span> Igualar P &lt; 0,05 a importância científica</h3>
+<p>Um valor-P pequeno indica que os dados não são compatíveis com o modelo nulo; não indica que o efeito seja grande ou importante. Com observações suficientes, efeitos triviais tornam-se estatisticamente significativos.</p>
+</section>
+<section id="interpretar-p-005-como-prova-de-ausência-de-efeito" class="level3" data-number="6.18.2">
+<h3 data-number="6.18.2" class="anchored" data-anchor-id="interpretar-p-005-como-prova-de-ausência-de-efeito"><span class="header-section-number">6.18.2</span> Interpretar P &gt; 0,05 como prova de ausência de efeito</h3>
+<p>Um resultado não significativo pode refletir um efeito pequeno, alta variabilidade ou repetição insuficiente. Sem examinar o intervalo de confiança, ele não pode ser interpretado como evidência de que os tratamentos são equivalentes.</p>
+</section>
+<section id="relatar-valores-p-sem-tamanhos-de-efeito" class="level3" data-number="6.18.3">
+<h3 data-number="6.18.3" class="anchored" data-anchor-id="relatar-valores-p-sem-tamanhos-de-efeito"><span class="header-section-number">6.18.3</span> Relatar valores-P sem tamanhos de efeito</h3>
+<p>Uma tabela de valores-P, ou letras indicando diferenças significativas, sem os efeitos estimados e sua incerteza, esconde a informação de que os leitores mais precisam: qual é o tamanho dos efeitos e com que precisão foram estimados.</p>
+</section>
+<section id="ignorar-a-incerteza" class="level3" data-number="6.18.4">
+<h3 data-number="6.18.4" class="anchored" data-anchor-id="ignorar-a-incerteza"><span class="header-section-number">6.18.4</span> Ignorar a incerteza</h3>
+<p>Estimativas pontuais relatadas sem erros padrão ou intervalos de confiança dão uma falsa impressão de precisão. Toda estimativa da qual depende uma conclusão deve vir acompanhada de uma medida de sua incerteza.</p>
+</section>
+<section id="confundir-desvio-padrão-e-erro-padrão" class="level3" data-number="6.18.5">
+<h3 data-number="6.18.5" class="anchored" data-anchor-id="confundir-desvio-padrão-e-erro-padrão"><span class="header-section-number">6.18.5</span> Confundir desvio padrão e erro padrão</h3>
+<p>Usar o erro padrão para descrever a variabilidade entre observações faz os dados parecerem menos variáveis do que são; usar o desvio padrão para descrever a precisão de uma média faz as estimativas parecerem menos precisas. Figuras e tabelas devem informar qual dos dois está sendo mostrado.</p>
+</section>
+<section id="ignorar-a-unidade-experimental" class="level3" data-number="6.18.6">
+<h3 data-number="6.18.6" class="anchored" data-anchor-id="ignorar-a-unidade-experimental"><span class="header-section-number">6.18.6</span> Ignorar a unidade experimental</h3>
+<p>Analisar subamostras, como folhas, lesões ou repetições técnicas, como se fossem unidades experimentais independentes infla o tamanho da amostra e produz conclusões excessivamente confiantes (pseudorrepetição; Capítulo 2).</p>
+</section>
+<section id="tratar-associação-como-causalidade" class="level3" data-number="6.18.7">
+<h3 data-number="6.18.7" class="anchored" data-anchor-id="tratar-associação-como-causalidade"><span class="header-section-number">6.18.7</span> Tratar associação como causalidade</h3>
+<p>Associações de dados observacionais, ou de relações entre variáveis medidas dentro de experimentos, não estabelecem por si sós que uma variável causa mudanças em outra.</p>
+</section>
+<section id="generalizar-além-da-população-estudada" class="level3" data-number="6.18.8">
+<h3 data-number="6.18.8" class="anchored" data-anchor-id="generalizar-além-da-população-estudada"><span class="header-section-number">6.18.8</span> Generalizar além da população estudada</h3>
+<p>Resultados de uma cultivar, isolado, local, safra ou conjunto de condições controladas não se aplicam automaticamente a outros. As conclusões devem informar as condições em que foram obtidas.</p>
+</section>
+<section id="escolher-as-análises-depois-de-procurar-significância" class="level3" data-number="6.18.9">
+<h3 data-number="6.18.9" class="anchored" data-anchor-id="escolher-as-análises-depois-de-procurar-significância"><span class="header-section-number">6.18.9</span> Escolher as análises depois de procurar significância</h3>
+<p>Experimentar várias análises, transformações ou subconjuntos de dados e relatar apenas os que produzem resultados significativos invalida os valores-P e leva a achados que não se replicam.</p>
+</section>
+<section id="relatar-precisão-numérica-excessiva" class="level3" data-number="6.18.10">
+<h3 data-number="6.18.10" class="anchored" data-anchor-id="relatar-precisão-numérica-excessiva"><span class="header-section-number">6.18.10</span> Relatar precisão numérica excessiva</h3>
+<p>Relatar uma severidade média de 23,4719% sugere uma precisão inexistente quando as avaliações visuais variam em vários pontos percentuais. As estimativas devem ser relatadas com um número de dígitos coerente com sua incerteza, tipicamente dois ou três algarismos significativos.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A análise estatística não consegue determinar a importância biológica de um resultado. Esse julgamento exige conhecimento do sistema biológico e da questão de pesquisa.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="um-fluxo-de-trabalho-para-o-raciocínio-estatístico" class="level2" data-number="6.19">
+<h2 data-number="6.19" class="anchored" data-anchor-id="um-fluxo-de-trabalho-para-o-raciocínio-estatístico"><span class="header-section-number">6.19</span> Um fluxo de trabalho para o raciocínio estatístico</h2>
+<div class="cell" data-layout-align="center">
+<div id="fig-chapter6-6" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chapter6-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="htmlwidget-41a18b087d1b60ec5087" style="width:100%;height:526px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-41a18b087d1b60ec5087">{"x":{"diagram":"digraph fluxo {\n  graph [rankdir = TB, nodesep = 0.3, ranksep = 0.2, bgcolor = \"transparent\"]\n  node [shape = box, style = \"rounded,filled\", fontname = \"Helvetica\", fontsize = 15, width = 4.6, height = 0.55, penwidth = 1.4, margin = \"0.4,0.08\"]\n  edge [color = \"#4a4a4a\", arrowsize = 0.7, penwidth = 1.2, fontname = \"Helvetica\", fontsize = 12]\n  n1 [label = <<font color=\"#24301f\"><b>Questão biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n2 [label = <<font color=\"#24301f\"><b>Definir o estimando<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n3 [label = <<font color=\"#24301f\"><b>Estimar o efeito<\/b><\/font>>, fillcolor = \"#fdf5e1\", color = \"#e5c46e\"]\n  n4 [label = <<font color=\"#24301f\"><b>Quantificar a incerteza<\/b><\/font>>, fillcolor = \"#f2edf8\", color = \"#b3a1d4\"]\n  n5 [label = <<font color=\"#24301f\"><b>Avaliar os pressupostos<\/b><\/font>>, fillcolor = \"#e6f5f3\", color = \"#86c9bf\"]\n  n6 [label = <<font color=\"#24301f\"><b>Considerar a evidência estatística<\/b><\/font>>, fillcolor = \"#fcebe9\", color = \"#eba39a\"]\n  n7 [label = <<font color=\"#24301f\"><b>Avaliar a relevância biológica<\/b><\/font>>, fillcolor = \"#eaf2fb\", color = \"#7fa7d6\"]\n  n8 [label = <<font color=\"#24301f\"><b>Enunciar a conclusão científica<\/b><\/font>>, fillcolor = \"#eef6e8\", color = \"#9cc27f\"]\n  n1 -> n2 -> n3 -> n4 -> n5 -> n6 -> n7 -> n8\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chapter6-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.6: Um fluxo de trabalho prático para passar dos dados à inferência científica.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="lista-de-verificação-da-inferência-estatística" class="level2" data-number="6.20">
+<h2 data-number="6.20" class="anchored" data-anchor-id="lista-de-verificação-da-inferência-estatística"><span class="header-section-number">6.20</span> Lista de verificação da inferência estatística</h2>
+<p>Antes de interpretar uma análise, pergunte:</p>
+<ol type="1">
+<li>Que questão biológica está sendo respondida?</li>
+<li>Que grandeza foi estimada?</li>
+<li>Qual é a unidade experimental ou observacional?</li>
+<li>Que população o estudo representa?</li>
+<li>Qual é o efeito estimado?</li>
+<li>Quão precisa é essa estimativa?</li>
+<li>Que pressupostos foram necessários?</li>
+<li>Esses pressupostos são razoáveis?</li>
+<li>O que o valor-P acrescenta à interpretação?</li>
+<li>O efeito é biologicamente relevante?</li>
+<li>O delineamento sustenta uma conclusão causal?</li>
+<li>As conclusões são mais amplas do que a evidência sustenta?</li>
+</ol>
+</section>
+<section id="resumo-do-capítulo" class="level2" data-number="6.21">
+<h2 data-number="6.21" class="anchored" data-anchor-id="resumo-do-capítulo"><span class="header-section-number">6.21</span> Resumo do capítulo</h2>
+<p>A inferência estatística fornece um arcabouço para raciocinar a partir dos dados observados reconhecendo explicitamente a incerteza. A interpretação científica deve, portanto, concentrar-se não apenas em saber se um efeito é estatisticamente detectável, mas também em sua direção, magnitude, precisão e relevância biológica. Intervalos de confiança e tamanhos de efeito fornecem informações essenciais que não podem ser substituídas apenas por valores-P. Sobretudo, a força e o escopo de qualquer conclusão estatística permanecem limitados pelo delineamento do estudo e pelo processo que gerou os dados.</p>
+</section>
+<section id="conceitos-chave" class="level2" data-number="6.22">
+<h2 data-number="6.22" class="anchored" data-anchor-id="conceitos-chave"><span class="header-section-number">6.22</span> Conceitos-chave</h2>
+<p>Ao concluir este capítulo, você deverá ser capaz de explicar:</p>
+<ul>
+<li>população;</li>
+<li>amostra;</li>
+<li>parâmetro;</li>
+<li>estimativa;</li>
+<li>estimando;</li>
+<li>variação amostral;</li>
+<li>distribuição amostral;</li>
+<li>desvio padrão;</li>
+<li>erro padrão;</li>
+<li>estimativa pontual;</li>
+<li>intervalo de confiança;</li>
+<li>precisão;</li>
+<li>tamanho de efeito;</li>
+<li>hipótese científica;</li>
+<li>hipótese estatística;</li>
+<li>hipótese nula;</li>
+<li>hipótese alternativa;</li>
+<li>valor-P;</li>
+<li>significância estatística;</li>
+<li>relevância biológica;</li>
+<li>erro do tipo I;</li>
+<li>erro do tipo II;</li>
+<li>poder estatístico;</li>
+<li>comparações múltiplas;</li>
+<li>associação;</li>
+<li>predição;</li>
+<li>causalidade.</li>
+</ul>
+</section>
+<section id="exercícios" class="level2" data-number="6.23">
+<h2 data-number="6.23" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">6.23</span> Exercícios</h2>
+<section id="exercício-1.-o-que-está-sendo-estimado" class="level3" data-number="6.23.1">
+<h3 data-number="6.23.1" class="anchored" data-anchor-id="exercício-1.-o-que-está-sendo-estimado"><span class="header-section-number">6.23.1</span> Exercício 1. O que está sendo estimado?</h3>
+<p>Para cada estudo fornecido pelo professor:</p>
+<ol type="1">
+<li>identifique a questão biológica;</li>
+<li>identifique a população de interesse;</li>
+<li>identifique a unidade experimental ou observacional;</li>
+<li>enuncie a grandeza que deve ser estimada;</li>
+<li>descreva como essa grandeza responde à questão biológica.</li>
+</ol>
+</section>
+<section id="exercício-2.-tamanho-de-efeito-ou-valor-p" class="level3" data-number="6.23.2">
+<h3 data-number="6.23.2" class="anchored" data-anchor-id="exercício-2.-tamanho-de-efeito-ou-valor-p"><span class="header-section-number">6.23.2</span> Exercício 2. Tamanho de efeito ou valor-P?</h3>
+<p>Considere vários resultados experimentais hipotéticos com diferentes combinações de:</p>
+<ul>
+<li>magnitude do efeito;</li>
+<li>largura do intervalo de confiança;</li>
+<li>valor-P.</li>
+</ul>
+<p>Ordene os resultados segundo a força da evidência biológica e justifique seu raciocínio.</p>
+</section>
+<section id="exercício-3.-interprete-um-intervalo-de-confiança" class="level3" data-number="6.23.3">
+<h3 data-number="6.23.3" class="anchored" data-anchor-id="exercício-3.-interprete-um-intervalo-de-confiança"><span class="header-section-number">6.23.3</span> Exercício 3. Interprete um intervalo de confiança</h3>
+<p>Para cada efeito estimado de tratamento e seu intervalo de confiança:</p>
+<ol type="1">
+<li>descreva a direção do efeito;</li>
+<li>descreva sua magnitude;</li>
+<li>avalie sua precisão;</li>
+<li>identifique os tamanhos de efeito compatíveis com os dados;</li>
+<li>discuta se o efeito poderia ser biologicamente relevante.</li>
+</ol>
+</section>
+<section id="exercício-4.-o-que-há-de-errado-com-esta-conclusão" class="level3" data-number="6.23.4">
+<h3 data-number="6.23.4" class="anchored" data-anchor-id="exercício-4.-o-que-há-de-errado-com-esta-conclusão"><span class="header-section-number">6.23.4</span> Exercício 4. O que há de errado com esta conclusão?</h3>
+<p>Avalie criticamente afirmações como:</p>
+<blockquote class="blockquote">
+<p>“Não houve diferença entre os tratamentos porque P = 0,08.”</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“O tratamento A foi altamente eficaz porque P &lt; 0,001.”</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“As variáveis estavam fortemente associadas; portanto, uma causa a outra.”</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>“O experimento tinha 100 observações e, portanto, repetição adequada.”</p>
+</blockquote>
+<p>Reescreva cada conclusão de forma mais adequada.</p>
+</section>
+<section id="exercício-5.-significância-estatística-versus-biológica" class="level3" data-number="6.23.5">
+<h3 data-number="6.23.5" class="anchored" data-anchor-id="exercício-5.-significância-estatística-versus-biológica"><span class="header-section-number">6.23.5</span> Exercício 5. Significância estatística versus biológica</h3>
+<p>Considere um experimento de manejo em que um tratamento reduz a severidade média da doença de 50% para 48%, com um intervalo de confiança muito estreito e P &lt; 0,001.</p>
+<p>Discuta:</p>
+<ol type="1">
+<li>Há evidência estatística de diferença?</li>
+<li>Qual é o efeito estimado?</li>
+<li>O efeito é necessariamente importante do ponto de vista biológico?</li>
+<li>Que informação adicional seria útil?</li>
+</ol>
+</section>
+<section id="exercício-6.-lendo-um-artigo-publicado" class="level3" data-number="6.23.6">
+<h3 data-number="6.23.6" class="anchored" data-anchor-id="exercício-6.-lendo-um-artigo-publicado"><span class="header-section-number">6.23.6</span> Exercício 6. Lendo um artigo publicado</h3>
+<p>Escolha um artigo recente de Fitopatologia e identifique:</p>
+<ol type="1">
+<li>a questão biológica principal;</li>
+<li>o principal efeito estimado;</li>
+<li>como a incerteza foi relatada;</li>
+<li>como os valores-P foram usados;</li>
+<li>se os tamanhos de efeito foram enfatizados;</li>
+<li>se as conclusões são sustentadas pelo delineamento do estudo e pela evidência estatística.</li>
+</ol>
+</section>
+</section>
+<section id="reflexão" class="level2" data-number="6.24">
+<h2 data-number="6.24" class="anchored" data-anchor-id="reflexão"><span class="header-section-number">6.24</span> Reflexão</h2>
+<blockquote class="blockquote">
+<p><strong>Significância estatística não é uma conclusão científica.</strong></p>
+</blockquote>
+<p>Discuta essa afirmação usando um exemplo da Fitopatologia.</p>
+</section>
+<section id="próximos-passos" class="level2" data-number="6.25">
+<h2 data-number="6.25" class="anchored" data-anchor-id="próximos-passos"><span class="header-section-number">6.25</span> Próximos passos</h2>
+<p>Os princípios apresentados neste capítulo se aplicam qualquer que seja o método estatístico utilizado. O modelo analítico adequado, porém, depende da questão biológica, do delineamento do estudo e da natureza da variável resposta. Os capítulos seguintes aplicam esses princípios aos principais tipos de dados encontrados na pesquisa em Fitopatologia.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-amrhein2019" class="csl-entry" role="listitem">
+Amrhein, V., Greenland, S., e McShane, B. 2019. Scientists rise up against statistical significance. Nature 567:305–307. <a href="https://doi.org/10.1038/d41586-019-00857-9">https://doi.org/10.1038/d41586-019-00857-9</a>.
+</div>
+<div id="ref-simmons2011" class="csl-entry" role="listitem">
+Simmons, J. P., Nelson, L. D., e Simonsohn, U. 2011. False-positive psychology: undisclosed flexibility in data collection and analysis allows presenting anything as significant. Psychological Science 22:1359–1366. <a href="https://doi.org/10.1177/0956797611417632">https://doi.org/10.1177/0956797611417632</a>.
+</div>
+<div id="ref-wasserstein2016" class="csl-entry" role="listitem">
+Wasserstein, R. L., e Lazar, N. A. 2016. The <span>ASA</span>’s statement on p-values: context, process, and purpose. The American Statistician 70:129–133. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chapter5.html" class="pagination-link" aria-label="Visualização de dados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualização de dados</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chapter7.html" class="pagination-link" aria-label="Comparação de grupos">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Comparação de grupos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,5 +1,10 @@
 # Por que pesquisar em Fitopatologia?
 
+```{r}
+#| include: false
+source("R/diagramas.R")
+```
+
 ## O que é Fitopatologia?
 
 A Fitopatologia é a disciplina científica dedicada a compreender as doenças de plantas, incluindo suas causas, os mecanismos subjacentes às interações entre hospedeiros, patógenos e ambiente, os fatores que influenciam o desenvolvimento das doenças e os princípios que fundamentam o seu manejo eficaz [@agrios2005]. Como as doenças de plantas afetam a produção agrícola, a segurança alimentar, os ecossistemas naturais e o comércio internacional, a Fitopatologia integra conceitos e métodos de diversas áreas, como microbiologia, genética, biologia molecular, ecologia, agronomia e ciência de dados [@OLIVER20243].

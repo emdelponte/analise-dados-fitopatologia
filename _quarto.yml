@@ -4,6 +4,9 @@ project:
 
 lang: pt-BR
 
+execute:
+  warning: false
+
 book:
   title: "Análise e Visualização de Dados em Fitopatologia"
   author: "Emerson M. Del Ponte"
@@ -11,6 +14,8 @@ book:
   cover-image: cover.png
   publisher: "Emerson M. Del Ponte"
   license: "CC BY-NC"
+  output-file: "analise-dados-fitopatologia"
+  downloads: [pdf]
   sidebar:
     style: docked
 
@@ -73,3 +78,15 @@ format:
         - style.scss
         
 
+  typst:
+    toc: true
+    toc-depth: 2
+    toc-title: "Sumário"
+    papersize: a4
+    section-numbering: "1.1.1"
+    fig-width: 6
+    fig-height: 3.8
+    keep-typ: false
+    font-paths: fonts
+    template-partials:
+      - typst-show.typ

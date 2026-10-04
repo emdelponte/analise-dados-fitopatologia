@@ -174,6 +174,9 @@ window.Quarto = {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Análise e Visualização de Dados em Fitopatologia</a> 
+        <div class="sidebar-tools-main">
+    <a href="./analise-dados-fitopatologia.pdf" title="Baixar PDF" class="quarto-navigation-tool px-1" aria-label="Baixar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -1015,9 +1018,6 @@ Dica
 <p>As estimativas dos parâmetros são relatadas com erros padrão e intervalos de confiança, como nos modelos lineares. Nos modelos não lineares, esses intervalos são aproximações. Os intervalos aproximados (de Wald) são simétricos em torno da estimativa; os intervalos de perfil de verossimilhança podem ser assimétricos e costumam ser mais exatos para parâmetros como a CE<sub>50</sub>.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(model_temp)   <span class="co"># intervalos de perfil para modelos nls</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Waiting for profiling to be done...</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          2.5%     97.5%
 yopt  7.893417  8.256896
@@ -1032,7 +1032,7 @@ a     1.134537  1.711541</code></pre>
 <h3 data-number="9.11.2" class="anchored" data-anchor-id="grandezas-derivadas"><span class="header-section-number">9.11.2</span> Grandezas derivadas</h3>
 <p>Algumas grandezas de interesse não são parâmetros do modelo, mas funções deles, como uma CE<sub>90</sub>, um fator de resistência ou a temperatura em que o crescimento atinge a metade do máximo. Sua incerteza pode ser obtida pelo método delta ou por <em>bootstrap</em>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ED</span>(model, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>), <span class="at">interval =</span> <span class="st">"delta"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ED</span>(model, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>), <span class="at">interval =</span> <span class="st">"delta"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Estimated effective doses
@@ -1048,224 +1048,20 @@ e:1:90 0.8091859  0.1750881 0.4478218 1.1705500</code></pre>
 <h3 data-number="9.11.3" class="anchored" data-anchor-id="faixas-de-confiança-para-a-curva"><span class="header-section-number">9.11.3</span> Faixas de confiança para a curva</h3>
 <p>Representar a curva ajustada junto com uma faixa de confiança e as observações individuais mostra tanto o modelo quanto o quão bem ele descreve os dados.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">conc =</span> <span class="fu">exp</span>(<span class="fu">seq</span>(<span class="fu">log</span>(<span class="fl">0.005</span>), <span class="fu">log</span>(<span class="dv">5</span>), <span class="at">length.out =</span> <span class="dv">100</span>)))</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> new, <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.
-Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of length 1 in array-vector arithmetic is deprecated.
-  Use c() or as.vector() instead.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">cbind</span>(new, pred)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">y =</span> growth)) <span class="sc">+</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> new,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">ymin =</span> Lower, <span class="at">ymax =</span> Upper),</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> new, <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">y =</span> Prediction)) <span class="sc">+</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Concentração (µg/mL)"</span>, <span class="at">y =</span> <span class="st">"Diâmetro da colônia (mm)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in scale_x_log10(): log-10 transformation introduced infinite values.</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">conc =</span> <span class="fu">exp</span>(<span class="fu">seq</span>(<span class="fu">log</span>(<span class="fl">0.005</span>), <span class="fu">log</span>(<span class="dv">5</span>), <span class="at">length.out =</span> <span class="dv">100</span>)))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> new, <span class="at">interval =</span> <span class="st">"confidence"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>new <span class="ot">&lt;-</span> <span class="fu">cbind</span>(new, pred)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">y =</span> growth)) <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> new,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">ymin =</span> Lower, <span class="at">ymax =</span> Upper),</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> new, <span class="fu">aes</span>(<span class="at">x =</span> conc, <span class="at">y =</span> Prediction)) <span class="sc">+</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Concentração (µg/mL)"</span>, <span class="at">y =</span> <span class="st">"Diâmetro da colônia (mm)"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1283,8 +1079,8 @@ Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of leng
 <h3 data-number="9.12.1" class="anchored" data-anchor-id="resíduos-versus-valores-ajustados"><span class="header-section-number">9.12.1</span> Resíduos versus valores ajustados</h3>
 <p>Um padrão sistemático nos resíduos indica que a curva não acompanha os dados, por exemplo uma assíntota baixa demais ou uma transição abrupta demais.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(model), <span class="fu">residuals</span>(model))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(model), <span class="fu">residuals</span>(model))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1313,11 +1109,11 @@ Warning in (tquan * sqrt(varVal + sumObjRV)) * c(-1, 1): Recycling array of leng
 <li>Critérios de informação, como o AIC, favorecem algum modelo?</li>
 </ol>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model_ll3 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">LL.3</span>())</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>model_ll4 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">LL.4</span>())</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>model_w14 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">W1.4</span>())</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mselect</span>(model_ll4, <span class="fu">list</span>(<span class="fu">LL.3</span>(), <span class="fu">W1.4</span>(), <span class="fu">W2.4</span>()))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model_ll3 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">LL.3</span>())</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>model_ll4 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">LL.4</span>())</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>model_w14 <span class="ot">&lt;-</span> <span class="fu">drm</span>(growth <span class="sc">~</span> conc, <span class="at">data =</span> data, <span class="at">fct =</span> <span class="fu">W1.4</span>())</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mselect</span>(model_ll4, <span class="fu">list</span>(<span class="fu">LL.3</span>(), <span class="fu">W1.4</span>(), <span class="fu">W2.4</span>()))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        logLik       IC Lack of fit  Res var
 W2.4 -70.67105 151.3421   0.4018585 10.63559

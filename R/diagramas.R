@@ -121,3 +121,30 @@ convergencia <- function(componentes, resultado,
   )
   DiagrammeR::grViz(dot, width = "100%", height = altura)
 }
+
+# Em saídas que não são HTML (PDF via Typst), os diagramas htmlwidget não podem
+# ser exibidos; convertemos o Graphviz em PNG para incluí-lo como imagem.
+if (requireNamespace("knitr", quietly = TRUE)) {
+  registerS3method("knit_print", "grViz", function(x, ...) {
+    if (knitr::is_html_output()) {
+      return(NextMethod())
+    }
+    dir.create("figuras_pdf", showWarnings = FALSE)
+    arquivo <- file.path("figuras_pdf",
+                         paste0(knitr::opts_current$get("label"), ".png"))
+    svg <- DiagrammeRsvg::export_svg(x)
+    # o Graphviz calcula as posições com as métricas da Helvetica;
+    # a Arial tem as mesmas métricas e está disponível no sistema
+    svg <- gsub("Helvetica,sans-Serif", "Arial", svg, fixed = TRUE)
+    # tamanho impresso: 85% do tamanho natural (em pt), limitado à largura
+    # do texto (~6,3 in) e a uma altura de 6,5 in
+    larg_in <- as.numeric(sub('(?s).*?<svg width="([0-9.]+)pt".*', "\\1", svg, perl = TRUE)) / 72
+    alt_in  <- as.numeric(sub('(?s).*?height="([0-9.]+)pt".*', "\\1", svg, perl = TRUE)) / 72
+    larg_final <- min(6.3, 0.85 * larg_in, 6.5 * larg_in / alt_in)
+    # o Typst usa a resolução (dpi) gravada no PNG para definir o tamanho
+    temp <- tempfile(fileext = ".png")
+    rsvg::rsvg_png(charToRaw(svg), temp, width = 1800)
+    png::writePNG(png::readPNG(temp), arquivo, dpi = 1800 / larg_final)
+    knitr::knit_print(knitr::include_graphics(arquivo), ...)
+  }, envir = asNamespace("knitr"))
+}

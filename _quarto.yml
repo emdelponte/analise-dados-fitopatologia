@@ -12,8 +12,8 @@ livro:
   local: "Viçosa, MG"
   editora: "Edição do autor"
   isbn: "a definir"
-  doi: "a definir"
-  url: "a definir"
+  doi: "10.5281/zenodo.23889987"
+  url: "https://emdelponte.github.io/analise-dados-fitopatologia/"
 
 execute:
   warning: false

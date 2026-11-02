@@ -23,8 +23,8 @@ DEL PONTE, E. M. **Análise e Visualização de Dados em Fitopatologia**. {{< me
   publisher = {Edição do autor},
   year      = {2026},
   isbn      = {a definir},
-  doi       = {a definir},
-  url       = {a definir}
+  doi       = {10.5281/zenodo.23889987},
+  url       = {https://emdelponte.github.io/analise-dados-fitopatologia/}
 }
 ```
 

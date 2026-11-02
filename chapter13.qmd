@@ -1,0 +1,455 @@
+# Como tornar a pesquisa totalmente reprodutível?
+
+```{r}
+#| include: false
+source("R/diagramas.R")
+source("R/graficos.R")
+knitr::opts_chunk$set(fig.width = 6.5, fig.height = 4, fig.align = "center")
+```
+
+## Objetivos de aprendizagem
+
+::: callout-important
+Ao concluir este capítulo, o leitor deverá ser capaz de:
+
+-   distinguir reprodutibilidade, replicabilidade e robustez;
+-   organizar um projeto de pesquisa de modo que qualquer pessoa consiga reproduzir suas análises;
+-   preferir scripts a operações manuais e escrever código legível e documentado;
+-   usar documentos Quarto para integrar texto, código e resultados;
+-   registrar o ambiente computacional e controlar a aleatoriedade;
+-   compreender os princípios do controle de versões com Git;
+-   preparar dados e código para compartilhamento em repositórios permanentes;
+-   avaliar a reprodutibilidade de um estudo publicado.
+:::
+
+## Por que a reprodutibilidade importa
+
+Ao longo deste livro, cada etapa da pesquisa foi tratada como parte de um mesmo fluxo: a questão biológica orienta o delineamento, o delineamento determina a estrutura dos dados, os dados organizados permitem a exploração, a exploração orienta a análise, e a análise sustenta as conclusões comunicadas. Este capítulo trata do que mantém esse fluxo íntegro ao longo do tempo: a capacidade de refazer cada etapa e obter os mesmos resultados.
+
+Uma análise é **reprodutível** quando outra pessoa, ou o próprio pesquisador meses depois, consegue partir dos mesmos dados brutos, executar o mesmo código e chegar exatamente aos mesmos números, tabelas e figuras. Parece uma exigência mínima, mas na prática muitas análises não passam nesse teste: os dados foram editados à mão sem registro, os passos foram feitos clicando em menus, os arquivos intermediários se perderam, a versão de um pacote mudou ou ninguém lembra qual dos vários arquivos chamados `analise_final` produziu a figura do artigo.
+
+A reprodutibilidade beneficia, antes de todos, o próprio pesquisador. Quando um revisor pede uma nova análise, quando um erro é descoberto nos dados ou quando um novo ano de experimento é acrescentado, um projeto reprodutível é atualizado em minutos; um projeto não reprodutível exige refazer tudo à mão, com risco de introduzir novos erros. Ela também aumenta a confiança nos resultados, facilita a colaboração e permite que outros reutilizem dados e métodos.
+
+::: callout-important
+A pessoa que mais se beneficia de uma análise reprodutível é, quase sempre, o próprio autor alguns meses depois.
+:::
+
+## Reprodutibilidade, replicabilidade e robustez
+
+Esses termos são usados de formas diferentes em diferentes áreas. Neste livro, adotamos as seguintes definições:
+
+| Termo | Mesmos dados? | Mesma análise? | Pergunta respondida |
+|-------------------|---------------|----------------|-----------------------------------|
+| Reprodutibilidade | Sim | Sim | Os resultados podem ser recalculados a partir dos dados e do código? |
+| Robustez | Sim | Não | As conclusões se mantêm com escolhas analíticas razoáveis diferentes? |
+| Replicabilidade | Não | Sim | Um novo experimento, com novos dados, leva às mesmas conclusões? |
+
+: Reprodutibilidade, robustez e replicabilidade. {#tbl-ch13-termos}
+
+A reprodutibilidade é o requisito mais básico: se os resultados não podem nem ser recalculados a partir dos mesmos dados, não há como avaliar sua robustez nem compará-los com replicações. A replicabilidade, discutida no Capítulo 2 como a repetição de experimentos, depende do delineamento e da biologia; a reprodutibilidade depende sobretudo de como os dados e as análises são organizados — e está inteiramente sob o controle do pesquisador.
+
+## Organizando o projeto
+
+### Uma pasta por projeto
+
+O ponto de partida é concentrar tudo o que um projeto precisa em uma única pasta: dados, scripts, resultados, figuras, manuscrito e documentação. A estrutura recomendada no Capítulo 3 é um bom modelo:
+
+```text
+ensaio_fungicidas_manjericao/
+├── README.md               # o que é o projeto e como reproduzi-lo
+├── ensaio_fungicidas.Rproj # projeto do RStudio
+├── data/
+│   ├── raw/                # dados brutos: somente leitura
+│   └── processed/          # dados gerados pelos scripts
+├── R/                      # funções reutilizáveis
+├── scripts/                # 01_limpeza.R, 02_analise.R, ...
+├── figures/                # figuras geradas pelo código
+├── results/                # tabelas e saídas de modelos
+└── manuscript/             # relatório ou artigo em Quarto
+```
+
+### Projetos do RStudio e caminhos relativos
+
+Um **projeto do RStudio** (arquivo `.Rproj`) define a pasta do projeto como diretório de trabalho sempre que é aberto. Com isso, os scripts podem usar **caminhos relativos**, como `data/raw/severidade_2025.csv`, em vez de caminhos absolutos, como `C:/Users/maria/Documents/doutorado/dados/severidade_2025.csv`, que só funcionam no computador de quem os escreveu.
+
+O pacote `here` torna os caminhos relativos ainda mais robustos, pois sempre parte da raiz do projeto, mesmo quando o código é executado a partir de uma subpasta (como a pasta do manuscrito):
+
+```{r}
+#| eval: false
+
+library(here)
+
+dados <- read.csv(here("data", "raw", "severidade_2025.csv"))
+```
+
+::: callout-warning
+Evite `setwd()` com caminhos absolutos no início dos scripts. Esse é um dos motivos mais comuns pelos quais um código que "funcionava" deixa de funcionar no computador de um colaborador.
+:::
+
+### O arquivo README
+
+O `README` é a porta de entrada do projeto. Ele deve explicar, em poucas linhas, o objetivo do estudo, a origem dos dados, o que há em cada pasta, a ordem em que os scripts devem ser executados e os pacotes necessários. Um bom teste é perguntar: um colega que nunca viu o projeto conseguiria reproduzir os resultados apenas lendo o `README`?
+
+## Scripts em vez de cliques
+
+Toda operação feita com o mouse — filtrar linhas em uma planilha, apagar um valor discrepante, copiar uma média para o texto, ajustar um eixo em um programa gráfico — é uma operação sem registro. Ela não pode ser revista, corrigida ou repetida automaticamente. Scripts, ao contrário, são o registro exato de cada passo.
+
+### Uma cadeia de scripts
+
+Uma organização simples e eficaz divide a análise em scripts numerados, cada um com uma função clara, que leem arquivos de uma etapa e gravam arquivos para a seguinte:
+
+```{r}
+#| label: fig-chapter13-pipeline
+#| fig-cap: "Uma cadeia de análise reprodutível. Os dados brutos nunca são alterados; cada script lê os produtos da etapa anterior e grava os seus, e o relatório final é gerado a partir deles."
+#| echo: false
+#| fig-align: center
+
+fluxo(
+  etapas   = c("Dados brutos", "01_limpeza.R", "Dados processados",
+               "02_analise.R", "Modelos, tabelas e figuras", "relatorio.qmd",
+               "Relatório ou artigo"),
+  detalhes = c("data/raw/ (somente leitura)", "corrige, recodifica, organiza",
+               "data/processed/", "ajusta modelos, estima efeitos",
+               "results/ e figures/", "texto + código + resultados",
+               "HTML, Word ou PDF"),
+  cores    = c("cinza", "amarelo", "verde", "amarelo", "azul", "roxo", "coral")
+)
+```
+
+Com essa estrutura, refazer toda a análise após uma correção nos dados brutos significa simplesmente executar os scripts de novo, na ordem.
+
+### Código legível
+
+Código reprodutível também precisa ser compreensível. Algumas práticas simples fazem grande diferença:
+
+-   nomes de objetos e variáveis **descritivos** (`severidade_media`, e não `x2`);
+-   **comentários** que explicam o *porquê* de cada decisão, e não apenas o *quê*;
+-   um estilo consistente (espaços, indentação, `snake_case`);
+-   **funções** para operações repetidas, em vez de copiar e colar o mesmo bloco de código.
+
+O exemplo abaixo transforma em função um cálculo usado várias vezes neste livro, a eficácia de controle em relação à testemunha:
+
+```{r}
+# Eficácia de controle (%) de um tratamento em relação à testemunha.
+# Usa as médias de severidade; valores negativos indicam mais doença que a testemunha.
+eficacia <- function(sev_tratamento, sev_testemunha) {
+  100 * (sev_testemunha - sev_tratamento) / sev_testemunha
+}
+
+eficacia(sev_tratamento = c(18, 22, 31), sev_testemunha = 48)
+```
+
+Uma função documentada pode ser guardada na pasta `R/` e reutilizada em todos os scripts do projeto, garantindo que o cálculo seja sempre o mesmo.
+
+## Documentos dinâmicos com o Quarto
+
+### Texto, código e resultados no mesmo documento
+
+O Quarto, usado para escrever este livro, permite combinar texto, código e resultados em um único documento. Ao renderizar o arquivo `.qmd`, o código é executado e suas saídas — tabelas, figuras, números — são inseridas automaticamente no documento final, que pode ser gerado em HTML, Word ou PDF.
+
+Um documento Quarto mínimo tem três partes: um cabeçalho com metadados, blocos de código e texto:
+
+````markdown
+---
+title: "Ensaio de fungicidas – safra 2025"
+format: html
+---
+
+```{{r}}
+library(emmeans)
+dados <- read.csv("data/processed/severidade.csv")
+modelo <- lm(severity ~ block + treatment, data = dados)
+```
+
+A severidade média na testemunha foi de `r knitr::inline_expr("round(mean(dados$severity[dados$treatment == 'Testemunha']), 1)")`%.
+````
+
+O Capítulo 12 mostrou como o código em linha elimina a transcrição manual de números. Quando os dados mudam, basta renderizar o documento novamente para que texto, tabelas e figuras sejam atualizados juntos.
+
+### Opções dos blocos de código
+
+As opções no início de cada bloco controlam o que aparece no documento final. As mais usadas são:
+
+| Opção | Efeito |
+|--------------------|------------------------------------------------|
+| `#| echo: false` | executa o código, mas não o mostra |
+| `#| eval: false` | mostra o código, mas não o executa |
+| `#| include: false` | executa o código sem mostrar código nem saída |
+| `#| label: fig-...` | rotula uma figura para referência cruzada |
+| `#| fig-cap: "..."` | define a legenda da figura |
+| `#| warning: false` | oculta avisos |
+
+: Opções comuns dos blocos de código no Quarto. {#tbl-ch13-opcoes}
+
+### Parâmetros
+
+Documentos Quarto podem receber **parâmetros**, o que permite gerar o mesmo relatório para diferentes safras, locais ou experimentos sem duplicar o código. Por exemplo, um relatório com o parâmetro `safra` pode ser renderizado uma vez para cada ano:
+
+```{bash}
+#| eval: false
+
+quarto render relatorio.qmd -P safra:2024
+quarto render relatorio.qmd -P safra:2025
+```
+
+## O ambiente computacional
+
+### Registrando as versões
+
+Os resultados de uma análise podem depender da versão do R e dos pacotes usados: funções mudam, padrões são alterados e erros são corrigidos. Registrar o ambiente é, portanto, parte da reprodutibilidade. A função `sessionInfo()` informa a versão do R, o sistema operacional e as versões de todos os pacotes carregados. Por exemplo, os pacotes usados para gerar este capítulo foram:
+
+```{r}
+pacotes <- c("ggplot2", "emmeans", "patchwork", "DiagrammeR")
+sapply(pacotes, function(p) as.character(packageVersion(p)))
+R.version.string
+```
+
+### Ambientes isolados com renv
+
+O pacote `renv` vai além de registrar as versões: ele cria uma biblioteca de pacotes própria para o projeto e grava as versões exatas em um arquivo (`renv.lock`). Outra pessoa, ou o mesmo pesquisador em outro computador, pode então restaurar exatamente o mesmo ambiente:
+
+```{r}
+#| eval: false
+
+renv::init()       # cria o ambiente do projeto
+renv::snapshot()   # registra as versões atuais em renv.lock
+renv::restore()    # em outro computador: instala as mesmas versões
+```
+
+### Aleatoriedade controlada
+
+Simulações, reamostragens (*bootstrap*), permutações e alguns algoritmos (como o *k*-médias) usam números aleatórios. Sem controle, cada execução dá um resultado ligeiramente diferente. A função `set.seed()` fixa o ponto de partida do gerador de números aleatórios, tornando os resultados reprodutíveis:
+
+```{r}
+set.seed(2025)
+amostra_1 <- sample(1:100, 5)
+
+set.seed(2025)
+amostra_2 <- sample(1:100, 5)
+
+amostra_1
+identical(amostra_1, amostra_2)
+```
+
+Todos os dados simulados deste livro foram gerados dessa forma, e por isso qualquer leitor obtém exatamente os mesmos números e figuras.
+
+## Controle de versões com Git
+
+### Por que controlar versões
+
+Projetos mudam: dados são corrigidos, análises são refeitas, textos são revisados por coautores. Sem controle de versões, o histórico vive em nomes de arquivos (`analise_v3_final_revisado.R`) e na memória das pessoas. O **Git** é um sistema que registra cada alteração nos arquivos do projeto, com data, autor e uma mensagem descritiva, e permite voltar a qualquer versão anterior.
+
+### Conceitos básicos
+
+-   **repositório**: a pasta do projeto sob controle do Git, com todo o seu histórico;
+-   **commit**: um registro do estado dos arquivos em um momento, acompanhado de uma mensagem ("corrige unidade da produtividade no bloco 3");
+-   **histórico**: a sequência de commits, que mostra o que mudou, quando e por quê;
+-   **repositório remoto**: uma cópia do repositório em um serviço como GitHub ou GitLab, que serve de cópia de segurança e facilita a colaboração;
+-   **`.gitignore`**: lista de arquivos que não devem ser versionados, como arquivos temporários e saídas que podem ser regeneradas.
+
+O RStudio tem uma interface gráfica para o Git, e os pacotes `usethis` e `gert` permitem configurá-lo a partir do R:
+
+```{r}
+#| eval: false
+
+usethis::use_git()      # transforma o projeto em um repositório Git
+usethis::use_github()   # cria um repositório remoto no GitHub
+```
+
+::: callout-tip
+Faça commits pequenos e frequentes, cada um com uma mensagem que explique o que mudou e por quê. Um histórico bem escrito é uma documentação do projeto.
+:::
+
+### O que versionar
+
+Scripts, documentos Quarto, o `README`, o dicionário de dados e, em geral, os dados brutos pequenos devem ser versionados. Arquivos grandes, dados sensíveis e produtos que podem ser regenerados a partir do código (figuras, tabelas, documentos renderizados) geralmente ficam fora do controle de versões ou são guardados em outro lugar.
+
+## Compartilhando dados e código
+
+### Repositórios permanentes
+
+Disponibilizar dados e código permite que outras pessoas verifiquem, reutilizem e ampliem o trabalho. Para isso, eles devem estar em um **repositório permanente**, que atribui um identificador persistente (DOI) e garante que os arquivos continuem acessíveis. Exemplos incluem o Zenodo, o Figshare, o Open Science Framework (OSF), o Dryad e os repositórios institucionais. Um repositório no GitHub é ótimo para o desenvolvimento, mas não é, por si só, um arquivo permanente; o GitHub pode ser integrado ao Zenodo para gerar um DOI a cada versão publicada.
+
+### Princípios FAIR
+
+Os dados compartilhados devem ser, na medida do possível, **localizáveis, acessíveis, interoperáveis e reutilizáveis** (princípios FAIR) [@wilkinson2016]. Na prática, isso significa: um identificador persistente; formatos abertos (CSV em vez de formatos proprietários); um dicionário de dados que descreva cada variável e suas unidades (Capítulo 3); e uma **licença** que diga como os dados e o código podem ser reutilizados (por exemplo, CC BY para dados e MIT ou GPL para código).
+
+### O que compartilhar
+
+Um pacote de reprodutibilidade completo inclui:
+
+-   os dados brutos (ou, quando não puderem ser compartilhados, os dados processados e uma explicação);
+-   o dicionário de dados;
+-   todos os scripts, na ordem em que devem ser executados;
+-   o documento Quarto do relatório ou artigo, quando houver;
+-   o registro do ambiente computacional (`sessionInfo()` ou `renv.lock`);
+-   um `README` com instruções.
+
+## "Bom o suficiente" é melhor do que perfeito
+
+A reprodutibilidade não exige dominar todas as ferramentas deste capítulo de uma vez. Práticas simples, adotadas de forma consistente, já resolvem a maior parte dos problemas [@wilson2017]. Uma progressão razoável é:
+
+1.  uma pasta por projeto, com dados brutos protegidos e um `README`;
+2.  scripts para todas as etapas, sem edições manuais nos dados;
+3.  relatórios em Quarto, com tabelas, figuras e números gerados pelo código;
+4.  registro do ambiente e uso de `set.seed()`;
+5.  controle de versões com Git;
+6.  compartilhamento em repositório permanente, com DOI e licença.
+
+Cada degrau já representa um ganho real; não é preciso esperar dominar todos para começar.
+
+## Pesquisa na prática: tornando reprodutível um ensaio de fungicidas
+
+::: {.callout-tip collapse="false" title="Pesquisa revisitada: Do caderno de campo ao pacote reprodutível"}
+
+Retome um ensaio de fungicidas como o do míldio do manjericão discutido ao longo do livro [@mcgrath2020]. Os dados chegaram em uma planilha preenchida no campo, com abas por data de avaliação, células mescladas e algumas correções feitas à mão (Capítulo 3).
+
+Planeje como transformar esse material em um projeto reprodutível:
+
+1.  Que estrutura de pastas você criaria, e o que iria em cada uma?
+2.  Onde ficaria a planilha original, e como você garantiria que ela não fosse alterada?
+3.  Quais scripts seriam necessários, e o que cada um faria?
+4.  Como as correções feitas à mão na planilha seriam registradas?
+5.  Como você geraria a tabela e a figura de resultados do Capítulo 12 sem copiar números?
+6.  O que você incluiria no `README` e no repositório público?
+7.  O que aconteceria se um revisor pedisse para excluir um bloco da análise? Quanto tempo levaria para refazer tudo?
+
+:::
+
+## Erros comuns
+
+### Editar os dados brutos à mão
+
+Alterações sem registro não podem ser revistas nem repetidas.
+
+### Usar caminhos absolutos e `setwd()`
+
+O código deixa de funcionar em outro computador.
+
+### Copiar números da saída para o texto
+
+Erros de transcrição são frequentes e difíceis de detectar.
+
+### Guardar versões em nomes de arquivos
+
+`analise_final_v3_revisado.R` não informa o que mudou nem por quê.
+
+### Não registrar as versões dos pacotes
+
+Mudanças nos pacotes podem alterar resultados sem aviso.
+
+### Esquecer de fixar a semente aleatória
+
+Simulações e reamostragens dão resultados diferentes a cada execução.
+
+### Compartilhar apenas o resultado final
+
+Sem dados brutos, scripts e instruções, a análise não pode ser verificada.
+
+### Depender de um único computador
+
+Sem cópia de segurança e controle de versões, um disco danificado pode significar a perda de todo o projeto.
+
+## Um fluxo de trabalho para a pesquisa reprodutível
+
+```{r}
+#| label: fig-chapter13-fluxo
+#| fig-cap: "Um fluxo de trabalho para a pesquisa reprodutível, do início do projeto ao compartilhamento."
+#| echo: false
+#| fig-align: center
+
+fluxo(
+  etapas = c("Criar o projeto (pasta, .Rproj, README)",
+             "Guardar os dados brutos como somente leitura",
+             "Escrever scripts para cada etapa",
+             "Gerar tabelas, figuras e texto com Quarto",
+             "Registrar o ambiente e fixar sementes",
+             "Versionar com Git",
+             "Compartilhar em repositório permanente"),
+  cores = c("azul", "cinza", "amarelo", "roxo", "turquesa", "verde", "coral")
+)
+```
+
+## Lista de verificação da reprodutibilidade
+
+Antes de considerar uma análise concluída, pergunte:
+
+1.  Todo o projeto está em uma única pasta, com um `README`?
+2.  Os dados brutos estão preservados e nunca são editados à mão?
+3.  Todas as etapas, da limpeza às figuras, estão em scripts?
+4.  Os scripts usam caminhos relativos?
+5.  Os scripts podem ser executados do início ao fim, em uma sessão limpa do R, sem erros?
+6.  Tabelas, figuras e números do texto são gerados pelo código?
+7.  As versões do R e dos pacotes estão registradas?
+8.  As sementes aleatórias estão fixadas?
+9.  O projeto está sob controle de versões?
+10. Há um dicionário de dados?
+11. Dados e código estão disponíveis em um repositório permanente, com licença?
+12. Um colega conseguiria reproduzir os resultados sem ajuda?
+
+## Resumo do capítulo
+
+A reprodutibilidade — a capacidade de recalcular exatamente os mesmos resultados a partir dos mesmos dados e do mesmo código — é a base sobre a qual a robustez e a replicabilidade podem ser avaliadas, e está inteiramente sob o controle do pesquisador. Ela começa com a organização do projeto em uma única pasta, com dados brutos protegidos, caminhos relativos e um `README`. Scripts substituem operações manuais e registram cada decisão; funções e comentários tornam o código compreensível. Documentos Quarto integram texto, código e resultados, de modo que tabelas, figuras e números sejam atualizados automaticamente. O registro do ambiente computacional, o uso de sementes aleatórias e o controle de versões com Git garantem que os resultados possam ser recuperados ao longo do tempo. Por fim, o compartilhamento de dados e código em repositórios permanentes, segundo os princípios FAIR, permite que outros verifiquem e reutilizem o trabalho. Práticas simples, adotadas de forma consistente, já trazem a maior parte desses benefícios.
+
+## Conceitos-chave
+
+Ao concluir este capítulo, você deverá ser capaz de explicar:
+
+-   reprodutibilidade;
+-   robustez;
+-   replicabilidade;
+-   projeto do RStudio;
+-   caminho relativo;
+-   README;
+-   cadeia de scripts;
+-   documento dinâmico;
+-   código em linha;
+-   parâmetros de um relatório;
+-   ambiente computacional;
+-   semente aleatória;
+-   controle de versões;
+-   commit;
+-   repositório permanente;
+-   DOI;
+-   princípios FAIR;
+-   licença de uso.
+
+## Exercícios
+
+### Exercício 1. Diagnóstico de reprodutibilidade
+
+Escolha um projeto seu (um capítulo de tese, um experimento ou um trabalho de disciplina) e aplique a lista de verificação deste capítulo. Quais itens já são atendidos? Quais seriam mais fáceis de implementar primeiro?
+
+### Exercício 2. Reorganizando um projeto
+
+Crie um projeto do RStudio com a estrutura de pastas apresentada neste capítulo, coloque nele um conjunto de dados e escreva dois scripts: um de limpeza, que grave os dados processados, e um de análise, que gere uma tabela e uma figura. Escreva um `README` com as instruções para reproduzir tudo.
+
+### Exercício 3. Relatório dinâmico
+
+Transforme a análise do Exercício 2 em um documento Quarto em que todos os números do texto sejam gerados por código em linha. Altere um valor dos dados brutos, renderize novamente e verifique o que muda.
+
+### Exercício 4. Sementes e simulações
+
+Simule um ensaio com cinco tratamentos e quatro blocos, ajuste um modelo e estime os efeitos dos tratamentos. Execute o código duas vezes sem `set.seed()` e duas vezes com `set.seed()`. Compare os resultados e explique as diferenças.
+
+### Exercício 5. Avaliação de um artigo publicado
+
+Escolha um artigo recente de Fitopatologia e verifique:
+
+1. se os dados estão disponíveis, onde e em que formato;
+2. se o código está disponível;
+3. se as versões dos programas e pacotes são informadas;
+4. se há um identificador persistente (DOI) para os dados;
+5. se haveria como reproduzir uma das figuras do artigo.
+
+## Reflexão
+
+> **Uma análise que não pode ser reproduzida é uma afirmação; uma análise reprodutível é uma evidência que pode ser verificada.**
+
+Discuta essa afirmação usando um exemplo da sua própria experiência.
+
+## Considerações finais
+
+Este livro começou com uma questão biológica e terminou com um projeto reprodutível. Entre um e outro, procuramos mostrar que a análise de dados não é uma etapa isolada, aplicada no fim de um experimento, mas uma forma de raciocinar que acompanha toda a pesquisa: delinear estudos capazes de responder à questão, organizar os dados com cuidado, explorá-los antes de modelá-los, visualizar a evidência com honestidade, estimar efeitos com sua incerteza, escolher modelos adequados ao tipo de dado, comunicar os resultados com clareza e deixar cada passo registrado para que outros possam verificá-lo.
+
+Os métodos estatísticos continuarão evoluindo, e novos pacotes substituirão os que usamos aqui. Os princípios, porém, permanecem: começar pela biologia, mostrar os dados, quantificar a incerteza, distinguir evidência estatística de relevância biológica e trabalhar de forma transparente. São eles que transformam observações em conhecimento confiável sobre as doenças de plantas.

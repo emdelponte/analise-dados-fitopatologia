@@ -1,0 +1,1211 @@
+# Como comparamos grupos?
+
+```{r}
+#| include: false
+source("R/diagramas.R")
+source("R/graficos.R")
+```
+
+```{r}
+#| include: false
+# Dados simulados usados nos exemplos deste capítulo
+knitr::opts_chunk$set(fig.width = 6.5, fig.height = 4, fig.align = "center")
+set.seed(707)
+
+# Dois grupos independentes: 6 parcelas por tratamento
+dois <- data.frame(
+  treatment = factor(rep(c("Testemunha", "Fungicida"), each = 6),
+                     levels = c("Testemunha", "Fungicida")),
+  # médias e desvios fixados para reproduzir o exemplo do texto (38% e 24%)
+  severity = round(c(scale(rnorm(6))[, 1] * 5.5 + 38,
+                     scale(rnorm(6))[, 1] * 5.5 + 24), 1)
+)
+
+# Medidas pareadas: taxa fotossintética antes e depois, nas mesmas 8 plantas
+planta <- rnorm(8, 18, 4)
+before <- round(planta, 1)
+after  <- round(planta - 4 + rnorm(8, 0, 1), 1)
+
+# Ensaio em blocos casualizados: testemunha + 4 fungicidas, 4 blocos
+trats <- c("Testemunha", "Fung. A", "Fung. B", "Fung. C", "Fung. D")
+data <- expand.grid(block = factor(1:4), treatment = factor(trats, levels = trats))
+efeito_bloco <- c(-3, 0, 2, 4)[as.integer(data$block)]
+data$severity <- round(c(52, 24, 29, 35, 30)[as.integer(data$treatment)] +
+                         efeito_bloco + rnorm(nrow(data), 0, 4), 1)
+
+# Fatorial cultivar x fungicida, 4 repetições
+fatorial <- expand.grid(rep = 1:4,
+                        fungicide = factor(c("Sem", "Com"), levels = c("Sem", "Com")),
+                        cultivar = factor(c("A", "B")))
+media_fat <- with(fatorial, ifelse(cultivar == "A",
+                                   ifelse(fungicide == "Sem", 30, 25),
+                                   ifelse(fungicide == "Sem", 45, 20)))
+fatorial$severity <- round(media_fat + rnorm(nrow(fatorial), 0, 3), 1)
+```
+
+## Objetivos de aprendizagem
+
+::: callout-important
+Ao concluir este capítulo, o leitor deverá ser capaz de:
+
+-   identificar questões de pesquisa que envolvem comparações entre grupos ou tratamentos;
+-   distinguir comparações independentes de comparações pareadas;
+-   estimar e interpretar diferenças entre médias de grupos;
+-   usar intervalos de confiança para quantificar a incerteza dos efeitos dos tratamentos;
+-   explicar a relação entre o teste *t*, a análise de variância e os modelos lineares;
+-   analisar experimentos com dois ou mais grupos;
+-   interpretar experimentos fatoriais e interações;
+-   distinguir comparações planejadas de comparações múltiplas *a posteriori*;
+-   avaliar os pressupostos dos modelos lineares;
+-   reconhecer quando transformações ou modelos alternativos podem ser necessários;
+-   comunicar comparações entre grupos usando estimativas, incerteza e gráficos adequados.
+:::
+
+## Por que comparar grupos?
+
+Muitos experimentos em Fitopatologia são construídos em torno de comparações.
+
+Questões típicas incluem:
+
+- Um fungicida reduz a severidade da doença em relação a uma testemunha sem tratamento?
+- As cultivares diferem em resistência?
+- A inoculação altera uma resposta fisiológica?
+- Diferentes tratamentos nutricionais afetam o desenvolvimento das lesões?
+- A eficácia do tratamento depende da cultivar?
+
+Embora essas questões difiram biologicamente, elas compartilham uma estrutura estatística comum: uma resposta quantitativa é comparada entre grupos definidos por um ou mais fatores experimentais.
+
+::: {.callout-important}
+O objetivo principal de uma comparação entre grupos não é determinar se os grupos são "significativamente diferentes". É estimar **o quanto eles diferem e quão incerta é essa diferença**.
+:::
+
+## Da questão biológica à comparação estatística
+
+Considere um experimento simples de manejo da doença.
+
+```{r}
+#| label: fig-chapter7-1
+#| fig-cap: "Da questão biológica à estimação de uma diferença entre grupos."
+#| echo: false
+#| fig-align: center
+
+fluxo(
+  etapas   = c("Questão biológica", "Resposta", "Grupos", "Estimando",
+               "Estimativa + incerteza", "Interpretação biológica"),
+  detalhes = c("O tratamento reduz a doença?", "Severidade da doença",
+               "Testemunha vs tratado", "Diferença na severidade média",
+               NA, NA)
+)
+```
+
+### Qual é o estimando?
+
+Suponha que a severidade média da doença seja $\mu_C$ na testemunha e $\mu_T$ no tratamento.
+
+Um estimando natural é a diferença:
+
+$$
+\Delta = \mu_T - \mu_C
+$$
+
+A estimativa correspondente obtida no experimento é:
+
+$$
+\hat{\Delta} = \bar{y}_T - \bar{y}_C
+$$
+
+A direção da subtração define o sinal do resultado. Com a convenção "tratamento menos testemunha", valores negativos indicam redução da doença, e valores positivos, aumento. A convenção oposta é igualmente válida, desde que declarada. O importante é definir o contraste explicitamente, no texto e nas figuras, para que o leitor não precise adivinhá-lo.
+
+::: {.callout-tip}
+Sempre defina a direção de uma comparação. "O tratamento diferiu da testemunha em 15%" é ambíguo, a menos que a direção da subtração esteja clara.
+:::
+
+## Olhando os dados antes de comparar médias
+
+Antes de ajustar um modelo estatístico, examine as observações. Os princípios da análise exploratória (Capítulo 4) e da visualização (Capítulo 5) aplicam-se diretamente às comparações entre grupos.
+
+### Mostre as observações individuais
+
+Com o número de repetições típico dos experimentos em Fitopatologia, cada observação pode ser mostrada. Um gráfico de pontos por tratamento revela imediatamente o número de unidades, a dispersão e os valores incomuns.
+
+### Examine as distribuições dos grupos
+
+Verifique se as observações de cada grupo são aproximadamente simétricas ou assimétricas, se há acúmulo de valores em zero ou em 100% e se algum grupo parece conter subgrupos distintos.
+
+### Examine a variabilidade entre os grupos
+
+Compare a dispersão dos grupos. Em dados de doença, a variabilidade frequentemente aumenta com a média: a testemunha, com mais doença, costuma ser mais variável que os tratamentos eficazes. Essa característica afeta a escolha do método.
+
+### Identifique observações incomuns
+
+Uma parcela com valor muito diferente das demais do mesmo tratamento deve ser conferida com os registros originais antes da análise.
+
+### Verifique a estrutura experimental
+
+Confirme o número de unidades experimentais por tratamento, a presença de blocos e a existência de subamostras. A análise deve refletir essa estrutura (Capítulo 2).
+
+```{r}
+
+library(ggplot2)
+
+ggplot(data, aes(x = treatment, y = severity)) +
+  geom_point(position = position_jitter(width = 0.1))
+```
+
+### Por que as médias sozinhas são insuficientes
+
+Dois tratamentos podem ter médias semelhantes, mas diferir muito em:
+
+- variabilidade;
+- distribuição;
+- tamanho da amostra;
+- observações incomuns.
+
+```{r}
+#| label: fig-chapter7-2
+#| fig-cap: "As mesmas médias de tratamento podem surgir de distribuições de observações muito diferentes. Os quatro grupos simulados têm média de 30% de severidade (losango), mas diferem na variabilidade, na simetria e na presença de valores discrepantes."
+#| echo: false
+#| fig-width: 8
+#| fig-height: 4
+
+set.seed(606)
+ajusta <- function(y, m = 30) y - mean(y) + m
+grupos <- c("Pouco variável", "Muito variável", "Assimétrico", "Com valor discrepante")
+dist <- data.frame(
+  grupo = factor(rep(grupos, each = 12), levels = grupos),
+  severidade = c(ajusta(rnorm(12, 30, 2)),
+                 ajusta(rnorm(12, 30, 9)),
+                 ajusta(rexp(12, 1 / 8) + 20),
+                 ajusta(c(rnorm(11, 26, 2.5), 72)))
+)
+
+ggplot(dist, aes(grupo, severidade)) +
+  geom_jitter(width = 0.1, alpha = 0.6, size = 2.2, colour = "grey30") +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 4,
+               fill = okabe[2], colour = "white") +
+  labs(x = NULL, y = "Severidade (%)") +
+  theme_livro(12)
+```
+
+## Comparando dois grupos independentes
+
+### Um exemplo simples
+
+Considere um ensaio de campo em que seis parcelas receberam um fungicida e seis parcelas foram mantidas sem tratamento, alocadas ao acaso. A severidade média foi de 38% na testemunha e de 24% nas parcelas tratadas. Os dados simulados usados neste capítulo (objeto `dois`) reproduzem esse exemplo.
+
+### Diferença entre médias
+
+A grandeza central é:
+
+$$
+\hat{\Delta} = \bar{y}_1 - \bar{y}_2
+$$
+
+No exemplo, com a convenção tratamento menos testemunha, $\hat{\Delta} = 24 - 38 = -14$ pontos percentuais.
+
+### Incerteza da diferença
+
+A diferença estimada tem seu próprio erro padrão, que depende da variabilidade dentro dos grupos e do número de unidades em cada um. A partir dele, calcula-se um intervalo de confiança para a diferença (Capítulo 6). No exemplo, o intervalo de confiança de 95% vai de −21,1 a −6,9 pontos percentuais (ver a saída do teste *t* abaixo): reduções entre cerca de 7 e 21 pontos são compatíveis com os dados.
+
+### O teste t para amostras independentes
+
+O teste *t* avalia uma comparação entre duas médias populacionais.
+
+Conceitualmente:
+
+$$
+t =
+\frac{\text{diferença estimada}}
+{\text{erro padrão da diferença}}
+$$
+
+Quanto maior a diferença em relação à sua incerteza, maior o valor absoluto de $t$ e menor o valor-P. Os detalhes do cálculo são feitos pelo programa; o importante é compreender que o teste compara o tamanho da diferença com a precisão com que ela foi estimada.
+
+### O teste t de Welch
+
+O teste *t* clássico pressupõe que os dois grupos têm a mesma variância. A versão de Welch não faz esse pressuposto e ajusta o erro padrão e os graus de liberdade quando as variâncias diferem. Como variâncias desiguais são comuns em dados de doença, e como o teste de Welch perde muito pouco quando as variâncias são de fato iguais, ele é geralmente preferível a assumir automaticamente variâncias iguais. No R, `t.test()` usa a versão de Welch por padrão.
+
+```{r}
+
+t.test(severity ~ treatment, data = dois)
+```
+
+### Interpretando o resultado
+
+Não pare em:
+
+> P = 0,001
+
+Em vez disso, relate:
+
+> A severidade média da doença foi 14,0 pontos percentuais menor no grupo tratado do que na testemunha (IC 95%: 6,9 a 21,1 pontos percentuais).
+
+::: {.callout-important}
+A diferença estimada e seu intervalo de confiança geralmente fornecem mais informação biológica do que o valor-P sozinho.
+:::
+
+## Observações independentes versus pareadas
+
+Nem todas as comparações entre dois grupos envolvem observações independentes.
+
+### Observações independentes
+
+Exemplos:
+
+- parcelas diferentes recebendo tratamentos diferentes;
+- plantas diferentes atribuídas independentemente aos tratamentos;
+- isolados diferentes atribuídos às condições experimentais.
+
+### Observações pareadas
+
+Exemplos:
+
+- medidas antes e depois do tratamento na mesma unidade experimental;
+- duas medidas obtidas em unidades experimentais emparelhadas;
+- dois tratamentos avaliados em material naturalmente pareado, como as duas metades da mesma folha.
+
+```{r}
+#| label: fig-chapter7-3
+#| fig-cap: "Estruturas experimentais independentes e pareadas (dados simulados). (A) Plantas diferentes em cada tratamento: as observações dos dois grupos não têm relação entre si. (B) A mesma planta medida antes e depois do tratamento: cada linha liga as duas medidas de uma unidade, e a análise se baseia nas diferenças dentro de cada par, o que remove a variação entre plantas."
+#| echo: false
+#| fig-width: 8
+#| fig-height: 4
+
+set.seed(606)
+n <- 8
+indep <- data.frame(grupo = rep(c("Testemunha", "Tratado"), each = n),
+                    y = c(rnorm(n, 18, 4), rnorm(n, 14, 4)))
+planta <- rnorm(n, 18, 4)
+par <- data.frame(planta = rep(1:n, 2),
+                  momento = factor(rep(c("Antes", "Depois"), each = n),
+                                   levels = c("Antes", "Depois")),
+                  y = c(planta, planta - 4 + rnorm(n, 0, 1)))
+
+pA <- ggplot(indep, aes(grupo, y)) +
+  geom_jitter(width = 0.08, size = 2.4, alpha = 0.7, colour = okabe[1]) +
+  labs(title = "(A) Independentes", x = NULL,
+       y = "Taxa fotossintética (µmol m⁻² s⁻¹)") +
+  theme_livro(12)
+
+pB <- ggplot(par, aes(momento, y, group = planta)) +
+  geom_line(colour = "grey60") +
+  geom_point(size = 2.4, alpha = 0.8, colour = okabe[3]) +
+  labs(title = "(B) Pareadas", x = NULL, y = NULL) +
+  theme_livro(12)
+
+pA + pB & coord_cartesian(ylim = range(c(indep$y, par$y)))
+```
+
+### O teste t pareado
+
+Para observações pareadas, a análise se concentra nas diferenças dentro de cada par:
+
+$$
+d_i = y_{i1} - y_{i2}
+$$
+
+e pergunta sobre a diferença média, $\mu_d$. Como cada par compartilha as condições de uma mesma unidade, a variação entre unidades é removida da comparação, o que geralmente aumenta a precisão.
+
+```{r}
+
+t.test(before, after, paired = TRUE)
+```
+
+::: {.callout-warning}
+O pareamento é uma propriedade do delineamento do estudo. Ele não deve ser introduzido na análise apenas porque dois grupos têm o mesmo número de observações.
+:::
+
+## Comparando mais de dois grupos
+
+Experimentos em Fitopatologia frequentemente têm vários tratamentos.
+
+Exemplos incluem:
+
+- vários fungicidas;
+- várias cultivares;
+- diferentes concentrações de inóculo;
+- várias temperaturas;
+- vários tratamentos nutricionais.
+
+### Por que não fazer muitos testes t?
+
+Suponha que quatro tratamentos sejam comparados. Há seis comparações dois a dois possíveis. Se cada uma for testada com $\alpha = 0{,}05$, a probabilidade de que pelo menos uma pareça significativa por acaso, mesmo sem nenhuma diferença real, é bem maior que 5% (Capítulo 6). Além disso, cada teste *t* usa apenas os dados de dois grupos para estimar a variabilidade, desperdiçando a informação dos demais. Um modelo que analisa todos os grupos juntos resolve os dois problemas.
+
+### Análise de variância
+
+A análise de variância (ANOVA) fornece um arcabouço para avaliar simultaneamente a variação entre vários grupos.
+
+### Variação dentro e entre grupos
+
+Conceitualmente, a ANOVA separa a variação em:
+
+```{r}
+#| label: fig-chapter7-4
+#| fig-cap: "Partição conceitual da variabilidade em uma comparação entre grupos."
+#| echo: false
+#| fig-align: center
+
+DiagrammeR::grViz("
+digraph particao {
+  graph [rankdir = TB, nodesep = 0.5, ranksep = 0.45, bgcolor = 'transparent']
+  node  [shape = box, style = 'rounded,filled', fontname = 'Helvetica',
+         fontsize = 15, height = 0.6, penwidth = 1.4, margin = '0.25,0.08']
+  edge  [color = '#4a4a4a', arrowsize = 0.7, penwidth = 1.2]
+
+  t [label = <<b>Variação total</b>>, width = 3.2,
+     fillcolor = '#f4f4f4', color = '#5f7132', penwidth = 2]
+  e [label = <<b>Variação entre grupos</b><br/><font point-size='12' color='#1f5fa8'>explicada pelos tratamentos</font>>,
+     fillcolor = '#eaf2fb', color = '#7fa7d6']
+  d [label = <<b>Variação dentro dos grupos</b><br/><font point-size='12' color='#9a6b00'>residual (erro experimental)</font>>,
+     fillcolor = '#fdf5e1', color = '#e5c46e']
+
+  t -> e
+  t -> d
+}
+", width = "100%", height = 220)
+```
+
+### O teste F
+
+Conceitualmente:
+
+$$
+F =
+\frac{\text{variação explicada pelos grupos}}
+{\text{variação não explicada}}
+$$
+
+Se os tratamentos não tivessem efeito, as médias dos grupos difeririam apenas pela variação casual, e as duas fontes de variação seriam de magnitude semelhante, com $F$ próximo de 1. Quando as médias diferem mais do que a variação dentro dos grupos faria esperar, $F$ aumenta e o valor-P diminui.
+
+## A ANOVA como modelo linear
+
+Esta é uma transição conceitual importante.
+
+Uma ANOVA com um fator pode ser escrita como:
+
+$$
+y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \varepsilon_i
+$$
+
+em que as variáveis $x$ indicam a qual grupo pertence cada observação. O mesmo arcabouço de modelo linear usado para comparar grupos será usado depois para estudar relações entre variáveis quantitativas.
+
+::: {.callout-important}
+O teste *t*, a ANOVA e a regressão linear não são procedimentos estatísticos sem relação entre si. São casos particulares do mesmo arcabouço geral do modelo linear.
+:::
+
+### Ajustando o modelo no R
+
+```{r}
+
+model <- lm(severity ~ treatment, data = data)
+
+anova(model)
+```
+
+### Examinando as estimativas do modelo
+
+```{r}
+
+summary(model)
+```
+
+Na parametrização padrão do R, o intercepto é a média estimada do grupo de referência (o primeiro nível do fator, geralmente em ordem alfabética), e cada coeficiente de tratamento é a diferença entre a média daquele tratamento e a do grupo de referência. Se a testemunha for definida como nível de referência, os coeficientes passam a ser diretamente os efeitos dos tratamentos em relação a ela. Por isso, vale a pena definir o nível de referência de forma deliberada, por exemplo com `relevel()`.
+
+## O que o teste global nos diz?
+
+Para vários tratamentos, a hipótese nula é:
+
+$$
+H_0:
+\mu_1 = \mu_2 = \cdots = \mu_k
+$$
+
+A alternativa é que pelo menos uma média populacional difere.
+
+::: {.callout-warning}
+Uma ANOVA global significativa não nos diz quais tratamentos diferem nem qual é o tamanho dessas diferenças.
+:::
+
+## Contrastes: fazendo perguntas específicas
+
+Muitas vezes, a questão biológica é mais específica do que:
+
+> Algum tratamento é diferente?
+
+Exemplos:
+
+- Os fungicidas reduzem a doença em relação à testemunha?
+- As cultivares resistentes diferem de um padrão suscetível?
+- O aumento da dose produz uma resposta sistemática?
+- Uma classe de tratamentos é mais eficaz que outra?
+
+### Contrastes planejados
+
+Um contraste representa uma comparação cientificamente definida entre médias de tratamentos. Formalmente, é uma combinação das médias com coeficientes que somam zero. A diferença entre dois tratamentos é o contraste mais simples (coeficientes +1 e −1); a comparação da média de dois fungicidas com a testemunha é outro (coeficientes +½, +½ e −1).
+
+### Tratamento versus testemunha
+
+Quando o objetivo é comparar cada tratamento com uma testemunha comum, o número de comparações é igual ao número de tratamentos, e não ao de todos os pares possíveis. O procedimento de Dunnett ajusta esses contrastes para a multiplicidade, mantendo a atenção nas comparações que interessam.
+
+### Grupos de tratamentos
+
+Às vezes, a questão envolve classes de tratamentos: fungicidas de sítio específico versus multissítios, cultivares resistentes versus suscetíveis, produtos biológicos versus químicos. Contrastes que comparam a média de uma classe com a de outra respondem diretamente a essas questões.
+
+::: {.callout-tip}
+Quando as comparações decorrem diretamente da questão científica, defina-as antes de examinar os resultados, sempre que possível.
+:::
+
+## Comparações múltiplas
+
+### Por que a multiplicidade importa
+
+Quanto mais comparações são feitas, maior a oportunidade de surgirem diferenças aparentemente incomuns apenas por acaso.
+
+### Comparações dois a dois
+
+Comparar todos os pares de tratamentos é útil quando não há uma estrutura prévia entre os tratamentos, como em uma avaliação de muitas cultivares. Com $k$ tratamentos, há $k(k-1)/2$ pares, e o número cresce rapidamente.
+
+### Comparações de Tukey
+
+O procedimento de Tukey (diferença honestamente significativa, HSD) ajusta todos os intervalos de confiança e testes dois a dois para que a probabilidade de pelo menos um falso positivo em todo o conjunto de comparações permaneça no nível escolhido.
+
+### Comparações com uma testemunha
+
+O procedimento de Dunnett faz o mesmo para o conjunto, menor, de comparações de cada tratamento com a testemunha. Como há menos comparações, ele é mais poderoso do que o de Tukey para essa finalidade.
+
+### Métodos de ajuste
+
+Os principais métodos incluem:
+
+- Tukey, para todas as comparações dois a dois;
+- Dunnett, para comparações com uma testemunha;
+- Bonferroni, simples e geral, porém conservador quando há muitas comparações;
+- taxa de falsas descobertas (FDR), que controla a proporção esperada de falsos positivos entre os resultados declarados significativos, útil quando há muitos testes.
+
+Um tratamento matemático detalhado não é necessário aqui.
+
+### Apresentação com letras
+
+Artigos de Fitopatologia frequentemente relatam resultados como:
+
+```text
+Tratamento A    a
+Tratamento B    ab
+Tratamento C    b
+Tratamento D    c
+```
+
+### O que as letras dizem — e o que não dizem
+
+Nessa apresentação, tratamentos que compartilham uma letra não diferiram significativamente segundo o procedimento usado, e tratamentos sem letras em comum diferiram. As letras resumem um conjunto de decisões dicotômicas. Elas não informam o tamanho das diferenças, sua incerteza nem se as diferenças são biologicamente relevantes. Duas médias com letras diferentes podem diferir por uma quantidade trivial, se estimadas com muita precisão, e duas médias com a mesma letra podem diferir muito, se estimadas com pouca precisão. Além disso, letras são frequentemente lidas como se definissem grupos homogêneos de tratamentos, o que não é verdade: no exemplo acima, A não difere de B, B não difere de C, mas A difere de C.
+
+::: {.callout-warning}
+A apresentação com letras resume decisões estatísticas, mas esconde a magnitude e a incerteza das diferenças entre tratamentos. Sempre que possível, interprete-a junto com os efeitos estimados e os intervalos de confiança.
+:::
+
+## Das letras às estimativas
+
+Esta seção resume a proposta central do capítulo: substituir, ou pelo menos complementar, a apresentação com letras por estimativas dos efeitos com sua incerteza.
+
+Compare:
+
+### Apresentação convencional
+
+Os números abaixo vêm do ensaio simulado deste capítulo (testemunha e quatro fungicidas em quatro blocos), analisado mais adiante com o `emmeans`.
+
+```text
+Tratamento   Média (%)
+Fung. A      26,0 a
+Fung. B      29,3 ab
+Fung. D      31,8 ab
+Fung. C      35,8 b
+Testemunha   54,6 c
+```
+
+com uma figura baseada em estimação, que mostra o efeito de cada tratamento em relação à testemunha e seu intervalo de confiança (ajustado por Dunnett):
+
+```text
+Efeito em relação à testemunha (pontos percentuais)
+
+Fung. A  ●──────            −28,6  (−34,4 a −22,7)
+Fung. B    ●──────          −25,2  (−31,1 a −19,4)
+Fung. D      ●──────        −22,8  (−28,6 a −16,9)
+Fung. C         ●──────     −18,8  (−24,6 a −13,0)
+         |         |         |
+        −40       −20        0
+```
+
+A figura mostra diretamente que todos os tratamentos reduziram a doença, que as reduções vão de cerca de 19 a 29 pontos percentuais, que a incerteza de cada estimativa é de aproximadamente ±6 pontos e que os intervalos se sobrepõem bastante, de modo que a diferença entre os tratamentos é muito menor, e mais incerta, do que a diferença entre qualquer tratamento e a testemunha.
+
+```{r}
+#| label: fig-chapter7-5
+#| fig-cap: "Formas alternativas de apresentar as mesmas comparações entre tratamentos (ensaio simulado deste capítulo). (A) Médias com letras (Tukey): informam decisões estatísticas, mas não o tamanho nem a incerteza das diferenças. (B) Efeito de cada tratamento em relação à testemunha, com intervalo de confiança de 95% ajustado por Dunnett: mostra diretamente quanto cada tratamento reduziu a doença e com que precisão."
+#| echo: false
+#| fig-width: 9
+#| fig-height: 3.8
+
+suppressPackageStartupMessages(library(emmeans))
+m_letras <- lm(severity ~ block + treatment, data = data)
+emm_l <- emmeans(m_letras, ~ treatment)
+med <- as.data.frame(emm_l)[, c("treatment", "emmean")]
+names(med) <- c("trat", "media")
+med$letra <- c("c", "a", "ab", "b", "ab")   # letras do teste de Tukey (ver pairs(emm) adiante)
+efe <- as.data.frame(confint(contrast(emm_l, "trt.vs.ctrl")))
+efe$trat <- sub(" - Testemunha", "", efe$contrast)
+efe$trat <- factor(efe$trat, levels = efe$trat[order(efe$estimate, decreasing = TRUE)])
+efe <- data.frame(trat = efe$trat, est = efe$estimate, inf = efe$lower.CL, sup = efe$upper.CL)
+
+pA <- ggplot(med, aes(trat, media)) +
+  geom_col(fill = "grey70", width = 0.6) +
+  geom_text(aes(label = letra), vjust = -0.6, size = 4.5) +
+  scale_y_continuous(limits = c(0, 60), expand = expansion(mult = c(0, 0.02))) +
+  labs(title = "(A) Médias e letras", x = NULL, y = "Severidade média (%)") +
+  theme_livro(12)
+
+pB <- ggplot(efe, aes(est, trat, xmin = inf, xmax = sup)) +
+  geom_vline(xintercept = 0, colour = "grey50") +
+  geom_pointrange(colour = okabe[1], size = 0.5, linewidth = 1.1) +
+  scale_x_continuous(limits = c(-40, 2)) +
+  labs(title = "(B) Efeitos em relação à testemunha",
+       x = "Diferença em relação à testemunha (p.p.)", y = NULL) +
+  theme_livro(12) +
+  theme(panel.grid.major.x = element_line(), panel.grid.major.y = element_blank())
+
+pA + pB + plot_layout(widths = c(1, 1.3))
+```
+
+Discuta:
+
+- Qual tratamento tem o melhor desempenho?
+- Por quanto?
+- Quão incerta é a diferença?
+- A diferença é biologicamente relevante?
+
+## Experimentos fatoriais
+
+Muitos experimentos em Fitopatologia envolvem mais de um fator.
+
+Exemplos:
+
+```text
+Cultivar × Fungicida
+Temperatura × Molhamento foliar
+Cultivar × Inoculação
+Silício × Patógeno
+Fungicida × Época de aplicação
+```
+
+### Efeitos principais
+
+Um efeito principal descreve o efeito médio de um fator ao longo dos níveis de outro fator.
+
+### Interações
+
+Uma interação ocorre quando o efeito de um fator depende do nível de outro.
+
+::: {.callout-important}
+Quando uma interação é biologicamente relevante, a interpretação deve se concentrar nos efeitos condicionais, e não nos efeitos principais médios ao longo do fator com o qual ele interage.
+:::
+
+### Visualizando interações
+
+```{r}
+#| label: fig-chapter7-6
+#| fig-cap: "Exemplos conceituais de ausência e presença de interação entre dois fatores experimentais. (A) Sem interação: o fungicida reduz a severidade em 10 pontos percentuais nas duas cultivares, e as linhas são paralelas. (B) Com interação: o efeito do fungicida é de 5 pontos na cultivar A e de 25 pontos na cultivar B, e as linhas não são paralelas."
+#| echo: false
+#| fig-width: 8
+#| fig-height: 3.8
+
+inter <- data.frame(
+  painel = rep(c("(A) Sem interação", "(B) Com interação"), each = 4),
+  fungicida = factor(rep(c("Sem fungicida", "Com fungicida"), 4),
+                     levels = c("Sem fungicida", "Com fungicida")),
+  cultivar = rep(rep(c("Cultivar A", "Cultivar B"), each = 2), 2),
+  severidade = c(30, 20, 45, 35,
+                 30, 25, 45, 20)
+)
+
+ggplot(inter, aes(fungicida, severidade, colour = cultivar, group = cultivar)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 3) +
+  facet_wrap(~ painel) +
+  scale_colour_manual(values = okabe[c(1, 2)]) +
+  scale_y_continuous(limits = c(0, 50)) +
+  labs(x = NULL, y = "Severidade média (%)", colour = NULL) +
+  theme_livro(12)
+```
+
+Com os dados simulados do experimento fatorial (duas cultivares, com e sem fungicida, quatro repetições), o gráfico de interação mostra linhas claramente não paralelas:
+
+```{r}
+#| fig-width: 6
+#| fig-height: 3.8
+
+ggplot(fatorial,
+       aes(x = fungicide,
+           y = severity,
+           group = cultivar,
+           colour = cultivar)) +
+  geom_point(alpha = 0.4) +
+  stat_summary(fun = mean, geom = "line", linewidth = 1) +
+  labs(x = "Fungicida", y = "Severidade (%)", colour = "Cultivar") +
+  theme_bw(base_size = 13)
+```
+
+### Ajustando um modelo fatorial
+
+```{r}
+model_fat <- lm(
+  severity ~ cultivar * fungicide,
+  data = fatorial
+)
+
+anova(model_fat)
+```
+
+A linha `cultivar:fungicide` testa a interação. Os efeitos do fungicida dentro de cada cultivar, que são a informação relevante quando há interação, são obtidos com o `emmeans` (ver adiante):
+
+```{r}
+library(emmeans)
+
+emm_fat <- emmeans(model_fat, ~ fungicide | cultivar)
+contrast(emm_fat, "revpairwise")
+```
+
+Nos dados simulados, o fungicida reduziu a severidade em 8,2 pontos percentuais na cultivar A e em 22,8 pontos na cultivar B: o mesmo padrão descrito a seguir.
+
+A notação `*` inclui:
+
+```text
+cultivar
++
+fungicide
++
+cultivar × fungicide
+```
+
+### Interpretando uma interação
+
+Suponha que um fungicida reduza a severidade em 5 pontos percentuais na cultivar A e em 25 pontos percentuais na cultivar B. O efeito principal do fungicida, a média dos dois efeitos, seria uma redução de 15 pontos — um valor que não descreve nenhuma das duas cultivares. A informação biologicamente relevante é que o benefício do fungicida depende da cultivar: é pequeno na cultivar A, provavelmente mais resistente, e grande na cultivar B. Nesse caso, os efeitos do fungicida devem ser relatados separadamente para cada cultivar.
+
+## Blocos e comparações entre grupos
+
+Retome o delineamento em blocos casualizados apresentado no Capítulo 2.
+
+### Por que os blocos pertencem ao modelo
+
+Se os tratamentos foram casualizados dentro dos blocos, a análise deve refletir essa estrutura.
+
+Um modelo simples pode ser escrito como:
+
+$$
+y_{ij} =
+\mu +
+\tau_i +
+b_j +
+\varepsilon_{ij}
+$$
+
+em que:
+
+- $\mu$ é a média geral;
+- $\tau_i$ é o efeito do tratamento;
+- $b_j$ representa a variação entre blocos;
+- $\varepsilon_{ij}$ representa a variação residual.
+
+```{r}
+model <- lm(
+  severity ~ block + treatment,
+  data = data
+)
+
+anova(model)
+```
+
+Incluir o bloco no modelo remove a variação entre blocos do erro experimental, tornando as comparações entre tratamentos mais precisas. Em delineamentos mais complexos, como parcelas subdivididas ou experimentos repetidos em vários locais, os blocos e outras fontes de variação são frequentemente tratados como efeitos aleatórios em modelos mistos, um tema que vai além deste capítulo.
+
+::: {.callout-note}
+O modelo estatístico deve refletir a forma como o experimento foi delineado. Os blocos não são algo acrescentado na análise apenas para melhorar a significância estatística.
+:::
+
+## Pressupostos do modelo
+
+A validade da inferência a partir de um modelo linear depende de pressupostos sobre a variação residual.
+
+### Independência
+
+A independência vem principalmente do delineamento do estudo: casualização, unidades experimentais bem definidas e ausência de pseudorrepetição.
+
+### Linearidade
+
+Nas comparações entre grupos, o modelo deve representar adequadamente a estrutura sistemática dos tratamentos, incluindo blocos e interações relevantes.
+
+### Variância constante
+
+A variabilidade residual deve ser razoavelmente semelhante entre os valores ajustados ou entre os grupos.
+
+### Distribuição dos resíduos
+
+O pressuposto de normalidade diz respeito aos resíduos do modelo — e não necessariamente à variável resposta bruta.
+
+::: {.callout-important}
+Os pressupostos do modelo aplicam-se principalmente aos erros, ou resíduos, gerados pelo modelo, e não simplesmente à variável resposta observada.
+:::
+
+## Diagnóstico do modelo
+
+### Resíduos versus valores ajustados
+
+Este gráfico deve mostrar uma nuvem de pontos sem padrão. Um formato de funil, com resíduos mais dispersos para valores ajustados maiores, indica variância que aumenta com a média, muito comum em dados de doença.
+
+### Gráficos quantil–quantil
+
+O gráfico quantil–quantil compara os resíduos com o que seria esperado sob uma distribuição normal. Pontos próximos à linha indicam resíduos aproximadamente normais; curvaturas sistemáticas indicam assimetria ou caudas pesadas.
+
+### Observações incomuns
+
+Resíduos muito grandes identificam observações que o modelo descreve mal. Elas devem ser conferidas com os registros originais.
+
+### Influência
+
+Algumas observações têm influência desproporcional sobre as estimativas. Medidas como a distância de Cook ajudam a identificá-las. Uma observação influente não deve ser removida automaticamente, mas convém verificar se as conclusões mudam sem ela.
+
+Aplicados ao modelo com blocos ajustado aos dados simulados, os quatro gráficos de diagnóstico do R base são:
+
+```{r}
+#| fig-width: 7.5
+#| fig-height: 6.5
+
+par(mfrow = c(2, 2))
+plot(model)
+```
+
+```{r}
+#| label: fig-chapter7-7
+#| fig-cap: "Gráficos de diagnóstico comuns para um modelo linear, a partir de um ensaio simulado com cinco tratamentos e seis blocos em que a variabilidade aumenta com a média. (A) Resíduos versus valores ajustados: o formato de funil indica variância não constante. (B) Gráfico quantil–quantil dos resíduos. (C) Escala–posição: confirma o aumento da dispersão com a média. (D) Distância de Cook: identifica observações com influência desproporcional sobre as estimativas."
+#| echo: false
+#| fig-width: 8
+#| fig-height: 6.5
+
+set.seed(606)
+diag_dados <- expand.grid(bloco = factor(1:6), trat = factor(LETTERS[1:5]))
+mu <- c(A = 5, B = 10, C = 20, D = 35, E = 50)[as.character(diag_dados$trat)]
+diag_dados$sev <- mu * exp(rnorm(nrow(diag_dados), 0, 0.35))   # erro multiplicativo
+mod <- lm(sev ~ bloco + trat, data = diag_dados)
+
+d <- data.frame(ajustado = fitted(mod), residuo = resid(mod),
+                padr = rstandard(mod), cook = cooks.distance(mod),
+                obs = seq_len(nrow(diag_dados)))
+
+pA <- ggplot(d, aes(ajustado, residuo)) +
+  geom_hline(yintercept = 0, linetype = 2, colour = "grey50") +
+  geom_point(colour = okabe[1], size = 2) +
+  labs(title = "(A) Resíduos vs ajustados", x = "Valores ajustados", y = "Resíduos")
+
+pB <- ggplot(d, aes(sample = padr)) +
+  stat_qq_line(colour = "grey50", linetype = 2) +
+  stat_qq(colour = okabe[1], size = 2) +
+  labs(title = "(B) Quantil–quantil", x = "Quantis teóricos",
+       y = "Resíduos padronizados")
+
+pC <- ggplot(d, aes(ajustado, sqrt(abs(padr)))) +
+  geom_point(colour = okabe[1], size = 2) +
+  geom_smooth(method = "loess", formula = y ~ x, se = FALSE,
+              colour = okabe[2], linewidth = 0.8) +
+  labs(title = "(C) Escala–posição", x = "Valores ajustados",
+       y = "√|resíduos padronizados|")
+
+pD <- ggplot(d, aes(obs, cook)) +
+  geom_segment(aes(xend = obs, yend = 0), colour = okabe[1]) +
+  geom_point(colour = okabe[1], size = 1.6) +
+  labs(title = "(D) Distância de Cook", x = "Observação", y = "Distância de Cook")
+
+(pA + pB) / (pC + pD) & theme_livro(11)
+```
+
+## E se os pressupostos não forem atendidos?
+
+### Primeiro: confira os dados
+
+Causas possíveis incluem:
+
+- erros de digitação;
+- unidades incorretas;
+- unidades experimentais incomuns;
+- fatores do delineamento omitidos;
+- definição inadequada da resposta.
+
+### Transformações
+
+Transformações comuns incluem $\log(y)$ e $\sqrt{y}$. A transformação logarítmica é útil quando os efeitos são multiplicativos e a variabilidade cresce proporcionalmente à média, como em contagens de esporos ou quantidades de DNA. A raiz quadrada é às vezes usada para contagens. Uma transformação, porém, muda a escala em que os efeitos são estimados e interpretados: uma diferença na escala logarítmica corresponde a uma razão na escala original. A escolha deve considerar o significado biológico dos efeitos, e não apenas o comportamento dos resíduos.
+
+### Os dados em porcentagem devem sempre ser transformados?
+
+Não.
+
+Durante décadas, recomendou-se transformar rotineiramente dados percentuais, por exemplo com a transformação arco-seno da raiz quadrada. Essa recomendação não deve ser aplicada automaticamente. Quando as porcentagens estão longe de 0 e 100% e os resíduos se comportam razoavelmente, a análise na escala original é adequada e tem a vantagem de produzir efeitos diretamente interpretáveis em pontos percentuais. Quando muitos valores estão próximos dos limites, ou quando a porcentagem é uma proporção de contagens (plantas doentes em plantas avaliadas), modelos próprios para proporções costumam ser mais apropriados do que transformações (Capítulo 10).
+
+### Quando outro modelo é mais apropriado
+
+Algumas variáveis resposta exigem naturalmente outros modelos estatísticos:
+
+- desfechos binários;
+- proporções baseadas em contagens;
+- contagens;
+- notas ordinais.
+
+Esses casos são tratados no Capítulo 10.
+
+::: {.callout-warning}
+A transformação não deve ser uma resposta automática a um teste de normalidade que falhou. A primeira pergunta é se o modelo estatístico representa adequadamente o processo que gerou os dados.
+:::
+
+## Uma nota sobre os testes de normalidade
+
+Testes formais como o de Shapiro–Wilk são frequentemente usados como regras de decisão automáticas:
+
+```text
+P > 0,05 → usar ANOVA
+P < 0,05 → transformar os dados
+```
+
+Essa abordagem é problemática. Com amostras grandes, os testes detectam desvios da normalidade triviais e irrelevantes para a inferência. Com as amostras pequenas típicas dos experimentos, têm pouco poder e deixam passar desvios importantes. Além disso, a ANOVA é razoavelmente robusta a desvios moderados da normalidade, especialmente com delineamentos balanceados, ao passo que a heterogeneidade de variâncias e a falta de independência costumam ser problemas mais sérios. Os gráficos de diagnóstico, interpretados com conhecimento do tipo de dado, são mais informativos do que um valor-P de um teste de normalidade.
+
+::: {.callout-warning}
+Não use um teste de normalidade como uma barreira mecânica para decidir se a ANOVA pode ser feita.
+:::
+
+## Médias marginais estimadas
+
+Em delineamentos mais complexos, as médias aritméticas simples podem não representar as comparações implicadas pelo modelo estatístico.
+
+### Médias ajustadas pelo modelo
+
+As médias marginais estimadas (também chamadas médias de mínimos quadrados) são as médias dos tratamentos previstas pelo modelo, calculadas em média sobre os demais fatores de forma equilibrada. Em experimentos desbalanceados — por exemplo, com parcelas perdidas em alguns blocos —, elas corrigem as distorções que as médias aritméticas sofreriam. Em experimentos fatoriais, permitem obter médias e contrastes de um fator dentro de cada nível do outro.
+
+### Contrastes dois a dois
+
+```{r}
+
+library(emmeans)
+
+emm <- emmeans(model, ~ treatment)
+
+pairs(emm)
+```
+
+### Intervalos de confiança
+
+```{r}
+confint(emm)
+```
+
+### Comparações com a testemunha
+
+Quando a questão é o efeito de cada tratamento em relação à testemunha, o contraste `"trt.vs.ctrl"` aplica o ajuste de Dunnett e fornece diretamente as diferenças com seus intervalos de confiança:
+
+```{r}
+efeitos <- contrast(emm, "trt.vs.ctrl")
+confint(efeitos)
+```
+
+Esses contrastes podem ser representados no gráfico de efeitos discutido na seção "Das letras às estimativas":
+
+```{r}
+#| fig-width: 6.5
+#| fig-height: 3.2
+
+efeitos_df <- as.data.frame(confint(efeitos))
+
+ggplot(efeitos_df, aes(x = estimate, y = contrast,
+                       xmin = lower.CL, xmax = upper.CL)) +
+  geom_vline(xintercept = 0, colour = "grey50") +
+  geom_pointrange(colour = "#0072B2") +
+  labs(x = "Diferença em relação à testemunha (p.p.)", y = NULL) +
+  theme_bw(base_size = 13)
+```
+
+O pacote `emmeans` também permite obter efeitos condicionais em modelos com interação (`emmeans(model, ~ fungicide | cultivar)`, como feito acima para o experimento fatorial) e ajustes para multiplicidade. Esse fluxo de trabalho — ajustar o modelo, obter as médias marginais e estimar os contrastes de interesse com intervalos de confiança — será usado nos capítulos seguintes.
+
+## Pesquisa na prática: avaliando tratamentos de manejo da doença
+
+Retome os ensaios de fungicidas apresentados no Capítulo 1, como o do míldio do manjericão [@mcgrath2020]. Um experimento desse tipo — vários programas de fungicida e uma testemunha, em blocos casualizados — reúne quase todos os conceitos deste capítulo: blocos no modelo, contrastes com a testemunha, comparações entre tratamentos, multiplicidade e interpretação biológica.
+
+::: {.callout-tip title="Pesquisa revisitada: Quais tratamentos reduzem a doença?"}
+
+Considere um experimento de campo que compara vários tratamentos de manejo da doença com uma testemunha sem tratamento.
+
+A questão científica não é simplesmente:
+
+> Os tratamentos são significativamente diferentes?
+
+Em vez disso, pergunte:
+
+1. Quanto cada tratamento reduz a doença em relação à testemunha?
+2. Quão incerta é cada redução estimada?
+3. Quais comparações foram planejadas cientificamente?
+4. As diferenças entre os tratamentos são grandes o suficiente para importar biologicamente?
+5. O desempenho dos tratamentos varia entre blocos ou condições experimentais?
+
+A análise deve, portanto, enfatizar **os efeitos estimados dos tratamentos e sua incerteza**, com os testes estatísticos fornecendo evidência complementar.
+
+:::
+
+## Um fluxo de trabalho prático para comparar grupos
+
+```{r}
+#| label: fig-chapter7-8
+#| fig-cap: "Fluxo de trabalho para analisar experimentos que envolvem comparações entre grupos."
+#| echo: false
+#| fig-align: center
+
+fluxo(
+  etapas = c("Questão biológica", "Identificar o delineamento experimental",
+             "Definir a comparação (estimando)", "Visualizar as observações",
+             "Ajustar o modelo estatístico", "Avaliar os pressupostos",
+             "Estimar os contrastes", "Quantificar a incerteza",
+             "Avaliar a evidência estatística",
+             "Interpretar a importância biológica")
+)
+```
+
+## Relatando comparações entre grupos
+
+Um bom enunciado de resultados geralmente inclui:
+
+### O que foi comparado?
+
+Os tratamentos ou grupos e a resposta, com o contraste definido explicitamente.
+
+### Direção do efeito
+
+Se a resposta aumentou ou diminuiu.
+
+### Magnitude do efeito
+
+O tamanho da diferença, em unidades da resposta e, se útil, em termos relativos.
+
+### Incerteza
+
+O intervalo de confiança da diferença.
+
+### Evidência estatística
+
+O valor-P ou o resultado do teste, como informação complementar.
+
+### Interpretação biológica
+
+O que a diferença significa para o sistema estudado.
+
+Em vez de:
+
+> Os tratamentos com fungicidas diferiram significativamente (P < 0,05).
+
+prefira algo como:
+
+> O Fungicida A reduziu a severidade média da doença em 28,6 pontos percentuais em relação à testemunha (IC 95% ajustado por Dunnett: 22,7 a 34,4 pontos percentuais), uma redução substancial nas condições do experimento.
+
+## Erros comuns
+
+### Relatar apenas valores-P
+
+O valor-P não informa o tamanho nem a precisão do efeito.
+
+### Relatar apenas as letras dos tratamentos
+
+As letras escondem a magnitude e a incerteza das diferenças.
+
+### Comparar médias sem considerar o delineamento experimental
+
+Ignorar blocos, parcelas subdivididas ou medidas repetidas leva a erros padrão incorretos.
+
+### Tratar subamostras como repetições
+
+Folhas, lesões ou leituras repetidas não são unidades experimentais independentes (Capítulo 2).
+
+### Fazer vários testes t em vez de modelar todos os grupos
+
+Isso aumenta os falsos positivos e desperdiça informação sobre a variabilidade.
+
+### Interpretar uma ANOVA significativa como evidência de que todos os tratamentos diferem
+
+O teste global indica apenas que pelo menos uma média difere.
+
+### Ignorar interações
+
+Quando os efeitos de um fator dependem de outro, efeitos médios podem ser enganosos.
+
+### Interpretar efeitos principais apesar de interações fortes
+
+Na presença de interação forte, o efeito médio de um fator pode não descrever nenhuma das condições estudadas.
+
+### Transformar automaticamente dados em porcentagem
+
+A transformação deve ser justificada pelo comportamento dos dados e pelo objetivo da análise.
+
+### Usar testes de normalidade como regras de decisão
+
+Os gráficos de diagnóstico são mais informativos.
+
+### Relatar médias sem incerteza
+
+Toda média ou diferença relatada deve vir acompanhada de uma medida de sua precisão.
+
+### Igualar significância estatística a importância biológica
+
+Uma diferença significativa pode ser biologicamente trivial, e uma diferença não significativa pode ser importante, mas incerta (Capítulo 6).
+
+## Lista de verificação para comparações entre grupos
+
+Antes de interpretar uma comparação entre grupos, pergunte:
+
+1. Que questão biológica está sendo abordada?
+2. Qual é a unidade experimental?
+3. Que fator define os grupos?
+4. Que variável resposta está sendo comparada?
+5. Qual é o estimando principal?
+6. As observações são independentes ou pareadas?
+7. O modelo reflete os blocos ou outras características do delineamento?
+8. As interações são relevantes?
+9. Os pressupostos do modelo são razoáveis?
+10. Qual é o efeito estimado?
+11. Quão incerta é a estimativa?
+12. Quais comparações foram planejadas?
+13. A multiplicidade foi considerada?
+14. O efeito é biologicamente relevante?
+15. A conclusão permanece dentro do escopo do experimento?
+
+## Resumo do capítulo
+
+As comparações entre grupos estão entre as análises mais comuns em Fitopatologia. Embora os testes *t* e a análise de variância sejam ferramentas estatísticas familiares, seu propósito vai além de determinar se um valor-P ultrapassa um limiar de significância. O objetivo central é estimar diferenças biologicamente relevantes entre tratamentos ou grupos e quantificar a incerteza associada a essas estimativas.
+
+O teste *t*, a ANOVA, a ANOVA fatorial e as comparações relacionadas podem ser compreendidos dentro do arcabouço geral do modelo linear. Essa perspectiva oferece uma base coerente para analisar delineamentos experimentais simples e complexos, enfatizando contrastes que respondem diretamente à questão biológica. Uma interpretação confiável também exige atenção ao delineamento experimental, aos pressupostos do modelo, às interações, à multiplicidade, à magnitude dos efeitos e à incerteza.
+
+## Conceitos-chave
+
+Ao concluir este capítulo, você deverá ser capaz de explicar:
+
+- comparação entre grupos;
+- observações independentes;
+- observações pareadas;
+- diferença entre médias;
+- teste *t*;
+- teste *t* de Welch;
+- análise de variância;
+- teste F;
+- modelo linear;
+- fator;
+- efeito principal;
+- interação;
+- contraste;
+- comparação planejada;
+- comparação dois a dois;
+- comparações múltiplas;
+- média marginal estimada;
+- resíduo;
+- homogeneidade de variâncias;
+- diagnóstico do modelo;
+- tamanho de efeito;
+- intervalo de confiança.
+
+## Exercícios
+
+### Exercício 1. Qual é a comparação?
+
+Para cada questão biológica, identifique:
+
+1. a variável resposta;
+2. os grupos comparados;
+3. a unidade experimental;
+4. o estimando adequado;
+5. a direção em que o contraste deve ser definido.
+
+Use questões como:
+
+- Um fungicida reduz a severidade da doença?
+- Uma cultivar resistente desenvolve menos doença que uma suscetível?
+- A inoculação reduz a taxa fotossintética?
+
+### Exercício 2. Dois grupos
+
+Usando um conjunto de dados fornecido pelo professor:
+
+1. visualize as observações individuais;
+2. calcule a resposta média de cada grupo;
+3. estime a diferença entre as médias;
+4. calcule um intervalo de confiança;
+5. faça o teste *t* adequado;
+6. interprete o efeito biologicamente.
+
+### Exercício 3. Vários tratamentos
+
+Analise um experimento que contenha uma testemunha e vários tratamentos.
+
+1. visualize os dados;
+2. ajuste um modelo linear adequado;
+3. faça o teste global;
+4. estime os efeitos dos tratamentos em relação à testemunha;
+5. calcule os intervalos de confiança;
+6. compare esses resultados com uma apresentação convencional de comparações múltiplas.
+
+### Exercício 4. Apresentação com letras
+
+Você recebe uma tabela de médias de tratamentos e letras de um procedimento de comparações múltiplas.
+
+Discuta:
+
+1. Quais comparações podem ser inferidas a partir das letras?
+2. Que informação sobre a magnitude dos efeitos está faltando?
+3. Que informação sobre a incerteza está faltando?
+4. Como os resultados poderiam ser apresentados de forma mais informativa?
+
+### Exercício 5. Interação
+
+Considere um experimento que avalia dois fungicidas em duas cultivares.
+
+Determine se os dados hipotéticos sugerem:
+
+1. ausência de interação;
+2. interação quantitativa;
+3. respostas fortemente dependentes do tratamento.
+
+Desenhe um gráfico de interação e descreva a interpretação biológica.
+
+### Exercício 6. Diagnóstico do modelo
+
+Ajuste um modelo linear ao conjunto de dados fornecido.
+
+Examine:
+
+- os resíduos versus os valores ajustados;
+- o gráfico quantil–quantil;
+- a variabilidade residual;
+- as observações incomuns.
+
+Discuta se o modelo parece adequado e que investigação adicional pode ser necessária.
+
+### Exercício 7. Avaliação de um artigo publicado
+
+Escolha um artigo recente de Fitopatologia que compare tratamentos experimentais.
+
+Identifique:
+
+1. o delineamento experimental;
+2. a unidade experimental;
+3. a variável resposta;
+4. o modelo estatístico;
+5. as comparações realizadas;
+6. se os tamanhos de efeito foram relatados;
+7. se a incerteza foi relatada;
+8. se foram usadas letras para os tratamentos;
+9. se a interpretação biológica é sustentada pelos efeitos estimados.
+
+## Reflexão
+
+> **A questão não é simplesmente se os tratamentos diferem, mas o quanto diferem e se essa diferença importa biologicamente.**
+
+Discuta essa afirmação usando um exemplo da Fitopatologia.
+
+## Próximos passos
+
+Muitas questões biológicas envolvem não comparações entre grupos discretos, mas relações entre variáveis quantitativas. A doença pode aumentar com a temperatura, a produtividade pode diminuir com o aumento da intensidade da doença, ou o crescimento do patógeno pode mudar com as condições ambientais. O Capítulo 8 estende o arcabouço do modelo linear apresentado aqui à análise de relações entre variáveis quantitativas.

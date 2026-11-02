@@ -1,0 +1,390 @@
+/*-- scss:defaults --*/
+
+// Tipografia: Inter (texto e títulos) e JetBrains Mono (código)
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+// Paleta do livro (coerente com as figuras: verde-oliva + Okabe–Ito)
+$verde:        #5f7132;
+$verde-escuro: #2c3a22;
+$verde-noite:  #3e4c3a;   // verde-acinzentado escuro, mais suave
+$verde-claro:  #c9dba0;
+$verde-papel:  #f4f7ee;
+$tinta:        #1f2a1b;
+$cinza:        #6b7464;
+$linha:        #e3e8da;
+
+$primary: $verde !default;
+$secondary: $cinza !default;
+$body-bg: #ffffff !default;
+$body-color: $tinta !default;
+$link-color: #4b6a1f !default;
+$link-hover-color: $verde-escuro !default;
+
+$font-size-root: 16.5px !default;
+$font-family-sans-serif: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$headings-font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-monospace: "JetBrains Mono", "Cascadia Code", Consolas, monospace !default;
+$headings-color: $verde-escuro !default;
+$headings-font-weight: 700 !default;
+
+$code-color: #8a4b1c !default;
+$code-bg: #f3f5ef !default;
+$border-color: $linha !default;
+$border-radius: .6rem !default;
+
+/*-- scss:rules --*/
+
+:root {
+  --verde: #{$verde};
+  --verde-escuro: #{$verde-escuro};
+  --verde-noite: #{$verde-noite};
+  --verde-claro: #{$verde-claro};
+  --verde-papel: #{$verde-papel};
+  --tinta: #{$tinta};
+  --cinza: #{$cinza};
+  --linha: #{$linha};
+}
+
+/* ---------- Texto ---------- */
+
+body {
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv11", "ss01";
+}
+
+main.content {
+  max-width: 860px;
+}
+
+main.content p,
+main.content li {
+  font-weight: 400;
+}
+
+a {
+  text-decoration-thickness: .08em;
+  text-underline-offset: .2em;
+  text-decoration-color: rgba(75, 106, 31, .35);
+  transition: color .15s ease, text-decoration-color .15s ease;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* ---------- Títulos ---------- */
+
+h1, h2, h3, h4 {
+  letter-spacing: -.015em;
+}
+
+#title-block-header .title,
+.quarto-title .title {
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.15;
+}
+
+.chapter-number {
+  color: var(--verde);
+  font-weight: 700;
+}
+
+main.content h2 {
+  margin-top: 2.6rem;
+  padding-left: .85rem;
+  border-left: 4px solid var(--verde-claro);
+  border-bottom: none;
+}
+
+main.content h3 {
+  margin-top: 2rem;
+  color: var(--verde);
+}
+
+main.content h4 {
+  margin-top: 1.6rem;
+  color: var(--cinza);
+  font-weight: 600;
+}
+
+/* ---------- Menu lateral (capítulos) ---------- */
+
+#quarto-sidebar.sidebar {
+  background-color: #eeefec;   // cinza claro
+  border-right: 1px solid #dfe1db !important;
+  font-size: .84rem;
+
+  .sidebar-title,
+  .sidebar-title a {
+    color: #111111;
+    font-weight: 700;
+    font-size: 1.12rem;
+    line-height: 1.3;
+    letter-spacing: -.01em;
+  }
+
+  .sidebar-item {
+    line-height: 1.3;
+    margin: .1rem 0;
+  }
+
+  .sidebar-link,
+  .sidebar-item-text {
+    color: #1a1a1a;
+  }
+
+  .sidebar-link {
+    display: block;
+    padding: .38rem .7rem;
+    border-radius: .45rem;
+    transition: background-color .15s ease, color .15s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .05);
+      color: #000000;
+
+      .sidebar-item-text {
+        color: #000000;
+      }
+    }
+
+    &.active {
+      background-color: #ffffff;
+      box-shadow: inset 3px 0 0 var(--verde);
+
+      .sidebar-item-text {
+        color: #000000;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .chapter-number {
+    color: var(--verde);
+    font-weight: 600;
+  }
+
+  // caixa de busca
+  .sidebar-search,
+  #quarto-search {
+    margin-bottom: .6rem;
+  }
+
+  .aa-DetachedSearchButton,
+  .aa-Form {
+    background-color: #ffffff;
+    border: 1px solid #d6d9d1;
+    border-radius: .5rem;
+  }
+
+  .aa-DetachedSearchButtonIcon,
+  .aa-DetachedSearchButtonPlaceholder,
+  .aa-SubmitIcon {
+    color: #555555;
+  }
+
+  .sidebar-tools-main a,
+  .quarto-navigation-tool {
+    color: #555555;
+  }
+
+  // barra de rolagem discreta
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, .18) transparent;
+}
+
+// capa no menu lateral
+#quarto-sidebar .sidebar-header img,
+img.quarto-cover-image {
+  border-radius: .6rem;
+  box-shadow: 0 .6rem 1.4rem rgba(0, 0, 0, .18);
+}
+
+/* ---------- Índice à direita ---------- */
+
+#quarto-margin-sidebar {
+  font-size: .82rem;
+
+  nav[role=doc-toc] {
+    border-left: 1px solid var(--linha);
+    padding-left: .4rem;
+
+    > h2 {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--cinza);
+      border: none;
+      padding-left: 0;
+    }
+
+    ul > li > a {
+      color: var(--cinza);
+      border-left: 2px solid transparent;
+      padding-top: .12rem;
+      padding-bottom: .12rem;
+
+      &:hover {
+        color: var(--verde-escuro);
+      }
+
+      &.active {
+        color: var(--verde-escuro);
+        font-weight: 600;
+        border-left-color: var(--verde);
+      }
+    }
+  }
+}
+
+/* ---------- Código ---------- */
+
+pre.sourceCode,
+div.sourceCode {
+  border: 1px solid var(--linha);
+  border-radius: .7rem;
+  background-color: #f6f8f2;
+}
+
+div.sourceCode {
+  margin: 1.2rem 0;
+}
+
+pre code,
+pre.sourceCode code {
+  font-size: .84rem;
+  line-height: 1.6;
+}
+
+code {
+  font-size: .88em;
+  border-radius: .3rem;
+  padding: .08rem .3rem;
+}
+
+pre code {
+  padding: 0;
+}
+
+.code-copy-button {
+  border-radius: .4rem;
+}
+
+.cell-output,
+.cell-output-stdout,
+.cell-output-display {
+  border-radius: .6rem;
+}
+
+/* ---------- Caixas de destaque (callouts) ---------- */
+
+.callout {
+  border-radius: .7rem;
+  border: 1px solid var(--linha);
+  border-left-width: .3rem;
+  box-shadow: 0 1px 2px rgba(31, 42, 27, .04);
+  overflow: hidden;
+}
+
+.callout.callout-style-default > .callout-header {
+  background-color: transparent;
+  font-weight: 600;
+}
+
+.callout-important.callout {
+  background-color: #fbf3f2;
+}
+
+.callout-tip.callout {
+  background-color: var(--verde-papel);
+  border-left-color: var(--verde);
+}
+
+.callout-tip.callout .callout-icon::before,
+.callout-tip.callout > .callout-header {
+  color: var(--verde-escuro);
+}
+
+.callout-note.callout {
+  background-color: #f1f6fb;
+}
+
+.callout-warning.callout {
+  background-color: #fdf7ea;
+}
+
+/* ---------- Figuras e tabelas ---------- */
+
+.quarto-figure,
+figure {
+  margin-top: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.figure-caption,
+figcaption,
+.table-caption,
+caption {
+  color: var(--cinza);
+  font-size: .86rem;
+  line-height: 1.5;
+}
+
+figcaption {
+  margin-top: .6rem;
+}
+
+table {
+  font-size: .9rem;
+}
+
+thead th {
+  border-bottom: 2px solid var(--verde) !important;
+  color: var(--verde-escuro);
+  font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafbf7;
+}
+
+/* ---------- Citações e rodapé ---------- */
+
+blockquote {
+  border-left: 3px solid var(--verde-claro);
+  color: #3d4836;
+  font-size: 1.02rem;
+  padding: .3rem 1rem;
+}
+
+.page-footer {
+  color: var(--cinza);
+  font-size: .75rem;
+}
+
+/* ---------- Navegação entre capítulos ---------- */
+
+.page-navigation {
+  border-top: 1px solid var(--linha);
+  margin-top: 3rem;
+
+  .nav-page a {
+    border-radius: .5rem;
+    padding: .4rem .6rem;
+    transition: background-color .15s ease;
+
+    &:hover {
+      background-color: var(--verde-papel);
+    }
+  }
+}
+
+/* ---------- Telas pequenas ---------- */
+
+@media (max-width: 991.98px) {
+  #quarto-sidebar.sidebar {
+    font-size: .92rem;
+  }
+}

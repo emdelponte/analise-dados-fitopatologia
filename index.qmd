@@ -1,0 +1,35 @@
+# Boas-vindas {.unnumbered}
+
+A Fitopatologia é uma ciência cada vez mais quantitativa. Avanços nas técnicas experimentais, na biologia molecular, no monitoramento ambiental, no processamento de imagens e na ciência de dados transformaram a maneira como as doenças de plantas são investigadas, gerando conjuntos de dados maiores, mais diversos e mais complexos do que nunca. Ao mesmo tempo, espera-se que os pesquisadores não apenas analisem esses dados corretamente, mas também comuniquem seus resultados por meio de fluxos de trabalho científicos transparentes e reprodutíveis.
+
+Este livro nasceu de notas de aula elaboradas para a disciplina de pós-graduação *Análise e Visualização de Dados em Fitopatologia*, oferecida no Programa de Pós-Graduação em Fitopatologia da Universidade Federal de Viçosa. Ao longo dos anos, a disciplina evoluiu a partir de discussões com estudantes de pós-graduação e pesquisadores de diversas áreas da Fitopatologia, que revelaram uma necessidade comum: um material que conectasse as questões biológicas ao raciocínio quantitativo.
+
+Em vez de apresentar os métodos estatísticos como técnicas isoladas, este livro aborda a análise de dados como parte integrante do processo científico. A ênfase não está na escolha de um teste estatístico, mas na compreensão de como as questões biológicas orientam o delineamento do estudo, a coleta de dados, a visualização, a análise, a interpretação e a comunicação das evidências científicas. Ao longo do livro, análises reprodutíveis implementadas em R são usadas para ilustrar esses conceitos no contexto de problemas reais de pesquisa.
+
+Embora os exemplos tenham como foco a Fitopatologia, os princípios aqui apresentados aplicam-se de modo geral à pesquisa experimental nas ciências biológicas. Minha esperança é que este livro ajude estudantes e pesquisadores a desenvolver não apenas habilidades analíticas práticas, mas também uma compreensão mais profunda do raciocínio científico que fundamenta uma pesquisa rigorosa e reprodutível.
+
+::: {.content-visible when-format="html"}
+
+## Como citar {.unnumbered}
+
+DEL PONTE, E. M. **Análise e Visualização de Dados em Fitopatologia**. {{< meta livro.edicao >}} {{< meta livro.local >}}: {{< meta livro.editora >}}, {{< meta livro.ano >}}. Disponível em: {{< meta livro.url >}}. DOI: {{< meta livro.doi >}}.
+
+```bibtex
+@book{delponte2026,
+  author    = {Del Ponte, Emerson M.},
+  title     = {Análise e Visualização de Dados em Fitopatologia},
+  edition   = {1},
+  address   = {Viçosa, MG},
+  publisher = {Edição do autor},
+  year      = {2026},
+  isbn      = {a definir},
+  doi       = {a definir},
+  url       = {a definir}
+}
+```
+
+## Licença {.unnumbered}
+
+Este livro é gratuito e está licenciado sob a [Creative Commons Atribuição-NãoComercial 4.0 Internacional (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/deed.pt-br). É permitido copiar, distribuir, imprimir e adaptar o conteúdo para fins não comerciais, desde que seja atribuído o devido crédito ao autor. Os códigos em R apresentados no livro podem ser reutilizados livremente. A versão em PDF pode ser baixada pelo ícone de download no menu lateral, e o código-fonte está disponível no [GitHub](https://github.com/emdelponte/analise-dados-fitopatologia).
+
+:::

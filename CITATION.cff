@@ -1,0 +1,34 @@
+# Como citar este livro (formato Citation File Format, lido pelo GitHub e pelo Zenodo).
+# Preencher "doi" e "isbn" quando estiverem disponíveis.
+cff-version: 1.2.0
+message: "Se usar este livro, por favor cite-o como indicado abaixo."
+title: "Análise e Visualização de Dados em Fitopatologia"
+type: software
+authors:
+  - family-names: "Del Ponte"
+    given-names: "Emerson M."
+    affiliation: "Universidade Federal de Viçosa"
+license: CC-BY-NC-4.0
+repository-code: "https://github.com/emdelponte/analise-dados-fitopatologia"
+keywords:
+  - Fitopatologia
+  - análise de dados
+  - visualização de dados
+  - estatística
+  - R
+preferred-citation:
+  type: book
+  title: "Análise e Visualização de Dados em Fitopatologia"
+  authors:
+    - family-names: "Del Ponte"
+      given-names: "Emerson M."
+      affiliation: "Universidade Federal de Viçosa"
+  edition: "1"
+  year: 2026
+  publisher:
+    name: "Edição do autor"
+    city: "Viçosa, MG"
+  language: "pt"
+  license: CC-BY-NC-4.0
+  # doi: "10.5281/zenodo.XXXXXXX"
+  # isbn: "978-65-XXXXX-XX-X"

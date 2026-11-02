@@ -1,0 +1,103 @@
+project:
+  type: book
+  output-dir: docs
+
+lang: pt-BR
+
+# Dados de catalogação usados na página de créditos (PDF) e em "Como citar" (site).
+# Substituir os campos "a definir" quando o ISBN, o DOI e o endereço do site existirem.
+livro:
+  edicao: "1. ed."
+  ano: "2026"
+  local: "Viçosa, MG"
+  editora: "Edição do autor"
+  isbn: "a definir"
+  doi: "a definir"
+  url: "a definir"
+
+execute:
+  warning: false
+
+book:
+  title: "Análise e Visualização de Dados em Fitopatologia"
+  author: "Emerson M. Del Ponte"
+  date: "10/4/2026"
+  cover-image: cover.png
+  publisher: "Emerson M. Del Ponte"
+  license: "CC BY-NC"
+  output-file: "analise-dados-fitopatologia"
+  downloads: [pdf]
+  sidebar:
+    style: docked
+
+  chapters:
+    - index.qmd
+    # "text" define o título curto exibido no menu lateral;
+    # o título completo continua no topo de cada capítulo
+    - href: chapter1.qmd
+      text: "Pesquisa em Fitopatologia"
+    - href: chapter2.qmd
+      text: "Delineamento de estudos"
+    - href: chapter3.qmd
+      text: "Organização dos dados"
+    - href: chapter4.qmd
+      text: "Análise exploratória"
+    - href: chapter5.qmd
+      text: "Visualização de dados"
+    - href: chapter6.qmd
+      text: "Inferência estatística"
+    - href: chapter7.qmd
+      text: "Comparação de grupos"
+    - href: chapter8.qmd
+      text: "Relações entre variáveis"
+    - href: chapter9.qmd
+      text: "Respostas não lineares"
+    - href: chapter10.qmd
+      text: "Dados categóricos e de contagem"
+    - href: chapter11.qmd
+      text: "Dados multivariados"
+    - href: chapter12.qmd
+      text: "Comunicação dos resultados"
+    - href: chapter13.qmd
+      text: "Pesquisa reprodutível"
+    - references.qmd
+
+  page-footer: 
+    border: false
+    background: light
+    center: |
+      Feito em <a href="https://quarto.org/">Quarto</a> com auxílio de ferramentas de inteligência artificial para organização e revisão do texto. 
+bibliography: references.bib
+csl: phytopathology.csl
+prefer-html: true
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Nesta página"
+    grid:
+      sidebar-width: 390px
+      body-width: 840px
+      margin-width: 250px
+    code-copy: true
+    smooth-scroll: true
+    reader-mode: true
+    link-external-newwindow: true
+    theme:
+      light: 
+        - zephyr
+        - style.scss
+        
+
+  typst:
+    toc: true
+    toc-depth: 2
+    toc-title: "Sumário"
+    papersize: a4
+    section-numbering: "1.1.1"
+    fig-width: 6
+    fig-height: 3.8
+    keep-typ: false
+    font-paths: fonts
+    template-partials:
+      - typst-show.typ

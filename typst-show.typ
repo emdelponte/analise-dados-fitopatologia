@@ -56,11 +56,53 @@ $if(by-author)$
 $endif$
 )
 
-// ---------- Capa: cover.png em página inteira, seguida do verso em branco ----------
+// ---------- Capa: cover.png em página inteira ----------
 #page(paper: "a4", margin: 0pt, header: none, footer: none, numbering: none)[
   #image("cover.png", width: 100%, height: 100%, fit: "cover")
 ]
-#page(paper: "a4", header: none, footer: none, numbering: none)[]
+
+// ---------- Verso da capa: créditos, ficha catalográfica e como citar ----------
+// Os dados vêm do campo "livro" do _quarto.yml.
+#page(paper: "a4", margin: (x: 2.5cm, top: 2.6cm, bottom: 2.4cm),
+      header: none, footer: none, numbering: none)[
+  #set text(font: fonte-texto, size: 8.3pt, fill: tinta, lang: "pt")
+  #set par(leading: 0.65em, spacing: 0.9em, justify: false)
+  #show link: set text(fill: verde-link)
+
+  #text(size: 10pt, weight: 700, fill: verde-escuro)[$title$]
+
+  © $livro.ano$ $for(by-author)$$it.name.literal$$sep$, $endfor$
+
+  Esta obra está licenciada sob a licença Creative Commons Atribuição-NãoComercial 4.0 Internacional (CC BY-NC 4.0). É permitido copiar, distribuir, imprimir e adaptar o conteúdo para fins não comerciais, desde que seja atribuído o devido crédito ao autor. Texto da licença: #link("https://creativecommons.org/licenses/by-nc/4.0/deed.pt-br")[creativecommons.org/licenses/by-nc/4.0].
+
+  Os códigos em R apresentados no livro podem ser reutilizados livremente.
+
+  #grid(columns: (auto, 1fr), column-gutter: 1em, row-gutter: 0.55em,
+    text(weight: 600)[Edição], [#"$livro.edicao$", $livro.local$: $livro.editora$, $livro.ano$],
+    text(weight: 600)[ISBN], [$livro.isbn$],
+    text(weight: 600)[DOI], [$livro.doi$],
+    text(weight: 600)[Versão online], [$livro.url$],
+    text(weight: 600)[Código-fonte], link("https://github.com/emdelponte/analise-dados-fitopatologia")[github.com/emdelponte/analise-dados-fitopatologia],
+  )
+
+  #v(1fr)
+
+  // ficha catalográfica (tamanho padrão de 12,5 × 7,5 cm), a ser preenchida
+  // com o texto elaborado pela Biblioteca Central da UFV
+  #align(center)[
+    #text(size: 7.5pt, fill: cinza)[Ficha catalográfica elaborada pela Biblioteca Central da Universidade Federal de Viçosa]
+    #v(-0.3em)
+    #block(width: 12.5cm, height: 7.5cm, stroke: 0.6pt + cinza, inset: 10pt)[
+      #set text(font: fonte-codigo, size: 7.5pt)
+      #align(center + horizon, text(fill: cinza)[\[ficha catalográfica a ser inserida\]])
+    ]
+  ]
+
+  #v(1.2em)
+  #text(weight: 700, fill: verde-escuro)[Como citar]
+
+  DEL PONTE, E. M. *$title$*. $livro.edicao$ $livro.local$: $livro.editora$, $livro.ano$. Disponível em: $livro.url$. DOI: $livro.doi$.
+]
 
 // ---------- Página ----------
 #set page(

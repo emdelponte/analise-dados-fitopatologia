@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -214,7 +249,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Nesta página</h2>
    
   <ul>
-  <li><a href="#boas-vindas" id="toc-boas-vindas" class="nav-link active" data-scroll-target="#boas-vindas">Boas-vindas</a></li>
+  <li><a href="#boas-vindas" id="toc-boas-vindas" class="nav-link active" data-scroll-target="#boas-vindas">Boas-vindas</a>
+  <ul class="collapse">
+  <li><a href="#como-citar" id="toc-como-citar" class="nav-link" data-scroll-target="#como-citar">Como citar</a></li>
+  <li><a href="#licença" id="toc-licença" class="nav-link" data-scroll-target="#licença">Licença</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -259,8 +298,27 @@ ul.task-list li input[type="checkbox"] {
 <p>Este livro nasceu de notas de aula elaboradas para a disciplina de pós-graduação <em>Análise e Visualização de Dados em Fitopatologia</em>, oferecida no Programa de Pós-Graduação em Fitopatologia da Universidade Federal de Viçosa. Ao longo dos anos, a disciplina evoluiu a partir de discussões com estudantes de pós-graduação e pesquisadores de diversas áreas da Fitopatologia, que revelaram uma necessidade comum: um material que conectasse as questões biológicas ao raciocínio quantitativo.</p>
 <p>Em vez de apresentar os métodos estatísticos como técnicas isoladas, este livro aborda a análise de dados como parte integrante do processo científico. A ênfase não está na escolha de um teste estatístico, mas na compreensão de como as questões biológicas orientam o delineamento do estudo, a coleta de dados, a visualização, a análise, a interpretação e a comunicação das evidências científicas. Ao longo do livro, análises reprodutíveis implementadas em R são usadas para ilustrar esses conceitos no contexto de problemas reais de pesquisa.</p>
 <p>Embora os exemplos tenham como foco a Fitopatologia, os princípios aqui apresentados aplicam-se de modo geral à pesquisa experimental nas ciências biológicas. Minha esperança é que este livro ajude estudantes e pesquisadores a desenvolver não apenas habilidades analíticas práticas, mas também uma compreensão mais profunda do raciocínio científico que fundamenta uma pesquisa rigorosa e reprodutível.</p>
+<section id="como-citar" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="como-citar">Como citar</h2>
+<p>DEL PONTE, E. M. <strong>Análise e Visualização de Dados em Fitopatologia</strong>. 1. ed. Viçosa, MG: Edição do autor, 2026. Disponível em: a definir. DOI: a definir.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">delponte2026</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Del Ponte, Emerson M.},</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {Análise e Visualização de Dados em Fitopatologia},</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">edition</span>   = {1},</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">address</span>   = {Viçosa, MG},</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span> = {Edição do autor},</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2026},</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">isbn</span>      = {a definir},</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>       = {a definir},</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span>       = {a definir}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="licença" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="licença">Licença</h2>
+<p>Este livro é gratuito e está licenciado sob a <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt-br">Creative Commons Atribuição-NãoComercial 4.0 Internacional (CC BY-NC 4.0)</a>. É permitido copiar, distribuir, imprimir e adaptar o conteúdo para fins não comerciais, desde que seja atribuído o devido crédito ao autor. Os códigos em R apresentados no livro podem ser reutilizados livremente. A versão em PDF pode ser baixada pelo ícone de download no menu lateral, e o código-fonte está disponível no <a href="https://github.com/emdelponte/analise-dados-fitopatologia">GitHub</a>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

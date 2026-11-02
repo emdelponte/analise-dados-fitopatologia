@@ -1,3 +1,0 @@
-Fontes usadas na versão PDF (Typst), as mesmas da versão HTML:
-- Inter (Rasmus Andersson) e JetBrains Mono (JetBrains), ambas sob a SIL Open Font License 1.1.
-Arquivos obtidos do Fontsource (cdn.jsdelivr.net/fontsource), subconjunto latin.

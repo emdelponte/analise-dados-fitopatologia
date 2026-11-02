@@ -10,6 +10,26 @@
     ]
   },
   {
+    "objectID": "index.html#como-citar",
+    "href": "index.html#como-citar",
+    "title": "Análise e Visualização de Dados em Fitopatologia",
+    "section": "Como citar",
+    "text": "Como citar\nDEL PONTE, E. M. Análise e Visualização de Dados em Fitopatologia. 1. ed. Viçosa, MG: Edição do autor, 2026. Disponível em: a definir. DOI: a definir.\n@book{delponte2026,\n  author    = {Del Ponte, Emerson M.},\n  title     = {Análise e Visualização de Dados em Fitopatologia},\n  edition   = {1},\n  address   = {Viçosa, MG},\n  publisher = {Edição do autor},\n  year      = {2026},\n  isbn      = {a definir},\n  doi       = {a definir},\n  url       = {a definir}\n}",
+    "crumbs": [
+      "Boas-vindas"
+    ]
+  },
+  {
+    "objectID": "index.html#licença",
+    "href": "index.html#licença",
+    "title": "Análise e Visualização de Dados em Fitopatologia",
+    "section": "Licença",
+    "text": "Licença\nEste livro é gratuito e está licenciado sob a Creative Commons Atribuição-NãoComercial 4.0 Internacional (CC BY-NC 4.0). É permitido copiar, distribuir, imprimir e adaptar o conteúdo para fins não comerciais, desde que seja atribuído o devido crédito ao autor. Os códigos em R apresentados no livro podem ser reutilizados livremente. A versão em PDF pode ser baixada pelo ícone de download no menu lateral, e o código-fonte está disponível no GitHub.",
+    "crumbs": [
+      "Boas-vindas"
+    ]
+  },
+  {
     "objectID": "chapter1.html",
     "href": "chapter1.html",
     "title": "1  Por que pesquisar em Fitopatologia?",
